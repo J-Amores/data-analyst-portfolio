@@ -1,0 +1,80 @@
+# What this repo publishes
+# ────────────────────────
+# One directory per case study. Inside each:
+#
+#   README.md        the case study, summarised
+#   index.html       the report, served as a GitHub Page
+#   analysis.ipynb   the executed notebook (ships WITH outputs — GitHub renders
+#                    notebooks statically and never executes them, so stripped
+#                    outputs would show a visitor nothing)
+#   charts/          the static charts the README embeds, plus their specs
+#   data/            the portable inputs a reader needs; raw source tables are
+#                    linked, not redistributed
+#   assets/fonts/    DM Sans TTFs
+#
+# Everything below stays local. Patterns here are deliberately unanchored
+# (no leading slash) so they match at any depth — a rule written for one
+# study has to keep working when the next four land beside it.
+
+# ── Working documents, not deliverables ───────────────────────────────
+PRD.md
+findings.md
+story.md
+report.md
+post.md
+memory.md
+brief.md
+*-brief.md
+briefs/
+PIPELINE.md
+RUN.md
+EXIT.md
+LEARNINGS.md
+contract.md
+project-profile.md
+
+# ── Agent / workspace tooling ─────────────────────────────────────────
+.claude/
+.mcp.json
+settings.local.json
+
+# ── Pipeline internals ────────────────────────────────────────────────
+scripts/
+out/
+tools/
+Analysis/
+Blogging/
+_archive-old-run/
+
+# ── Raw source tables, deliberately not redistributed ─────────────────
+# Large, and nothing in this repo reads them: every report and notebook
+# ships with its outputs baked in. Each study's README names the source
+# and where to fetch it if you want to rebuild from scratch.
+USvideos.csv
+*.csv.gz
+*.zip
+
+# ── Derived binaries ──────────────────────────────────────────────────
+# Regenerable caches, and pickles execute arbitrary code on load — not
+# something to hand a stranger who clones this. Ship the portable inputs.
+*.pkl
+*.feather
+*.parquet
+
+# ── Scratch render checks ─────────────────────────────────────────────
+*-render-check.png
+*.log
+
+# ── Python ────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# ── Jupyter ───────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── OS / editor noise ─────────────────────────────────────────────────
+.DS_Store
+.Rhistory
+Thumbs.db
