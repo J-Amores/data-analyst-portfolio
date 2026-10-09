@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicaid Outpatient Drug Spend Optimization &amp; Formulary Stewardship (CY2020–CY2024)</title>
+
+    <!-- Secure Google Fonts: Plus Jakarta Sans (Swiss Grotesque) & JetBrains Mono (Data/Formulas) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (SWISS MODERN / COBALT GRID)
+           Structured, minimal, authoritative healthcare/finance aesthetic
+           =========================================== */
+        :root {
+            /* Palette: Deep Navy, Slate, and Emerald (Exclusively for Dollar Savings) */
+            --navy-950: #0B1120;
+            --navy-900: #0F172A;
+            --navy-800: #1E293B;
+            --navy-700: #334155;
+            --navy-600: #475569;
+
+            --slate-500: #64748B;
+            --slate-400: #94A3B8;
+            --slate-300: #CBD5E1;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50:  #F8FAFC;
+
+            --white:     #FFFFFF;
+
+            /* Emerald Accent — Strictly Reserved for Dollar Savings */
+            --emerald-700: #047857;
+            --emerald-600: #059669;
+            --emerald-500: #10B981;
+            --emerald-100: #D1FAE5;
+            --emerald-50:  #ECFDF5;
+            --emerald-glow: rgba(5, 150, 105, 0.18);
+
+            /* Cobalt Grid System */
+            --cobalt-border: #CBD5E1;
+            --cobalt-grid-line: rgba(30, 41, 59, 0.05);
+            --cobalt-blue: #2563EB;
+            --cobalt-blue-light: #EFF6FF;
+
+            /* Typography */
+            --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+            /* Base Stage Canvas Config */
+            --stage-bg: #0B1120;
+            --slide-bg: #F8FAFC;
+
+            /* Transitions & Easing */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-reveal: 0.5s;
+        }
+
+        /* ===========================================
+           BASE RESET
+           =========================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===========================================
+           FIXED 16:9 STAGE: MANDATORY BASE STYLES
+           (From viewport-base.css)
+           =========================================== */
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: var(--stage-bg, #000);
+            font-family: var(--font-display);
+            color: var(--navy-900);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .deck-viewport {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: var(--stage-bg, #000);
+        }
+
+        .deck-stage {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            transform-origin: 0 0;
+            background: var(--slide-bg, #fff);
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--slide-bg, #fff);
+            background-image: 
+                linear-gradient(var(--cobalt-grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--cobalt-grid-line) 1px, transparent 1px);
+            background-size: 48px 48px;
+            padding: 52px 76px 64px 76px;
+        }
+
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img,
+        video,
+        canvas,
+        svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .deck-controls {
+            position: fixed;
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        @media print {
+            html,
+            body {
+                width: 1920px;
+                height: auto;
+                overflow: visible;
+                background: #fff;
+            }
+
+            .deck-viewport {
+                position: static;
+                overflow: visible;
+                background: #fff;
+            }
+
+            .deck-stage {
+                position: static;
+                width: auto;
+                height: auto;
+                transform: none !important;
+                background: none;
+            }
+
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px;
+                height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+
+            .slide:last-child {
+                break-after: auto;
+                page-break-after: auto;
+            }
+
+            .deck-controls,
+            .edit-toggle,
+            .edit-hotzone,
+            .fullscreen-toggle {
+                display: none !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ===========================================
+           ANIMATIONS & REVEAL SYSTEM
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity var(--duration-reveal) var(--ease-out-expo),
+                        transform var(--duration-reveal) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal:nth-child(1) { transition-delay: 0.05s; }
+        .reveal:nth-child(2) { transition-delay: 0.12s; }
+        .reveal:nth-child(3) { transition-delay: 0.19s; }
+        .reveal:nth-child(4) { transition-delay: 0.26s; }
+        .reveal:nth-child(5) { transition-delay: 0.33s; }
+        .reveal:nth-child(6) { transition-delay: 0.40s; }
+
+        /* ===========================================
+           SWISS MODERN STRUCTURAL ARCHITECTURE
+           =========================================== */
+        .slide-frame {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        /* Top Chrome / Navigation Strip */
+        .slide-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--navy-900);
+            padding-bottom: 14px;
+            margin-bottom: 24px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            background: var(--navy-900);
+            color: var(--white);
+            border-radius: 3px;
+        }
+
+        .topbar-breadcrumb {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--slate-500);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--navy-700);
+        }
+
+        .topbar-index {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--navy-900);
+            background: var(--slate-200);
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        /* Header Section */
+        .slide-header {
+            margin-bottom: 24px;
+        }
+
+        .slide-kicker {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--slate-500);
+            margin-bottom: 6px;
+        }
+
+        .slide-headline {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            color: var(--navy-900);
+        }
+
+        /* Content Grids */
+        .content-grid-2col {
+            display: grid;
+            grid-template-columns: 1.08fr 0.92fr;
+            gap: 36px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .content-grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Cards & Containers */
+        .swiss-card {
+            background: var(--white);
+            border: 1px solid var(--slate-300);
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+            border-radius: 6px;
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .swiss-card.dark {
+            background: var(--navy-900);
+            color: var(--white);
+            border-color: var(--navy-800);
+        }
+
+        .swiss-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--slate-200);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .swiss-card.dark .swiss-card-header {
+            border-bottom-color: var(--navy-700);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--navy-900);
+        }
+
+        .swiss-card.dark .card-title {
+            color: var(--white);
+        }
+
+        .card-number {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--slate-400);
+        }
+
+        .card-body-text {
+            font-size: 15px;
+            line-height: 1.55;
+            color: var(--navy-700);
+            margin-bottom: 12px;
+        }
+
+        .swiss-card.dark .card-body-text {
+            color: var(--slate-300);
+        }
+
+        /* Bold KPI Badges */
+        .kpi-row {
+            display: flex;
+            gap: 16px;
+            margin-top: auto;
+        }
+
+        .kpi-badge {
+            background: var(--slate-100);
+            border: 1px solid var(--slate-200);
+            padding: 12px 16px;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        .kpi-badge-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--slate-500);
+            margin-bottom: 4px;
+        }
+
+        .kpi-badge-val {
+            font-family: var(--font-mono);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--navy-900);
+        }
+
+        /* SAVINGS BADGE — EXCLUSIVE USE OF EMERALD #059669 */
+        .kpi-badge.savings,
+        .savings-badge {
+            background: var(--emerald-50) !important;
+            border: 1.5px solid var(--emerald-600) !important;
+        }
+
+        .kpi-badge.savings .kpi-badge-label,
+        .savings-badge .kpi-badge-label {
+            color: var(--emerald-700) !important;
+        }
+
+        .kpi-badge.savings .kpi-badge-val,
+        .savings-badge .kpi-badge-val,
+        .savings-text {
+            color: var(--emerald-600) !important;
+            font-weight: 800;
+        }
+
+        .savings-callout-banner {
+            background: var(--emerald-50);
+            border: 2px solid var(--emerald-600);
+            border-radius: 6px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .savings-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .savings-tag {
+            background: var(--emerald-600);
+            color: var(--white);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        .savings-banner-title {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--emerald-700);
+        }
+
+        .savings-banner-subtitle {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--emerald-700);
+        }
+
+        /* Image Containers */
+        .chart-stage-card {
+            background: var(--white);
+            border: 1px solid var(--slate-300);
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .chart-stage-header {
+            padding: 14px 20px;
+            background: var(--slate-100);
+            border-bottom: 1px solid var(--slate-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-stage-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--navy-800);
+        }
+
+        .chart-stage-viewport {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            padding: 16px;
+            overflow: hidden;
+        }
+
+        .chart-stage-viewport img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .chart-stage-footer {
+            padding: 10px 20px;
+            background: var(--slate-50);
+            border-top: 1px solid var(--slate-200);
+            font-size: 13px;
+            font-style: italic;
+            color: var(--slate-500);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Interactive Buttons / Links */
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy-800);
+            background: var(--white);
+            border: 1.5px solid var(--slate-300);
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-link:hover {
+            background: var(--navy-900);
+            color: var(--white);
+            border-color: var(--navy-900);
+        }
+
+        .btn-link.primary-cta {
+            background: var(--navy-900);
+            color: var(--white);
+            border-color: var(--navy-900);
+            padding: 14px 28px;
+            font-size: 15px;
+            letter-spacing: 0.04em;
+        }
+
+        .btn-link.primary-cta:hover {
+            background: var(--emerald-600);
+            border-color: var(--emerald-600);
+            box-shadow: 0 4px 16px var(--emerald-glow);
+        }
+
+        /* Strategic Action Matrix (Slide 7) */
+        .action-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .action-row {
+            background: var(--white);
+            border: 1px solid var(--slate-300);
+            border-radius: 6px;
+            transition: transform 0.2s ease;
+        }
+
+        .action-cell {
+            padding: 18px 22px;
+            vertical-align: middle;
+            border-top: 1px solid var(--slate-200);
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        .action-cell:first-child {
+            border-left: 1px solid var(--slate-200);
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+
+        .action-cell:last-child {
+            border-right: 1px solid var(--slate-200);
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        .priority-tag {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 13px;
+            padding: 5px 12px;
+            border-radius: 3px;
+            display: inline-block;
+            letter-spacing: 0.05em;
+        }
+
+        .priority-p0 {
+            background: var(--emerald-50);
+            color: var(--emerald-700);
+            border: 1.5px solid var(--emerald-600);
+        }
+
+        .priority-p1 {
+            background: var(--slate-100);
+            color: var(--navy-900);
+            border: 1.5px solid var(--navy-800);
+        }
+
+        .priority-p2 {
+            background: var(--slate-100);
+            color: var(--slate-600);
+            border: 1.5px solid var(--slate-300);
+        }
+
+        /* Slide 1 Specific Styling */
+        .hero-title {
+            font-size: 54px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            color: var(--navy-950);
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--slate-500);
+            letter-spacing: -0.01em;
+            margin-bottom: 28px;
+            line-height: 1.35;
+        }
+
+        .hero-meta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: var(--white);
+            border: 1px solid var(--slate-300);
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+
+        .author-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy-900);
+        }
+
+        .author-role {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--slate-500);
+            padding-left: 12px;
+            border-left: 2px solid var(--slate-300);
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Slide 2: Metrics Architecture Diagram */
+        .metrics-hierarchy {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 10px;
+        }
+
+        .north-star-card {
+            background: var(--emerald-50);
+            border: 2px solid var(--emerald-600);
+            border-radius: 6px;
+            padding: 20px 24px;
+        }
+
+        .guardrail-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Slide 3: Engineering Pillars */
+        .tech-stack-strip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--slate-200);
+        }
+
+        .tech-pill {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--navy-800);
+            background: var(--slate-100);
+            padding: 4px 10px;
+            border-radius: 3px;
+            border: 1px solid var(--slate-200);
+        }
+
+        /* Footer Status Strip */
+        .slide-footer-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--slate-300);
+            padding-top: 12px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--slate-500);
+        }
+
+        /* ===========================================
+           DECK CONTROLS (OUTSIDE SLIDE STAGE)
+           =========================================== */
+        .deck-controls {
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #38BDF8;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .dot-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: var(--white);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .dot-btn.active {
+            background: #38BDF8;
+            color: var(--navy-950);
+            transform: scale(1.15);
+        }
+
+        .deck-counter {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: #94A3B8;
+            padding: 0 8px;
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .key-hint {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #64748B;
+        }
+
+        /* ===========================================
+           INLINE EDITING UI (HOTZONE & BUTTON)
+           =========================================== */
+        .edit-hotzone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            z-index: 10000;
+            cursor: pointer;
+        }
+
+        .edit-toggle {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+            z-index: 10001;
+            background: var(--navy-900);
+            color: var(--white);
+            border: 1px solid var(--slate-400);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .edit-toggle.show,
+        .edit-toggle.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .edit-toggle.active {
+            background: var(--emerald-600);
+            border-color: var(--emerald-500);
+        }
+
+        .edit-toast {
+            position: fixed;
+            top: 68px;
+            left: 16px;
+            background: var(--navy-900);
+            color: var(--white);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            padding: 8px 14px;
+            border-radius: 4px;
+            border-left: 3px solid var(--emerald-500);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            z-index: 10002;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .edit-toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Editing Active Outline */
+        [contenteditable="true"] {
+            outline: 2px dashed #38BDF8 !important;
+            outline-offset: 3px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hotzone & Edit Toggle -->
+    <div class="edit-hotzone" id="editHotzone" title="Hover to reveal edit mode"></div>
+    <button class="edit-toggle" id="editToggle" title="Edit mode (Shortcut: Press E)">✏️ Edit Content (E)</button>
+    <div class="edit-toast" id="editToast">Edit mode active — click any text to edit</div>
+
+    <!-- Main Fixed 16:9 Presentation Viewport -->
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+
+            <!-- ========================================================
+                 SLIDE 1: TITLE & EXECUTIVE SUMMARY
+                 ======================================================== -->
+            <section class="slide title-slide active visible" id="slide-1" data-index="0">
+                <div class="slide-frame">
+                    <!-- Top Chrome -->
+                    <div class="slide-topbar reveal">
+                        <div class="topbar-left">
+                            <span class="tag-pill">PORTFOLIO CASE STUDY</span>
+                            <span class="topbar-breadcrumb">HEALTHCARE ECONOMETRICS &amp; PBM FORMULARY STEWARDSHIP</span>
+                        </div>
+                        <div class="topbar-right">
+                            <span>CMS RY2026 AUDIT (CY2020–CY2024)</span>
+                            <span class="topbar-index">01 / 07</span>
+                        </div>
+                    </div>
+
+                    <!-- Slide Main Body -->
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div class="slide-kicker reveal">Executive Decision Briefing &amp; Action Plan</div>
+                            <h1 class="hero-title reveal">Medicaid Outpatient Drug Spend Optimization &amp; Formulary Stewardship (CY2020–CY2024)</h1>
+                            <p class="hero-subtitle reveal">Econometric Audit &amp; PBM Action Plan for State Medicaid Leadership</p>
+
+                            <!-- Author & Quick Links Bar -->
+                            <div class="hero-meta-bar reveal">
+                                <div class="author-box">
+                                    <span class="author-name" id="author-field">Justin Amores</span>
+                                    <span class="author-role">Health Analytics Specialist</span>
+                                </div>
+                                <div class="quick-links">
+                                    <a href="#" class="btn-link" title="Launch Interactive Dashboard">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        Live Streamlit App
+                                    </a>
+                                    <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/medicaid-spending-optimization" target="_blank" rel="noopener noreferrer" class="btn-link" title="View Project Source Code">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                                        GitHub Repository
+                                    </a>
+                                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn-link" title="Connect on LinkedIn">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                        LinkedIn Profile
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Executive Callout Badge: Emerald strictly for dollar savings -->
+                            <div class="savings-callout-banner reveal">
+                                <div class="savings-banner-left">
+                                    <span class="savings-tag">PRIMARY FISCAL FINDING</span>
+                                    <span class="savings-banner-title">$100M+ Identified in Addressable State Pharmacy Savings</span>
+                                </div>
+                                <span class="savings-banner-subtitle">Via 25th-Percentile Multi-Source Generic MAC Price Ceilings</span>
+                            </div>
+
+                            <!-- 3-Pillar Executive Summary Grid -->
+                            <div class="content-grid-3col reveal">
+                                <div class="swiss-card">
+                                    <div class="swiss-card-header">
+                                        <span class="card-title">01. Longitudinal Audit</span>
+                                        <span class="card-number">CY2020–CY2024</span>
+                                    </div>
+                                    <p class="card-body-text">
+                                        Audited millions of gross outpatient prescription claims from the CMS RY2026 data release. Evaluated full longitudinal spend trajectories across thousands of NDCs to isolate structural cost drivers from utilization expansion.
+                                    </p>
+                                    <div class="kpi-row">
+                                        <div class="kpi-badge">
+                                            <div class="kpi-badge-label">Data Scope</div>
+                                            <div class="kpi-badge-val">5 Benefit Years</div>
+                                        </div>
+                                        <div class="kpi-badge">
+                                            <div class="kpi-badge-label">Outlay Volume</div>
+                                            <div class="kpi-badge-val">Tens of Billions</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiss-card">
+                                    <div class="swiss-card-header">
+                                        <span class="card-title">02. Growth Diagnosis</span>
+                                        <span class="card-number">ECONOMETRIC</span>
+                                    </div>
+                                    <p class="card-body-text">
+                                        Diagnosed spend acceleration mechanisms via logarithmic price-volume decomposition. Proved that spend surges are <strong>72.4% manufacturer-driven unit cost escalation</strong> rather than epidemiological claim demand.
+                                    </p>
+                                    <div class="kpi-row">
+                                        <div class="kpi-badge">
+                                            <div class="kpi-badge-label">Pareto Gini</div>
+                                            <div class="kpi-badge-val">0.81 (Top 5%)</div>
+                                        </div>
+                                        <div class="kpi-badge">
+                                            <div class="kpi-badge-label">Price Wedge</div>
+                                            <div class="kpi-badge-val">72.4% Inflation</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiss-card">
+                                    <div class="swiss-card-header">
+                                        <span class="card-title">03. Actionable Stewardship</span>
+                                        <span class="card-number">POLICY MAC</span>
+                                    </div>
+                                    <p class="card-body-text">
+                                        Equips State Pharmacy Directors and P&amp;T Boards with an empirical formulary re-tiering roadmap. Exploits 35%+ multi-source price spreads to recover budget headroom while safeguarding clinical therapy access.
+                                    </p>
+                                    <div class="kpi-row">
+                                        <div class="kpi-badge savings">
+                                            <div class="kpi-badge-label">Recurrent Yield</div>
+                                            <div class="kpi-badge-val">$100M+ Net</div>
+                                        </div>
+                                        <div class="kpi-badge">
+                                            <div class="kpi-badge-label">Access Risk</div>
+                                            <div class="kpi-badge-val">&lt; 2.5% Guardrail</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Status Strip -->
+                        <div class="slide-footer-strip reveal">
+                            <span>DECISION BRIEFING FOR STATE PHARMACY DIRECTORS, CMOs, &amp; P&amp;T COMMITTEES</span>
+                            <span>ANALYTICAL RIGOR • ZERO CLINICAL DISRUPTION • STATUTORY BUDGET COMPLIANCE</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SLIDE 2: THE BUSINESS PROBLEM & STAKEHOLDER FRICTION
+                 ======================================================== -->
+            <section class="slide" id="slide-2" data-index="1">
+                <div class="slide-frame">
+                    <div class="slide-topbar reveal">
+                        <div class="topbar-left">
+                            <span class="tag-pill">EXECUTIVE CONTEXT</span>
+                            <span class="topbar-breadcrumb">STATUTORY COMPLIANCE &amp; DECISION FRICTION</span>
+                        </div>
+                        <div class="topbar-right">
+                            <span>PROBLEM FORMULATION</span>
+                            <span class="topbar-index">02 / 07</span>
+                        </div>
+                    </div>
+
+                    <div class="slide-header reveal">
+                        <div class="slide-kicker">01 / The Business Problem &amp; Stakeholder Friction</div>
+                        <h2 class="slide-headline">Statutory Budget Caps Clashing With Uncontrolled Outpatient Spend Surges</h2>
+                    </div>
+
+                    <!-- Stakeholder Alignment Ribbon -->
+                    <div class="swiss-card dark reveal" style="padding: 16px 24px; margin-bottom: 24px;">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: center;">
+                            <div>
+                                <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8; text-transform: uppercase;">Executive Fiduciary</span>
+                                <div style="font-size: 16px; font-weight: 700; color: #FFFFFF;">State Medicaid Pharmacy Director</div>
+                                <div style="font-size: 13px; color: #CBD5E1; margin-top: 2px;">Mandate: Contain net program spend strictly under legislative annual budget caps.</div>
+                            </div>
+                            <div style="border-left: 1px solid var(--navy-700); padding-left: 20px;">
+                                <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8; text-transform: uppercase;">Clinical Oversight</span>
+                                <div style="font-size: 16px; font-weight: 700; color: #FFFFFF;">Chief Medical Officer (CMO)</div>
+                                <div style="font-size: 13px; color: #CBD5E1; margin-top: 2px;">Mandate: Maintain therapy adherence; eliminate care disruption for vulnerable beneficiaries.</div>
+                            </div>
+                            <div style="border-left: 1px solid var(--navy-700); padding-left: 20px;">
+                                <span style="font-family: var(--font-mono); font-size: 11px; color: #94A3B8; text-transform: uppercase;">Formulary Governance</span>
+                                <div style="font-size: 16px; font-weight: 700; color: #FFFFFF;">P&amp;T Formulary Board</div>
+                                <div style="font-size: 13px; color: #CBD5E1; margin-top: 2px;">Mandate: Enforce Preferred Drug Lists (PDLs), step therapy, and substitution protocols.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 Core Blind Spots + Target Metrics Architecture -->
+                    <div class="content-grid-2col" style="grid-template-columns: 1.15fr 0.85fr; flex: 1;">
+                        <!-- Left: Core Executive Blind Spots -->
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div class="swiss-card reveal" style="flex: 1;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">1. Ambiguous Growth Drivers</span>
+                                    <span class="card-number">BLIND SPOT #1</span>
+                                </div>
+                                <p class="card-body-text">
+                                    Leadership cannot empirically determine whether historical expenditure spikes stem from legitimate expanded clinical access (claim volume) or manufacturer unit cost escalation. Without decomposition, agencies risk cutting patient access rather than penalizing supplier price hikes.
+                                </p>
+                            </div>
+
+                            <div class="swiss-card reveal" style="flex: 1;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">2. Generic Substitution Leakage</span>
+                                    <span class="card-number">BLIND SPOT #2</span>
+                                </div>
+                                <p class="card-body-text">
+                                    Widespread reimbursement of premium brand drugs persists despite AB-rated bioequivalent multi-source generics dispensing simultaneously. The lack of point-of-sale generic enforcement squanders tens of millions in avoidable brand-spread subsidization.
+                                </p>
+                            </div>
+
+                            <div class="swiss-card reveal" style="flex: 1;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">3. Lack of Enforceable Ceilings</span>
+                                    <span class="card-number">BLIND SPOT #3</span>
+                                </div>
+                                <p class="card-body-text">
+                                    Absence of empirical price dispersion models leaves PBM contract negotiators without defensible benchmarks to establish Maximum Allowable Cost (MAC) price caps. Reimbursing at average wholesale benchmarks allows high-cost generic labelers excessive margin spread.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Right: Target Metrics Architecture -->
+                        <div class="swiss-card reveal" style="background: var(--slate-100); border: 1.5px solid var(--slate-300); display: flex; flex-direction: column;">
+                            <div class="swiss-card-header">
+                                <span class="card-title">Target Metrics Architecture</span>
+                                <span class="card-number" style="color: var(--navy-800); font-weight: 700;">GOVERNANCE</span>
+                            </div>
+
+                            <div class="metrics-hierarchy" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                <!-- North Star Metric -->
+                                <div class="north-star-card">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                        <span class="priority-tag priority-p0">NORTH STAR METRIC</span>
+                                        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--emerald-700);">PRIMARY ARBITRAGE TARGET</span>
+                                    </div>
+                                    <div style="font-size: 20px; font-weight: 800; color: var(--emerald-700); margin-bottom: 6px;">
+                                        Annual Avoidable Brand-to-Generic Spend Wedge ($ Addressable Savings)
+                                    </div>
+                                    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--navy-800); background: var(--white); padding: 8px 12px; border-radius: 4px; border: 1px solid var(--emerald-600); margin-bottom: 6px;">
+                                        Avoidable Wedge = Σ (Unit_Cost_Brand - min(Unit_Cost_Generic)) × Brand_Units
+                                    </div>
+                                    <div style="font-size: 13px; color: var(--navy-700);">
+                                        Fiduciary metric owned jointly by State Pharmacy Director and PBM contract leads.
+                                    </div>
+                                </div>
+
+                                <!-- Guardrails -->
+                                <div class="guardrail-cards-grid">
+                                    <div class="swiss-card" style="padding: 16px 18px;">
+                                        <span class="tag-pill" style="background: var(--navy-800); margin-bottom: 8px; align-self: flex-start;">GUARDRAIL 1</span>
+                                        <div style="font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: 4px;">Formulary Access Disruption Rate</div>
+                                        <div style="font-family: var(--font-mono); font-size: 20px; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">&lt; 2.5% Claims</div>
+                                        <div style="font-size: 12px; color: var(--slate-500); line-height: 1.4;">
+                                            Caps tier-shifting disruption across Antidiabetic, Antipsychotic, and Anticonvulsant classes.
+                                        </div>
+                                    </div>
+
+                                    <div class="swiss-card" style="padding: 16px 18px;">
+                                        <span class="tag-pill" style="background: var(--navy-800); margin-bottom: 8px; align-self: flex-start;">GUARDRAIL 2</span>
+                                        <div style="font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: 4px;">Outlier Distortion Risk Index</div>
+                                        <div style="font-family: var(--font-mono); font-size: 20px; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">&lt; 5.0% Savings</div>
+                                        <div style="font-size: 12px; color: var(--slate-500); line-height: 1.4;">
+                                            Limits savings derived from CMS IQR boundary violations (diff &gt; 10% &amp; &gt; $1.00/unit).
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-footer-strip reveal" style="margin-top: 16px;">
+                        <span>EXECUTIVE ALIGNMENT: FIDUCIARY FISCAL DISCIPLINE BALANCED AGAINST STRICT CLINICAL CONTINUITY</span>
+                        <span>DECISION ARCHITECTURE: NORTH STAR + ACCESS &amp; OUTLIER GUARDRAILS</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SLIDE 3: DATA ARCHITECTURE & ENGINEERING INTEGRITY
+                 ======================================================== -->
+            <section class="slide" id="slide-3" data-index="2">
+                <div class="slide-frame">
+                    <div class="slide-topbar reveal">
+                        <div class="topbar-left">
+                            <span class="tag-pill">DATA INTEGRITY</span>
+                            <span class="topbar-breadcrumb">CLEAN FRAMEWORK &amp; PIPELINE SPECIFICATIONS</span>
+                        </div>
+                        <div class="topbar-right">
+                            <span>CMS RY2026 PIPELINE</span>
+                            <span class="topbar-index">03 / 07</span>
+                        </div>
+                    </div>
+
+                    <div class="slide-header reveal">
+                        <div class="slide-kicker">02 / Data Architecture &amp; Engineering Integrity</div>
+                        <h2 class="slide-headline">National CMS Claims Pipeline Engineered Under the CLEAN Framework</h2>
+                    </div>
+
+                    <!-- Ingestion Context Strip -->
+                    <div class="swiss-card reveal" style="background: var(--slate-100); padding: 14px 24px; margin-bottom: 24px; border-color: var(--slate-300);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--slate-500); text-transform: uppercase;">Primary Ingestion Source</span>
+                                <div style="font-size: 16px; font-weight: 700; color: var(--navy-900);">CMS Medicaid Spending by Drug (RY2026 Release, CY2020–CY2024 Claims)</div>
+                            </div>
+                            <div style="border-left: 1px solid var(--slate-300); padding-left: 24px;">
+                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--slate-500); text-transform: uppercase;">Claims Scale</span>
+                                <div style="font-size: 16px; font-weight: 700; color: var(--navy-900);">Millions of Claims across Thousands of NDCs (Multi-Billion Outlays)</div>
+                            </div>
+                            <div style="border-left: 1px solid var(--slate-300); padding-left: 24px;">
+                                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--slate-500); text-transform: uppercase;">Pipeline Methodology</span>
+                                <div style="font-size: 16px; font-weight: 700; color: var(--navy-900);">CLEAN: Consistent, Linked, Explicit, Audited, Normalized</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 Engineering Guardrail Cards -->
+                    <div class="content-grid-3col reveal" style="flex: 1;">
+                        <div class="swiss-card">
+                            <div class="swiss-card-header">
+                                <span class="card-title">Anti-Double-Counting Isolation</span>
+                                <span class="card-number">GUARDRAIL 01</span>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <span class="tag-pill" style="font-size: 11px; background: var(--navy-800);">AGGREGATION INTEGRITY</span>
+                            </div>
+                            <p class="card-body-text">
+                                In raw CMS tables, composite national rollup rows (<code>Mftr_Name == 'Overall'</code>) coexist in the same grain as individual manufacturer rows. Naive summation generates catastrophic 2× budget inflation.
+                            </p>
+                            <p class="card-body-text" style="color: var(--navy-900); font-weight: 600;">
+                                <strong>Engineering Guardrail:</strong> The pipeline forks the stream into partitioned Apache Parquet layers (<code>mcd_drug_overall</code> vs. <code>mcd_mftr_detail</code>), guaranteeing zero double-counting.
+                            </p>
+                            <div class="kpi-row">
+                                <div class="kpi-badge">
+                                    <div class="kpi-badge-label">Storage Partition</div>
+                                    <div class="kpi-badge-val">Apache Parquet</div>
+                                </div>
+                                <div class="kpi-badge">
+                                    <div class="kpi-badge-label">Duplication Risk</div>
+                                    <div class="kpi-badge-val">0.0% Enforced</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiss-card">
+                            <div class="swiss-card-header">
+                                <span class="card-title">HIPAA Privacy Protection</span>
+                                <span class="card-number">GUARDRAIL 02</span>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <span class="tag-pill" style="font-size: 11px; background: var(--navy-800);">SMALL-CELL PRIVACY</span>
+                            </div>
+                            <p class="card-body-text">
+                                Federal CMS privacy policy redacts claim counts &lt; 11 to prevent patient re-identification. Careless analysts often impute missing cells as zeros, which injects false volatility into longitudinal trend calculations.
+                            </p>
+                            <p class="card-body-text" style="color: var(--navy-900); font-weight: 600;">
+                                <strong>Engineering Guardrail:</strong> Suppressed cells are explicitly preserved as <code>NaN</code>/<code>NULL</code>. 5-year CAGR models utilize pairwise complete longitudinal vectors, avoiding distortion.
+                            </p>
+                            <div class="kpi-row">
+                                <div class="kpi-badge">
+                                    <div class="kpi-badge-label">Suppression Threshold</div>
+                                    <div class="kpi-badge-val">&lt; 11 Claims</div>
+                                </div>
+                                <div class="kpi-badge">
+                                    <div class="kpi-badge-label">Imputation Policy</div>
+                                    <div class="kpi-badge-val">NaN / Non-Zero</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiss-card">
+                            <div class="swiss-card-header">
+                                <span class="card-title">Outlier Audit Layer</span>
+                                <span class="card-number">GUARDRAIL 03</span>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <span class="tag-pill" style="font-size: 11px; background: var(--navy-800);">IQR BOUNDARY AUDIT</span>
+                            </div>
+                            <p class="card-body-text">
+                                CMS flags dosage records where unit costs violate interquartile boundaries (difference &gt; 10% and &gt; $1.00/unit). If unmonitored, packaging unit mismatch can distort savings estimates by millions.
+                            </p>
+                            <p class="card-body-text" style="color: var(--navy-900); font-weight: 600;">
+                                <strong>Engineering Guardrail:</strong> Outlier records are isolated into a dynamic sensitivity layer. Formularies can stress-test models with/without outliers in real time via dashboard toggle.
+                            </p>
+                            <div class="kpi-row">
+                                <div class="kpi-badge">
+                                    <div class="kpi-badge-label">IQR Flag Rule</div>
+                                    <div class="kpi-badge-val">&gt;10% &amp; &gt;$1/Unit</div>
+                                </div>
+                                <div class="kpi-badge">
+                                    <div class="kpi-badge-label">Policy Toggle</div>
+                                    <div class="kpi-badge-val">Real-Time ISO</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Production Tech Stack -->
+                    <div class="swiss-card reveal" style="padding: 14px 24px; margin-top: 18px; background: var(--white);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--navy-900);">PRODUCTION ENGINEERING STACK:</span>
+                            <div class="tech-stack-strip" style="margin-top: 0; padding-top: 0; border-top: none;">
+                                <span class="tech-pill">Python 3.11</span>
+                                <span class="tech-pill">Pandas DataFrames</span>
+                                <span class="tech-pill">Apache Parquet</span>
+                                <span class="tech-pill">Statsmodels Econometrics</span>
+                                <span class="tech-pill">SciPy Statistical Distributions</span>
+                                <span class="tech-pill">Streamlit 1.32</span>
+                                <span class="tech-pill">Pytest Automated Test Harness</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-footer-strip reveal" style="margin-top: 14px;">
+                        <span>CLEAN FRAMEWORK: DATA RESILIENCE, STRICT PARTITIONING, HIPAA COMPLIANCE, REPRODUCIBLE BUILDS</span>
+                        <span>PIPELINE VALIDATION PASSING 100% AUTOMATED UNIT &amp; RECONCILIATION TESTS</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SLIDE 4: PRIMARY INSIGHT — PARETO & PRICE GOUGING
+                 ======================================================== -->
+            <section class="slide" id="slide-4" data-index="3">
+                <div class="slide-frame">
+                    <div class="slide-topbar reveal">
+                        <div class="topbar-left">
+                            <span class="tag-pill">PRIMARY INSIGHT</span>
+                            <span class="topbar-breadcrumb">HYPOTHESES 1 &amp; 2: PARETO CONCENTRATION &amp; DECOMPOSITION</span>
+                        </div>
+                        <div class="topbar-right">
+                            <span>ECONOMETRIC AUDIT</span>
+                            <span class="topbar-index">04 / 07</span>
+                        </div>
+                    </div>
+
+                    <div class="slide-header reveal">
+                        <div class="slide-kicker">03 / Primary Econometric Insight</div>
+                        <h2 class="slide-headline">Top 5% of Formulations Drive 65.4% of Spend, Propelled 72% by Unit Price Inflation</h2>
+                    </div>
+
+                    <!-- 2-Column Split: Visual Chart Proof + Metric Callout Cards -->
+                    <div class="content-grid-2col reveal" style="flex: 1;">
+                        <!-- Left: Visual Lorenz Curve Proof -->
+                        <div class="chart-stage-card">
+                            <div class="chart-stage-header">
+                                <span class="chart-stage-title">FIGURE 1: CUMULATIVE LORENZ CURVE (CY2024 GROSS SPEND)</span>
+                                <span class="tag-pill" style="font-size: 11px;">H1 EMPIRICAL PROOF</span>
+                            </div>
+                            <div class="chart-stage-viewport">
+                                <img src="assets/h1_lorenz_curve.png" alt="Lorenz Curve showing spend concentration in top 5% of formulations">
+                            </div>
+                            <div class="chart-stage-footer">
+                                <span>Source: CMS Medicaid Spending by Drug CY2024 • Econometric Lorenz Formulation</span>
+                                <span>Gini Coefficient = 0.81 (p &lt; 0.001)</span>
+                            </div>
+                        </div>
+
+                        <!-- Right: Metric Callouts & Executive Takeaway -->
+                        <div style="display: flex; flex-direction: column; gap: 20px; justify-content: space-between;">
+                            <!-- Metric Card 1: Gini Concentration -->
+                            <div class="swiss-card" style="padding: 22px 24px;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">Gini Concentration: 0.81</span>
+                                    <span class="card-number">PARETO ASYMMETRY</span>
+                                </div>
+                                <div style="display: flex; gap: 16px; align-items: baseline; margin-bottom: 8px;">
+                                    <span style="font-family: var(--font-mono); font-size: 34px; font-weight: 800; color: var(--navy-900);">65.4%</span>
+                                    <span style="font-size: 15px; font-weight: 600; color: var(--slate-500);">of gross Medicaid drug outlay driven by top 5% of formulations</span>
+                                </div>
+                                <p class="card-body-text" style="margin-bottom: 0;">
+                                    Expenditure is intensely concentrated in specialty biologics and GLP-1 antidiabetic formulations. Broad, across-the-board formulary cuts are ineffective; spending risk is concentrated in fewer than 30 distinct brand entities.
+                                </p>
+                            </div>
+
+                            <!-- Metric Card 2: Price vs. Volume Wedge -->
+                            <div class="swiss-card" style="padding: 22px 24px;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">Price vs. Volume Wedge</span>
+                                    <span class="card-number">DECOMPOSITION</span>
+                                </div>
+                                <div style="display: flex; gap: 16px; align-items: baseline; margin-bottom: 8px;">
+                                    <span style="font-family: var(--font-mono); font-size: 34px; font-weight: 800; color: var(--navy-900);">72.4%</span>
+                                    <span style="font-size: 15px; font-weight: 600; color: var(--slate-500);">Unit Cost CAGR vs. 27.6% Claim Volume Growth (p &lt; 0.01)</span>
+                                </div>
+                                <p class="card-body-text" style="margin-bottom: 0;">
+                                    Logarithmic decomposition (<code>Δln(Spend) = Δln(Price) + Δln(Volume)</code>) on drugs expanding &gt;50% over 5 years confirms that manufacturer price inflation is the dominant driver of budget growth, outstripping clinical claim volume 2.6-to-1.
+                                </p>
+                            </div>
+
+                            <!-- Executive Takeaway Banner -->
+                            <div class="swiss-card dark" style="padding: 22px 26px;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                    <span class="tag-pill" style="background: var(--white); color: var(--navy-950); font-weight: 800;">EXECUTIVE TAKEAWAY</span>
+                                    <span style="font-family: var(--font-mono); font-size: 12px; color: #94A3B8;">POLICY INTERVENTION TARGETING</span>
+                                </div>
+                                <p style="font-size: 16px; line-height: 1.5; color: #F1F5F9; font-weight: 500;">
+                                    Medicaid expenditure growth is predominantly <strong>manufacturer-driven price inflation</strong> rather than expanded patient access. State leadership must focus negotiation exposure and prior authorization protocols on the <strong>top 25 single-source biologics and GLP-1s</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-footer-strip reveal" style="margin-top: 14px;">
+                        <span>HYPOTHESES 1 &amp; 2 EMPIRICALLY CONFIRMED VIA WILCOXON SIGNED-RANK TEST &amp; LORENZ CDF</span>
+                        <span>TARGET: TOP 25 SINGLE-SOURCE AGENTS GOVERNING OVER HALF OF GROSS BUDGET EXPOSURE</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SLIDE 5: SECONDARY INSIGHT — MULTI-SOURCE GENERIC PRICE SPREAD
+                 ======================================================== -->
+            <section class="slide" id="slide-5" data-index="4">
+                <div class="slide-frame">
+                    <div class="slide-topbar reveal">
+                        <div class="topbar-left">
+                            <span class="tag-pill">SECONDARY INSIGHT</span>
+                            <span class="topbar-breadcrumb">HYPOTHESIS 3: MULTI-SOURCE PRICE DISPERSION &amp; MAC ARBITRAGE</span>
+                        </div>
+                        <div class="topbar-right">
+                            <span>MARKET ARBITRAGE</span>
+                            <span class="topbar-index">05 / 07</span>
+                        </div>
+                    </div>
+
+                    <div class="slide-header reveal">
+                        <div class="slide-kicker">04 / Secondary Market Insight</div>
+                        <h2 class="slide-headline">35%+ Manufacturer Price Dispersion Creates an Immediate $100M+ Arbitrage Opportunity</h2>
+                    </div>
+
+                    <!-- 2-Column Split: Price Spread Distribution + Arbitrage Strategy -->
+                    <div class="content-grid-2col reveal" style="flex: 1;">
+                        <!-- Left: Visual Chart Proof -->
+                        <div class="chart-stage-card">
+                            <div class="chart-stage-header">
+                                <span class="chart-stage-title">FIGURE 2: MULTI-SOURCE MANUFACTURER UNIT PRICE DISPERSION</span>
+                                <span class="tag-pill" style="font-size: 11px;">H3 EMPIRICAL PROOF</span>
+                            </div>
+                            <div class="chart-stage-viewport">
+                                <img src="assets/h3_mac_savings_spread.png" alt="Multi-source generic unit price dispersion between 75th and 25th percentiles">
+                            </div>
+                            <div class="chart-stage-footer">
+                                <span>Multi-Source Generic Cohorts (Tot_Mftr &gt;= 2) • Two-Sample Kolmogorov-Smirnov Test</span>
+                                <span>Dispersion Spread &gt; 35% (p &lt; 0.001)</span>
+                            </div>
+                        </div>
+
+                        <!-- Right: Key Evidence & Strategic Opportunity -->
+                        <div style="display: flex; flex-direction: column; gap: 20px; justify-content: space-between;">
+                            <!-- Evidence Card: Price Dispersion -->
+                            <div class="swiss-card" style="padding: 22px 24px;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">Key Evidence: 35%+ Price Dispersion</span>
+                                    <span class="card-number">MARKET FAILURE</span>
+                                </div>
+                                <div style="display: flex; gap: 16px; align-items: baseline; margin-bottom: 8px;">
+                                    <span style="font-family: var(--font-mono); font-size: 34px; font-weight: 800; color: var(--navy-900);">&gt; 35%</span>
+                                    <span style="font-size: 15px; font-weight: 600; color: var(--slate-500);">Unit cost spread between 75th and 25th percentile manufacturers</span>
+                                </div>
+                                <p class="card-body-text" style="margin-bottom: 0;">
+                                    In competitive multi-source generic markets (<code>Tot_Mftr &gt;= 2</code>), identical bioequivalent molecules exhibit extreme unit price variance (p &lt; 0.001). State Medicaid programs currently overpay by reimbursing at average wholesale benchmarks without enforcing competitive caps.
+                                </p>
+                            </div>
+
+                            <!-- Opportunity Card: Emerald strictly for dollar savings -->
+                            <div class="swiss-card savings-badge" style="padding: 24px 26px;">
+                                <div class="swiss-card-header" style="border-bottom-color: var(--emerald-600);">
+                                    <span class="card-title savings-text">Strategic Opportunity: $100M+ Net Savings</span>
+                                    <span class="priority-tag priority-p0">IMMEDIATE ARBITRAGE</span>
+                                </div>
+                                <div style="display: flex; gap: 16px; align-items: baseline; margin-bottom: 8px;">
+                                    <span style="font-family: var(--font-mono); font-size: 36px; font-weight: 800; color: var(--emerald-600);">$100M+</span>
+                                    <span style="font-size: 15px; font-weight: 700; color: var(--emerald-700);">Recurring Annual Gross Savings for State Formulary</span>
+                                </div>
+                                <p class="card-body-text" style="color: var(--navy-900); font-weight: 500; margin-bottom: 0;">
+                                    Pegging State <strong>Maximum Allowable Cost (MAC) ceilings</strong> to the 25th-percentile manufacturer benchmark captures $100M+ in recurring annual savings without restricting therapy options or impacting patient clinical continuity.
+                                </p>
+                            </div>
+
+                            <!-- Guardrail Protection Guarantee -->
+                            <div class="swiss-card" style="padding: 18px 24px; background: var(--slate-100); border-color: var(--slate-300);">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <div>
+                                        <div style="font-size: 14px; font-weight: 700; color: var(--navy-900);">Clinical Access Guardrail Protected:</div>
+                                        <div style="font-size: 13px; color: var(--slate-500); margin-top: 2px;">
+                                            Multi-source supply redundancy (Tot_Mftr &gt;= 2) ensures zero therapy abandonment.
+                                        </div>
+                                    </div>
+                                    <span class="tag-pill" style="background: var(--navy-800);">&lt; 2.5% RISK</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-footer-strip reveal" style="margin-top: 14px;">
+                        <span>HYPOTHESIS 3 PROOF: PRICE COMPETITION DOES NOT EQUALIZE UNIT REIMBURSEMENT WITHOUT EXPLICIT STATE MAC CEILINGS</span>
+                        <span>POLICY LEVER: ESTABLISH 25TH-PERCENTILE MAC CAP ACROSS ALL MULTI-LABELER GENERICS</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SLIDE 6: INTERACTIVE DECISION COMMAND CENTER
+                 ======================================================== -->
+            <section class="slide" id="slide-6" data-index="5">
+                <div class="slide-frame">
+                    <div class="slide-topbar reveal">
+                        <div class="topbar-left">
+                            <span class="tag-pill">DECISION PLATFORM</span>
+                            <span class="topbar-breadcrumb">DASH FRAMEWORK STREAMLIT PLATFORM</span>
+                        </div>
+                        <div class="topbar-right">
+                            <span>OPERATIONAL DEPLOYMENT</span>
+                            <span class="topbar-index">06 / 07</span>
+                        </div>
+                    </div>
+
+                    <div class="slide-header reveal">
+                        <div class="slide-kicker">05 / Interactive Decision Platform</div>
+                        <h2 class="slide-headline">DASH-Framework Streamlit Decision Platform for Real-Time PBM Formulary Modeling</h2>
+                    </div>
+
+                    <!-- 2-Column Split: Dashboard Screenshot + Platform Features -->
+                    <div class="content-grid-2col reveal" style="flex: 1;">
+                        <!-- Left: Dashboard Screenshot Showcase -->
+                        <div class="chart-stage-card">
+                            <div class="chart-stage-header">
+                                <span class="chart-stage-title">STREAMLIT COMMAND CENTER (SRC/DASHBOARD/APP.PY)</span>
+                                <span class="tag-pill" style="font-size: 11px;">PRODUCTION TOOL</span>
+                            </div>
+                            <div class="chart-stage-viewport">
+                                <img src="assets/dashboard_overview.png" alt="Streamlit Drug Spend Optimization Dashboard interface overview">
+                            </div>
+                            <div class="chart-stage-footer">
+                                <span>Engineered under the DASH Framework: Decision-driven, Audience-aligned, Signal-focused, Hierarchical</span>
+                                <span>Real-Time In-Memory Parquet Engine</span>
+                            </div>
+                        </div>
+
+                        <!-- Right: Key Platform Features & Direct Action Button -->
+                        <div style="display: flex; flex-direction: column; gap: 16px; justify-content: space-between;">
+                            <div class="swiss-card" style="padding: 18px 22px;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">4 Top-Row Signal KPIs</span>
+                                    <span class="card-number">EXECUTIVE SIGNALS</span>
+                                </div>
+                                <p class="card-body-text" style="margin-bottom: 0;">
+                                    Monitors <strong>Real-Time Gross Spend</strong>, <strong>Addressable Brand-to-Generic Wedge</strong>, <strong>Total Claim Volume</strong>, and the <strong>Outlier Risk Index</strong> with instantaneous recalculation upon scenario filter selection.
+                                </p>
+                            </div>
+
+                            <div class="swiss-card" style="padding: 18px 22px;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">Interactive Policy Toggles</span>
+                                    <span class="card-number">SCENARIO ENGINE</span>
+                                </div>
+                                <p class="card-body-text" style="margin-bottom: 0;">
+                                    Enables dynamic sensitivity stress-testing: benefit year selection (CY2020–CY2024), therapeutic class filtering (e.g. Antidiabetic, Cardiovascular), and a real-time <strong>CMS Outlier Isolation Toggle</strong>.
+                                </p>
+                            </div>
+
+                            <div class="swiss-card" style="padding: 18px 22px;">
+                                <div class="swiss-card-header">
+                                    <span class="card-title">Actionable Formulary Grid</span>
+                                    <span class="card-number">EXPORTABLE AUDIT</span>
+                                </div>
+                                <p class="card-body-text" style="margin-bottom: 0;">
+                                    Sortable, exportable drug-level matrix detailing lowest bioequivalent generic alternatives, weighted dosage unit costs, and net addressable dollar savings ready for immediate PBM contract redlining.
+                                </p>
+                            </div>
+
+                            <!-- Primary CTA Banner with Emerald highlight -->
+                            <div class="swiss-card" style="padding: 20px 24px; background: var(--navy-950); border-color: var(--navy-900); display: flex; align-items: center; justify-content: space-between;">
+                                <div>
+                                    <div style="font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 2px;">Experience the Production Model</div>
+                                    <div style="font-family: var(--font-mono); font-size: 12px; color: #94A3B8;">CLI: <code>streamlit run src/dashboard/app.py</code></div>
+                                </div>
+                                <a href="#" class="btn-link primary-cta" style="background: var(--emerald-600); border-color: var(--emerald-600); text-decoration: none;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                    Launch Live Decision Tool
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-footer-strip reveal" style="margin-top: 14px;">
+                        <span>DECISION DASHBOARD DELIVERING EMPIRICAL PRICE DISPERSION BENCHMARKS DIRECTLY TO STATE P&amp;T COMMITTEE</span>
+                        <span>ARCHITECTURE: PYTHON 3.11 • STREAMLIT 1.32 • APACHE PARQUET • SCENARIO TOGGLE ENGINE</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SLIDE 7: STRATEGIC RECOMMENDATIONS & FORMULARY ACTION PLAN
+                 ======================================================== -->
+            <section class="slide" id="slide-7" data-index="6">
+                <div class="slide-frame">
+                    <div class="slide-topbar reveal">
+                        <div class="topbar-left">
+                            <span class="tag-pill">EXECUTIVE ROADMAP</span>
+                            <span class="topbar-breadcrumb">FORMULARY STEWARDSHIP &amp; PBM ACTION PLAN</span>
+                        </div>
+                        <div class="topbar-right">
+                            <span>ACTION MATRIX</span>
+                            <span class="topbar-index">07 / 07</span>
+                        </div>
+                    </div>
+
+                    <div class="slide-header reveal">
+                        <div class="slide-kicker">06 / Strategic Recommendations</div>
+                        <h2 class="slide-headline">Three-Tiered Executive Roadmap for FY2025 Formulary Optimization</h2>
+                    </div>
+
+                    <!-- 3-Tiered Action Matrix Table -->
+                    <div class="reveal" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <table class="action-table">
+                            <tbody>
+                                <!-- Priority 0 -->
+                                <tr class="action-row">
+                                    <td class="action-cell" style="width: 140px;">
+                                        <span class="priority-tag priority-p0">PRIORITY 0</span>
+                                        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--emerald-700); font-weight: 700; margin-top: 4px;">PBM Lead</div>
+                                    </td>
+                                    <td class="action-cell">
+                                        <div style="font-size: 18px; font-weight: 800; color: var(--navy-900);">Enact 25th-Percentile State MAC Price Ceilings</div>
+                                        <div style="font-size: 14px; color: var(--navy-700); margin-top: 3px;">
+                                            Impose mandatory reimbursement ceilings pegged to the 25th percentile of competing labelers across all multi-source generic formulations with &ge; 2 active manufacturers.
+                                        </div>
+                                    </td>
+                                    <td class="action-cell" style="width: 280px; text-align: right;">
+                                        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--emerald-600);">$100M+ Net Savings</div>
+                                        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--emerald-700); font-weight: 600;">Recurring Annual Gross Reduction</div>
+                                    </td>
+                                    <td class="action-cell" style="width: 180px; text-align: right;">
+                                        <span class="tag-pill" style="background: var(--navy-800);">MONTH 1–3</span>
+                                        <div style="font-size: 12px; color: var(--slate-500); margin-top: 4px;">Metric: Spend Wedge</div>
+                                    </td>
+                                </tr>
+
+                                <!-- Priority 1 -->
+                                <tr class="action-row">
+                                    <td class="action-cell">
+                                        <span class="priority-tag priority-p1">PRIORITY 1</span>
+                                        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--navy-800); font-weight: 700; margin-top: 4px;">CMO &amp; P&amp;T Board</div>
+                                    </td>
+                                    <td class="action-cell">
+                                        <div style="font-size: 18px; font-weight: 800; color: var(--navy-900);">Mandate Step-Therapy Protocols on Biologics &amp; GLP-1s</div>
+                                        <div style="font-size: 14px; color: var(--navy-700); margin-top: 3px;">
+                                            Enact prior authorization requiring verified trial of preferred first-line agents before authorizing top 5% spend drivers in antidiabetic, cardiovascular, and immunology categories.
+                                        </div>
+                                    </td>
+                                    <td class="action-cell" style="text-align: right;">
+                                        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--navy-900);">12%–18% Deceleration</div>
+                                        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-500); font-weight: 600;">Targeted Category Spend Deceleration</div>
+                                    </td>
+                                    <td class="action-cell" style="text-align: right;">
+                                        <span class="tag-pill" style="background: var(--navy-800);">MONTH 3–6</span>
+                                        <div style="font-size: 12px; color: var(--slate-500); margin-top: 4px;">Metric: % First-Line Agent</div>
+                                    </td>
+                                </tr>
+
+                                <!-- Priority 2 -->
+                                <tr class="action-row">
+                                    <td class="action-cell">
+                                        <span class="priority-tag priority-p2">PRIORITY 2</span>
+                                        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--slate-600); font-weight: 700; margin-top: 4px;">Pharmacy Board</div>
+                                    </td>
+                                    <td class="action-cell">
+                                        <div style="font-size: 18px; font-weight: 800; color: var(--navy-900);">Enforce Point-of-Sale Generic Substitution Mandates</div>
+                                        <div style="font-size: 14px; color: var(--navy-700); margin-top: 3px;">
+                                            Block commercial brand leakage by requiring pharmacy adjudication software to automatically substitute lower-cost AB-rated generics unless DAW-1 override is clinically validated.
+                                        </div>
+                                    </td>
+                                    <td class="action-cell" style="text-align: right;">
+                                        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--emerald-600);">$35M+ Recovered</div>
+                                        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--emerald-700); font-weight: 600;">Generic Dispensing Rate &gt; 92%</div>
+                                    </td>
+                                    <td class="action-cell" style="text-align: right;">
+                                        <span class="tag-pill" style="background: var(--navy-800);">MONTH 6–12</span>
+                                        <div style="font-size: 12px; color: var(--slate-500); margin-top: 4px;">Metric: GDR Target &gt; 92%</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Summary Statement Callout Box -->
+                        <div class="swiss-card dark" style="padding: 24px 28px; margin-top: 14px; border-left: 4px solid var(--emerald-500);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span class="tag-pill" style="background: var(--emerald-600); color: var(--white); font-weight: 800;">EXECUTIVE SUMMARY STATEMENT</span>
+                                <span style="font-family: var(--font-mono); font-size: 13px; color: #94A3B8;">STATUTORY AUDIT CONCLUSION</span>
+                            </div>
+                            <p style="font-size: 18px; font-weight: 600; line-height: 1.5; color: #F8FAFC;">
+                                "A data-backed formulary roadmap achieving multi-million-dollar statutory budget compliance while maintaining clinical continuity for chronic disease beneficiaries."
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="slide-footer-strip reveal" style="margin-top: 14px;">
+                        <span>PORTFOLIO CASE STUDY COMPLETED • PREPARED BY JUSTIN AMORES | HEALTH ANALYTICS SPECIALIST</span>
+                        <span>DEPLOYMENT: STANDALONE GITHUB PAGES DECK (INDEX.HTML) • FULL KEYBOARD &amp; TOUCH ENABLED</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Presentation Chrome: Controls Dock -->
+    <nav class="deck-controls" aria-label="Slide Deck Navigation">
+        <button class="control-btn" id="prevBtn" title="Previous Slide (Left Arrow, Page Up)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Prev
+        </button>
+
+        <div class="slide-dots" id="slideDots">
+            <button class="dot-btn active" data-slide="0" title="Slide 1: Executive Summary">1</button>
+            <button class="dot-btn" data-slide="1" title="Slide 2: Business Problem">2</button>
+            <button class="dot-btn" data-slide="2" title="Slide 3: Data Architecture">3</button>
+            <button class="dot-btn" data-slide="3" title="Slide 4: Pareto Insight">4</button>
+            <button class="dot-btn" data-slide="4" title="Slide 5: Price Spread">5</button>
+            <button class="dot-btn" data-slide="5" title="Slide 6: Decision Platform">6</button>
+            <button class="dot-btn" data-slide="6" title="Slide 7: Strategic Action Plan">7</button>
+        </div>
+
+        <div class="deck-counter" id="slideCounter">01 / 07</div>
+
+        <button class="control-btn" id="nextBtn" title="Next Slide (Right Arrow, Space, Page Down)">
+            Next
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <button class="control-btn" id="fsBtn" title="Toggle Fullscreen (F)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+        </button>
+
+        <span class="key-hint">Keys: ← → Space | E: Edit</span>
+    </nav>
+
+    <!-- ===========================================
+         SLIDE PRESENTATION CONTROLLER & INLINE EDITOR
+         =========================================== -->
+    <script>
+        /* ===========================================
+           SLIDE PRESENTATION CONTROLLER
+           Zero-dependency, fixed 16:9 stage scaling
+           =========================================== */
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.dotBtns = document.querySelectorAll('.dot-btn');
+                this.currentSlide = 0;
+                this.stage = document.getElementById('deckStage');
+                this.slideCounter = document.getElementById('slideCounter');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.fsBtn = document.getElementById('fsBtn');
+
+                this.setupStageScale();
+                this.setupKeyboardNav();
+                this.setupTouchNav();
+                this.setupControls();
+                this.setupInlineEditing();
+                this.showSlide(0);
+            }
+
+            /* Responsive 16:9 uniform stage scaling */
+            setupStageScale() {
+                const scale = () => {
+                    const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                    const x = (window.innerWidth - 1920 * factor) / 2;
+                    const y = (window.innerHeight - 1080 * factor) / 2;
+                    this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+                };
+                scale();
+                window.addEventListener('resize', scale);
+            }
+
+            /* Keyboard navigation */
+            setupKeyboardNav() {
+                document.addEventListener('keydown', (e) => {
+                    // Do not hijack arrow keys when editing text
+                    if (e.target.getAttribute('contenteditable') === 'true') {
+                        return;
+                    }
+
+                    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                        e.preventDefault();
+                        this.nextSlide();
+                    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                        e.preventDefault();
+                        this.prevSlide();
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        this.showSlide(0);
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        this.showSlide(this.slides.length - 1);
+                    } else if (e.key === 'f' || e.key === 'F') {
+                        e.preventDefault();
+                        this.toggleFullscreen();
+                    }
+                });
+            }
+
+            /* Touch and swipe navigation */
+            setupTouchNav() {
+                let startX = 0;
+                let startY = 0;
+
+                window.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                }, { passive: true });
+
+                window.addEventListener('touchend', (e) => {
+                    const diffX = e.changedTouches[0].clientX - startX;
+                    const diffY = e.changedTouches[0].clientY - startY;
+
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+                        if (diffX < 0) {
+                            this.nextSlide();
+                        } else {
+                            this.prevSlide();
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            /* Control buttons */
+            setupControls() {
+                if (this.prevBtn) {
+                    this.prevBtn.addEventListener('click', () => this.prevSlide());
+                }
+                if (this.nextBtn) {
+                    this.nextBtn.addEventListener('click', () => this.nextSlide());
+                }
+                if (this.fsBtn) {
+                    this.fsBtn.addEventListener('click', () => this.toggleFullscreen());
+                }
+
+                this.dotBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const targetIndex = parseInt(e.currentTarget.getAttribute('data-slide'), 10);
+                        this.showSlide(targetIndex);
+                    });
+                });
+            }
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                }
+            }
+
+            nextSlide() {
+                if (this.currentSlide < this.slides.length - 1) {
+                    this.showSlide(this.currentSlide + 1);
+                }
+            }
+
+            prevSlide() {
+                if (this.currentSlide > 0) {
+                    this.showSlide(this.currentSlide - 1);
+                }
+            }
+
+            showSlide(index) {
+                this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+
+                this.slides.forEach((slide, i) => {
+                    const isActive = i === this.currentSlide;
+                    slide.classList.toggle('active', isActive);
+                    slide.classList.toggle('visible', isActive);
+                });
+
+                this.dotBtns.forEach((btn, i) => {
+                    btn.classList.toggle('active', i === this.currentSlide);
+                });
+
+                if (this.slideCounter) {
+                    this.slideCounter.textContent = `0${this.currentSlide + 1} / 0${this.slides.length}`;
+                }
+            }
+
+            /* ===========================================
+               INLINE TEXT EDITING WITH LOCAL STORAGE
+               =========================================== */
+            setupInlineEditing() {
+                const hotzone = document.getElementById('editHotzone');
+                const editToggle = document.getElementById('editToggle');
+                const editToast = document.getElementById('editToast');
+                let isEditMode = false;
+                let hideTimeout = null;
+
+                // Load saved content from localStorage
+                try {
+                    const savedEdits = localStorage.getItem('medicaid_slides_edits');
+                    if (savedEdits) {
+                        const data = JSON.parse(savedEdits);
+                        Object.keys(data).forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) el.innerHTML = data[id];
+                        });
+                    }
+                } catch(e) {}
+
+                const toggleEditMode = () => {
+                    isEditMode = !isEditMode;
+                    editToggle.classList.toggle('active', isEditMode);
+                    editToggle.innerHTML = isEditMode ? '💾 Save Changes (E)' : '✏️ Edit Content (E)';
+
+                    const editableTargets = document.querySelectorAll(
+                        'h1, h2, h3, p, .card-title, .card-body-text, .kpi-badge-val, .author-name, .author-role, .savings-banner-title'
+                    );
+
+                    editableTargets.forEach(el => {
+                        el.contentEditable = isEditMode ? 'true' : 'false';
+                        el.spellcheck = false;
+                    });
+
+                    if (isEditMode) {
+                        editToast.textContent = 'Edit mode active — click any text to edit directly';
+                        editToast.classList.add('visible');
+                    } else {
+                        // Save changes to localStorage
+                        const dataToSave = {};
+                        editableTargets.forEach((el, idx) => {
+                            if (!el.id) el.id = `editable-node-${idx}`;
+                            dataToSave[el.id] = el.innerHTML;
+                        });
+                        try {
+                            localStorage.setItem('medicaid_slides_edits', JSON.stringify(dataToSave));
+                        } catch(e) {}
+
+                        editToast.textContent = 'Changes saved to browser storage!';
+                        editToast.classList.add('visible');
+                        setTimeout(() => editToast.classList.remove('visible'), 2400);
+                    }
+                };
+
+                // Hotzone hover with 400ms grace period
+                hotzone.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                    editToggle.classList.add('show');
+                });
+                hotzone.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        if (!isEditMode) editToggle.classList.remove('show');
+                    }, 400);
+                });
+                editToggle.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                });
+                editToggle.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        if (!isEditMode) editToggle.classList.remove('show');
+                    }, 400);
+                });
+
+                editToggle.addEventListener('click', toggleEditMode);
+                hotzone.addEventListener('click', toggleEditMode);
+
+                document.addEventListener('keydown', (e) => {
+                    if ((e.key === 'e' || e.key === 'E') && e.target.getAttribute('contenteditable') !== 'true') {
+                        e.preventDefault();
+                        toggleEditMode();
+                    }
+                });
+            }
+        }
+
+        // Initialize on DOM load
+        window.addEventListener('DOMContentLoaded', () => {
+            new SlidePresentation();
+        });
+    </script>
+</body>
+</html>
