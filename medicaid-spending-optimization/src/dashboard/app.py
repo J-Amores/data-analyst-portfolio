@@ -21,6 +21,7 @@ Primary Decisions Supported:
 
 from __future__ import annotations
 
+import sys
 import io
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
@@ -30,6 +31,11 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
+
+# Ensure project root is in sys.path regardless of execution working directory
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 # -----------------------------------------------------------------------------
 # Configuration & Constants
@@ -41,9 +47,24 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "cleaned"
-OVERALL_PARQUET_PATH = DATA_DIR / "mcd_drug_overall_2020_2024.parquet"
-DETAIL_PARQUET_PATH = DATA_DIR / "mcd_mftr_detail_2020_2024.parquet"
+def _resolve_data_paths() -> Tuple[Path, Path]:
+    """Resolves parquet dataset paths across direct, sub-repo, and portfolio deployments."""
+    candidates = [
+        PROJECT_ROOT / "data" / "cleaned",
+        Path.cwd() / "medicaid-spending-optimization" / "data" / "cleaned",
+        Path.cwd() / "data" / "cleaned",
+        Path(__file__).resolve().parent.parent / "data" / "cleaned",
+    ]
+    for candidate in candidates:
+        ov = candidate / "mcd_drug_overall_2020_2024.parquet"
+        dt = candidate / "mcd_mftr_detail_2020_2024.parquet"
+        if ov.exists() and dt.exists():
+            return ov, dt
+    default_dir = PROJECT_ROOT / "data" / "cleaned"
+    return default_dir / "mcd_drug_overall_2020_2024.parquet", default_dir / "mcd_mftr_detail_2020_2024.parquet"
+
+OVERALL_PARQUET_PATH, DETAIL_PARQUET_PATH = _resolve_data_paths()
+DATA_DIR = OVERALL_PARQUET_PATH.parent
 
 # Design Tokens: Strict Palette (Slate/Navy with Emerald Accent)
 COLOR_NAVY_DARK = "#0F172A"       # Slate 900
