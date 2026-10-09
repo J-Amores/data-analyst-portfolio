@@ -80,136 +80,187 @@ COLOR_CRIMSON = "#E11D48"         # Rose 600 (Price Risk Alert)
 COLOR_CRIMSON_LIGHT = "#FFE4E6"   # Rose 100
 COLOR_BLUE = "#2563EB"            # Blue 600 (Secondary Marker)
 
-# Custom CSS for Executive Polish & Cognitive Ergonomics
+# Custom CSS for Executive Polish & Cognitive Ergonomics (Adaptive Theme & Responsive KPI Cards)
 st.markdown(
-    f"""
+    """
     <style>
         /* Base typography & container sizing */
-        .block-container {{
-            padding-top: 1.5rem;
-            padding-bottom: 2.5rem;
-            max-width: 96%;
-        }}
+        .block-container {
+            padding-top: 1.2rem;
+            padding-bottom: 2rem;
+            max-width: 98%;
+        }
+        
+        /* Adaptive Color Tokens */
+        :root {
+            --kpi-bg: #FFFFFF;
+            --kpi-bg-emerald: #F0FDF4;
+            --kpi-border: #E2E8F0;
+            --kpi-text-title: #64748B;
+            --kpi-text-val: #0F172A;
+            --kpi-text-sub: #64748B;
+            --kpi-badge-neutral-bg: #E2E8F0;
+            --kpi-badge-neutral-text: #1E293B;
+            --newsflash-bg: #F1F5F9;
+            --newsflash-border: #1E293B;
+            --newsflash-title: #0F172A;
+            --newsflash-sub: #64748B;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --kpi-bg: #1E293B;
+                --kpi-bg-emerald: #0F2D24;
+                --kpi-border: #334155;
+                --kpi-text-title: #94A3B8;
+                --kpi-text-val: #F8FAFC;
+                --kpi-text-sub: #94A3B8;
+                --kpi-badge-neutral-bg: #334155;
+                --kpi-badge-neutral-text: #F8FAFC;
+                --newsflash-bg: #1E293B;
+                --newsflash-border: #10B981;
+                --newsflash-title: #F8FAFC;
+                --newsflash-sub: #94A3B8;
+            }
+        }
         
         /* Metric Card Container Styling */
-        .kpi-card {{
-            background-color: {COLOR_BG_CARD};
-            border: 1px solid {COLOR_BORDER};
+        .kpi-card {
+            background-color: var(--kpi-bg);
+            border: 1px solid var(--kpi-border);
             border-radius: 10px;
-            padding: 1.1rem 1.25rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+            padding: 0.9rem 0.85rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
             transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
             height: 100%;
-        }}
-        .kpi-card:hover {{
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-        }}
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .kpi-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.12);
+        }
         
         /* Emerald Highlighted Card (North Star Wedge) */
-        .kpi-card-emerald {{
-            background: linear-gradient(135deg, rgba(5, 150, 105, 0.07) 0%, rgba(248, 250, 252, 0.95) 100%);
-            border: 1.75px solid {COLOR_EMERALD_BORDER};
+        .kpi-card-emerald {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.18) 0%, var(--kpi-bg-emerald) 100%);
+            border: 1.75px solid #10B981;
             border-radius: 10px;
-            padding: 1.1rem 1.25rem;
-            box-shadow: 0 2px 4px 0 rgba(5, 150, 105, 0.08);
+            padding: 0.9rem 0.85rem;
+            box-shadow: 0 2px 6px 0 rgba(5, 150, 105, 0.14);
             height: 100%;
-        }}
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
         
-        .kpi-title {{
-            font-size: 0.82rem;
+        .kpi-title {
+            font-size: 0.72rem;
             text-transform: uppercase;
             font-weight: 700;
-            letter-spacing: 0.05em;
-            color: {COLOR_SLATE_MUTED};
+            letter-spacing: 0.04em;
+            color: var(--kpi-text-title);
             margin-bottom: 0.35rem;
-        }}
+            line-height: 1.25;
+            min-height: 2.1em;
+            display: flex;
+            align-items: center;
+        }
         
-        .kpi-title-emerald {{
-            font-size: 0.82rem;
+        .kpi-title-emerald {
+            font-size: 0.72rem;
             text-transform: uppercase;
             font-weight: 700;
-            letter-spacing: 0.05em;
-            color: {COLOR_EMERALD};
+            letter-spacing: 0.04em;
+            color: #10B981;
             margin-bottom: 0.35rem;
-        }}
+            line-height: 1.25;
+            min-height: 2.1em;
+            display: flex;
+            align-items: center;
+        }
         
-        .kpi-value {{
-            font-size: 2.1rem;
+        .kpi-value {
+            font-size: clamp(1.2rem, 1.7vw, 1.7rem);
             font-weight: 800;
-            line-height: 1.1;
-            color: {COLOR_NAVY_DARK};
-            margin-bottom: 0.45rem;
+            line-height: 1.15;
+            color: var(--kpi-text-val);
+            margin-bottom: 0.4rem;
             font-feature-settings: "tnum";
-        }}
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         
-        .kpi-value-emerald {{
-            font-size: 2.1rem;
+        .kpi-value-emerald {
+            font-size: clamp(1.2rem, 1.7vw, 1.7rem);
             font-weight: 800;
-            line-height: 1.1;
-            color: {COLOR_EMERALD};
-            margin-bottom: 0.45rem;
+            line-height: 1.15;
+            color: #10B981;
+            margin-bottom: 0.4rem;
             font-feature-settings: "tnum";
-        }}
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         
-        .kpi-badge {{
+        .kpi-badge {
             display: inline-block;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            padding: 0.2rem 0.55rem;
-            border-radius: 6px;
-            margin-right: 0.4rem;
-        }}
-        .badge-positive {{
-            background-color: {COLOR_EMERALD_LIGHT};
-            color: {COLOR_EMERALD};
-        }}
-        .badge-neutral {{
-            background-color: #E2E8F0;
-            color: {COLOR_NAVY_PRIMARY};
-        }}
-        .badge-alert {{
-            background-color: {COLOR_CRIMSON_LIGHT};
-            color: {COLOR_CRIMSON};
-        }}
+            padding: 0.18rem 0.45rem;
+            border-radius: 5px;
+            margin-right: 0.25rem;
+            margin-bottom: 0.2rem;
+            white-space: nowrap;
+        }
+        .badge-positive {
+            background-color: rgba(5, 150, 105, 0.18);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .badge-neutral {
+            background-color: var(--kpi-badge-neutral-bg);
+            color: var(--kpi-badge-neutral-text);
+        }
+        .badge-alert {
+            background-color: rgba(225, 29, 72, 0.18);
+            color: #FB7185;
+            border: 1px solid rgba(251, 113, 133, 0.3);
+        }
         
-        .kpi-subtext {{
-            font-size: 0.77rem;
-            color: {COLOR_SLATE_MUTED};
-            margin-top: 0.3rem;
+        .kpi-subtext {
+            font-size: 0.72rem;
+            color: var(--kpi-text-sub);
+            margin-top: 0.35rem;
             line-height: 1.35;
-        }}
+        }
         
         /* Newsflash container banner */
-        .newsflash-banner {{
-            background-color: #F1F5F9;
-            border-left: 4px solid {COLOR_NAVY_PRIMARY};
+        .newsflash-banner {
+            background-color: var(--newsflash-bg);
+            border-left: 4px solid var(--newsflash-border);
             padding: 0.65rem 1rem;
             border-radius: 0 6px 6px 0;
             margin-bottom: 0.85rem;
-        }}
-        .newsflash-headline {{
-            font-size: 0.95rem;
+        }
+        .newsflash-headline {
+            font-size: 0.92rem;
             font-weight: 700;
-            color: {COLOR_NAVY_DARK};
+            color: var(--newsflash-title);
             margin: 0;
-        }}
-        .newsflash-caption {{
-            font-size: 0.78rem;
-            color: {COLOR_SLATE_MUTED};
+        }
+        .newsflash-caption {
+            font-size: 0.76rem;
+            color: var(--newsflash-sub);
             margin: 0.15rem 0 0 0;
-        }}
-        
-        /* Clean filter sidebar */
-        [data-testid="stSidebar"] {{
-            background-color: #F8FAFC;
-            border-right: 1px solid {COLOR_BORDER};
-        }}
+        }
         
         /* Table polish */
-        .stDataFrame {{
+        .stDataFrame {
             border-radius: 8px;
             overflow: hidden;
-        }}
+        }
     </style>
     """,
     unsafe_allow_html=True,
@@ -488,6 +539,8 @@ def build_pareto_distribution_chart(
 
     fig.update_layout(
         template="plotly_white",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         height=390,
         margin=dict(l=45, r=45, t=30, b=85),
         showlegend=True,
@@ -614,6 +667,8 @@ def build_lorenz_curve_chart(
 
     fig.update_layout(
         template="plotly_white",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         height=390,
         margin=dict(l=45, r=45, t=30, b=50),
         showlegend=True,
@@ -748,6 +803,8 @@ def build_quadrant_scatter_chart(
 
     fig.update_layout(
         template="plotly_white",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         height=390,
         margin=dict(l=45, r=45, t=30, b=50),
         showlegend=True,
@@ -793,7 +850,7 @@ def main() -> None:
     # -------------------------------------------------------------------------
     # Header Tier: Executive Mandate & Title
     # -------------------------------------------------------------------------
-    header_col1, header_col2 = st.columns([3.8, 1.2])
+    header_col1, header_col2 = st.columns([3.4, 1.6])
     with header_col1:
         st.title("Medicaid Outpatient Drug Spend Optimization")
         st.caption(
@@ -802,10 +859,10 @@ def main() -> None:
         )
     with header_col2:
         st.markdown(
-            f"""
+            """
             <div style="text-align: right; padding-top: 0.6rem;">
-                <span class="kpi-badge badge-neutral">CMS SDUD Ingestion: CY2020–CY2024</span><br>
-                <span style="font-size: 0.76rem; color: {COLOR_SLATE_MUTED};">Statutory Gross Pre-Rebate Outlay</span>
+                <span class="kpi-badge badge-neutral" style="font-size: 0.76rem; padding: 0.25rem 0.55rem;">CMS SDUD: CY2020–CY2024</span>
+                <div style="font-size: 0.74rem; color: var(--kpi-text-sub); margin-top: 0.25rem;">Statutory Gross Pre-Rebate Outlay</div>
             </div>
             """,
             unsafe_allow_html=True,
