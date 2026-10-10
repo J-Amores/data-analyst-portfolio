@@ -80,86 +80,167 @@ COLOR_CRIMSON = "#E11D48"         # Rose 600 (Price Risk Alert)
 COLOR_CRIMSON_LIGHT = "#FFE4E6"   # Rose 100
 COLOR_BLUE = "#2563EB"            # Blue 600 (Secondary Marker)
 
-# Custom CSS for Executive Polish & Cognitive Ergonomics (Adaptive Theme & Responsive KPI Cards)
+# Custom CSS for Executive Polish & Cognitive Ergonomics (Adaptive Light, Dark & System Modes)
 st.markdown(
     """
     <style>
-        /* Base typography & container sizing */
+        /* Base typography & container sizing (safe top padding for Streamlit toolbar) */
         .block-container {
-            padding-top: 1.2rem;
-            padding-bottom: 2rem;
+            padding-top: 2.2rem;
+            padding-bottom: 2.5rem;
             max-width: 98%;
         }
         
-        /* Adaptive Color Tokens */
+        /* -----------------------------------------------------------------
+           1. Core Design Tokens: Default Executive Light Theme
+           ----------------------------------------------------------------- */
         :root {
-            --kpi-bg: #FFFFFF;
-            --kpi-bg-emerald: #F0FDF4;
-            --kpi-border: #E2E8F0;
-            --kpi-text-title: #64748B;
-            --kpi-text-val: #0F172A;
-            --kpi-text-sub: #64748B;
-            --kpi-badge-neutral-bg: #E2E8F0;
-            --kpi-badge-neutral-text: #1E293B;
-            --newsflash-bg: #F1F5F9;
-            --newsflash-border: #1E293B;
+            --card-bg: #FFFFFF;
+            --card-border: #E2E8F0;
+            --card-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+            --card-shadow-hover: 0 4px 12px 0 rgba(15, 23, 42, 0.08);
+            --card-border-hover: #CBD5E1;
+            
+            --card-title-color: #64748B;
+            --card-val-color: #0F172A;
+            --card-subtext-color: #64748B;
+            
+            /* Emerald Card (North Star Wedge) */
+            --wedge-card-bg: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
+            --wedge-card-border: #10B981;
+            --wedge-card-shadow: 0 2px 8px 0 rgba(5, 150, 105, 0.10), 0 1px 3px 0 rgba(5, 150, 105, 0.05);
+            --wedge-card-shadow-hover: 0 4px 14px 0 rgba(5, 150, 105, 0.18);
+            --wedge-card-title: #047857;
+            --wedge-card-val: #059669;
+            --wedge-card-subtext: #065F46;
+            --wedge-badge-bg: #D1FAE5;
+            --wedge-badge-text: #065F46;
+            --wedge-badge-border: #6EE7B7;
+            
+            /* Badges */
+            --badge-neutral-bg: #F1F5F9;
+            --badge-neutral-text: #334155;
+            --badge-neutral-border: #CBD5E1;
+            
+            --badge-positive-bg: #ECFDF5;
+            --badge-positive-text: #065F46;
+            --badge-positive-border: #A7F3D0;
+            
+            --badge-alert-bg: #FFF1F2;
+            --badge-alert-text: #BE123C;
+            --badge-alert-border: #FDA4AF;
+            
+            /* Newsflash Banners */
+            --newsflash-bg: #F8FAFC;
+            --newsflash-border-left: #1E293B;
+            --newsflash-border-box: #E2E8F0;
             --newsflash-title: #0F172A;
             --newsflash-sub: #64748B;
+            
+            /* Divider */
+            --divider-color: #E2E8F0;
         }
 
+        /* -----------------------------------------------------------------
+           2. Dark Mode Overrides: Applied when OS or Streamlit is in Dark Mode
+           ----------------------------------------------------------------- */
         @media (prefers-color-scheme: dark) {
             :root {
-                --kpi-bg: #1E293B;
-                --kpi-bg-emerald: #0F2D24;
-                --kpi-border: #334155;
-                --kpi-text-title: #94A3B8;
-                --kpi-text-val: #F8FAFC;
-                --kpi-text-sub: #94A3B8;
-                --kpi-badge-neutral-bg: #334155;
-                --kpi-badge-neutral-text: #F8FAFC;
+                --card-bg: #1E293B;
+                --card-border: #334155;
+                --card-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25);
+                --card-shadow-hover: 0 6px 16px 0 rgba(0, 0, 0, 0.35);
+                --card-border-hover: #475569;
+                
+                --card-title-color: #94A3B8;
+                --card-val-color: #F8FAFC;
+                --card-subtext-color: #CBD5E1;
+                
+                /* Emerald Card in Dark Mode (Luminous Deep Emerald & High Contrast Mint) */
+                --wedge-card-bg: linear-gradient(135deg, rgba(6, 78, 59, 0.45) 0%, rgba(15, 23, 42, 0.85) 100%);
+                --wedge-card-border: #10B981;
+                --wedge-card-shadow: 0 2px 10px 0 rgba(16, 185, 129, 0.20);
+                --wedge-card-shadow-hover: 0 6px 18px 0 rgba(16, 185, 129, 0.30);
+                --wedge-card-title: #34D399;
+                --wedge-card-val: #10B981;
+                --wedge-card-subtext: #A7F3D0;
+                --wedge-badge-bg: rgba(16, 185, 129, 0.25);
+                --wedge-badge-text: #6EE7B7;
+                --wedge-badge-border: rgba(52, 211, 153, 0.45);
+                
+                /* Badges in Dark Mode */
+                --badge-neutral-bg: #334155;
+                --badge-neutral-text: #F1F5F9;
+                --badge-neutral-border: #475569;
+                
+                --badge-positive-bg: rgba(5, 150, 105, 0.25);
+                --badge-positive-text: #6EE7B7;
+                --badge-positive-border: rgba(16, 185, 129, 0.4);
+                
+                --badge-alert-bg: rgba(225, 29, 72, 0.25);
+                --badge-alert-text: #FDA4AF;
+                --badge-alert-border: rgba(251, 113, 133, 0.4);
+                
+                /* Newsflash Banners in Dark Mode */
                 --newsflash-bg: #1E293B;
-                --newsflash-border: #10B981;
+                --newsflash-border-left: #10B981;
+                --newsflash-border-box: #334155;
                 --newsflash-title: #F8FAFC;
                 --newsflash-sub: #94A3B8;
+                
+                /* Divider */
+                --divider-color: #334155;
             }
         }
-        
-        /* Metric Card Container Styling */
+
+        /* -----------------------------------------------------------------
+           3. Metric Card Styling (Adaptive using CSS variables)
+           ----------------------------------------------------------------- */
         .kpi-card {
-            background-color: var(--kpi-bg);
-            border: 1px solid var(--kpi-border);
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 10px;
-            padding: 0.9rem 0.85rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
-            transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            padding: 1.05rem 1rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out;
             height: 100%;
+            min-height: 162px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
         .kpi-card:hover {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--card-border-hover);
+            transform: translateY(-1px);
         }
         
-        /* Emerald Highlighted Card (North Star Wedge) */
+        /* Emerald Highlighted Card (North Star Avoidable Spend Wedge) */
         .kpi-card-emerald {
-            background: linear-gradient(135deg, rgba(5, 150, 105, 0.18) 0%, var(--kpi-bg-emerald) 100%);
-            border: 1.75px solid #10B981;
+            background: var(--wedge-card-bg);
+            border: 1.5px solid var(--wedge-card-border);
             border-radius: 10px;
-            padding: 0.9rem 0.85rem;
-            box-shadow: 0 2px 6px 0 rgba(5, 150, 105, 0.14);
+            padding: 1.05rem 1rem;
+            box-shadow: var(--wedge-card-shadow);
+            transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out;
             height: 100%;
+            min-height: 162px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
+        .kpi-card-emerald:hover {
+            box-shadow: var(--wedge-card-shadow-hover);
+            border-color: #059669;
+            transform: translateY(-1px);
+        }
         
         .kpi-title {
-            font-size: 0.72rem;
+            font-size: 0.74rem;
             text-transform: uppercase;
             font-weight: 700;
-            letter-spacing: 0.04em;
-            color: var(--kpi-text-title);
+            letter-spacing: 0.05em;
+            color: var(--card-title-color);
             margin-bottom: 0.35rem;
             line-height: 1.25;
             min-height: 2.1em;
@@ -168,11 +249,11 @@ st.markdown(
         }
         
         .kpi-title-emerald {
-            font-size: 0.72rem;
+            font-size: 0.74rem;
             text-transform: uppercase;
             font-weight: 700;
-            letter-spacing: 0.04em;
-            color: #10B981;
+            letter-spacing: 0.05em;
+            color: var(--wedge-card-title);
             margin-bottom: 0.35rem;
             line-height: 1.25;
             min-height: 2.1em;
@@ -181,11 +262,11 @@ st.markdown(
         }
         
         .kpi-value {
-            font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+            font-size: clamp(1.4rem, 1.9vw, 1.85rem);
             font-weight: 800;
             line-height: 1.15;
-            color: var(--kpi-text-val);
-            margin-bottom: 0.4rem;
+            color: var(--card-val-color);
+            margin-bottom: 0.45rem;
             font-feature-settings: "tnum";
             white-space: nowrap;
             overflow: hidden;
@@ -193,11 +274,11 @@ st.markdown(
         }
         
         .kpi-value-emerald {
-            font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+            font-size: clamp(1.4rem, 1.9vw, 1.85rem);
             font-weight: 800;
             line-height: 1.15;
-            color: #10B981;
-            margin-bottom: 0.4rem;
+            color: var(--wedge-card-val);
+            margin-bottom: 0.45rem;
             font-feature-settings: "tnum";
             white-space: nowrap;
             overflow: hidden;
@@ -208,40 +289,54 @@ st.markdown(
             display: inline-block;
             font-size: 0.72rem;
             font-weight: 600;
-            padding: 0.18rem 0.45rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 5px;
-            margin-right: 0.25rem;
+            margin-right: 0.3rem;
             margin-bottom: 0.2rem;
             white-space: nowrap;
         }
         .badge-positive {
-            background-color: rgba(5, 150, 105, 0.18);
-            color: #10B981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background-color: var(--badge-positive-bg);
+            color: var(--badge-positive-text);
+            border: 1px solid var(--badge-positive-border);
         }
         .badge-neutral {
-            background-color: var(--kpi-badge-neutral-bg);
-            color: var(--kpi-badge-neutral-text);
+            background-color: var(--badge-neutral-bg);
+            color: var(--badge-neutral-text);
+            border: 1px solid var(--badge-neutral-border);
         }
         .badge-alert {
-            background-color: rgba(225, 29, 72, 0.18);
-            color: #FB7185;
-            border: 1px solid rgba(251, 113, 133, 0.3);
+            background-color: var(--badge-alert-bg);
+            color: var(--badge-alert-text);
+            border: 1px solid var(--badge-alert-border);
         }
         
         .kpi-subtext {
-            font-size: 0.72rem;
-            color: var(--kpi-text-sub);
-            margin-top: 0.35rem;
+            font-size: 0.73rem;
+            color: var(--card-subtext-color);
+            margin-top: 0.4rem;
             line-height: 1.35;
+        }
+        .kpi-card-emerald .kpi-subtext {
+            color: var(--wedge-card-subtext);
+            font-weight: 500;
+        }
+        .kpi-card-emerald .badge-positive {
+            background-color: var(--wedge-badge-bg);
+            color: var(--wedge-badge-text);
+            border: 1px solid var(--wedge-badge-border);
+            font-weight: 700;
         }
         
         /* Newsflash container banner */
         .newsflash-banner {
             background-color: var(--newsflash-bg);
-            border-left: 4px solid var(--newsflash-border);
+            border-left: 4px solid var(--newsflash-border-left);
+            border-top: 1px solid var(--newsflash-border-box);
+            border-right: 1px solid var(--newsflash-border-box);
+            border-bottom: 1px solid var(--newsflash-border-box);
             padding: 0.65rem 1rem;
-            border-radius: 0 6px 6px 0;
+            border-radius: 0 8px 8px 0;
             margin-bottom: 0.85rem;
         }
         .newsflash-headline {
@@ -253,13 +348,14 @@ st.markdown(
         .newsflash-caption {
             font-size: 0.76rem;
             color: var(--newsflash-sub);
-            margin: 0.15rem 0 0 0;
+            margin: 0.2rem 0 0 0;
         }
         
         /* Table polish */
         .stDataFrame {
             border-radius: 8px;
             overflow: hidden;
+            border: 1px solid var(--card-border);
         }
     </style>
     """,
@@ -860,15 +956,15 @@ def main() -> None:
     with header_col2:
         st.markdown(
             """
-            <div style="text-align: right; padding-top: 0.6rem;">
-                <span class="kpi-badge badge-neutral" style="font-size: 0.76rem; padding: 0.25rem 0.55rem;">CMS SDUD: CY2020–CY2024</span>
-                <div style="font-size: 0.74rem; color: var(--kpi-text-sub); margin-top: 0.25rem;">Statutory Gross Pre-Rebate Outlay</div>
+            <div style="text-align: right; padding-top: 0.85rem;">
+                <span class="kpi-badge badge-neutral" style="font-size: 0.78rem; padding: 0.28rem 0.65rem; font-weight: 600;">CMS SDUD: CY2020–CY2024</span>
+                <div style="font-size: 0.75rem; color: var(--card-subtext-color); margin-top: 0.35rem; font-weight: 500;">Statutory Gross Pre-Rebate Outlay</div>
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-    st.markdown("<hr style='margin: 0.4rem 0 1.2rem 0; border: 0; border-top: 1px solid #E2E8F0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='margin: 0.4rem 0 1.2rem 0; border: 0; border-top: 1px solid var(--divider-color);'>", unsafe_allow_html=True)
 
     # -------------------------------------------------------------------------
     # Sidebar: Filter Controls (Task 4.3)
@@ -1250,8 +1346,8 @@ def main() -> None:
                to prevent therapy disruption, adverse clinical events, or provider prior authorization burden.
                
             4. **CMS IQR Outlier Flag Auditing**:
-               Records flagged with `Outlier_Flag == 1` violate CMS interquartile pricing bounds (cost shift > 10% and > $1.00/unit).
-               These records represent 8.16% of gross CY2024 spend ($9.08B) and should undergo NDC-level verification before binding legislative forecasts.
+               Records flagged with `Outlier_Flag == 1` violate CMS interquartile pricing bounds (cost shift > 10% and > \\$1.00/unit).
+               These records represent 8.16% of gross CY2024 spend (\\$9.08B) and should undergo NDC-level verification before binding legislative forecasts.
             """
         )
 
