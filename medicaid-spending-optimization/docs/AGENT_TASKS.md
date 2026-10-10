@@ -17,7 +17,7 @@ Phase 1: Environment Setup & Data Pipeline Foundation
 - [x] Task 1.1: Environment Initialization & Directory Scaffolding
   - [x] Initialize Python virtual environment: python -m venv .venv && source .venv/bin/activate.
   - [x] Create production directory hierarchy: `data/{raw,cleaned,exports}`, `docs/`, `src/{etl,analytics,dashboard}`, `tests/`, `reports/figures`.
-  - [x] Pin and install core scientific and dashboard dependencies in `requirements.txt`: `pandas>=2.2.0`, `openpyxl>=3.1.2`, `scipy>=1.12.0`, `statsmodels>=0.14.1`, `plotly>=5.19.0`, `streamlit>=1.32.0`, `pytest>=8.0.0`, `pyarrow>=15.0.0`.
+  - [x] Pin and install core scientific and reporting dependencies in `requirements.txt`: `pandas>=2.2.0`, `openpyxl>=3.1.2`, `scipy>=1.12.0`, `statsmodels>=0.14.1`, `plotly>=5.19.0`, `pytest>=8.0.0`, `pyarrow>=15.0.0`.
 - [x] Task 1.2: Ingestion & Verification Harness
   - [x] Load `DSD_MCD_RY26_P06_V20_D24_BGM.xlsx` and `DSD_MCD_RY26_P04_V10_YTD24_DBExport - 20260603.xlsx`.
   - [x] Write validation script `tests/test_raw_schema.py` confirming expected column headers match the CMS Data Dictionary (all 34 core variables + trend metrics).

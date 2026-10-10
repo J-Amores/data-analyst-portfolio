@@ -2,7 +2,7 @@
 ### Executive Decision Briefing & PBM Action Plan for State Medicaid Leadership
 
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
-[![Framework-Streamlit](https://img.shields.io/badge/App-Streamlit_1.32-FF4B4B.svg)](https://streamlit.io/)
+[![Presentation-HTML Deck](https://img.shields.io/badge/Presentation-Fixed_16:9_HTML_Deck-059669.svg)](index.html)
 [![Storage-Parquet](https://img.shields.io/badge/Storage-Apache_Parquet-2B579A.svg)](https://parquet.apache.org/)
 [![Data-CMS_Medicaid](https://img.shields.io/badge/Data-CMS_RY26_Release-green.svg)](https://data.medicaid.gov/)
 [![Evaluation-5.0/5.0](https://img.shields.io/badge/Hiring_Manager_Standard-Exemplar-059669.svg)](docs/HIRING_MANAGER_CRITIQUE.md)
@@ -143,9 +143,9 @@ An audit of gross Medicaid outpatient drug reimbursements reveals that program g
 
 ---
 
-## 6. Interactive Decision Dashboard (The DASH Architecture)
+## 6. Interactive Decision Deck & Cockpit (The DASH Architecture)
 
-The decision tool was built using Streamlit in `src/dashboard/app.py` under the **DASH** framework (Decision-driven, Audience-aligned, Signal-focused, Hierarchical).
+The executive decision briefing and scenario modeling platform is engineered directly as a zero-dependency, fixed 16:9 presentation deck in [`index.html`](index.html) under the **DASH** framework (Decision-driven, Audience-aligned, Signal-focused, Hierarchical).
 
 ```text
 +-----------------------------------------------------------------------------------------+
@@ -247,14 +247,16 @@ medicaid-spend-optimization/
 │   │   ├── test_h1_pareto.py # Lorenz curve & Gini concentration modeling
 │   │   ├── test_h2_decomposition.py # Logarithmic price-volume growth decomposition
 │   │   └── test_h3_price_spread.py  # Multi-source price spread & MAC simulation
-│   └── dashboard/
-│       └── app.py            # DASH framework interactive executive Streamlit dashboard
 ├── reports/
 │   ├── coverage_summary.md   # Data profiling and suppression audit log
 │   ├── hypothesis_testing_summary.md # Formal statistical test outputs and p-values
 │   └── figures/              # Publication-ready figures with newsflash headlines
-├── tests/
-│   └── test_raw_schema.py    # Pytest harness verifying CMS Data Dictionary schema
+├── tests/                    # Automated unit, pipeline, and econometric hypothesis tests
+│   ├── test_clean_pipeline.py
+│   ├── test_eda_scan.py
+│   ├── test_hypothesis_validation.py
+│   └── test_raw_schema.py
+├── index.html                # Standalone 16:9 executive decision briefing deck
 ├── requirements.txt          # Pinned production environment dependencies
 └── README.md                 # Executive presentation and strategic action plan
 ```
@@ -278,8 +280,8 @@ pip install -r requirements.txt
 # 4. Run automated test suite
 pytest tests/
 
-# 5. Launch interactive executive dashboard
-streamlit run src/dashboard/app.py
+# 5. Launch interactive executive presentation deck
+open index.html
 ```
 
 
