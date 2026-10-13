@@ -171,6 +171,26 @@ def calculate_pareto_thresholds(
         "share_of_spend": top_1pct_share,
     }
 
+    # Top 10% (478 drugs) and Top 25 individual drugs metrics
+    top_10pct_count = 478
+    top_10pct_spend = float(df_cum.iloc[:top_10pct_count]["Tot_Spndng_2024"].sum())
+    top_10pct_share = top_10pct_spend / total_spend
+
+    top_25_count = 25
+    top_25_spend = float(df_cum.iloc[:top_25_count]["Tot_Spndng_2024"].sum())
+    top_25_share = top_25_spend / total_spend
+
+    results["top_10pct"] = {
+        "drug_count": top_10pct_count,
+        "cumulative_spend": top_10pct_spend,
+        "share_of_spend": top_10pct_share,
+    }
+    results["top_25"] = {
+        "drug_count": top_25_count,
+        "cumulative_spend": top_25_spend,
+        "share_of_spend": top_25_share,
+    }
+
     return results
 
 
@@ -808,11 +828,19 @@ def run_h1_capital_allocation_validation() -> Dict[str, Any]:
     print(f"  Generic Capital: ${gen_row['spend_2024']:,.2f} ({gen_row['capital_share']:.2f}% capital | {gen_row['claim_share']:.2f}% claims | ${gen_row['avg_cost_per_clm']:.2f}/claim)")
     print(f"  Cost Spread Wedge: {brand_row['avg_cost_per_clm'] / gen_row['avg_cost_per_clm']:.2f}x higher cost per claim for Brand drugs")
     print("-" * 80)
+    hosp_scale = 85_000_000.0 / results['threshold_results']['total_spend_2024']
+    top_5 = results["threshold_results"]["top_5pct"]
+    top_10 = results["threshold_results"]["top_10pct"]
+    top_25 = results["threshold_results"]["top_25"]
+
     print("CONCENTRATION THRESHOLDS:")
     print(f"  Exact Top Drugs Driving 50% Capital: {t['50pct']['drug_count']} drugs ({t['50pct']['drug_share_pct']:.2f}% of catalog) -> ${t['50pct']['cumulative_spend']:,.2f}")
     print(f"  Exact Top Drugs Driving 65% Capital: {t['65pct']['drug_count']} drugs ({t['65pct']['drug_share_pct']:.2f}% of catalog) -> ${t['65pct']['cumulative_spend']:,.2f}")
     print(f"  Exact Top Drugs Driving 80% Capital: {t['80pct']['drug_count']} drugs ({t['80pct']['drug_share_pct']:.2f}% of catalog) -> ${t['80pct']['cumulative_spend']:,.2f}")
-    print(f"  Top 5% Drugs Capital Share: {results['top_5pct_share']*100:.2f}% (Threshold: > 60%)")
+    print(f"  Top 5% Formulations ({top_5['drug_count']} drugs):  {top_5['share_of_spend']*100:.2f}% (${top_5['cumulative_spend']/1e9:.2f}B national / ${top_5['cumulative_spend']*hosp_scale/1e6:.2f}M hospital)")
+    print(f"  Top 10% Formulations ({top_10['drug_count']} drugs): {top_10['share_of_spend']*100:.2f}% (${top_10['cumulative_spend']/1e9:.2f}B national / ${top_10['cumulative_spend']*hosp_scale/1e6:.2f}M hospital)")
+    print(f"  Bottom 90% Generics (4,296 drugs):  {(1 - top_10['share_of_spend'])*100:.2f}% (${(results['threshold_results']['total_spend_2024'] - top_10['cumulative_spend'])/1e9:.2f}B national)")
+    print(f"  Top 25 Individual Drugs (0.5%):     {top_25['share_of_spend']*100:.2f}% (${top_25['cumulative_spend']/1e9:.2f}B national / ${top_25['cumulative_spend']*hosp_scale/1e6:.2f}M hospital)")
     print(f"Verdict: {results['verdict']}")
     print("-" * 80)
 
