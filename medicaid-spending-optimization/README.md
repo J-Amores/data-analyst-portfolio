@@ -199,7 +199,7 @@ Total Outpatient Pharmacy Spend -+
 
 ## 6. Interactive decision tools
 
-The findings connect to two lightweight tools: a 7-slide executive presentation (`index.html`) on GitHub Pages and a dedicated operational decision cockpit (`dashboard.html` / Streamlit):
+The findings connect to two lightweight tools: a 7-slide executive presentation (`index.html`) on GitHub Pages and a dedicated operational decision cockpit (`dashboard.html`):
 
 ```text
 +-----------------------------------------------------------------------------------------+
@@ -248,19 +248,22 @@ The findings connect to two lightweight tools: a 7-slide executive presentation 
 medicaid-spending-optimization/
 ├── data/
 │   ├── raw/                              # Source claims and benchmark reference files
-│   └── cleaned/                          # Partitioned Apache Parquet datasets
+│   ├── cleaned/                          # Partitioned Apache Parquet datasets
+│   └── exports/                          # Analytical extracts and reporting outputs
+├── reports/
+│   ├── figures/                          # Interactive HTML plots and publication PNG figures
+│   └── hypothesis_testing_summary.md     # Statistical validation methodology and results
 ├── src/
 │   ├── etl/
 │   │   └── clean_pipeline.py             # Data cleaning, text normalization, and Parquet staging
-│   ├── analytics/
-│   │   ├── test_h1_capital_allocation.py # Sankey spend flow and concentration modeling
-│   │   ├── test_h2_decomposition.py      # Logarithmic price-volume growth decomposition
-│   │   └── test_h3_price_spread.py       # Multi-source generic spread and purchasing simulation
-│   └── dashboard/
-│       └── app.py                        # Streamlit operational decision cockpit
+│   └── analytics/
+│       ├── test_h1_capital_allocation.py # Sankey spend flow and concentration modeling
+│       ├── test_h2_decomposition.py      # Logarithmic price-volume growth decomposition
+│       └── test_h3_price_spread.py       # Multi-source generic spread and purchasing simulation
 ├── index.html                            # 7-Slide Executive Briefing Deck (GitHub Pages)
 ├── dashboard.html                        # Standalone Operational Decision Cockpit
 ├── requirements.txt                      # Pinned production dependencies
+├── .gitignore                            # Repository ignore rules
 └── README.md                             # Executive briefing and technical documentation
 ```
 
@@ -286,6 +289,7 @@ python src/analytics/test_h1_capital_allocation.py
 python src/analytics/test_h2_decomposition.py
 python src/analytics/test_h3_price_spread.py
 
-# 5. Launch interactive hospital decision cockpit
-streamlit run src/dashboard/app.py
+# 5. Open interactive briefing deck or operational decision cockpit
+open index.html
+open dashboard.html
 ```

@@ -36,31 +36,37 @@ Phase 3 executes formal statistical hypothesis testing and econometric decomposi
 
 ---
 
-## 2. Hypothesis 1: Pareto Budget Concentration & Lorenz Analysis
+## 2. Hypothesis 1: Capital Allocation Asymmetry & Sankey Flow Analysis
 
 ### 2.1 Hypothesis Formulation
-* **Statement:** Over 65% of total CY2024 gross Medicaid drug spending is concentrated within the top 5% of distinct drug entities, primarily driven by specialty biologics and GLP-1 antidiabetics.
-* **Null Hypothesis ($H_0$):** Drug spending is uniformly distributed; the top 5% of distinct drug entities account for $\le 25\%$ of gross program reimbursement.
-* **Alternative Hypothesis ($H_1$):** Top 5% of drug entities account for $> 60\%$ of gross program reimbursement at the 95th percentile rank.
-* **Script Implementation:** `src/analytics/test_h1_pareto.py`
-* **Artifact Visuals:** `reports/figures/h1_lorenz_curve.png` and `reports/figures/h1_lorenz_curve.html`
+* **Statement:** Medicaid outpatient drug capital allocation is severely distorted and asymmetric; over 65% of total CY2024 gross spending ($111.3B) is allocated within just 3.46% of distinct drug entities (top 165 drugs) and 72.18% in the top 5%, dominated by specialty brand biologics and GLP-1 antidiabetics ($100.36B brand outlay / 90.19% capital share). Conversely, generic medications capture only 9.81% of capital ($10.92B) despite providing 67.00% of prescription volume (499.5M claims) at an 18.66x lower cost per claim ($21.86 vs. $407.87).
+* **Null Hypothesis ($H_0$):** Drug spending capital is uniformly distributed across drug entities and proportional to prescription volume; the top 5% of distinct drug entities account for $\le 25\%$ of gross program capital outlay, and capital share aligns with prescription claim volume.
+* **Alternative Hypothesis ($H_1$):** Top 5% of drug entities account for $> 60\%$ of gross program reimbursement at the 95th percentile rank ($p < 0.001$), with extreme capital-volume discordance.
+* **Script Implementation:** `src/analytics/test_h1_capital_allocation.py`
+* **Artifact Visuals:** `reports/figures/h1_capital_allocation_sankey.png` and `reports/figures/h1_capital_allocation_sankey.html`
 
 ### 2.2 Mathematical Methodology
 For $n = 4,774$ unique drug entities sorted in ascending order of CY2024 spend ($y_1 \le y_2 \le \dots \le y_n$):
 $$\text{Gini} = \frac{2 \sum_{i=1}^n i \cdot y_i - (n + 1)\sum_{i=1}^n y_i}{n \sum_{i=1}^n y_i}$$
-Cumulative spend distribution sorted in descending rank order:
+Cumulative capital distribution sorted in descending rank order:
 $$C_k = \frac{\sum_{i=1}^k y_{(i)}}{\sum_{i=1}^n y_i}, \quad k \in [1, n]$$
-Kolmogorov-Smirnov test comparing empirical spend cumulative distribution against the theoretical uniform distribution.
+Kolmogorov-Smirnov test comparing empirical spend cumulative distribution against theoretical uniform allocation, and Chi-Square goodness-of-fit test comparing observed capital allocation vs. expected volume-proportional allocation:
+$$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}, \quad p < 10^{-50}$$
 
 ### 2.3 Statistical Findings
 * **Total Program Entities:** 4,774 unique drugs.
-* **Total Gross CY2024 Spend:** $111,276,419,160.83 ($111.28B).
+* **Total Gross CY2024 Capital:** $111,276,419,160.83 ($111.28B).
+* **Brand vs Generic Capital Split:**
+  - **Brand Capital:** **$100,359,797,409.43 (90.19%)** across 246,060,439 claims (33.00%), avg spend/claim = **$407.87**.
+  - **Generic Capital:** **$10,916,621,751.40 (9.81%)** across 499,495,276 claims (67.00%), avg spend/claim = **$21.86**.
+  - **Capital Intensity Spread:** Brand drugs carry an **18.66x unit cost premium** over generics.
 * **Gini Inequality Coefficient:** **0.9028** (Theoretical range: 0.0 = perfect equality, 1.0 = absolute monopoly).
 * **Kolmogorov-Smirnov Test:** $D = 0.7609$, $p < 1.0 \times 10^{-99}$.
+* **Chi-Square Capital-Volume Inversion:** $\chi^2 = 1.646 \times 10^{11}$, $p < 1.0 \times 10^{-99}$.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                      EXACT PARETO THRESHOLD CROSSINGS (CY2024)                         │
+│                      EXACT CAPITAL CONCENTRATION CROSSINGS (CY2024)                    │
 ├───────────────┬────────────┬────────────────┬──────────────────────┬───────────────────┤
 │ Target Share  │ Drug Count │ Catalog %      │ Cumulative Gross $   │ Cutoff Medication │
 ├───────────────┼────────────┼────────────────┼──────────────────────┼───────────────────┤
@@ -292,16 +298,16 @@ Based on the empirical findings of Phase 3, the State Medicaid Pharmacy Director
 
 | Artifact Description | File Path | Format | Status |
 | :--- | :--- | :--- | :--- |
-| **H1 Python Engine** | `src/analytics/test_h1_pareto.py` | Python 3.14 | Validated & Operational |
-| **H1 Lorenz Visual (PNG)** | `reports/figures/h1_lorenz_curve.png` | Publication PNG | Rendered (1300x820) |
-| **H1 Lorenz Visual (HTML)** | `reports/figures/h1_lorenz_curve.html` | Interactive Plotly | Rendered & Standalone |
+| **H1 Python Engine** | `src/analytics/test_h1_capital_allocation.py` | Python 3.14 | Validated & Operational |
+| **H1 Sankey Visual (PNG)** | `reports/figures/h1_capital_allocation_sankey.png` | Publication PNG | Rendered (1400x900) |
+| **H1 Sankey Visual (HTML)** | `reports/figures/h1_capital_allocation_sankey.html` | Interactive Plotly | Rendered & Standalone |
 | **H2 Python Engine** | `src/analytics/test_h2_decomposition.py` | Python 3.14 | Validated & Operational |
 | **H2 Decomposition Visual (PNG)** | `reports/figures/h2_price_volume_decomposition.png` | Publication PNG | Rendered (1300x820) |
 | **H2 Decomposition Visual (HTML)** | `reports/figures/h2_price_volume_decomposition.html` | Interactive Plotly | Rendered & Standalone |
 | **H3 Python Engine** | `src/analytics/test_h3_price_spread.py` | Python 3.14 | Validated & Operational |
 | **H3 MAC Spread Visual (PNG)** | `reports/figures/h3_mac_savings_spread.png` | Publication PNG | Rendered (1300x820) |
 | **H3 MAC Spread Visual (HTML)** | `reports/figures/h3_mac_savings_spread.html` | Interactive Plotly | Rendered & Standalone |
-| **Unit Test Suite** | `tests/test_hypothesis_validation.py` | Pytest (17 Tests) | 100% Pass Rate |
+| **Unit Test Suite** | `tests/test_hypothesis_validation.py` | Pytest (20 Tests) | 100% Pass Rate |
 | **Executive Synthesis Report** | `reports/hypothesis_testing_summary.md` | Markdown | Complete & Committed |
 
 *Report generated and validated under Python 3.14 (.venv) | Medicaid Outpatient Drug Spend Optimization Project*
