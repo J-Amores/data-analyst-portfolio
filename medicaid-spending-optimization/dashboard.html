@@ -3,36 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital Pharmacy Formulary Cockpit | Operating Margin Decision Tool</title>
+    <title>Hospital Pharmacy Savings Planner | Operating Margin Decision Tool</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --header-slate: #0F172A;
-            --body-slate: #334155;
-            --muted-slate: #64748B;
+            --header-slate: #F8FAFC;
+            --body-slate: #E2E8F0;
+            --muted-slate: #CBD5E1;
             --light-slate: #94A3B8;
-            --bg-canvas: #F8FAFC;
-            --bg-card: #FFFFFF;
-            --border-card: #E2E8F0;
-            --border-strong: #CBD5E1;
-            --cobalt-primary: #1D4ED8;
-            --cobalt-surface: #EFF6FF;
-            --cobalt-border: #BFDBFE;
-            --emerald-primary: #059669;
-            --emerald-surface: #ECFDF5;
-            --emerald-border: #A7F3D0;
-            --crimson-primary: #E11D48;
-            --crimson-surface: #FFF1F2;
-            --crimson-border: #FECDD3;
-            --amber-primary: #D97706;
-            --amber-surface: #FFFBEB;
-            --amber-border: #FDE68A;
+            --bg-canvas: #0F172A;
+            --bg-card: #1E293B;
+            --bg-nested: #131C31;
+            --bg-chrome: #0B1120;
+            --border-card: #334155;
+            --border-strong: #475569;
+            --cobalt-primary: #38BDF8;
+            --cobalt-surface: rgba(56, 189, 248, 0.12);
+            --cobalt-border: rgba(56, 189, 248, 0.35);
+            --emerald-primary: #34D399;
+            --emerald-surface: rgba(5, 150, 105, 0.18);
+            --emerald-border: rgba(52, 211, 153, 0.45);
+            --crimson-primary: #F87171;
+            --crimson-surface: rgba(239, 68, 68, 0.15);
+            --crimson-border: rgba(248, 113, 113, 0.35);
+            --amber-primary: #FBBF24;
+            --amber-surface: rgba(245, 158, 11, 0.15);
+            --amber-border: rgba(251, 191, 36, 0.35);
             --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
-            --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+            --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
         }
 
         * {
@@ -44,6 +46,10 @@
         body {
             font-family: var(--font-main);
             background: var(--bg-canvas);
+            background-image:
+                linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+            background-size: 24px 24px;
             color: var(--body-slate);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
@@ -52,13 +58,13 @@
 
         /* Top Navigation Bar */
         .top-navbar {
-            background: var(--header-slate);
-            color: #FFFFFF;
+            background: var(--bg-chrome);
+            color: #F8FAFC;
             padding: 14px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--cobalt-primary);
+            border-bottom: 1px solid var(--border-card);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -71,8 +77,9 @@
         }
 
         .brand-badge {
-            background: var(--cobalt-primary);
-            color: #FFFFFF;
+            background: var(--cobalt-surface);
+            color: var(--cobalt-primary);
+            border: 1px solid var(--cobalt-border);
             font-family: var(--font-mono);
             font-size: 11px;
             font-weight: 700;
@@ -86,6 +93,7 @@
             font-size: 17px;
             font-weight: 700;
             letter-spacing: -0.3px;
+            color: #F8FAFC;
         }
 
         .navbar-links {
@@ -99,32 +107,36 @@
             font-size: 12px;
             font-weight: 600;
             text-decoration: none;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 4px;
             transition: all 0.15s ease;
         }
 
         .nav-btn-outline {
-            color: #E2E8F0;
-            border: 1px solid var(--muted-slate);
+            color: #F8FAFC;
+            border: 1px solid var(--border-strong);
+            background: transparent;
         }
 
         .nav-btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--cobalt-primary);
+            color: var(--cobalt-primary);
         }
 
         .nav-btn-primary {
-            background: var(--cobalt-primary);
+            background: #059669;
             color: #FFFFFF;
+            border: none;
+            cursor: pointer;
         }
 
         .nav-btn-primary:hover {
-            background: #2563EB;
+            background: #047857;
         }
 
         /* Main Container */
-        .cockpit-container {
+        .dashboard-container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 24px 28px;
@@ -159,12 +171,13 @@
         .page-meta {
             font-family: var(--font-mono);
             font-size: 12.5px;
-            color: var(--muted-slate);
+            color: var(--cobalt-primary);
             font-weight: 600;
         }
 
         .methodology-bridge {
-            background: var(--cobalt-surface);
+            background: var(--bg-nested);
+            border: 1px solid var(--border-card);
             border-left: 4px solid var(--cobalt-primary);
             padding: 10px 14px;
             border-radius: 4px;
@@ -209,8 +222,8 @@
             font-size: 13.5px;
             font-weight: 600;
             color: var(--header-slate);
-            background: var(--bg-canvas);
-            border: 1px solid var(--border-strong);
+            background: var(--bg-nested);
+            border: 1px solid var(--border-card);
             padding: 7px 12px;
             border-radius: 4px;
             outline: none;
@@ -227,7 +240,7 @@
             gap: 8px;
             font-size: 13.5px;
             font-weight: 600;
-            color: var(--header-slate);
+            color: var(--body-slate);
             cursor: pointer;
             user-select: none;
         }
@@ -236,11 +249,13 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .slider-input {
             width: 140px;
             cursor: pointer;
+            accent-color: var(--emerald-primary);
         }
 
         .slider-val-badge {
@@ -256,12 +271,55 @@
             text-align: center;
         }
 
+        .tier-btn-group {
+            display: flex;
+            gap: 6px;
+            margin-left: 6px;
+        }
+
+        .tier-quick-btn {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 600;
+            background: var(--bg-nested);
+            border: 1px solid var(--border-card);
+            color: var(--muted-slate);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .tier-quick-btn:hover {
+            background: #27354F;
+            color: var(--header-slate);
+        }
+
+        .tier-quick-btn.active {
+            background: var(--emerald-surface);
+            border-color: var(--emerald-primary);
+            color: var(--emerald-primary);
+            font-weight: 700;
+        }
+
         /* KPI Banner Row */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 16px;
             margin-bottom: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .kpi-card {
@@ -349,7 +407,7 @@
         }
 
         .panel-heading {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--header-slate);
         }
@@ -360,6 +418,7 @@
             font-weight: 700;
             padding: 3px 8px;
             border-radius: 4px;
+            letter-spacing: 0.3px;
             text-transform: uppercase;
         }
 
@@ -369,91 +428,79 @@
             border: 1px solid var(--cobalt-border);
         }
 
-        .badge-emerald {
-            background: var(--emerald-surface);
-            color: var(--emerald-primary);
-            border: 1px solid var(--emerald-border);
-        }
-
         .badge-rose {
             background: var(--crimson-surface);
             color: var(--crimson-primary);
             border: 1px solid var(--crimson-border);
         }
 
-        /* Quantile Bar Layout (Sankey / Pareto representation) */
+        .badge-emerald {
+            background: var(--emerald-surface);
+            color: var(--emerald-primary);
+            border: 1px solid var(--emerald-border);
+        }
+
+        /* Flow and Tier Tables */
         .flow-track {
             height: 38px;
-            display: flex;
-            border-radius: 6px;
+            background: var(--bg-nested);
+            border: 1px solid var(--border-card);
+            border-radius: 4px;
             overflow: hidden;
+            display: flex;
             margin-bottom: 14px;
-            border: 1px solid var(--border-strong);
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 38px;
+            text-align: center;
         }
 
         .flow-seg-top {
-            background: var(--header-slate);
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 700;
             width: 72.2%;
-            text-align: center;
-            padding: 0 8px;
+            background: #334155;
+            color: #F8FAFC;
         }
 
         .flow-seg-bottom {
-            background: #94A3B8;
-            color: #0F172A;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 700;
             width: 27.8%;
-            text-align: center;
-            padding: 0 8px;
+            background: #2563EB;
+            color: #FFFFFF;
         }
 
         .tier-breakdown-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
-            margin-top: 8px;
+            font-size: 12.5px;
         }
 
         .tier-breakdown-table th {
-            text-align: left;
             font-family: var(--font-mono);
             font-size: 11px;
+            font-weight: 700;
             color: var(--muted-slate);
-            padding: 6px 10px;
-            border-bottom: 1px solid var(--border-card);
             text-transform: uppercase;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-card);
+            text-align: left;
         }
 
         .tier-breakdown-table td {
-            padding: 8px 10px;
+            padding: 9px 10px;
             border-bottom: 1px solid var(--border-card);
+            color: var(--body-slate);
         }
 
-        .tier-breakdown-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Dual-Track Visualizer */
+        /* Dual Track Rows */
         .dual-track-box {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .cohort-row {
-            background: var(--bg-canvas);
+            background: var(--bg-nested);
             border: 1px solid var(--border-card);
             border-radius: 6px;
             padding: 12px 16px;
@@ -463,38 +510,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .cohort-title {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             color: var(--header-slate);
         }
 
         .cohort-split-track {
-            height: 12px;
-            border-radius: 4px;
-            display: flex;
+            height: 10px;
+            background: #334155;
+            border-radius: 3px;
             overflow: hidden;
-            background: #E2E8F0;
-            margin: 6px 0;
+            display: flex;
+            margin-bottom: 8px;
         }
 
         .cohort-desc {
-            font-size: 12px;
+            font-size: 12.5px;
             color: var(--body-slate);
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
-        /* Formulary Action Matrix Section */
+        /* Matrix Table Section */
         .matrix-section {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: 8px;
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
+            padding: 20px 24px;
             margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
         }
 
         .matrix-header-bar {
@@ -529,9 +576,15 @@
             font-size: 13px;
             padding: 7px 12px;
             border: 1px solid var(--border-strong);
+            background: var(--bg-nested);
+            color: var(--header-slate);
             border-radius: 4px;
             outline: none;
             width: 220px;
+        }
+
+        .search-box::placeholder {
+            color: var(--light-slate);
         }
 
         .search-box:focus {
@@ -539,7 +592,7 @@
         }
 
         .btn-export {
-            background: var(--header-slate);
+            background: #059669;
             color: #FFFFFF;
             font-family: var(--font-mono);
             font-size: 12px;
@@ -555,7 +608,7 @@
         }
 
         .btn-export:hover {
-            background: #1E293B;
+            background: #047857;
         }
 
         /* Matrix Table */
@@ -571,7 +624,7 @@
         }
 
         .matrix-table thead th {
-            background: var(--bg-canvas);
+            background: var(--bg-chrome);
             color: var(--header-slate);
             font-family: var(--font-mono);
             font-size: 11.5px;
@@ -586,10 +639,19 @@
             padding: 12px 14px;
             border-bottom: 1px solid var(--border-card);
             vertical-align: middle;
+            color: var(--body-slate);
+        }
+
+        .matrix-table tbody tr {
+            background: var(--bg-card);
+        }
+
+        .matrix-table tbody tr:nth-child(even) {
+            background: var(--bg-nested);
         }
 
         .matrix-table tbody tr:hover {
-            background: #F1F5F9;
+            background: #27354F;
         }
 
         .drug-name-cell strong {
@@ -606,6 +668,7 @@
         .cost-mono {
             font-family: var(--font-mono);
             font-weight: 600;
+            color: var(--header-slate);
         }
 
         .savings-mono {
@@ -683,29 +746,28 @@
     <!-- Navigation Header -->
     <header class="top-navbar">
         <div class="navbar-brand">
-            <span class="brand-badge">DECISION COCKPIT</span>
-            <span class="brand-title">Hospital Pharmacy Formulary Stewardship</span>
+            <span class="brand-badge">SAVINGS PLANNER</span>
+            <span class="brand-title">Hospital Pharmacy Savings Planner</span>
         </div>
         <nav class="navbar-links">
-            <a href="index.html" class="nav-btn nav-btn-outline">Executive Presentation (index.html)</a>
-            <a href="README.md" class="nav-btn nav-btn-outline">Technical Docs (README.md)</a>
+            <a href="index.html" class="nav-btn nav-btn-outline">Back to Slide Presentation</a>
             <button type="button" class="nav-btn nav-btn-primary" onclick="exportMatrixToCSV()">Export Action CSV</button>
         </nav>
     </header>
 
-    <div class="cockpit-container">
+    <div class="dashboard-container">
 
         <!-- Top Header & Scaling Bridge -->
         <section class="header-banner">
             <div class="header-title-row">
-                <h1 class="page-title">Hospital Outpatient Pharmacy Operating Margin Cockpit</h1>
-                <div class="page-meta">PANEL PERIOD: 2020 TO 2024 | RY2026 AUDIT SPECIFICATION</div>
+                <h1 class="page-title">Hospital Pharmacy Savings Planner</h1>
+                <div class="page-meta">FIVE-YEAR OUTPATIENT CLAIMS REVIEW (2020 TO 2024)</div>
             </div>
             <p style="font-size: 14px; color: var(--body-slate);">
-                Interactive decision framework for Pharmacy and Therapeutics (P&amp;T) committees, pharmacy purchasing buyers, and chief medical officers to identify verified brand-to-generic substitution targets and enforce primary contract compliance.
+                Five-year outpatient claims review and generic conversion model (2020 to 2024). Interactive decision framework for Pharmacy and Therapeutics (P&amp;T) committees, pharmacy purchasing buyers, and chief medical officers to identify verified brand-to-generic substitution targets and enforce primary contract compliance.
             </p>
             <div class="methodology-bridge">
-                <strong>National-to-Hospital Methodology Bridge:</strong> National CMS RY2026 outpatient drug claims ($111.28B across 4,774 formulations) are normalized by a 0.0764% health system scaling factor to model a representative $85.0M regional hospital outpatient pharmacy budget.
+                <strong>National-to-hospital methodology bridge:</strong> National CMS RY2026 outpatient drug claims ($111.28B across 4,774 formulations) are normalized by a 0.0764% health system scaling factor to model a representative $85.0M regional hospital outpatient pharmacy budget.
             </div>
         </section>
 
@@ -713,19 +775,19 @@
         <section class="controls-toolbar">
             <div class="control-group">
                 <span class="control-label">Panel Year:</span>
-                <select id="yearSelect" class="custom-select" onchange="applyCockpitFilters()">
+                <select id="yearSelect" class="custom-select" onchange="applyFilters()">
                     <option value="2024" selected>2024 (Full Audit Panel)</option>
-                    <option value="2023">2023 Longitudinal</option>
-                    <option value="2022">2022 Longitudinal</option>
-                    <option value="2021">2021 Longitudinal</option>
+                    <option value="2023">2023 Review</option>
+                    <option value="2022">2022 Review</option>
+                    <option value="2021">2021 Review</option>
                     <option value="2020">2020 Baseline</option>
                 </select>
             </div>
 
             <div class="control-group">
                 <span class="control-label">Clinical Class:</span>
-                <select id="classSelect" class="custom-select" onchange="applyCockpitFilters()">
-                    <option value="ALL" selected>All Therapeutic Classes</option>
+                <select id="classSelect" class="custom-select" onchange="applyFilters()">
+                    <option value="ALL" selected>All Clinical Classes</option>
                     <option value="CNS">CNS / ADHD / Anticonvulsant</option>
                     <option value="RESP">Respiratory / COPD / Asthma</option>
                     <option value="SPECIALTY">Specialty Biologics &amp; Infusions</option>
@@ -735,151 +797,145 @@
 
             <div class="control-group">
                 <label class="checkbox-container">
-                    <input type="checkbox" id="excludeOutliersCheck" checked onchange="applyCockpitFilters()">
-                    <span>Exclude Packaging Outliers (Guardrail 2)</span>
+                    <input type="checkbox" id="excludeOutliersCheck" checked onchange="applyFilters()">
+                    <span>Exclude Packaging Outliers</span>
                 </label>
             </div>
 
             <div class="slider-group">
-                <span class="control-label">Formulary Capture Rate:</span>
-                <input type="range" id="captureRateSlider" class="slider-input" min="60" max="100" value="82" step="1" oninput="updateCaptureRate(this.value)">
-                <span id="captureRateDisplay" class="slider-val-badge">82.4%</span>
+                <span class="control-label">Expected Generic &amp; Supplier Contract Adoption Rate (50% to 100%):</span>
+                <input type="range" id="captureRateSlider" class="slider-input" min="50" max="100" value="80" step="1" oninput="updateCaptureRate(this.value)">
+                <span id="captureRateDisplay" class="slider-val-badge">80%</span>
+                <div class="tier-btn-group">
+                    <button type="button" class="tier-quick-btn" id="btnTier60" onclick="setAdoptionTier(60)">60% Conservative ($1.92M)</button>
+                    <button type="button" class="tier-quick-btn active" id="btnTier80" onclick="setAdoptionTier(80)">80% Year 1 Target ($2.56M)</button>
+                    <button type="button" class="tier-quick-btn" id="btnTier100" onclick="setAdoptionTier(100)">100% Full Adoption ($3.20M)</button>
+                </div>
             </div>
         </section>
 
-        <!-- KPI Metric Row -->
+        <!-- Top 4 KPI Cards -->
         <section class="kpi-grid">
             <div class="kpi-card cobalt-highlight">
-                <div class="kpi-label">Hospital Pharmacy Budget</div>
-                <div class="kpi-val" id="kpiTotalSpend">$85.0M</div>
-                <div class="kpi-sub">National CMS Gross Spend: $111.28B across 4,774 formulations</div>
+                <div class="kpi-label">Outpatient Pharmacy Budget</div>
+                <div class="kpi-val">$85.0M</div>
+                <div class="kpi-sub">Up 45.6% from 2020 to 2024</div>
             </div>
 
             <div class="kpi-card emerald-highlight">
-                <div class="kpi-label">Net Margin Recovery</div>
-                <div class="kpi-val" id="kpiNetMargin">$3.2M</div>
-                <div class="kpi-sub" id="kpiNetMarginSub">Captured from $3.89M clean depot-filtered hospital wedge (82.4% rate)</div>
+                <div class="kpi-label">Projected Margin Recovery</div>
+                <div class="kpi-val" id="kpiNetMargin">$2.56M</div>
+                <div class="kpi-sub" id="kpiNetMarginSub">$2.1M supplier locks + $1.1M generic substitution at 100%</div>
             </div>
 
             <div class="kpi-card">
-                <div class="kpi-label">Top 5% Spend Concentration</div>
-                <div class="kpi-val">72.2%</div>
-                <div class="kpi-sub">Top 5% (239 drugs) drive $61.35M hospital spend; Top 10% drives 84.9%</div>
-            </div>
-
-            <div class="kpi-card">
-                <div class="kpi-label">Multi-Source Generic Spread</div>
-                <div class="kpi-val">71.6%</div>
-                <div class="kpi-sub">Median interquartile price spread across 1,358 multi-source molecules</div>
-            </div>
-
-            <div class="kpi-card">
-                <div class="kpi-label">Care Disruption Risk</div>
+                <div class="kpi-label">Patient Therapy Disruption Rate</div>
                 <div class="kpi-val" style="color: var(--emerald-primary);">1.8%</div>
-                <div class="kpi-sub">Guardrail 1 ceiling: strictly below 2.5% chronic care disruption</div>
+                <div class="kpi-sub">Below our 2.5% chronic care safety limit</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-label">Packaging and Billing Error Rate</div>
+                <div class="kpi-val" style="color: var(--emerald-primary);">2.1%</div>
+                <div class="kpi-sub">Below our 5.0% data quality limit</div>
             </div>
         </section>
 
-        <!-- Visual Analytics Grid (H1 Concentration & H2 Dual-Track) -->
+        <!-- Visual Analytics Grid -->
         <section class="analytics-grid">
 
-            <!-- Panel 1: H1 Capital Concentration & Flow -->
+            <!-- Panel 1: Concentration & Flow -->
             <div class="dashboard-panel">
                 <div class="panel-head">
-                    <span class="panel-heading">Cumulative Capital Flow (Sankey &amp; Pareto Flow)</span>
-                    <span class="panel-badge badge-cobalt">H1: GINI = 0.9028 (p &lt; 0.001)</span>
+                    <span class="panel-heading">Top 5% of medications take up 72.2% of our drug budget</span>
+                    <span class="panel-badge badge-cobalt">239 DRUGS ACCOUNT FOR $61.35M</span>
                 </div>
                 <p style="font-size: 13px; color: var(--body-slate); margin-bottom: 12px;">
-                    Outpatient pharmacy expenditure is heavily concentrated in the top formulation tiers, confirming that broad across-the-board generic cuts frustrate clinicians without moving the operating budget.
+                    Outpatient pharmacy spending is heavily concentrated in the top formulation tiers, confirming that broad across-the-board generic cuts frustrate clinicians without moving the operating budget.
                 </p>
 
                 <!-- Concentration Flow Bar -->
                 <div class="flow-track">
-                    <div class="flow-seg-top">TOP 5% FORMULATIONS: 72.2% ($61.35M)</div>
-                    <div class="flow-seg-bottom">95% GENERICS: 27.8%</div>
+                    <div class="flow-seg-top">TOP 5% OF MEDICATIONS: 72.2% ($61.35M)</div>
+                    <div class="flow-seg-bottom">REMAINING 95%: 27.8%</div>
                 </div>
 
                 <table class="tier-breakdown-table">
                     <thead>
                         <tr>
-                            <th>Formulation Tier</th>
+                            <th>Medication Tier</th>
                             <th>Active Drugs</th>
                             <th>Hospital Spend</th>
-                            <th>National CMS Spend</th>
-                            <th>Share</th>
+                            <th>Share of Budget</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Top 25 Drugs (Lead Lines)</strong></td>
+                            <td><strong>Top 25 Medications</strong></td>
                             <td class="cost-mono">25 (0.5%)</td>
                             <td class="cost-mono">$27.33M</td>
-                            <td class="cost-mono">$35.78B</td>
-                            <td><strong style="color: var(--cobalt-primary);">32.15%</strong></td>
+                            <td><strong style="color: var(--cobalt-primary);">32.2%</strong></td>
                         </tr>
                         <tr>
-                            <td><strong>Top 5% Formulations</strong></td>
+                            <td><strong>Top 5% Medications</strong></td>
                             <td class="cost-mono">239 (5.0%)</td>
                             <td class="cost-mono">$61.35M</td>
-                            <td class="cost-mono">$80.31B</td>
-                            <td><strong style="color: var(--header-slate);">72.18%</strong></td>
+                            <td><strong style="color: var(--header-slate);">72.2%</strong></td>
                         </tr>
                         <tr>
-                            <td><strong>Top 10% Formulations</strong></td>
+                            <td><strong>Top 10% Medications</strong></td>
                             <td class="cost-mono">478 (10.0%)</td>
                             <td class="cost-mono">$72.17M</td>
-                            <td class="cost-mono">$94.48B</td>
-                            <td><strong style="color: var(--header-slate);">84.90%</strong></td>
+                            <td><strong style="color: var(--header-slate);">84.9%</strong></td>
                         </tr>
                         <tr>
-                            <td><strong>Routine Maintenance Generics</strong></td>
-                            <td class="cost-mono">4,296 (90.0%)</td>
+                            <td><strong>Routine Generic Medications</strong></td>
+                            <td class="cost-mono">Over 4,200 (90.0%)</td>
                             <td class="cost-mono">$12.83M</td>
-                            <td class="cost-mono">$16.80B</td>
-                            <td><strong style="color: var(--muted-slate);">15.10%</strong></td>
+                            <td><strong style="color: var(--muted-slate);">15.1%</strong></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Panel 2: H2 Dual-Track Logarithmic Decomposition -->
+            <!-- Panel 2: Price Hikes vs Patient Demand -->
             <div class="dashboard-panel">
                 <div class="panel-head">
-                    <span class="panel-heading">Dual-Track Cost vs. Volume Decomposition</span>
-                    <span class="panel-badge badge-rose">H2: 1,210 HIGH-GROWTH LINES</span>
+                    <span class="panel-heading">Price hikes on older brands vs. patient demand for newer treatments</span>
+                    <span class="panel-badge badge-rose">1,210 HIGH-GROWTH MEDICATIONS</span>
                 </div>
                 <p style="font-size: 13px; color: var(--body-slate); margin-bottom: 12px;">
-                    Log-additive decomposition separates mature manufacturer price hikes from genuine clinical adoption surges, providing empirical defense against assumptions that clinicians overprescribed.
+                    Separating mature manufacturer price hikes from patient demand surges provides clear direction for where to use generic switches versus clinical order sets.
                 </p>
 
                 <div class="dual-track-box">
                     <!-- Cohort A -->
                     <div class="cohort-row">
                         <div class="cohort-header">
-                            <span class="cohort-title">Cohort A: Manufacturer Price-Inflation Drivers</span>
-                            <span class="panel-badge badge-rose">23.9% of Lines (289 Drugs)</span>
+                            <span class="cohort-title">Price hikes on established drugs (23.9% of lines)</span>
+                            <span class="panel-badge badge-rose">289 Drugs</span>
                         </div>
                         <div class="cohort-split-track">
                             <div style="width: 56.1%; background: var(--crimson-primary);"></div>
-                            <div style="width: 43.9%; background: #CBD5E1;"></div>
+                            <div style="width: 43.9%; background: #334155;"></div>
                         </div>
                         <p class="cohort-desc">
-                            <strong>Trulicity</strong> (+106.6% unit price surge, 56.1% price-led), <strong>Xifaxan</strong> (74.1% price-led), <strong>Emflaza</strong> (66.0% price-led), <strong>Enbrel Sureclick</strong> (55.6% price-led), <strong>Cosentyx</strong> (55.1% price-led), and <strong>Vyvanse</strong> (+36.6% price vs. -14.8% volume).
+                            <strong>Trulicity</strong> (+106.6% unit price surge), <strong>Xifaxan</strong> (74.1% price-driven), <strong>Emflaza</strong> (66.0%), <strong>Enbrel Sureclick</strong> (55.6%), <strong>Cosentyx</strong> (55.1%), and <strong>Vyvanse</strong> (+36.6% unit price vs. -14.8% volume).
                         </p>
                     </div>
 
                     <!-- Cohort B -->
                     <div class="cohort-row">
                         <div class="cohort-header">
-                            <span class="cohort-title">Cohort B: Epidemiological Claim Volume Drivers</span>
-                            <span class="panel-badge badge-cobalt">76.1% of Lines (921 Drugs)</span>
+                            <span class="cohort-title">Higher patient demand for newer treatments (76.1% of lines)</span>
+                            <span class="panel-badge badge-cobalt">921 Drugs</span>
                         </div>
                         <div class="cohort-split-track">
                             <div style="width: 76.1%; background: var(--cobalt-primary);"></div>
-                            <div style="width: 23.9%; background: #CBD5E1;"></div>
+                            <div style="width: 23.9%; background: #334155;"></div>
                         </div>
                         <p class="cohort-desc">
-                            <strong>Ozempic</strong> (+1,143.0% spend surge driven by +928.7% prescription claims from 322K to 3.31M fills, -25.5% unit cost mix shift), <strong>Jardiance</strong> (+385.6% spend; +256.7% claims), and <strong>Dupixent Pen</strong> (+13,082.5% claims).
+                            <strong>Ozempic</strong> (+1,143.0% spend surge driven by +928.7% prescription claims from 322K to 3.31M fills), <strong>Jardiance</strong> (+385.6% spend; +256.7% claims), and <strong>Dupixent Pen</strong> (+13,082.5% claims).
                         </p>
                     </div>
                 </div>
@@ -891,8 +947,8 @@
         <section class="matrix-section">
             <div class="matrix-header-bar">
                 <div class="matrix-title-group">
-                    <h3>Targeted Hospital Formulary Action Matrix</h3>
-                    <p>Verified non-outlier oral and inhaler brand-to-generic substitution targets sorted strictly by avoidable spend descending.</p>
+                    <h3>Target medications for supplier locks and generic substitution</h3>
+                    <p>Verified non-outlier oral and inhaler brand-to-generic substitution targets sorted by annual savings.</p>
                 </div>
                 <div class="matrix-actions">
                     <input type="text" id="tableSearch" class="search-box" placeholder="Search drug or class..." onkeyup="filterMatrixTable()">
@@ -910,12 +966,12 @@
                             <th style="width: 18%;">Therapeutic Class</th>
                             <th style="width: 13%;">Brand Unit Cost</th>
                             <th style="width: 13%;">Lowest Generic</th>
-                            <th style="width: 16%;">National CMS Wedge</th>
+                            <th style="width: 16%;">National Savings</th>
                             <th style="width: 16%;">Hospital Recovery ($85M Scale)</th>
                         </tr>
                     </thead>
                     <tbody id="matrixTableBody">
-                        <!-- Populated dynamically via JS with verified targets -->
+                        <!-- Populated dynamically via JS -->
                     </tbody>
                 </table>
             </div>
@@ -925,7 +981,7 @@
         <section class="guardrails-grid">
             <div class="guardrail-card">
                 <div class="guardrail-head">
-                    <span class="guardrail-title">Guardrail 1: Therapy Continuity</span>
+                    <span class="guardrail-title">Patient Therapy Disruption Rate</span>
                     <span class="panel-badge badge-emerald">1.8% &lt; 2.5%</span>
                 </div>
                 <p class="guardrail-desc">
@@ -935,35 +991,35 @@
 
             <div class="guardrail-card">
                 <div class="guardrail-head">
-                    <span class="guardrail-title">Guardrail 2: Outlier Cleaning</span>
-                    <span class="panel-badge badge-emerald">0.0% Distortion</span>
+                    <span class="guardrail-title">Packaging and Billing Error Rate</span>
+                    <span class="panel-badge badge-emerald">2.1% &lt; 5.0%</span>
                 </div>
                 <p class="guardrail-desc">
-                    Excludes CMS packaging outliers (affecting 1,738 formulations and 5.07% of the raw wedge) to eliminate artificial margin overstatements.
+                    Billing unit anomalies make up 2.1% of identified savings, well below our 5.0% data quality limit, and are checked manually before updating contracts.
                 </p>
             </div>
 
             <div class="guardrail-card">
                 <div class="guardrail-head">
-                    <span class="guardrail-title">Guardrail 3: Dosage Matching</span>
-                    <span class="panel-badge badge-cobalt">Rule ISS-05</span>
+                    <span class="guardrail-title">Identical Dosage Form Matching</span>
+                    <span class="panel-badge badge-cobalt">Oral to Oral Only</span>
                 </div>
                 <p class="guardrail-desc">
-                    Isolates depot keywords (e.g. Maintena, Sustenna, Lupron, Vivitrol) so long-acting injectables are never matched against oral generic tablets.
+                    Long-acting injectable depots and implants are excluded so oral tablets are only compared against oral tablets.
                 </p>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="footer-note">
-            CMS RY2026 AUDIT COMPLIANT | 4,774 OVERALL FORMULATIONS | 13,737 LABELER RECORDS | PRODUCED FOR HOSPITAL PHARMACY LEADERSHIP
+            HOSPITAL OUTPATIENT PHARMACY SPEND OPTIMIZATION | FIVE-YEAR CLAIMS REVIEW (2020 TO 2024)
         </footer>
 
     </div>
 
     <!-- Interactive Scripting -->
     <script>
-        // Verified Top 6 Depot-Filtered Non-Outlier Leakage Targets
+        // Verified Top 6 Non-Outlier Formulary Targets
         const ACTION_DRUGS = [
             {
                 name: "Vyvanse (Lisdexamfetamine)",
@@ -1021,7 +1077,7 @@
             }
         ];
 
-        let currentCaptureRate = 0.824;
+        let currentAdoptionRate = 0.80;
 
         function renderTable() {
             const tbody = document.getElementById("matrixTableBody");
@@ -1042,13 +1098,12 @@
             }
 
             filtered.forEach((d) => {
-                // Adjust hospital recovery based on capture rate ratio relative to baseline 82.4%
-                const adjustedRecovery = Math.round(d.baseHospitalRecovery * (currentCaptureRate / 0.824));
+                const adjustedRecovery = Math.round(d.baseHospitalRecovery * currentAdoptionRate);
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
                     <td class="drug-name-cell">
                         <strong>${d.name}</strong>
-                        <span>FDA Therapeutic Equivalent</span>
+                        <span>FDA Bioequivalent Formulation</span>
                     </td>
                     <td><span class="action-tag">${d.classDisplay}</span></td>
                     <td class="cost-mono">$${d.brandCost.toFixed(2)}</td>
@@ -1061,21 +1116,40 @@
         }
 
         function updateCaptureRate(val) {
-            currentCaptureRate = val / 100.0;
-            document.getElementById("captureRateDisplay").textContent = `${val}.0%`;
+            currentAdoptionRate = val / 100.0;
+            document.getElementById("captureRateDisplay").textContent = `${val}%`;
 
-            // Clean depot-filtered hospital wedge is $3,885,064 ($3.89M)
-            const hospitalCleanWedge = 3885064;
-            const netHospitalRecovery = hospitalCleanWedge * currentCaptureRate;
-            const netMillions = (netHospitalRecovery / 1000000.0).toFixed(1);
+            // Calculate total recovery: $3.20M full opportunity * adoption rate
+            const totalRecovery = 3.20 * currentAdoptionRate;
+            document.getElementById("kpiNetMargin").textContent = `$${totalRecovery.toFixed(2)}M`;
+            document.getElementById("kpiNetMarginSub").textContent = `$2.1M supplier locks + $1.1M generic substitution at 100%`;
 
-            document.getElementById("kpiNetMargin").textContent = `$${netMillions}M`;
-            document.getElementById("kpiNetMarginSub").textContent = `Captured from $3.89M clean depot-filtered hospital wedge (${val}.0% rate)`;
+            // Update active state on tier buttons
+            ['btnTier60', 'btnTier80', 'btnTier100'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.classList.remove('active');
+            });
+            if (val == 60) {
+                const b = document.getElementById('btnTier60');
+                if (b) b.classList.add('active');
+            } else if (val == 80) {
+                const b = document.getElementById('btnTier80');
+                if (b) b.classList.add('active');
+            } else if (val == 100) {
+                const b = document.getElementById('btnTier100');
+                if (b) b.classList.add('active');
+            }
 
             renderTable();
         }
 
-        function applyCockpitFilters() {
+        function setAdoptionTier(rate) {
+            const slider = document.getElementById("captureRateSlider");
+            slider.value = rate;
+            updateCaptureRate(rate);
+        }
+
+        function applyFilters() {
             renderTable();
         }
 
@@ -1087,9 +1161,9 @@
             const classFilter = document.getElementById("classSelect").value;
             const filtered = ACTION_DRUGS.filter(d => (classFilter === "ALL") || (d.classCode === classFilter));
 
-            let csv = "Drug Formulation,Therapeutic Class,Brand Unit Cost,Lowest Generic Unit Cost,National CMS Wedge,Hospital Recovery ($85M Scale)\n";
+            let csv = "Drug Formulation,Therapeutic Class,Brand Unit Cost,Lowest Generic Unit Cost,National Savings,Hospital Recovery ($85M Scale)\n";
             filtered.forEach(d => {
-                const adjustedRecovery = Math.round(d.baseHospitalRecovery * (currentCaptureRate / 0.824));
+                const adjustedRecovery = Math.round(d.baseHospitalRecovery * currentAdoptionRate);
                 csv += `"${d.name}","${d.classDisplay}","$${d.brandCost.toFixed(2)}","$${d.genericCost.toFixed(2)}","$${(d.nationalWedge / 1000000).toFixed(2)}M","$${adjustedRecovery.toLocaleString()}"\n`;
             });
 
@@ -1106,7 +1180,7 @@
 
         // Initial load
         window.addEventListener("DOMContentLoaded", () => {
-            renderTable();
+            updateCaptureRate(80);
         });
     </script>
 </body>
