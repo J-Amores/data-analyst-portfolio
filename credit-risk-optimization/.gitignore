@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data artifacts (raw, cleaned, exports exceed GitHub file size limits)
+data/raw/*
+!data/raw/.gitkeep
+data/cleaned/*
+!data/cleaned/.gitkeep
+data/exports/*
+!data/exports/.gitkeep
+*.csv
+*.tsv
+*.parquet
+*.gz
+*.zip
+
+# OS artifacts
+.DS_Store
+Thumbs.db
