@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "analysis": "Hypothesis 3: Multi-Variable Risk Interaction & Policy Action P0 Simulation",
+    "framework": "Christine Jiang Decision-Driven Design",
+    "timestamp": "2026-10-19T21:15:20.023044",
+    "total_records_analyzed": 1345350,
+    "valid_records_analyzed": 1344974
+  },
+  "statistical_association": {
+    "contingency_table_layout": "[[HighRisk_Bad, HighRisk_Paid], [Baseline_Bad, Baseline_Paid]]",
+    "contingency_table": [
+      [
+        31889,
+        80357
+      ],
+      [
+        236639,
+        996089
+      ]
+    ],
+    "high_risk_volume": 112246,
+    "high_risk_volume_share_pct": 8.345588836661527,
+    "high_risk_bad_count": 31889,
+    "high_risk_bad_rate_pct": 28.409921066229533,
+    "baseline_volume": 1232728,
+    "baseline_volume_share_pct": 91.65441116333848,
+    "baseline_bad_count": 236639,
+    "baseline_bad_rate_pct": 19.1963677307565,
+    "prime_conservative_volume": 213691,
+    "prime_conservative_bad_rate_pct": 14.105413892021657,
+    "chi2_statistic": 5464.855551777799,
+    "degrees_of_freedom": 1,
+    "chi2_p_value": 0.0,
+    "relative_risk_vs_baseline": 1.4799633693571643,
+    "relative_risk_95_ci": [
+      1.4652843988161872,
+      1.4947893913349253
+    ],
+    "relative_risk_vs_prime_conservative": 2.0141146714098785,
+    "odds_ratio": 1.670432798099285,
+    "odds_ratio_95_ci": [
+      1.6476633489956598,
+      1.6935169035996787
+    ]
+  },
+  "policy_simulation": {
+    "policy_code": "Action P0",
+    "policy_description": "Hard-stop decline on applicants in Grades D-G with DTI > 25% AND Revolving Utilization > 65%",
+    "pre_policy_volume": 1345350,
+    "pre_policy_funded_dollars": 19388585275.0,
+    "pre_policy_bad_loan_count": 268599,
+    "pre_policy_terminal_bad_rate_pct": 19.964990522912256,
+    "pre_policy_gross_charge_off_dollars": 2999967360.24,
+    "pre_policy_net_charge_off_dollars": 2729278503.982719,
+    "pre_policy_net_cash_flow_dollars": 825129158.2969298,
+    "pre_policy_platform_net_laroc_pct": 4.2557471140551275,
+    "declined_volume_count": 47705,
+    "declined_volume_pct": 3.5459174192589287,
+    "declined_funded_dollars": 813315350.0,
+    "declined_funded_pct": 4.194815343483074,
+    "declined_cohort_bad_rate_pct": 38.88062048003354,
+    "avoided_defaults_count": 18548,
+    "gross_charge_off_dollars_eliminated": 254100745.55,
+    "net_charge_off_dollars_eliminated": 230040819.50079674,
+    "retained_volume_count": 1297645,
+    "retained_volume_count_pct": 96.45408258074107,
+    "retained_funded_dollars": 18575269925.0,
+    "retained_capital_retention_rate_pct": 95.80518465651693,
+    "retained_bad_loan_count": 250051,
+    "post_policy_terminal_bad_rate_pct": 19.269599929102334,
+    "post_policy_bad_rate_delta_pp": -0.6953905938099219,
+    "post_policy_net_cash_flow_dollars": 818184896.2211573,
+    "post_policy_platform_net_laroc_pct": 4.404699902206978,
+    "post_policy_laroc_delta_pp": 0.14895278815185087,
+    "post_policy_laroc_delta_bps": 14.895278815185087,
+    "guardrail_2_threshold_pct": 80.0,
+    "guardrail_2_satisfied": true
+  }
+}

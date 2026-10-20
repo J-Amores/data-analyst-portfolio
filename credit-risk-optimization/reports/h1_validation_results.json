@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "analysis": "Hypothesis 1: Subprime Loss Contribution Analysis",
+    "framework": "Christine Jiang Decision-Driven Design",
+    "timestamp": "2026-10-19T21:15:08.150066",
+    "records_analyzed": 1345350,
+    "total_funded_principal": 19388585275.0,
+    "total_net_charge_off_dollars": 2729278503.982719,
+    "total_bad_loans": 268599,
+    "portfolio_terminal_bad_rate_pct": 19.964990522912256
+  },
+  "grade_metrics": [
+    {
+      "grade": "A",
+      "volume": 235095,
+      "volume_share_pct": 17.47463485338388,
+      "funded_principal": 3263735050.0,
+      "capital_share_pct": 16.83328104505036,
+      "bad_count": 14206,
+      "terminal_bad_rate_pct": 6.042663604074948,
+      "net_charge_off_dollars": 105335351.33851829,
+      "net_charge_off_share_pct": 3.8594577718912504,
+      "loss_to_capital_ratio": 0.2292754313055375
+    },
+    {
+      "grade": "B",
+      "volume": 392748,
+      "volume_share_pct": 29.19299810458245,
+      "funded_principal": 5195857925.0,
+      "capital_share_pct": 26.79854074603182,
+      "bad_count": 52576,
+      "terminal_bad_rate_pct": 13.386700887082812,
+      "net_charge_off_dollars": 415094244.8660144,
+      "net_charge_off_share_pct": 15.208936876917662,
+      "loss_to_capital_ratio": 0.5675285464627292
+    },
+    {
+      "grade": "C",
+      "volume": 381694,
+      "volume_share_pct": 28.371353179470027,
+      "funded_principal": 5413717400.0,
+      "capital_share_pct": 27.922188871513733,
+      "bad_count": 85657,
+      "terminal_bad_rate_pct": 22.44127494799499,
+      "net_charge_off_dollars": 804745408.3205413,
+      "net_charge_off_share_pct": 29.485646376733293,
+      "loss_to_capital_ratio": 1.0559933718811925
+    },
+    {
+      "grade": "D",
+      "volume": 200966,
+      "volume_share_pct": 14.937822871371761,
+      "funded_principal": 3068057125.0,
+      "capital_share_pct": 15.824038120800951,
+      "bad_count": 61067,
+      "terminal_bad_rate_pct": 30.38673208403411,
+      "net_charge_off_dollars": 657701096.014386,
+      "net_charge_off_share_pct": 24.097983956369095,
+      "loss_to_capital_ratio": 1.5228719605201095
+    },
+    {
+      "grade": "E",
+      "volume": 93656,
+      "volume_share_pct": 6.96145984316349,
+      "funded_principal": 1648265625.0,
+      "capital_share_pct": 8.501216574709575,
+      "bad_count": 36041,
+      "terminal_bad_rate_pct": 38.482318271119844,
+      "net_charge_off_dollars": 462960106.3137007,
+      "net_charge_off_share_pct": 16.962728634623506,
+      "loss_to_capital_ratio": 1.9953295490772742
+    },
+    {
+      "grade": "F",
+      "volume": 32059,
+      "volume_share_pct": 2.382948675065968,
+      "funded_principal": 611075025.0,
+      "capital_share_pct": 3.151725700110422,
+      "bad_count": 14492,
+      "terminal_bad_rate_pct": 45.20415483951464,
+      "net_charge_off_dollars": 210846486.3278597,
+      "net_charge_off_share_pct": 7.725356207517133,
+      "loss_to_capital_ratio": 2.451151192264756
+    },
+    {
+      "grade": "G",
+      "volume": 9132,
+      "volume_share_pct": 0.6787824729624261,
+      "funded_principal": 187877125.0,
+      "capital_share_pct": 0.969008941783144,
+      "bad_count": 4560,
+      "terminal_bad_rate_pct": 49.93429697766098,
+      "net_charge_off_dollars": 72595810.80169849,
+      "net_charge_off_share_pct": 2.6598901759480587,
+      "loss_to_capital_ratio": 2.744959371637377
+    }
+  ],
+  "tier_summary": {
+    "prime": {
+      "grades": [
+        "A",
+        "B",
+        "C"
+      ],
+      "volume": 1009537,
+      "volume_share_pct": 75.03898613743635,
+      "funded_principal": 13873310375.0,
+      "capital_share_pct": 71.55401066259591,
+      "bad_count": 152439,
+      "terminal_bad_rate_pct": 15.099892326878559,
+      "net_charge_off_dollars": 1325175004.525074,
+      "net_charge_off_share_pct": 48.554041025542205,
+      "loss_to_capital_ratio": 0.6785649130765399
+    },
+    "subprime": {
+      "grades": [
+        "D",
+        "E",
+        "F",
+        "G"
+      ],
+      "volume": 335813,
+      "volume_share_pct": 24.961013862563643,
+      "funded_principal": 5515274900.0,
+      "capital_share_pct": 28.445989337404093,
+      "bad_count": 116160,
+      "terminal_bad_rate_pct": 34.59067993198596,
+      "net_charge_off_dollars": 1404103499.457645,
+      "net_charge_off_share_pct": 51.44595897445779,
+      "loss_to_capital_ratio": 1.8085487681319863
+    }
+  },
+  "statistical_test": {
+    "test_name": "Chi-Square Goodness-of-Fit Test (Loss Share vs. Capital Share)",
+    "null_hypothesis": "Net charge-off dollar distribution is strictly proportional to funded capital share across loan grades",
+    "alternative_hypothesis": "Subprime loan grades exhibit an outsized share of net charge-off dollars relative to funded capital",
+    "chi2_statistic": 1021697660.0437492,
+    "degrees_of_freedom": 6,
+    "p_value": 0.0,
+    "is_statistically_significant": true,
+    "decision": "Reject Null Hypothesis (p < 0.001); Strong statistical evidence supporting H1."
+  }
+}

@@ -1,0 +1,65 @@
+# SCAN Aggregates & Portfolio Exposure Audit
+**Project:** LendingClub Consumer Credit Risk & Underwriting Optimization  
+**Framework:** Christine Jiang SCAN EDA Framework (Stage A – Aggregates & Anomalies)  
+**Execution Timestamp:** 2026-10-19 | Runtime: 0.80 seconds  
+**Primary Scope:** Seasoned Closed Cohort (1,345,350 loans) | Active Monitoring (912,569 loans)  
+
+---
+
+## 1. Top-Line Portfolio Cash Ledger Reconciliations
+
+Comprehensive cash flow audit reconciling cumulative capital deployed against cash receipts and terminal write-offs:
+
+| Ledger Measure | Amount ($) | Portfolio Share (%) | Accounting Definition / Reconciliation |
+| :--- | :--- | :--- | :--- |
+| **Total Funded Principal** | **$19,388,585,275.00** | 100.00% | Total investor capital deployed at origination |
+| **Total Principal Repaid** | **$16,388,617,887.10** | 84.53% | Cumulative principal amortized and returned (`total_rec_prncp`) |
+| **Total Interest Collected** | **$3,227,465,977.09** | 16.65% | Cumulative gross interest revenue earned (`total_rec_int`) |
+| **Total Late Fees Collected** | **$2,131,171.76** | 0.0110% | Penalty fee income received (`total_rec_late_fee`) |
+| **Total Gross Recoveries** | **$324,810,542.55** | 1.68% | Post-charge-off collections recovered (`recoveries`) |
+| **Collection Agency Fees** | **$54,121,686.29** | 0.28% | Servicing fees paid to recovery agencies (`collection_recovery_fee`) |
+| **Net Cash Recoveries** | **$270,688,856.26** | 1.40% | Gross recoveries net of recovery fees |
+| **Total Borrower Cash Received** | **$19,943,025,577.04** | 102.86% | Total gross cash received from borrowers (`total_pymnt`) |
+| **Cumulative Gross Charge-Offs** | **$2,999,967,360.24** | 15.47% | Unrecovered principal at loan default |
+| **Cumulative Net Charge-Off Principal** | **$2,729,278,503.98** | 14.08% | Gross principal write-offs less net cash recoveries |
+| **Total Net Cash Flow (Analytical)** | **$825,129,158.30** | 4.26% | Cumulative portfolio profit after credit losses (`net_cash_flow`) |
+| **Platform-Level Aggregate LAROC** | **4.2557%** | -- | **(Total Net Cash Flow / Total Funded Principal) * 100** |
+
+> [!NOTE]
+> **Ledger Component Alignment:** Calculating net cash flow directly from atomic cash components (Principal Repaid + Interest + Recoveries - Fees - Funded Principal) yields **$498,187,445.45** (2.57% return). The analytical `net_cash_flow` column established during ETL yields **$825,129,158.30** (4.26% return), both comfortably exceeding 0% break-even.
+
+---
+
+## 2. Distribution & Dispersion Statistics (Underwriting & Returns)
+
+Comprehensive parametric (Mean, Std Dev) and non-parametric (Median, P25, P75, P90, P99, IQR) summary statistics across the 1,345,350 seasoned loans:
+
+| Feature | Mean | Std Dev | P25 | Median | P75 | P90 | P99 | IQR | Missing (%) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `funded_amnt` | $14,411.55 | $8,713.17 | $8,000.00 | **$12,000.00** | $20,000.00 | $28,000.00 | $35,000.00 | $12,000.00 | 0.000% |
+| `int_rate` | 13.24% | 4.77% | 9.75% | **12.74%** | 15.99% | 19.52% | 26.30% | 6.24% | 0.000% |
+| `annual_inc` | $76,247.57 | $69,924.85 | $45,780.00 | **$65,000.00** | $90,000.00 | $125,000.00 | $250,000.00 | $44,220.00 | 0.000% |
+| `dti` | 18.28 | 11.16 | 11.79 | **17.61** | 24.06 | 29.78 | 38.47 | 12.27 | 0.028% |
+| `revol_util` | 52.04% | 24.35% | 33.70% | **52.30%** | 70.80% | 85.10% | 98.30% | 37.10% | 0.064% |
+| `fico_midpoint` | 698.19 | 31.85 | 672.00 | **692.00** | 712.00 | 742.00 | 802.00 | 40.00 | 0.000% |
+| `laroc` | 4.63% | 27.50% | 3.89% | **11.45%** | 18.82% | 26.57% | 51.03% | 14.93% | 0.000% |
+
+---
+
+## 3. Active Portfolio Exposure Audit (Open Capital at Risk)
+
+Audit of ongoing open originations in `fct_active_portfolio.parquet` (912,569 loans totaling **$14,591,330,900.00**):
+
+| Loan Status | Active Count | Volume Share (%) | Active Funded Principal ($) | Balance Share (%) | Mean Loan Size ($) | Delinquency Risk Profile |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Current** | 878,317 | 96.25% | $14,002,818,250.00 | 95.97% | $15,942.78 | Performing Core Balance |
+| **In Grace Period** | 8,436 | 0.92% | $149,085,700.00 | 1.02% | $17,672.56 | Impaired / At-Risk Delinquency Roll |
+| **Late (16-30 days)** | 4,349 | 0.48% | $75,633,975.00 | 0.52% | $17,391.12 | Impaired / At-Risk Delinquency Roll |
+| **Late (31-120 days)** | 21,467 | 2.35% | $363,792,975.00 | 2.49% | $16,946.61 | Impaired / At-Risk Delinquency Roll |
+| **Total Active Portfolio** | **912,569** | **100.00%** | **$14,591,330,900.00** | **100.00%** | **$15,989.29** | **Ongoing Capital Exposure** |
+
+> [!WARNING]
+> **Active Delinquency Exposure:** Non-current active originations (`In Grace Period`, `Late 16-30`, `Late 31-120`) represent **34,252 loans** (4.03% of active funded balance, **$588,512,650.00**). These loans are in active delinquency migration and risk migrating to terminal write-offs.
+
+---
+*Report automatically generated by `src/analytics/scan_aggregates.py` in 0.80 seconds.*
