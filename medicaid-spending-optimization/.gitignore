@@ -76,11 +76,13 @@ Thumbs.db
 *.swo
 *~
 
+# Node dependencies
+node_modules/
+
 # Temporary / Scratch exports & tools
 data/exports/*
 !data/exports/.gitkeep
 .frontend-slides/
 .agents/
-docs/
 tests/
 assets/docs/

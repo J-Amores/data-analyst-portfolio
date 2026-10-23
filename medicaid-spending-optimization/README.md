@@ -1,189 +1,208 @@
-# Hospital Outpatient Pharmacy Spend Optimization
-### 5-Year Claims Review and Formulary Action Plan (2020 to 2024)
+# Outpatient Pharmacy Spend Optimization and Formulary Stewardship (CY2020 to CY2024)
 
-[![Presentation](https://img.shields.io/badge/Presentation-7_Slide_Executive_Deck-0F172A.svg)](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/)
-[![Decision Tool](https://img.shields.io/badge/Interactive_Tool-Formulary_Decision_Cockpit-059669.svg)](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/dashboard.html)
-[![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB.svg)](https://www.python.org/)
-[![Parquet](https://img.shields.io/badge/Data-Apache_Parquet-2B579A.svg)](https://parquet.apache.org/)
-
-> **Executive Summary:** Across an **\$85.0M** hospital outpatient pharmacy budget, medication acquisition costs rose **45.6%** between 2020 and 2024 while bundled insurance reimbursement rates stayed flat. Our review identified **\$3.2M in annual operating margin** that the hospital can recover (\$2.56M at an 80% Year 1 target) by locking generic orders to primary contracted suppliers (**\$2.1M**) and turning on automatic generic substitution in the EHR (**\$1.1M**), while keeping chronic patient therapy changes at **1.8%** (well below our 2.5% safety limit).
-
-| Project Deliverable | Purpose | Direct Link |
-| :--- | :--- | :--- |
-| **1. Executive Slide Deck** | 7-slide presentation covering where the budget goes, what drove cost growth, and our three recommendations. | [View Presentation (`index.html`)](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/) |
-| **2. Operational Decision Tool** | Interactive web tool to test generic adoption targets (50% to 100%) and export target medication lists. | [Launch Decision Tool (`dashboard.html`)](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/dashboard.html) |
-| **3. Analysis Scripts** | Data cleaning and analysis scripts in Python (`src/etl` and `src/analytics`). | [Browse Code (`src/`)](src/) |
+[Launch Interactive 7-Slide Executive Briefing Deck](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/) | [Launch Full-Screen P&T Decision Cockpit](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/dashboard.html)
 
 ---
 
-## 1. Business Context and Leadership Directive
+## 1. Project Background and Executive Decision Context
 
-Between 2020 and 2024, regional hospitals operated on tight 1% to 3% margins. While outpatient reimbursement rates stayed fixed under insurer fee schedules and bundled care contracts, wholesale medication costs climbed steadily.
+Most regional health systems operate on 1% to 3% net margins. Under bundled payment models, payer reimbursement rates remain mostly fixed from year to year, which means pharmacy acquisition cost inflation comes straight out of operating margin. Between 2020 and 2024, gross outpatient prescription spending across the national CMS benchmark rose 45.61% (from \$76.42B to \$111.28B across 4,774 active drug formulations).
 
-Our Director of Pharmacy, Chief Financial Officer (CFO), and Pharmacy and Therapeutics (P&T) Committee asked our team to review five years of outpatient and discharge prescription claims. Their directive was straightforward: find out why medication spending kept rising and build a practical plan to recover operating margin without disrupting patient care.
+This project evaluates five years of CMS outpatient drug claims (18,511 longitudinal records across brand, generic, and manufacturer levels) normalized to an \$85.0M regional hospital outpatient pharmacy budget (a 0.0764% scaling factor).
 
-Hospital leadership needed answers to three blind spots:
-1. **Unclear spending drivers:** Leadership could not confirm whether budget overruns came from higher patient prescription volume or manufacturer price hikes.
-2. **Brand medication leakage:** Outpatient clinics and discharge pharmacies routinely dispensed expensive brand-name medications even when FDA-approved, bioequivalent generics were sitting in hospital inventory.
-3. **Price gaps across generic suppliers:** Without consistent tracking across our Group Purchasing Organization (GPO) agreements, buyers regularly paid 35% to 70% more across competing manufacturers for the exact same generic pill.
-
----
-
-## 2. Core Metrics and Clinical Guardrails
-
-Before looking for cost cuts, we established three core rules with the Pharmacy Director and Chief Medical Officer to define how we measure savings, how we protect patients on long-term medications, and how we filter out billing errors:
-
-1. **Avoidable Brand-to-Generic Spend (Our Primary Savings Target):**
-   Whenever the hospital dispenses an expensive brand-name drug that already has an FDA-approved generic equivalent, or buys a generic pill from a high-priced supplier when a cheaper contracted option is available, we calculate the price gap multiplied by the number of doses dispensed. Tracking this across drug classes and suppliers gives the Pharmacy Director and CFO an exact dollar figure for how much recoverable money the hospital left on the table each year.
-2. **Patient Therapy Disruption Rate (Our 2.5% Clinical Safety Limit):**
-   Saving money cannot come at the expense of patient stability, especially for patients managing chronic conditions like diabetes, epilepsy, or psychiatric care. We tracked the share of chronic prescriptions affected by our proposed changes and set a strict **2.5% ceiling** on adjustments to medications with fewer than two alternative options. Across our proposed plan, chronic therapy changes stay at **1.8%**, and doctors always keep a one-click override when a specific brand is medically necessary.
-3. **Packaging and Billing Error Rate (Our 5.0% Data Quality Limit):**
-   Pharmacy claims occasionally contain unit-of-measure mix-ups, such as billing a 200-puff inhaler box as 1 unit on one invoice and 200 individual puffs on another. If left unchecked, those billing quirks make unit prices look artificially high and inflate savings estimates. We flagged these abnormal records so they make up less than **5.0%** of our projected savings (currently **2.1%**) and routed them to pharmacy buyers to verify packaging before updating any contracts.
-
-| Metric | What It Measures | Target / Safety Limit | Lead Owner |
-| :--- | :--- | :--- | :--- |
-| **1. Avoidable Brand-to-Generic Spend** | Annual overpayment from dispensing off-patent brands or higher-priced generics | **\$3.2M** addressable (\$2.56M at 80% rollout) | Director of Pharmacy & CFO |
-| **2. Patient Therapy Disruption Rate** | Share of chronic care prescriptions impacted with fewer than 2 alternatives | **Must stay < 2.5%** (Modeled at **1.8%**) | Chief Medical Officer & P&T Chair |
-| **3. Packaging & Billing Error Rate** | Share of projected savings coming from flagged unit-of-measure anomalies | **Must stay < 5.0%** (Modeled at **2.1%**) | Pharmacy Purchasing & Inventory Lead |
+### The Decision Facing Leadership
+Ahead of the annual Group Purchasing Organization (GPO) contracting cycle, the Pharmacy Director, Chief Financial Officer, and Pharmacy & Therapeutics (P&T) Committee need to decide where to intervene:
+1. **GPO Generic Contract Price Caps:** Restricting wholesaler purchasing profiles to 25th-percentile supplier tiers in multi-source generic markets.
+2. **Automated EHR Therapeutic Interchange:** Setting order-entry defaults in Epic and Cerner to substitute bioequivalent generics whenever off-patent brand names are ordered.
+3. **Targeted Step-Therapy Pathways:** Requiring documented first-line therapy trials before approving high-cost specialty biologics and GLP-1 receptor agonists.
 
 ---
 
-## 3. Data Sources and Preparation
+## 2. Executive Summary and Decision Matrix
 
-To model five years of hospital pharmacy purchasing from 2020 to 2024, we used outpatient drug spending and clinical reference files from the Centers for Medicare & Medicaid Services (CMS), scaled to an \$85M hospital pharmacy budget. Our data preparation script ([`clean_pipeline.py`](src/etl/clean_pipeline.py)) combines two main files: a five-year spending table that tracks drug prices, prescription counts, and manufacturers, and a clinical reference table that explains what each medication treats.
+Across 4,774 active drug formulations (\$85.0M hospital budget / \$111.28B national benchmark), spending increases are not spread evenly across common prescriptions. Instead, 72.18% of total spending (\$61.35M hospital / \$80.31B national) is concentrated in the top 5% of formulations (239 drugs; Gini coefficient of 0.9028). At the same time, unaddressed brand overpayments and wholesale generic price spreads account for \$3.89M in addressable hospital expense (\$5.09B nationally).
 
-Before running the analysis, we fixed four data issues in the raw files that would otherwise skew hospital savings estimates:
+By standardizing purchasing on multi-source generics and converting off-patent brand orders, the hospital can recover \$3.20M in annual operating margin at our 80% Year 1 rollout target (\$2.56M baseline; \$1.92M conservative floor). This intervention keeps chronic therapy disruption at 1.8%, well under our 2.5% clinical safety limit.
 
-1. **Separating drug totals from manufacturer rows (preventing double counting):**
-   The raw files list an "Overall" summary row for each medication right alongside the individual rows for each manufacturer that makes it. Adding the spending column up directly counts every dollar twice. We split the data into two separate files: one for overall drug trends and one for comparing manufacturer prices.
-2. **Leaving privacy-redacted counts blank (fewer than 11 prescriptions):**
-   To protect patient privacy under HIPAA, the government hides numbers whenever a drug had fewer than 11 prescriptions in a given year. Instead of filling those blanks with zeros, which makes five-year growth rates look artificially explosive, we left them blank so they would not distort our growth trends.
-3. **Filtering out unit-of-measure billing mix-ups:**
-   Some records are flagged for billing unit errors, such as when a pharmacy bills a 200-puff inhaler box as 1 unit on one claim and 200 individual puffs on another. We excluded these flagged rows when ranking generic savings targets and added a toggle in the dashboard so buyers can review them separately.
-4. **Excluding long-acting injectables from pill comparisons:**
-   Some medications share the same active ingredient name across very different delivery forms, such as a monthly injectable shot (`Maintena` or `Sublocade`) versus a daily generic pill. We excluded long-acting injectables and implants from our generic price comparisons so oral tablets are only compared against oral tablets.
-
----
-
-## 4. Key Findings
-
-| Area Reviewed | Analysis Script | Key Finding |
-| :--- | :--- | :--- |
-| **1. Budget Concentration** | [`test_h1_capital_allocation.py`](src/analytics/test_h1_capital_allocation.py) | **72.2% (\$61.35M)** of the drug budget goes to just **5% of medications** (239 drugs), with **32.2%** in the top 25 drugs alone. |
-| **2. Five-Year Growth Drivers** | [`test_h2_decomposition.py`](src/analytics/test_h2_decomposition.py) | Cost surges split between **unit price hikes on older brands** (23.9% of high-growth drugs) and **rising prescription demand for newer treatments** (76.1%). |
-| **3. Generic Price Spread** | [`test_h3_price_spread.py`](src/analytics/test_h3_price_spread.py) | Competing manufacturers charge a **71.6% typical price spread** for identical generic drugs, creating a **\$3.2M** savings opportunity. |
-
-### Finding 1: Most of the budget goes to a small group of medications
-
-![Hospital Pharmacy Spend Flow](assets/medicaid_spend_sankey.png)
-
-As shown in [`test_h1_capital_allocation.py`](src/analytics/test_h1_capital_allocation.py) and the interactive Sankey chart in `index.html`, mapping 2024 spending across nearly 4,800 medications revealed that costs are heavily concentrated at the top:
-* Just **5% of medications** (239 drugs) take up **72.2% (\$61.35M)** of the hospital's entire outpatient drug budget.
-* Expanding to the **top 10% of medications** covers **84.9% (\$72.17M)** of total spend, leaving the remaining 90% of routine generic medications (over 4,200 drugs) at just **15.1%**.
-* A single list of **25 medications** accounts for **32.2% (\$27.33M)** of the entire pharmacy budget, led by **Humira**, **Ozempic**, **Biktarvy**, **Jardiance**, and **Trulicity**.
-
-Broad budget cuts across thousands of cheap floor-stock generics create headaches for nurses and doctors without helping operating margins. Formulary reviews should focus on these top 25 high-cost medications.
-
-### Finding 2: Two distinct forces drove our five-year spending growth
-As shown in [`test_h2_decomposition.py`](src/analytics/test_h2_decomposition.py), tracking over 3,700 medications from 2020 to 2024 showed over 1,200 drugs whose total spend grew by more than 50%, driven by two different patterns:
-* **Price hikes on established drugs (23.9% of high-growth drugs):** On older brand and specialty drugs, manufacturers raised unit prices even when prescription volume stayed flat or fell. Key examples include **Xifaxan** (74% of spend growth from price hikes), **Emflaza** (66% from price hikes), **Trulicity** (unit price up 107%), **Enbrel** (56% from price hikes), **Cosentyx** (55% from price hikes), and **Vyvanse** (unit price rose 37% while volume dropped 15%).
-* **Higher patient demand for newer treatments (76.1% of high-growth drugs):** Newer diabetes and immunology treatments grew because doctors prescribed them to far more patients. **Ozempic** prescriptions grew **929%**, **Jardiance** prescriptions grew **257%**, and **Dupixent** prescriptions grew over **130-fold**.
-
-Hospital leadership cannot use the same rule for both groups. High-demand drugs like Ozempic and Dupixent need clinical order checks in Epic or Cerner to confirm first-line treatments were tried first, while older drugs with steep price hikes like Enbrel and Vyvanse should be switched to generic or biosimilar options.
-
-### Finding 3: Paying different prices for the same generic drug costs the hospital \$3.2M
-As shown in [`test_h3_price_spread.py`](src/analytics/test_h3_price_spread.py), there was a price spread of **71.6%** between higher-cost and lower-cost manufacturers (75th vs. 25th percentile) across over 1,350 generic medications with at least two approved suppliers. Nearly two-thirds (65.8%) of these multi-source generic drugs showed a price gap greater than **35%** (after excluding long-acting injectables so oral tablets were only compared against oral tablets).
-
-When pharmacy buyers order stock without locking in our primary contracted supplier, or when discharge pharmacies dispense off-patent brands like **Vyvanse** and **Concerta**, the hospital pays a steep markup for the identical active ingredient. Across these medications, we identified **\$3.89M** in annual overpayment. Capturing a realistic **82%** conversion rate through primary supplier contract locks (**\$2.1M**) and automatic generic substitution (**\$1.1M**) recovers **\$3.2M** in annual operating margin.
-
----
-
-## 5. Hospital Action Plan
-
-Our proposed plan includes three recommendations to recover **\$3.2M** in annual operating margin while keeping chronic therapy changes at **1.8%** (well below our 2.5% safety limit):
-
-1. **Lock in primary GPO generic suppliers (\$2.1M annual savings):**
-   Direct the **Pharmacy Purchasing team** to lock wholesaler ordering profiles to our 25th-percentile contracted generic manufacturers across the 1,350+ multi-source generic drugs where prices vary by more than 35%. Because this happens in the purchasing system for chemically identical generics, it requires zero physician workflow changes and can be tracked through monthly contract compliance audits (target >95% within 30 days).
-2. **Turn on automatic generic substitution in the EHR (\$1.1M annual savings):**
-   Partner with the **Director of Pharmacy and Clinical Informatics** to enable automatic therapeutic interchange at order entry for off-patent brands that already have FDA-approved generic equivalents in stock, starting with **Vyvanse** (\$472K), **Concerta** (\$367K), **Spiriva Respimat** (\$176K), **Advair Diskus** (\$136K), and **Suboxone**. Clinicians keep a one-click "Dispense as Written" override when a brand is medically necessary, and progress is tracked via our Generic Dispensing Rate (target >93% within 60 days).
-3. **Update Epic and Cerner order sets for high-cost specialty drugs (12% to 18% cost growth reduction):**
-   Work with the **P&T Committee Chair and Chief Medical Officer** to split management of our top 25 budget drivers based on what drove their cost growth. For volume-driven medications like **Ozempic** and **Dupixent**, add an EHR check confirming first-line treatments were tried first. For mature brands raising unit prices on flat volume like **Enbrel** and **Trulicity**, guide prescribers toward lower-cost biosimilar or therapeutic alternatives.
-
-| Recommendation | Target Medications | Lead Team | Expected Annual Impact | Success Metric |
+| Analytical Question | 1. What Changed? | 2. Why Did It Change? (Root Cause) | 3. Business Implication | 4. Recommended Action |
 | :--- | :--- | :--- | :--- | :--- |
-| **1. Primary Generic Supplier Locks** | Multi-source generics with 2+ approved suppliers | Pharmacy Purchasing Buyer | **\$2.1M margin recovery** | GPO Contract Compliance (>95%) |
-| **2. Automatic EHR Generic Substitution** | Off-patent brands (`Vyvanse`, `Concerta`, `Spiriva`, `Advair`, `Suboxone`) | Pharmacy Director & Clinical Informatics | **\$1.1M brand overpayment recovery** | Generic Dispensing Rate (>93%) |
-| **3. Specialty & GLP-1 Order Sets** | High-growth specialty lines (`Ozempic`, `Dupixent`, `Enbrel`, `Trulicity`) | P&T Committee Chair & CMO | **12% to 18% cost growth reduction** | First-Line Guideline Adherence (%) |
-
-### Expected Recovery by Adoption Rate
-Because hospital purchasing and prescribing changes happen in phases, we modeled three adoption tiers in our [Operational Decision Cockpit](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/dashboard.html):
-* **60% Conservative Adoption:** Recovers **\$1.92M** in annual margin if clinical and purchasing rollout is gradual.
-* **80% Target Adoption:** Recovers **\$2.56M** in Year 1 (primary budget target for the Pharmacy Director and CFO).
-* **100% Full Adoption:** Recovers the full **\$3.20M** addressable opportunity.
+| **H1: Spending Concentration** | Outpatient drug spend rose 45.6% over 5 years. The top 5% of formulations (239 drugs) account for 72.2% of the \$85.0M budget. | 25 blockbuster drugs account for 32.2% (\$27.33M) of total spending, led by Specialty Biologics (Humira, Dupixent, Stelara) and GLP-1s (Ozempic, Jardiance, Trulicity). | Across-the-board cuts on routine maintenance generics frustrate clinicians without moving the budget. | Focus P&T utilization reviews and EHR order-set rules on the top 25 high-cost formulations. |
+| **H2: Price vs. Volume Drivers** | Among 1,210 drugs with over 50% 5-year spend growth, cost increases split into two distinct mechanisms (p < 0.001). | Price-Led (23.9% of lines): Manufacturers raised unit costs (Xifaxan 74.1% price-led, Emflaza 66.0% price-led, Trulicity +106.6% unit cost). Volume-Led (76.1% of lines): Clinical adoption expanded (Ozempic claims up 928.7%, Dupixent up over 130-fold). | A single policy does not work. Volume-surging GLP-1s require step therapy, while price-inflated mature brands require generic switching. | Add EHR step-therapy checks for GLP-1s while switching price-inflated mature brands (Enbrel, Cosentyx, Vyvanse, Concerta) to generics or biosimilars. |
+| **H3: Multi-Source Generic Wedge** | Across 1,358 multi-manufacturer generic molecules, unit prices vary by a median of 71.6% between suppliers. | Wholesaler purchasing was not locked to 25th-percentile contracted tiers, and clinics continued ordering off-patent brands when cheaper bioequivalent generics existed. | The hospital overpays \$3.20M each year for identical chemical entities with zero clinical advantage. | Lock wholesaler ordering to 25th-percentile generic contracts (\$2.10M) and turn on automatic EHR generic substitution (\$1.10M). |
 
 ---
 
-## 6. Interactive Decision Tools
+## 3. Metrics Architecture (4-Layer Metric Model)
 
-To help pharmacy leadership explore the data and test rollout assumptions directly, the repository includes two web tools:
-* **Executive Presentation Deck (`index.html`):** A 7-slide visual walkthrough built for asynchronous review by hospital directors and hiring managers.
-* **Operational Decision Cockpit (`dashboard.html` and `src/dashboard/app.py`):** An interactive scenario planner where pharmacy buyers and P&T committee members can adjust generic adoption sliders (50% to 100%), filter by therapeutic class, toggle flagged billing outliers, and export target medication lists to CSV.
+All recommendations are governed by one primary financial metric and two operational guardrails to protect clinical quality and data reliability:
+
+```
+                               ┌──────────────────────────────────────────────┐
+                               │              NORTH STAR METRIC               │
+                               │   Annual Avoidable Brand-to-Generic Spend    │
+                               │   Wedge ($3.20M Target Margin Recovery)      │
+                               └──────────────────────┬───────────────────────┘
+                                                      │
+                       ┌──────────────────────────────┴──────────────────────────────┐
+                       ▼                                                             ▼
+       ┌───────────────────────────────┐                             ┌───────────────────────────────┐
+       │      GUARDRAIL METRIC 1       │                             │      GUARDRAIL METRIC 2       │
+       │  Formulary Access & Clinical  │                             │  Outlier Distortion & Data    │
+       │  Disruption Rate (1.8% < 2.5%)│                             │  Reliability Index (0% < 5.0%)│
+       └───────────────────────────────┘                             └───────────────────────────────┘
+```
+
+1. **North Star Metric: Annual Avoidable Brand-to-Generic Spend Wedge (\$ Addressable Savings)**
+   * **Calculation:** Brand unit cost minus lowest available generic unit cost, multiplied by total brand units dispensed for matching dosage forms.
+   * **Purpose and Owner:** Measures the dollar recovery from fixing off-contract generic purchasing and unneeded brand dispensing. Owned jointly by the Pharmacy Director and CFO.
+   * **Dimensions:** Therapeutic Class, Brand vs. Generic Status, Manufacturer Count, and Dosage Form (Oral/Inhaler vs. Long-Acting Depot Injectable).
+2. **Guardrail Metric 1: Clinical Disruption Rate (< 2.5% Target)**
+   * **Calculation:** Share of chronic maintenance claims (CNS, Anticonvulsants, Behavioral Health, Immunology) affected by non-bioequivalent drug changes.
+   * **Result:** Held at 1.8% by limiting automated substitution strictly to FDA AB-rated bioequivalent generics.
+3. **Guardrail Metric 2: Packaging Outlier Risk Index (< 5.0% Limit)**
+   * **Calculation:** Percentage of modeled savings derived from records with `Outlier_Flag_2024 == 1` (CMS flags identifying records where reported packaging units differ from billing units).
+   * **Result:** Raw multi-source data had 5.07% outlier exposure (\$388.5M of \$7.66B nationally). Filtering flagged records brings outlier distortion in our target savings down to 0.0%.
 
 ---
 
-## 7. Operational Assumptions and Scope Boundaries
+## 4. Analytical Findings and Evidence
 
-* **Wholesale Acquisition Costs vs. Net Rebates:** The underlying CMS claims reflect gross pharmacy payments before confidential manufacturer rebates or 340B discounts. Modeled savings represent baseline acquisition cost reductions captured directly at purchasing and order entry.
-* **Identical Dosage Form Matching:** All modeled generic substitutions compare matching delivery forms (oral tablets to oral tablets, inhalers to inhalers) with FDA bioequivalence ratings.
-* **Clinician Override Protection:** Every automated EHR substitution rule retains a one-click physician override when a specific brand formulation is clinically required for a patient.
+### Finding 1: Spending Concentration
+**The top 5% of drug formulations account for 72.2% of the outpatient drug budget (Gini = 0.9028)**
+
+![Hospital Pharmacy Spend Flow](./assets/medicaid_spend_sankey.png)
+
+* **Evidence:** Statistical distribution testing confirms that spending is heavily skewed toward the top (Gini = 0.90, p < 0.001). The top 5% of lines (239 drugs) take up 72.18% (\$61.35M hospital / \$80.31B national) of total 2024 outpatient spend. The top 10% (478 drugs) takes up 84.90% (\$72.17M hospital / \$94.48B national).
+* **Where the Money Goes:** The \$61.35M top-tier spend splits into three main areas:
+  * **Specialty Biologics and Infusions (38% of Top 5%):** Outpatient immunology and oncology (\$23.31M).
+  * **Core Outpatient Maintenance Lines (34% of Top 5%):** HIV, CNS, and chronic care therapies (\$20.86M).
+  * **GLP-1s and Diabetes Therapies (28% of Top 5%):** Metabolic therapies (\$17.18M).
+* **Top 25 Blockbusters:** Just 25 individual medications account for 32.2% (\$27.33M hospital / \$35.78B national) of total spending, led by Humira, Ozempic, Biktarvy, Jardiance, and Trulicity.
+* **Takeaway:** The bottom 90% of formulary lines (4,296 routine generic medications) account for only 15.10% of total spend. P&T review time is best spent on the top 25 high-cost drugs rather than low-cost maintenance lines.
 
 ---
 
-## 8. Repository Structure
+### Finding 2: Price Increases vs. Patient Demand
+**Manufacturer price hikes on mature brands (Trulicity +107% unit cost) require different controls than GLP-1 volume growth (Ozempic claims up 929%)**
+
+* **Methodology:** To determine whether multi-year budget increases were driven by rising unit prices or higher patient volume, we applied logarithmic growth decomposition across 3,765 complete 5-year formulations: separating total spend growth into price changes versus volume changes.
+* **Price-Led Inflation (23.9% of fast-growing drugs):** On several mature brand medications, spending climbed because unit prices increased while prescription counts stayed flat or dropped:
+  * **Xifaxan:** \$412.0M national spend; 74.1% of 5-year growth came from price increases.
+  * **Emflaza:** \$202.7M national spend; 66.0% came from price hikes.
+  * **Trulicity:** \$2.17B national spend; unit cost rose 106.6%, driving 56.1% of its spend growth.
+  * **Enbrel Sureclick and Cosentyx:** Price increases accounted for 55.6% and 55.1% of total growth, respectively.
+  * **Vyvanse:** Unit price rose 36.6% while unit volume fell 14.8%, creating a net spend increase of \$126.5M purely from price changes.
+* **Volume-Led Demand (76.1% of fast-growing drugs):** In contrast, newer diabetes and immunology treatments grew from clinical adoption. **Ozempic** spending grew 1,143.0% (\$274.5M to \$3.41B) because prescription claims rose 928.7% (from 322,021 to 3,312,575 fills). Its weighted cost per mL actually dropped 25.5% as patients moved to higher-strength pens. **Jardiance** (spend up 385.6%, claims up 256.7%) and **Dupixent** (claims up over 130-fold) showed similar patterns.
+
+---
+
+### Finding 3: Multi-Source Generic Price Spread and Brand Leakage
+**A 71.6% median generic price spread and off-patent brand orders create a \$3.20M recovery opportunity**
+
+* **Price Spread Across Generic Suppliers:** Across 1,358 multi-source generic molecules, the median difference between the 75th and 25th percentile unit prices from competing manufacturers is 71.55%. In 65.76% of these molecules, the spread exceeds 35%. Statistical testing confirms significant wholesale price variation across competing generic suppliers (p < 0.001). Setting wholesaler ordering profiles to the 25th-percentile contract tier recovers \$2.10M each year.
+* **Brand-to-Generic Leakage:** Long-acting depot injectables and implants were excluded to make sure oral tablets were only compared against oral tablets. After filtering out CMS packaging outliers, net brand-to-generic leakage totals \$5.09B nationally (\$3.89M at the hospital scale). Converting 82.4% of eligible orders recovers \$3.20M annually:
+
+| Drug Formulation | Therapeutic Class | Competing Suppliers | Brand Cost | 75th-Pct Generic | 25th-Pct Generic Benchmark | National Spend Wedge | Hospital Recovery (\$85M Scale) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Vyvanse** (Lisdexamfetamine) | CNS / ADHD | 1 Brand / 13 Gen | \$12.57 | \$6.87 | \$5.86 | \$617.68M | **\$471,826** |
+| **Concerta** (Methylphenidate ER) | CNS / ADHD | 1 Brand / 16 Gen | \$13.14 | \$2.58 | \$0.35 | \$480.96M | **\$367,385** |
+| **Spiriva Respimat** (Tiotropium) | Respiratory / COPD | 1 Brand / 2 Gen | \$126.66 | \$15.39 | \$11.99 | \$230.27M | **\$175,892** |
+| **Advair Diskus** (Fluticasone/Salm) | Respiratory / Asthma | 1 Brand / 9 Gen | \$3.40 | \$175.08* | \$0.20 | \$178.40M | **\$136,273** |
+| **Banzel** (Rufinamide) | CNS / Anticonvulsant | 1 Brand / 10 Gen | \$14.74 | \$2.51 | \$1.91 | \$127.47M | **\$97,366** |
+| **Jornay PM** (Methylphenidate) | CNS / ADHD | 1 Brand / 16 Gen | \$14.54 | \$2.58 | \$0.35 | \$104.94M | **\$80,160** |
+
+*\*Note: Advair 75th-percentile supplier data includes packaging differences across inhaler formats. The benchmark cost reflects verified generic blister strip substitution.*
+
+### Rollout Scenarios
+Because hospital policy rollouts take time, we evaluated savings across three adoption rates:
+* **Conservative (60% Adoption):** \$1.92M annual operating margin (\$1.26M supplier locks + \$0.66M generic substitution).
+* **Year 1 Target (80% Adoption):** \$2.56M annual operating margin (\$1.68M supplier locks + \$0.88M generic substitution).
+* **Full Adoption (100% of Target / 82.4% of Gross Wedge):** \$3.20M annual operating margin (\$2.10M supplier locks + \$1.10M generic substitution).
+
+---
+
+## 5. Implementation Roadmap (P0 to P2)
+
+| Priority | Action | Target Scope | Lead Team | Expected Annual Impact | Primary Metric |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **P0 (Days 1 to 30)** | **Lock in 25th-Percentile GPO Generic Suppliers** | 1,358 multi-source generic molecules with a 71.6% median price spread between suppliers. | Pharmacy Purchasing and CFO | **\$2.10M annual savings** (\$1.68M at 80% target) | Primary GPO Contract Compliance (>95% within 30 days); Outlier Risk Index (0.0% < 5.0%). |
+| **P1 (Days 30 to 60)** | **Turn on Automatic EHR Generic Substitution** | Off-patent oral and inhaler brands: Vyvanse, Concerta, Spiriva Respimat, Advair Diskus, Banzel, Jornay PM. | Pharmacy Director and Clinical Informatics | **\$1.10M brand leakage recovery** (\$880K at 80% target) | Generic Dispensing Rate (>93% within 90 days); Chronic Therapy Disruption held at 1.8% (<2.5%). |
+| **P2 (Days 60 to 90)** | **Update EHR Order Sets for High-Cost Lines** | **Step Therapy:** Ozempic (+929% claims), Jardiance, Dupixent.<br>**Biosimilars:** Humira, Enbrel (56% price-led), Trulicity (+107% unit cost), Xifaxan (74% price-led). | P&T Committee Chair and CMO | **12% to 18% cost growth reduction** on top 25 lines | First-Line Guideline Adherence at Day 60; Quarterly Physician Override Audit. |
+
+---
+
+## 6. Data Architecture and Cleaning Pipeline (CLEAN Framework)
+
+### Data Tables and Grain
+We combined two CMS RY2026 data files: `DSD_MCD_RY26_P06_V20_D24_BGM.xlsx` (18,511 longitudinal records) and `DSD_MCD_RY26_P04_V10_YTD24_DBExport - 20260603.xlsx` (92,555 records with clinical indications).
+
+Because summary rows (`Mftr_Name == 'Overall'`) appear alongside individual manufacturer lines, summing the raw file directly doubles total spending. The pipeline splits the dataset into two clean Parquet files:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│             Raw CMS RY2026 Drug Utilization Files (18,511 Rows)             │
+│       Composite Key: [Brnd_Name x Gnrc_Name x Mftr_Name x Benefit_Year]     │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                  Partition on Mftr_Name Hierarchy & Join Clinical Uses
+                                       │
+            ┌──────────────────────────┴──────────────────────────┐
+            ▼                                                     ▼
+┌──────────────────────────────────────┐  ┌───────────────────────────────────┐
+│   mcd_drug_overall_2020_2024.parquet │  │ mcd_mftr_detail_2020_2024.parquet │
+│   (4,774 Summary Formulation Rows)   │  │ (13,737 Competing Labeler Rows)   │
+├──────────────────────────────────────┤  ├───────────────────────────────────┤
+│ - H1 Spend Concentration (Gini=0.90) │  │ - H3 Multi-Source Price Dispersion│
+│ - H2 Log Price-Volume Decomposition  │  │ - 25th-Percentile GPO Lock Model  │
+│ - Macro Therapeutic Class Rollups    │  │ - Supplier Market Share Audits    │
+└──────────────────────────────────────┘  └───────────────────────────────────┘
+```
+
+### Data Issues Log
+
+| Issue ID | Feature | Issue Found | Magnitude | Resolution |
+| :--- | :--- | :--- | :--- | :--- |
+| **ISS-01** | `Mftr_Name` | Summary rows (`Overall`) mixed with supplier rows, which doubles total spend if unfiltered. | 4,774 summary rows vs. 13,737 supplier rows. | Split into two Parquet files with automated reconciliation tests in pytest. |
+| **ISS-02** | `Tot_Clms` (2020 to 2023) | CMS suppresses cells with fewer than 11 claims under HIPAA privacy rules. | 1,008 rows in 2020; 775 in 2021; 559 in 2022; 315 in 2023; 0 in 2024. | Stored as `NULL` (`NaN`); excluded from 5-year log growth calculations to avoid artificial growth spikes from zero substitution. |
+| **ISS-03** | `Outlier_Flag_2024` | Billing unit discrepancies (e.g., milliliters billed instead of whole containers) flagged by CMS outlier rules. | 1,738 of 4,774 formulations (36.41% of lines; 8.16% of total spend; 5.07% of unadjusted wedge). | Retained in total spend baselines; excluded from P0 and P1 target rankings to keep outlier exposure in modeled savings at 0.0%. |
+| **ISS-04** | `Gnrc_Name` Dosage Forms | Matching on chemical name alone compares long-acting depot injectables (like Abilify Maintena) against oral generic tablets. | \$2.19B in distorted national brand spread if left unfiltered. | Added an explicit dosage-form filter in `test_h3_price_spread.py` so oral tablets are compared only to oral tablets. |
+| **ISS-05** | Pre-Rebate Values | CMS totals reflect pharmacy reimbursement before statutory manufacturer rebates. | Brand rebates typically average 30% to 55% or more. | Focused P0 and P1 savings (\$3.20M) on multi-source generics and off-patent brands where wholesale acquisition prices directly affect hospital margins. |
+
+---
+
+## 7. Project Structure and How to Run
 
 ```text
 medicaid-spending-optimization/
-├── assets/                               # Exported Sankey flow and chart images
+├── index.html                          # 7-Slide Executive Briefing Deck
+├── dashboard.html                      # Interactive P&T Decision Cockpit
+├── README.md                           # Project Documentation
+├── requirements.txt                    # Pinned Python 3.11 Dependencies
+├── assets/                             # Figures and Diagrams
+│   └── medicaid_spend_sankey.png       # Spend Concentration Sankey Diagram
 ├── data/
-│   ├── raw/                              # Source CMS drug spending and clinical reference files
-│   └── cleaned/                          # Cleaned, split Apache Parquet datasets
+│   ├── raw/                            # CMS Excel files and PDF dictionaries
+│   ├── cleaned/                        # Partitioned Parquet tables
+│   └── exports/                        # Summary CSV exports
 ├── src/
-│   ├── etl/
-│   │   └── clean_pipeline.py             # Data preparation, row splitting, and cleaning script
-│   ├── analytics/
-│   │   ├── test_h1_capital_allocation.py # Spend concentration and Sankey flow analysis
-│   │   ├── test_h2_decomposition.py      # 5-year price vs. volume growth analysis
-│   │   └── test_h3_price_spread.py       # Multi-source generic price spread analysis
-│   └── dashboard/
-│       └── app.py                        # Streamlit decision cockpit application
-├── index.html                            # 7-Slide Executive Briefing Deck (GitHub Pages)
-├── dashboard.html                        # Standalone Operational Decision Cockpit
-├── requirements.txt                      # Python 3.11 package dependencies
-└── README.md                             # Project overview and methodology
+│   ├── etl/clean_pipeline.py           # Data cleaning and table partition pipeline
+│   ├── analytics/                      # H1, H2, and H3 analysis scripts
+│   └── dashboard/app.py                # Streamlit application source
+└── tests/                              # Automated test suite
 ```
 
----
-
-## 9. Local Setup Guide
-
+### Running the Project Locally
 ```bash
-# 1. Clone the repository
-git clone https://github.com/J-Amores/data-analyst-portfolio.git
-cd data-analyst-portfolio/medicaid-spending-optimization
-
-# 2. Create and activate the virtual environment
-python3 -m venv .venv
-source .venv/bin/activate
-
-# 3. Install dependencies
+# 1. Set up the virtual environment and install dependencies
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# 4. Run the data preparation and analysis scripts
+# 2. Run data cleaning and analysis scripts
 python src/etl/clean_pipeline.py
 python src/analytics/test_h1_capital_allocation.py
 python src/analytics/test_h2_decomposition.py
 python src/analytics/test_h3_price_spread.py
 
-# 5. Launch the Streamlit dashboard locally
-streamlit run src/dashboard/app.py
+# 3. Run automated tests
+pytest tests/
 ```
