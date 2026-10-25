@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consumer Credit Risk & Underwriting Optimization Report</title>
+  
+  <!-- Typography: High-Contrast Editorial Serif + Crisp Sans + Tabular Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CSS CUSTOM PROPERTIES & COLOR PALETTE (PANGAIA BINDER STANDARD)
+       ========================================================================== */
+    :root {
+      --bg-paper: #FAF8F2;
+      --bg-paper-alt: #F3EFE6;
+      --ink-black: #111111;
+      --ink-muted: #4A4843;
+      --tab-1-cream: #FDFBF3;
+      --tab-2-lavender: #B899FF;
+      --tab-3-green: #5CE65C;
+      --tab-4-blue: #7CC6FE;
+      --tab-5-pink: #FF85A1;
+      --color-crimson: #BE123C;
+      --color-green: #15803D;
+      --color-charcoal: #27272A;
+      --hairline: 1px solid var(--ink-black);
+    }
+
+    /* Base Reset & Invariants */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100dvh;
+      overflow: hidden;
+      background-color: var(--bg-paper);
+      color: var(--ink-black);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+      background: var(--ink-black);
+      color: var(--bg-paper);
+    }
+
+    /* Persistent Physical Binder Shell */
+    #binder-shell {
+      display: grid;
+      grid-template-columns: 48px 1fr 44px;
+      width: 100vw;
+      height: 100dvh;
+      overflow: hidden;
+      background: var(--bg-paper);
+      position: relative;
+    }
+
+    /* Column 1: Left Binder Spine */
+    #binder-spine {
+      width: 48px;
+      height: 100dvh;
+      border-right: var(--hairline);
+      background: var(--bg-paper);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .punch-hole {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--ink-black);
+      box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.4);
+    }
+
+    .punch-hole:nth-child(1) { top: 18%; }
+    .punch-hole:nth-child(2) { top: 39%; }
+    .punch-hole:nth-child(3) { top: 61%; }
+    .punch-hole:nth-child(4) { top: 82%; }
+
+    /* Column 2: Center Editorial Scroll Container */
+    #deck-scroller {
+      height: 100dvh;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      position: relative;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ink-black) var(--bg-paper);
+    }
+
+    #deck-scroller::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    #deck-scroller::-webkit-scrollbar-track {
+      background: var(--bg-paper);
+    }
+
+    #deck-scroller::-webkit-scrollbar-thumb {
+      background: var(--ink-black);
+    }
+
+    /* Column 3: Right Die-Cut Index Tab Rail */
+    #binder-tabs {
+      width: 44px;
+      height: 100dvh;
+      border-left: var(--hairline);
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-paper);
+      z-index: 10;
+    }
+
+    .binder-tab {
+      height: 20%;
+      width: 100%;
+      border: none;
+      border-bottom: var(--hairline);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-black);
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 0;
+      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+      position: relative;
+    }
+
+    .binder-tab:hover {
+      filter: brightness(0.96);
+    }
+
+    .binder-tab.is-active {
+      transform: translateX(-4px);
+      box-shadow: -2px 0 0 var(--ink-black);
+      font-weight: 800;
+    }
+
+    .tab-dot {
+      display: none;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ink-black);
+    }
+
+    .binder-tab.is-active .tab-dot {
+      display: inline-block;
+    }
+
+    .binder-tab[data-tab-target="1"] { background: var(--tab-1-cream); }
+    .binder-tab[data-tab-target="2"] { background: var(--tab-2-lavender); }
+    .binder-tab[data-tab-target="3"] { background: var(--tab-3-green); }
+    .binder-tab[data-tab-target="4"] { background: var(--tab-4-blue); }
+    .binder-tab[data-tab-target="5"] { background: var(--tab-5-pink); }
+
+    /* Slide Viewport Standard */
+    .slide {
+      height: 100dvh;
+      width: 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      overflow: hidden;
+      display: grid;
+      box-sizing: border-box;
+      background: var(--bg-paper);
+      position: relative;
+    }
+
+    /* Common Typography Elements */
+    .font-serif {
+      font-family: 'Instrument Serif', Georgia, serif;
+    }
+
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border: var(--hairline);
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--tab-1-cream);
+      color: var(--ink-black);
+    }
+
+    /* Standard Chapter Grid Layout */
+    .slide-chapter {
+      grid-template-rows: auto auto 1fr;
+      min-height: 0;
+      min-width: 0;
+    }
+
+    .chapter-banner {
+      border-bottom: var(--hairline);
+      padding: 12px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--bg-paper);
+    }
+
+    .chapter-headline {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(1.45rem, 2.3vw, 2.25rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      color: var(--ink-black);
+    }
+
+    /* 4-Column Metric Strip */
+    .metric-strip-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: var(--hairline);
+      background: var(--bg-paper-alt);
+      min-height: 0;
+    }
+
+    .metric-cell {
+      padding: 8px 18px;
+      border-right: var(--hairline);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .metric-cell:last-child {
+      border-right: none;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .metric-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.2rem, 1.75vw, 1.6rem);
+      font-weight: 700;
+      color: var(--ink-black);
+      line-height: 1.15;
+    }
+
+    .metric-sub {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+    }
+
+    /* Chapter Split Stage */
+    .stage-split {
+      display: grid;
+      min-height: 0;
+      min-width: 0;
+      height: 100%;
+    }
+
+    .stage-col {
+      min-height: 0;
+      min-width: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stage-col-left {
+      border-right: var(--hairline);
+    }
+
+    /* Zoomable Chart Container */
+    .chart-container {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      background: var(--bg-paper);
+    }
+
+    .chart-zoomable {
+      max-height: 100%;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      cursor: zoom-in;
+      transition: transform 140ms ease;
+    }
+
+    .chart-zoomable:hover {
+      transform: scale(1.01);
+    }
+
+    .chart-caption-bar {
+      border-top: var(--hairline);
+      padding: 8px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      background: var(--bg-paper-alt);
+    }
+
+    /* ==========================================================================
+       SLIDE 1: COVER PAGE
+       ========================================================================== */
+    #slide-1 {
+      grid-template-rows: 44px 1fr auto;
+    }
+
+    .cover-top-bar {
+      height: 44px;
+      border-bottom: var(--hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--bg-paper);
+    }
+
+    .cover-top-links a {
+      color: var(--ink-black);
+      text-decoration: none;
+      margin-left: 16px;
+      border-bottom: 1px solid var(--ink-black);
+      transition: opacity 140ms ease;
+    }
+
+    .cover-top-links a:hover {
+      opacity: 0.7;
+    }
+
+    .cover-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .cover-pill {
+      display: inline-block;
+      padding: 4px 14px;
+      border: var(--hairline);
+      border-radius: 14px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      background: var(--bg-paper);
+    }
+
+    .cover-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(3.8rem, 7.2vw, 6.8rem);
+      line-height: 0.94;
+      letter-spacing: -0.03em;
+      font-weight: 400;
+      text-transform: uppercase;
+      color: var(--ink-black);
+    }
+
+    .cover-subtitle {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(1.05rem, 1.45vw, 1.3rem);
+      font-style: italic;
+      color: var(--ink-muted);
+      max-width: 680px;
+      margin-top: 24px;
+      line-height: 1.35;
+    }
+
+    .cover-bottom-strip {
+      border-top: var(--hairline);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--bg-paper-alt);
+    }
+
+    .cover-bottom-cell {
+      padding: 12px 20px;
+      border-right: var(--hairline);
+    }
+
+    .cover-bottom-cell:last-child {
+      border-right: none;
+    }
+
+    /* ==========================================================================
+       SLIDE 2: TABLE OF CONTENTS (5 EQUAL ROWS)
+       ========================================================================== */
+    #slide-2 {
+      grid-template-rows: repeat(5, 1fr);
+    }
+
+    .toc-row {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      border-bottom: var(--hairline);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink-black);
+      transition: filter 140ms ease;
+      min-height: 0;
+    }
+
+    .toc-row:last-child {
+      border-bottom: none;
+    }
+
+    .toc-row:hover {
+      filter: brightness(0.96);
+    }
+
+    .toc-row[data-row="1"] { background: var(--tab-1-cream); }
+    .toc-row[data-row="2"] { background: var(--tab-2-lavender); }
+    .toc-row[data-row="3"] { background: var(--tab-3-green); }
+    .toc-row[data-row="4"] { background: var(--tab-4-blue); }
+    .toc-row[data-row="5"] { background: var(--tab-5-pink); }
+
+    .toc-left {
+      border-right: var(--hairline);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 28px;
+    }
+
+    .toc-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: var(--hairline);
+      background: var(--bg-paper);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .toc-badge-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .toc-badge-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--ink-muted);
+      line-height: 1;
+      margin-top: 1px;
+    }
+
+    .toc-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+
+    .toc-right {
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      font-size: 0.84rem;
+      line-height: 1.4;
+      color: var(--ink-black);
+    }
+
+    /* ==========================================================================
+       SLIDE 3: CHAPTER 1 (PORTFOLIO CONTEXT & ACTIVE-LOAN BLIND SPOT)
+       ========================================================================== */
+    .narrative-box {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .narrative-lead {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.15rem;
+      line-height: 1.4;
+      color: var(--ink-black);
+    }
+
+    .narrative-body {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: var(--ink-muted);
+    }
+
+    .target-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: var(--hairline);
+      background: var(--bg-paper-alt);
+    }
+
+    .target-cell {
+      padding: 10px 14px;
+      border-right: var(--hairline);
+    }
+
+    .target-cell:last-child {
+      border-right: none;
+    }
+
+    /* Slide 3 Right Column: Portfolio Split Breakdown */
+    .split-diag-wrap {
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .split-tree-box {
+      border: var(--hairline);
+      padding: 10px 14px;
+      background: var(--tab-1-cream);
+    }
+
+    .split-tree-branches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .split-branch {
+      border: var(--hairline);
+      padding: 8px 10px;
+      background: var(--bg-paper);
+    }
+
+    .bar-comp-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .bar-comp-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .bar-comp-track {
+      height: 12px;
+      border: var(--hairline);
+      background: var(--bg-paper-alt);
+      position: relative;
+    }
+
+    .bar-comp-fill {
+      height: 100%;
+      background: var(--ink-black);
+    }
+
+    /* ==========================================================================
+       SLIDE 4: CHAPTER 2 (SUBPRIME LOSS SKEW)
+       ========================================================================== */
+    .tier-table-4 {
+      display: flex;
+      flex-direction: column;
+      border: var(--hairline);
+      margin: 16px 20px 20px 20px;
+      background: var(--bg-paper);
+    }
+
+    .tier-table-row {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr 0.9fr 1fr;
+      padding: 10px 14px;
+      border-bottom: var(--hairline);
+      font-size: 0.8rem;
+      align-items: center;
+    }
+
+    .tier-table-row:last-child {
+      border-bottom: none;
+    }
+
+    .tier-table-row.header {
+      background: var(--bg-paper-alt);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    /* ==========================================================================
+       SLIDE 5: CHAPTER 3 (RATES & TERMS COHORT SWITCHER)
+       ========================================================================== */
+    .cohort-switcher {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .cohort-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: var(--hairline);
+      background: var(--bg-paper-alt);
+    }
+
+    .cohort-tab-btn {
+      border: none;
+      border-right: var(--hairline);
+      padding: 10px 6px;
+      background: transparent;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--ink-black);
+      cursor: pointer;
+      text-align: center;
+      transition: background 140ms ease;
+    }
+
+    .cohort-tab-btn:last-child {
+      border-right: none;
+    }
+
+    .cohort-tab-btn.is-active {
+      background: var(--tab-3-green);
+    }
+
+    .cohort-display-stage {
+      flex: 1;
+      min-height: 0;
+      padding: 16px 20px;
+      overflow-y: auto;
+    }
+
+    .cohort-panel {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      height: 100%;
+    }
+
+    .cohort-panel.is-active {
+      display: flex;
+    }
+
+    .grade-bar-item {
+      display: grid;
+      grid-template-columns: 100px 1fr 140px;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.78rem;
+    }
+
+    .takeaways-box {
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    .takeaway-card {
+      border: var(--hairline);
+      padding: 12px 14px;
+      background: var(--tab-1-cream);
+    }
+
+    .takeaway-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: var(--ink-black);
+    }
+
+    .takeaway-text {
+      font-size: 0.82rem;
+      line-height: 1.4;
+      color: var(--ink-muted);
+    }
+
+    /* ==========================================================================
+       SLIDE 6: CHAPTER 4 (RISK GRID CALLOUT BOX)
+       ========================================================================== */
+    .compare-callout-box {
+      border: var(--hairline);
+      margin: 16px 20px 20px 20px;
+      background: var(--bg-paper);
+    }
+
+    .compare-row {
+      padding: 14px 18px;
+      border-bottom: var(--hairline);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .compare-row:last-child {
+      border-bottom: none;
+    }
+
+    .compare-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================================
+       SLIDE 7: CHAPTER 5 (SENSITIVITY TESTER)
+       ========================================================================== */
+    .scenario-picker {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: var(--hairline);
+      background: var(--bg-paper-alt);
+    }
+
+    .scenario-btn {
+      border: none;
+      border-right: var(--hairline);
+      padding: 10px 8px;
+      background: transparent;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--ink-black);
+      cursor: pointer;
+      transition: background 140ms ease;
+    }
+
+    .scenario-btn:last-child {
+      border-right: none;
+    }
+
+    .scenario-btn.is-active {
+      background: var(--tab-5-pink);
+    }
+
+    .scenario-content {
+      padding: 14px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .sensitivity-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.76rem;
+    }
+
+    .sensitivity-table th,
+    .sensitivity-table td {
+      border: var(--hairline);
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    .sensitivity-table th {
+      background: var(--bg-paper-alt);
+      font-weight: 700;
+    }
+
+    .sensitivity-table tr.is-active {
+      background: #FFE4E6;
+      font-weight: 700;
+    }
+
+    .guardrail-strip {
+      border-top: var(--hairline);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: var(--bg-paper-alt);
+    }
+
+    .guardrail-item {
+      padding: 8px 12px;
+      border-right: var(--hairline);
+      font-size: 0.72rem;
+    }
+
+    .guardrail-item:last-child {
+      border-right: none;
+    }
+
+    /* ==========================================================================
+       SLIDE 8: 90-DAY ROLLOUT ACTION TABLE
+       ========================================================================== */
+    #slide-8 {
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .action-table-wrap {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 18px 24px;
+      background: var(--bg-paper);
+    }
+
+    .action-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: var(--hairline);
+    }
+
+    .action-table th,
+    .action-table td {
+      border: var(--hairline);
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .action-table th {
+      background: var(--bg-paper-alt);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--ink-black);
+    }
+
+    .deck-footer {
+      border-top: var(--hairline);
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: var(--tab-1-cream);
+      font-size: 0.75rem;
+    }
+
+    .deck-footer a {
+      color: var(--ink-black);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink-black);
+      margin: 0 6px;
+    }
+
+    .deck-footer a:hover {
+      opacity: 0.7;
+    }
+
+    /* ==========================================================================
+       LIGHTBOX MODAL
+       ========================================================================== */
+    #lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.84);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(4px);
+    }
+
+    #lightbox-modal.is-open {
+      display: flex;
+    }
+
+    .lightbox-card {
+      background: var(--bg-paper);
+      border: var(--hairline);
+      padding: 16px;
+      max-width: 92vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      border: var(--hairline);
+      background: var(--bg-paper);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      cursor: pointer;
+      color: var(--ink-black);
+    }
+
+    .lightbox-close-btn:hover {
+      background: var(--ink-black);
+      color: var(--bg-paper);
+    }
+
+    #lightbox-img {
+      max-width: 88vw;
+      max-height: 80vh;
+      object-fit: contain;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="binder-shell">
+    
+    <!-- COL 1: LEFT BINDER SPINE -->
+    <aside id="binder-spine" aria-label="Binder Spine">
+      <div class="punch-hole"></div>
+      <div class="punch-hole"></div>
+      <div class="punch-hole"></div>
+      <div class="punch-hole"></div>
+    </aside>
+
+    <!-- COL 2: CENTER EDITORIAL SCROLL CONTAINER -->
+    <main id="deck-scroller">
+
+      <!-- ======================================================================
+           SLIDE 1: COVER PAGE
+           ====================================================================== -->
+      <section class="slide" id="slide-1" data-slide="1" data-tab="1">
+        <header class="cover-top-bar">
+          <div>JOHN AMORES | DATA ANALYST PORTFOLIO</div>
+          <div>LENDINGCLUB 2007-2018Q4 ($19.39B BOOK)</div>
+          <div class="cover-top-links">
+            <a href="cockpit.html">Open Interactive Cockpit -&gt;</a>
+            <a href="https://github.com/jamores/credit-risk-optimization" target="_blank" rel="noopener">GitHub Repo</a>
+          </div>
+        </header>
+
+        <div class="cover-center">
+          <div class="cover-pill">CONSUMER CREDIT RISK &amp; UNDERWRITING CASE STUDY</div>
+          <h1 class="cover-title">CREDIT RISK<br>REPORT</h1>
+          <p class="cover-subtitle">
+            A look across 1,345,350 completed consumer loans ($19.39B funded). How targeted approval rules save $230M in unpaid losses while keeping 95.8% of lending volume.
+          </p>
+        </div>
+
+        <footer class="cover-bottom-strip">
+          <div class="cover-bottom-cell">
+            <div class="metric-label">COMPLETED LOANS REVIEWED</div>
+            <div class="metric-value">$19.39B</div>
+            <div class="metric-sub">1,345,350 mature accounts</div>
+          </div>
+          <div class="cover-bottom-cell">
+            <div class="metric-label">TRUE DEFAULT RATE</div>
+            <div class="metric-value">19.96%</div>
+            <div class="metric-sub">1.68x higher than 11.88% unfiltered rate</div>
+          </div>
+          <div class="cover-bottom-cell">
+            <div class="metric-label">NET CASH PROFIT</div>
+            <div class="metric-value">+$825.1M</div>
+            <div class="metric-sub">+4.26% net return after losses</div>
+          </div>
+          <div class="cover-bottom-cell">
+            <div class="metric-label">TOTAL VALUE IDENTIFIED</div>
+            <div class="metric-value">+$244.2M</div>
+            <div class="metric-sub">+$230.0M saved losses + $14.2M rate lift</div>
+          </div>
+        </footer>
+      </section>
+
+      <!-- ======================================================================
+           SLIDE 2: COLOR-BANDED TABLE OF CONTENTS (5 ROWS)
+           ====================================================================== -->
+      <section class="slide" id="slide-2" data-slide="2" data-tab="1">
+        <!-- Row 1: Overview & Mandate -->
+        <a class="toc-row" data-row="1" href="#slide-3" onclick="scrollToSlide('slide-3'); return false;">
+          <div class="toc-left">
+            <div class="toc-badge">
+              <span class="toc-badge-num">01</span>
+              <span class="toc-badge-sub">$19.4B</span>
+            </div>
+            <h2 class="toc-title">Overview &amp; Mandate</h2>
+          </div>
+          <div class="toc-right">
+            Why we separated 912,569 active loans from 1.35M completed loans; unmasking the 19.96% true default rate; setting our +4.00% profit floor and 80.0% volume goal.
+          </div>
+        </a>
+
+        <!-- Row 2: Subprime Loss Skew -->
+        <a class="toc-row" data-row="2" href="#slide-4" onclick="scrollToSlide('slide-4'); return false;">
+          <div class="toc-left">
+            <div class="toc-badge">
+              <span class="toc-badge-num">02</span>
+              <span class="toc-badge-sub">51.5%</span>
+            </div>
+            <h2 class="toc-title">Subprime Loss Skew</h2>
+          </div>
+          <div class="toc-right">
+            How Grades D through G receive 28.5% of lending money ($5.52B) but cause 51.5% of all unpaid write-offs ($1.40B); how prime borrowers (+$857M profit) subsidize lower grades.
+          </div>
+        </a>
+
+        <!-- Row 3: Rates & Loan Terms -->
+        <a class="toc-row" data-row="3" href="#slide-5" onclick="scrollToSlide('slide-5'); return false;">
+          <div class="toc-left">
+            <div class="toc-badge">
+              <span class="toc-badge-num">03</span>
+              <span class="toc-badge-sub">-9.81%</span>
+            </div>
+            <h2 class="toc-title">Rates &amp; Loan Terms</h2>
+          </div>
+          <div class="toc-right">
+            Why charging 20% to 26% interest fails to cover early defaults; net return dropping below our +4.00% goal at Subgrade C4 (+3.44%) and losing money at E5 (-1.34%); the 5-year loan penalty (32.45% default rate).
+          </div>
+        </a>
+
+        <!-- Row 4: Combined Risk Grid -->
+        <a class="toc-row" data-row="4" href="#slide-6" onclick="scrollToSlide('slide-6'); return false;">
+          <div class="toc-left">
+            <div class="toc-badge">
+              <span class="toc-badge-num">04</span>
+              <span class="toc-badge-sub">28.4%</span>
+            </div>
+            <h2 class="toc-title">Combined Risk Grid</h2>
+          </div>
+          <div class="toc-right">
+            Cross-tabulating monthly debt ratio (&gt;25% of income) with credit card usage (&gt;65% full) to isolate the 47,705 high-risk subprime loans defaulting at 38.88%.
+          </div>
+        </a>
+
+        <!-- Row 5: 90-Day Action Plan -->
+        <a class="toc-row" data-row="5" href="#slide-7" onclick="scrollToSlide('slide-7'); return false;">
+          <div class="toc-left">
+            <div class="toc-badge">
+              <span class="toc-badge-num">05</span>
+              <span class="toc-badge-sub">+$244M</span>
+            </div>
+            <h2 class="toc-title">90-Day Action Plan</h2>
+          </div>
+          <div class="toc-right">
+            Testing 60%, 80%, and 100% rollout scenarios; saving $230.0M in unpaid losses via Phase 1 decline rules and adding $14.2M via Phase 2 rate updates while keeping 95.8% of volume.
+          </div>
+        </a>
+      </section>
+
+      <!-- ======================================================================
+           SLIDE 3: CHAPTER 1 (OVERVIEW & ACTIVE-LOAN BLIND SPOT)
+           ====================================================================== -->
+      <section class="slide slide-chapter" id="slide-3" data-slide="3" data-tab="1">
+        <header class="chapter-banner">
+          <div><span class="tag-pill">01 / OVERVIEW &amp; DATA REALITY</span></div>
+          <h2 class="chapter-headline">Separating 912K active loans reveals a 19.96% default rate: 1.68x higher than standard reports.</h2>
+        </header>
+
+        <div class="metric-strip-4">
+          <div class="metric-cell">
+            <div class="metric-label">TOTAL HISTORICAL BOOK</div>
+            <div class="metric-value">2.26M Loans</div>
+            <div class="metric-sub">$33.98B total funded</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">ACTIVE ONGOING LOANS</div>
+            <div class="metric-value">912,569 Open</div>
+            <div class="metric-sub">40.4% of rows still paying</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">UNFILTERED DEFAULT RATE</div>
+            <div class="metric-value">11.88% Apparent</div>
+            <div class="metric-sub">Artificially low due to new loans</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">COMPLETED DEFAULT RATE</div>
+            <div class="metric-value">19.96% Actual</div>
+            <div class="metric-sub">268,599 defaults across 1.35M closed loans</div>
+          </div>
+        </div>
+
+        <div class="stage-split" style="grid-template-columns: 1fr 1fr;">
+          <!-- Left Column -->
+          <div class="stage-col stage-col-left" style="justify-content: space-between;">
+            <div class="narrative-box">
+              <p class="narrative-lead">
+                "Between 2007 and 2018, the platform funded $19.39B across 1.35 million completed loans. When leadership looked at the raw database, default rates looked manageable at 11.88% because 912,569 active loans had not finished their payment schedules yet."
+              </p>
+              <p class="narrative-body">
+                "To measure real performance, we separated active accounts from completed loans (Fully Paid vs. Charged Off). Looking only at completed loans proved that nearly 1 in 5 borrowers defaulted (19.96%), meaning standard reporting underestimated credit risk by 1.68 times."
+              </p>
+            </div>
+
+            <div class="target-grid-3">
+              <div class="target-cell">
+                <div class="metric-label">PROFIT GOAL (LAROC)</div>
+                <div class="font-mono" style="font-size: 1.05rem; font-weight: 700;">&gt; +4.00%</div>
+                <div class="metric-sub">Net cash return after losses</div>
+              </div>
+              <div class="target-cell">
+                <div class="metric-label">DEFAULT RATE CAP</div>
+                <div class="font-mono" style="font-size: 1.05rem; font-weight: 700;">&lt; 19.30%</div>
+                <div class="metric-sub">Down from 19.96% baseline</div>
+              </div>
+              <div class="target-cell">
+                <div class="metric-label">VOLUME GUARDRAIL</div>
+                <div class="font-mono" style="font-size: 1.05rem; font-weight: 700;">&gt;= 80.0%</div>
+                <div class="metric-sub">Minimum lending volume kept</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="stage-col">
+            <div class="split-diag-wrap">
+              <div class="split-tree-box">
+                <div class="metric-label">DATASET SEGREGATION HIERARCHY</div>
+                <div style="font-size: 0.88rem; font-weight: 700; margin-top: 4px;">Raw Platform Database (2,260,668 loans | $33.98B)</div>
+                <div class="split-tree-branches">
+                  <div class="split-branch">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--color-crimson);">COMPLETED LOANS (STUDY POPULATION)</div>
+                    <div class="font-mono" style="font-size: 0.95rem; font-weight: 700; margin-top: 2px;">1,345,350 loans ($19.39B)</div>
+                    <div style="font-size: 0.72rem; color: var(--ink-muted); margin-top: 2px;">19.96% Default Rate | Used for Underwriting &amp; Pricing Rules</div>
+                  </div>
+                  <div class="split-branch">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--ink-muted);">ACTIVE OPEN LOANS (MONITORED)</div>
+                    <div class="font-mono" style="font-size: 0.95rem; font-weight: 700; margin-top: 2px;">912,569 loans ($14.59B)</div>
+                    <div style="font-size: 0.72rem; color: var(--ink-muted); margin-top: 2px;">$588.5M 16-120 days late | Target for Early Payment Plans</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="metric-label" style="margin-bottom: 8px;">DEFAULT RATE COMPARISON BY SEASONING &amp; TIER</div>
+                
+                <div class="bar-comp-row">
+                  <div class="bar-comp-header">
+                    <span>Unfiltered Default Rate (Active + Closed)</span>
+                    <span class="font-mono">11.88%</span>
+                  </div>
+                  <div class="bar-comp-track">
+                    <div class="bar-comp-fill" style="width: 23.8%; background: #94A3B8;"></div>
+                  </div>
+                </div>
+
+                <div class="bar-comp-row">
+                  <div class="bar-comp-header">
+                    <span>Completed Prime Loans (Grades A-C)</span>
+                    <span class="font-mono">15.10%</span>
+                  </div>
+                  <div class="bar-comp-track">
+                    <div class="bar-comp-fill" style="width: 30.2%; background: var(--color-charcoal);"></div>
+                  </div>
+                </div>
+
+                <div class="bar-comp-row">
+                  <div class="bar-comp-header">
+                    <span>All Completed Loans (Seasoned Truth)</span>
+                    <span class="font-mono" style="font-weight: 700;">19.96%</span>
+                  </div>
+                  <div class="bar-comp-track">
+                    <div class="bar-comp-fill" style="width: 39.9%; background: var(--ink-black);"></div>
+                  </div>
+                </div>
+
+                <div class="bar-comp-row">
+                  <div class="bar-comp-header">
+                    <span>Completed Subprime Loans (Grades D-G)</span>
+                    <span class="font-mono" style="color: var(--color-crimson); font-weight: 700;">33.50%</span>
+                  </div>
+                  <div class="bar-comp-track">
+                    <div class="bar-comp-fill" style="width: 67.0%; background: var(--color-crimson);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SLIDE 4: CHAPTER 2 (SUBPRIME LOSS SKEW)
+           ====================================================================== -->
+      <section class="slide slide-chapter" id="slide-4" data-slide="4" data-tab="2">
+        <header class="chapter-banner">
+          <div><span class="tag-pill" style="background: var(--tab-2-lavender);">02 / SUBPRIME LOSS SKEW</span></div>
+          <h2 class="chapter-headline">Subprime Grades D through G get 28.5% of our lending money, but cause 51.5% of all unpaid losses.</h2>
+        </header>
+
+        <div class="metric-strip-4">
+          <div class="metric-cell">
+            <div class="metric-label">PRIME LENDING SHARE (A-C)</div>
+            <div class="metric-value">71.55%</div>
+            <div class="metric-sub">$13.87B across 1,009,537 loans</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">PRIME LOSS SHARE (A-C)</div>
+            <div class="metric-value">48.55%</div>
+            <div class="metric-sub">$1.32B lost | 0.68x ratio</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">SUBPRIME LENDING SHARE (D-G)</div>
+            <div class="metric-value">28.45%</div>
+            <div class="metric-sub">$5.52B across 335,813 loans</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">SUBPRIME LOSS SHARE (D-G)</div>
+            <div class="metric-value" style="color: var(--color-crimson);">51.45%</div>
+            <div class="metric-sub">$1.40B lost | 1.81x ratio</div>
+          </div>
+        </div>
+
+        <div class="stage-split" style="grid-template-columns: 1.15fr 0.85fr;">
+          <!-- Left Column: Figure 1 -->
+          <div class="stage-col stage-col-left">
+            <div class="chart-container">
+              <img src="assets/fig1_loss_contribution.png" alt="Figure 1: Loss Contribution Asymmetry by Grade" class="chart-zoomable" onclick="openLightbox(this.src)">
+            </div>
+            <div class="chart-caption-bar">
+              Chi-Square Goodness-of-Fit = 1.02B (p &lt; 0.001) | Subprime losses outweigh capital share by 1.81x.
+            </div>
+          </div>
+
+          <!-- Right Column: Narrative & Cross-Subsidization Table -->
+          <div class="stage-col" style="justify-content: space-between;">
+            <div class="narrative-box">
+              <p class="narrative-lead">
+                "Safer borrowers in Grades A through C bring in +$857M in net cash profit. However, high default rates in Grades D through G (30.4% to 49.9%) wipe out their interest payments and eat into prime profits."
+              </p>
+            </div>
+
+            <div class="tier-table-4">
+              <div class="tier-table-row header">
+                <div>Credit Tier</div>
+                <div>Lending Share</div>
+                <div>Loss Share</div>
+                <div>Net Profit / Cash</div>
+              </div>
+              <div class="tier-table-row">
+                <div style="font-weight: 700;">Grades A &amp; B (Low Risk)</div>
+                <div class="font-mono">46.7% ($9.0B)</div>
+                <div class="font-mono">24.5% ($668M)</div>
+                <div class="font-mono" style="font-weight: 700; color: var(--color-green);">+$654M Net Profit</div>
+              </div>
+              <div class="tier-table-row">
+                <div style="font-weight: 700;">Grade C (Moderate Risk)</div>
+                <div class="font-mono">24.9% ($4.8B)</div>
+                <div class="font-mono">24.1% ($656M)</div>
+                <div class="font-mono" style="font-weight: 700; color: var(--color-green);">+$203M Net Profit</div>
+              </div>
+              <div class="tier-table-row">
+                <div style="font-weight: 700;">Grades D &amp; E (High Risk)</div>
+                <div class="font-mono">24.1% ($4.7B)</div>
+                <div class="font-mono">41.8% ($1.14B)</div>
+                <div style="font-size: 0.74rem; color: var(--ink-muted);">Profits eroded by defaults</div>
+              </div>
+              <div class="tier-table-row">
+                <div style="font-weight: 700;">Grades F &amp; G (Highest Risk)</div>
+                <div class="font-mono">4.4% ($850M)</div>
+                <div class="font-mono">9.7% ($264M)</div>
+                <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">-$32M Net Cash Loss</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SLIDE 5: CHAPTER 3 (RATES & TERMS)
+           ====================================================================== -->
+      <section class="slide slide-chapter" id="slide-5" data-slide="5" data-tab="3">
+        <header class="chapter-banner">
+          <div><span class="tag-pill" style="background: var(--tab-3-green);">03 / INTEREST RATES &amp; LOAN TERMS</span></div>
+          <h2 class="chapter-headline">Charging 20% to 26% interest fails to cover defaults, and 5-year loans double default risk to 32.5%.</h2>
+        </header>
+
+        <div class="metric-strip-4">
+          <div class="metric-cell">
+            <div class="metric-label">DROPS BELOW +4.0% GOAL</div>
+            <div class="metric-value">Subgrade C4</div>
+            <div class="metric-sub">+3.44% net return | 23.8% defaults</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">STARTS LOSING MONEY</div>
+            <div class="metric-value" style="color: var(--color-crimson);">Subgrade E5</div>
+            <div class="metric-sub">-1.34% net return | down to -9.81% in G5</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">3-YEAR LOANS (36 MONTHS)</div>
+            <div class="metric-value">+5.12% Return</div>
+            <div class="metric-sub">16.00% default rate | $12.80B lent</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">5-YEAR LOANS (60 MONTHS)</div>
+            <div class="metric-value">+2.57% Return</div>
+            <div class="metric-sub">32.45% default rate | 2.03x higher risk</div>
+          </div>
+        </div>
+
+        <div class="stage-split" style="grid-template-columns: 1.1fr 0.9fr;">
+          <!-- Left Column: Interactive Cohort Switcher -->
+          <div class="stage-col stage-col-left">
+            <div class="cohort-switcher">
+              <div class="cohort-tabs">
+                <button class="cohort-tab-btn is-active" data-view="1" onclick="switchCohortView('1')">1. Return by Grade</button>
+                <button class="cohort-tab-btn" data-view="2" onclick="switchCohortView('2')">2. 3-Yr vs 5-Yr Terms</button>
+                <button class="cohort-tab-btn" data-view="3" onclick="switchCohortView('3')">3. Loan Purpose</button>
+                <button class="cohort-tab-btn" data-view="4" onclick="switchCohortView('4')">4. Money-Losing Subgrades</button>
+              </div>
+
+              <div class="cohort-display-stage">
+                <!-- Panel 1: Return by Grade -->
+                <div class="cohort-panel is-active" id="cohort-panel-1">
+                  <div class="metric-label" style="margin-bottom: 6px;">NET CASH RETURN &amp; DEFAULT RATE BY CREDIT TIER</div>
+                  
+                  <div class="grade-bar-item">
+                    <span style="font-weight: 700;">Grade A</span>
+                    <div class="bar-comp-track"><div class="bar-comp-fill" style="width: 56.9%; background: var(--color-green);"></div></div>
+                    <span class="font-mono" style="text-align: right;">+5.69% (6.0% bad)</span>
+                  </div>
+
+                  <div class="grade-bar-item">
+                    <span style="font-weight: 700;">Grade B</span>
+                    <div class="bar-comp-track"><div class="bar-comp-fill" style="width: 60.2%; background: var(--color-green);"></div></div>
+                    <span class="font-mono" style="text-align: right;">+6.02% (13.4% bad)</span>
+                  </div>
+
+                  <div class="grade-bar-item">
+                    <span style="font-weight: 700; color: #B45309;">Subgrade C4</span>
+                    <div class="bar-comp-track"><div class="bar-comp-fill" style="width: 34.4%; background: #B45309;"></div></div>
+                    <span class="font-mono" style="text-align: right; color: #B45309;">+3.44% (Misses goal)</span>
+                  </div>
+
+                  <div class="grade-bar-item">
+                    <span style="font-weight: 700;">Grade D</span>
+                    <div class="bar-comp-track"><div class="bar-comp-fill" style="width: 26.4%; background: var(--color-charcoal);"></div></div>
+                    <span class="font-mono" style="text-align: right;">+2.64% (30.4% bad)</span>
+                  </div>
+
+                  <div class="grade-bar-item">
+                    <span style="font-weight: 700; color: var(--color-crimson);">Subgrade E5</span>
+                    <div class="bar-comp-track"><div class="bar-comp-fill" style="width: 13.4%; background: var(--color-crimson);"></div></div>
+                    <span class="font-mono" style="text-align: right; color: var(--color-crimson);">-1.34% (Cash loss)</span>
+                  </div>
+
+                  <div class="grade-bar-item">
+                    <span style="font-weight: 700; color: var(--color-crimson);">Grade F</span>
+                    <div class="bar-comp-track"><div class="bar-comp-fill" style="width: 2.0%; background: var(--color-crimson);"></div></div>
+                    <span class="font-mono" style="text-align: right; color: var(--color-crimson);">-0.18% (45.2% bad)</span>
+                  </div>
+
+                  <div class="grade-bar-item">
+                    <span style="font-weight: 700; color: var(--color-crimson);">Grade G</span>
+                    <div class="bar-comp-track"><div class="bar-comp-fill" style="width: 46.6%; background: var(--color-crimson);"></div></div>
+                    <span class="font-mono" style="text-align: right; color: var(--color-crimson);">-4.66% (G5 at -9.81%)</span>
+                  </div>
+                </div>
+
+                <!-- Panel 2: 3-Year vs 5-Year Terms -->
+                <div class="cohort-panel" id="cohort-panel-2">
+                  <div class="metric-label" style="margin-bottom: 8px;">LOAN DURATION ASYMMETRY (36-MONTH VS 60-MONTH)</div>
+                  
+                  <div style="border: var(--hairline); padding: 12px; background: var(--bg-paper); margin-bottom: 8px;">
+                    <div style="font-size: 0.8rem; font-weight: 700;">3-Year Loans (36-Month Term)</div>
+                    <div class="font-mono" style="font-size: 1.1rem; font-weight: 700; margin: 4px 0;">+5.12% Net Cash Return</div>
+                    <div style="font-size: 0.75rem; color: var(--ink-muted);">$12.80B Funded Book | 16.00% Default Rate (Seasoned Baseline)</div>
+                  </div>
+
+                  <div style="border: var(--hairline); padding: 12px; background: #FEF2F2;">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--color-crimson);">5-Year Loans (60-Month Term)</div>
+                    <div class="font-mono" style="font-size: 1.1rem; font-weight: 700; margin: 4px 0; color: var(--color-crimson);">+2.57% Net Cash Return</div>
+                    <div style="font-size: 0.75rem; color: var(--ink-muted);">$6.58B Funded Book | 32.45% Default Rate (2.03x Higher Risk)</div>
+                  </div>
+                </div>
+
+                <!-- Panel 3: Loan Purpose Breakdown -->
+                <div class="cohort-panel" id="cohort-panel-3">
+                  <div class="metric-label" style="margin-bottom: 8px;">LOAN PURPOSE PROFITABILITY COMPARISON</div>
+                  
+                  <div style="border: var(--hairline); padding: 10px; background: var(--bg-paper); margin-bottom: 6px;">
+                    <div style="font-weight: 700; font-size: 0.8rem;">Credit Card Refinancing ($4.37B Book)</div>
+                    <div class="font-mono" style="font-size: 0.95rem; font-weight: 700; color: var(--color-green);">+5.51% Return | 16.93% Default Rate</div>
+                  </div>
+
+                  <div style="border: var(--hairline); padding: 10px; background: var(--bg-paper); margin-bottom: 6px;">
+                    <div style="font-weight: 700; font-size: 0.8rem;">Debt Consolidation ($11.30B Book)</div>
+                    <div class="font-mono" style="font-size: 0.95rem; font-weight: 700; color: var(--color-green);">+4.45% Return | 20.45% Default Rate</div>
+                  </div>
+
+                  <div style="border: var(--hairline); padding: 10px; background: #FEF2F2;">
+                    <div style="font-weight: 700; font-size: 0.8rem; color: var(--color-crimson);">Small Business Loans ($240.1M Book)</div>
+                    <div class="font-mono" style="font-size: 0.95rem; font-weight: 700; color: var(--color-crimson);">-0.59% Cash Loss | 29.71% Default Rate</div>
+                  </div>
+                </div>
+
+                <!-- Panel 4: Money-Losing Subgrades E5-G5 -->
+                <div class="cohort-panel" id="cohort-panel-4">
+                  <div class="metric-label" style="margin-bottom: 8px;">ALL 8 VALUE-DESTRUCTIVE SUBGRADES (NEGATIVE RETURN)</div>
+                  
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div style="border: var(--hairline); padding: 8px; background: #FEF2F2;">
+                      <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">E5: -1.34%</div>
+                      <div style="font-size: 0.7rem; color: var(--ink-muted);">41.2% Default Rate</div>
+                    </div>
+                    <div style="border: var(--hairline); padding: 8px; background: #FEF2F2;">
+                      <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">F4: -1.56%</div>
+                      <div style="font-size: 0.7rem; color: var(--ink-muted);">46.8% Default Rate</div>
+                    </div>
+                    <div style="border: var(--hairline); padding: 8px; background: #FEF2F2;">
+                      <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">F5: -2.55%</div>
+                      <div style="font-size: 0.7rem; color: var(--ink-muted);">48.1% Default Rate</div>
+                    </div>
+                    <div style="border: var(--hairline); padding: 8px; background: #FEF2F2;">
+                      <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">G1: -2.62%</div>
+                      <div style="font-size: 0.7rem; color: var(--ink-muted);">48.9% Default Rate</div>
+                    </div>
+                    <div style="border: var(--hairline); padding: 8px; background: #FEF2F2;">
+                      <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">G2: -3.57%</div>
+                      <div style="font-size: 0.7rem; color: var(--ink-muted);">50.4% Default Rate</div>
+                    </div>
+                    <div style="border: var(--hairline); padding: 8px; background: #FEF2F2;">
+                      <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">G3: -5.42%</div>
+                      <div style="font-size: 0.7rem; color: var(--ink-muted);">52.1% Default Rate</div>
+                    </div>
+                    <div style="border: var(--hairline); padding: 8px; background: #FEF2F2;">
+                      <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">G4: -7.12%</div>
+                      <div style="font-size: 0.7rem; color: var(--ink-muted);">54.8% Default Rate</div>
+                    </div>
+                    <div style="border: var(--hairline); padding: 8px; background: #FEF2F2;">
+                      <div class="font-mono" style="font-weight: 700; color: var(--color-crimson);">G5: -9.81%</div>
+                      <div style="font-size: 0.7rem; color: var(--ink-muted);">58.3% Default Rate</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Takeaways -->
+          <div class="stage-col">
+            <div class="takeaways-box">
+              <div class="takeaway-card">
+                <div class="takeaway-title">Item 01: The High-Interest Trap</div>
+                <div class="takeaway-text">
+                  "Charging 20% to 26% interest on Grades E through G looks profitable on paper. In practice, 40% to 50% of those borrowers default early, so we lose the original loan principal before collecting enough interest."
+                </div>
+              </div>
+
+              <div class="takeaway-card">
+                <div class="takeaway-title">Item 02: The 5-Year Payback Penalty</div>
+                <div class="takeaway-text">
+                  "Five-year (60-month) loans make up 24.1% of lending ($6.58B) but default at 32.45% (double the 16.00% rate of 3-year loans), cutting net returns in half (+2.57% vs. +5.12%)."
+                </div>
+              </div>
+
+              <div class="takeaway-card">
+                <div class="takeaway-title">Item 03: Unsecured Small Business Losses</div>
+                <div class="takeaway-text">
+                  "While credit card refinancing earns a strong +5.51% return, small business loans hit a 29.71% default rate and lose money (-0.59% return) because applicants do not have to submit tax returns to verify business revenue."
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SLIDE 6: CHAPTER 4 (RISK GRID HEATMAP)
+           ====================================================================== -->
+      <section class="slide slide-chapter" id="slide-6" data-slide="6" data-tab="4">
+        <header class="chapter-banner">
+          <div><span class="tag-pill" style="background: var(--tab-4-blue);">04 / COMBINED BORROWER STRESS</span></div>
+          <h2 class="chapter-headline">Borrowers with debt payments over 25% of income and credit cards over 65% full default at 28.4%.</h2>
+        </header>
+
+        <div class="metric-strip-4">
+          <div class="metric-cell">
+            <div class="metric-label">LOW-RISK BASELINE</div>
+            <div class="metric-value">14.11% Default</div>
+            <div class="metric-sub">Low debt &lt;=15% &amp; low card usage &lt;=40%</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">HIGH-STRESS GROUP</div>
+            <div class="metric-value" style="color: var(--color-crimson);">28.41% Default</div>
+            <div class="metric-sub">Debt &gt;25% of income &amp; cards &gt;65% full</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">ALL LOANS IN STRESS CELL</div>
+            <div class="metric-value">112,246 Loans</div>
+            <div class="metric-sub">$1.73B funded | 31,889 defaults</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">SUBPRIME TARGET GROUP</div>
+            <div class="metric-value" style="color: var(--color-crimson);">38.88% Default</div>
+            <div class="metric-sub">47,705 Grade D-G loans | $813.3M funded</div>
+          </div>
+        </div>
+
+        <div class="stage-split" style="grid-template-columns: 1.15fr 0.85fr;">
+          <!-- Left Column: Figure 2 -->
+          <div class="stage-col stage-col-left">
+            <div class="chart-container">
+              <img src="assets/fig2_risk_grid_heatmap.png" alt="Figure 2: Risk Grid Heatmap" class="chart-zoomable" onclick="openLightbox(this.src)">
+            </div>
+            <div class="chart-caption-bar">
+              Chi-Square Independence = 5,464.86 (p &lt; 0.001) | Relative Risk = 2.01x vs. Low-Risk Baseline | Odds Ratio = 1.67x.
+            </div>
+          </div>
+
+          <!-- Right Column: Why Precision Beats Blanket Ban -->
+          <div class="stage-col" style="justify-content: space-between;">
+            <div class="narrative-box">
+              <p class="narrative-lead">
+                "When a borrower already spends over 25% of their monthly income on debt payments and has maxed out over 65% of their credit card limit, they have no financial cushion if an unexpected expense comes up."
+              </p>
+            </div>
+
+            <div class="compare-callout-box">
+              <div class="compare-row" style="background: #FEF2F2;">
+                <div class="compare-tag" style="color: var(--color-crimson);">Option A: Blanket Ban on All Subprime Loans (Grades D-G)</div>
+                <div style="font-size: 0.82rem; font-weight: 700;">Eliminates 28.45% of lending volume ($5.52B)</div>
+                <div style="font-size: 0.78rem; color: var(--ink-muted);">
+                  FAILS our &gt;= 80.0% volume guardrail and turns away $4.1B in loans that actually get paid back.
+                </div>
+              </div>
+
+              <div class="compare-row" style="background: #F0FDF4;">
+                <div class="compare-tag" style="color: var(--color-green);">Option B: Targeted Rule (Decline Grades D-G only when DTI &gt; 25% &amp; Card Usage &gt; 65%)</div>
+                <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-green);">Prunes just 3.55% of loans (47,705 accounts defaulting at 38.88%)</div>
+                <div style="font-size: 0.78rem; color: var(--ink-muted);">
+                  PASSES our volume guardrail at 95.81% kept while saving +$230.0M in net unpaid losses.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SLIDE 7: CHAPTER 5 (POLICY SIMULATION & SENSITIVITY TESTER)
+           ====================================================================== -->
+      <section class="slide slide-chapter" id="slide-7" data-slide="7" data-tab="5">
+        <header class="chapter-banner">
+          <div><span class="tag-pill" style="background: var(--tab-5-pink);">05 / POLICY SIMULATION &amp; TESTING</span></div>
+          <h2 class="chapter-headline">Our targeted decline rule saves $230M in unpaid losses while keeping 95.8% of lending volume.</h2>
+        </header>
+
+        <div class="metric-strip-4">
+          <div class="metric-cell">
+            <div class="metric-label">PHASE 1 SAVED LOSSES</div>
+            <div class="metric-value" style="color: var(--color-green);">+$230.04M</div>
+            <div class="metric-sub">18,548 defaults prevented | $254.1M gross</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">PHASE 2 PRICING REVENUE</div>
+            <div class="metric-value">+$14.20M</div>
+            <div class="metric-sub">+1.50% rate increase on 74,422 C4 loans</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">LENDING VOLUME KEPT</div>
+            <div class="metric-value">95.81% Kept</div>
+            <div class="metric-sub">$18.58B preserved vs. 80.0% minimum goal</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">NEW PORTFOLIO RETURN</div>
+            <div class="metric-value">4.40% Return</div>
+            <div class="metric-sub">Up from 4.26% | +14.9 bps improvement</div>
+          </div>
+        </div>
+
+        <div class="stage-split" style="grid-template-columns: 1.1fr 0.9fr;">
+          <!-- Left Column: Figure 3 -->
+          <div class="stage-col stage-col-left">
+            <div class="chart-container">
+              <img src="assets/fig3_capital_waterfall.png" alt="Figure 3: Capital Waterfall" class="chart-zoomable" onclick="openLightbox(this.src)">
+            </div>
+            <div class="chart-caption-bar">
+              Subprime Net Write-Offs drop from $1,404.1M to $1,174.1M (-16.4%) | Overall default rate drops from 19.96% to 19.27%.
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Sensitivity Tester -->
+          <div class="stage-col" style="justify-content: space-between;">
+            <div class="scenario-picker">
+              <button class="scenario-btn" data-scenario="60" onclick="switchScenario('60')">60% Conservative Rollout</button>
+              <button class="scenario-btn" data-scenario="80" onclick="switchScenario('80')">80% Year 1 Target</button>
+              <button class="scenario-btn is-active" data-scenario="100" onclick="switchScenario('100')">100% Full Automated Rule</button>
+            </div>
+
+            <div class="scenario-content">
+              <table class="sensitivity-table">
+                <thead>
+                  <tr>
+                    <th>Rollout Scenario</th>
+                    <th>Saved Losses</th>
+                    <th>Rate Revenue</th>
+                    <th>Total Value</th>
+                    <th>Defaults Saved</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="row-scenario-60">
+                    <td>60% Rollout (Gradual)</td>
+                    <td class="font-mono">+$138.0M</td>
+                    <td class="font-mono">+$8.5M</td>
+                    <td class="font-mono" style="font-weight: 700;">+$146.5M</td>
+                    <td class="font-mono">11,129</td>
+                  </tr>
+                  <tr id="row-scenario-80">
+                    <td>80% Rollout (Year 1 Target)</td>
+                    <td class="font-mono">+$184.0M</td>
+                    <td class="font-mono">+$11.4M</td>
+                    <td class="font-mono" style="font-weight: 700;">+$195.4M</td>
+                    <td class="font-mono">14,838</td>
+                  </tr>
+                  <tr id="row-scenario-100" class="is-active">
+                    <td>100% Rollout (Full Rule)</td>
+                    <td class="font-mono" style="color: var(--color-green);">+$230.0M</td>
+                    <td class="font-mono">+$14.2M</td>
+                    <td class="font-mono" style="font-weight: 700; color: var(--color-green);">+$244.2M</td>
+                    <td class="font-mono" style="font-weight: 700;">18,548</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div id="scenario-summary-card" style="border: var(--hairline); padding: 12px; background: var(--tab-1-cream);">
+                <div class="metric-label" id="summary-scenario-title">100% AUTOMATED PRODUCTION ROLLOUT</div>
+                <div class="font-mono" style="font-size: 1.15rem; font-weight: 700; color: var(--color-green); margin: 4px 0;" id="summary-scenario-val">+$244.2M Total Identified Value</div>
+                <div style="font-size: 0.78rem; color: var(--ink-muted);" id="summary-scenario-desc">
+                  Eliminates 18,548 terminal defaults via automated decline filter. Preserves 95.81% of origination volume ($18.58B) and raises portfolio net return by +14.9 bps to 4.40%.
+                </div>
+              </div>
+            </div>
+
+            <div class="guardrail-strip">
+              <div class="guardrail-item">
+                <div style="font-weight: 700; color: var(--color-green);">[PASS] Profit Hurdle</div>
+                <div class="font-mono" style="font-size: 0.8rem; margin-top: 2px;">4.40% Return (&gt; +4.00%)</div>
+              </div>
+              <div class="guardrail-item">
+                <div style="font-weight: 700; color: var(--color-green);">[PASS] Default Cap</div>
+                <div class="font-mono" style="font-size: 0.8rem; margin-top: 2px;">19.27% Rate (-0.70%)</div>
+              </div>
+              <div class="guardrail-item">
+                <div style="font-weight: 700; color: var(--color-green);">[PASS] Volume Capacity</div>
+                <div class="font-mono" style="font-size: 0.8rem; margin-top: 2px;">95.81% Kept (&gt;= 80.0%)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SLIDE 8: CHAPTER 6 (90-DAY ROLLOUT ACTION TABLE)
+           ====================================================================== -->
+      <section class="slide" id="slide-8" data-slide="8" data-tab="5">
+        <header class="chapter-banner">
+          <div><span class="tag-pill" style="background: var(--tab-5-pink);">06 / 90-DAY IMPLEMENTATION PLAN</span></div>
+          <h2 class="chapter-headline">Three practical steps to capture $244.2M in combined savings and interest income.</h2>
+        </header>
+
+        <div class="action-table-wrap">
+          <table class="action-table">
+            <thead>
+              <tr>
+                <th style="width: 14%;">Rollout Phase</th>
+                <th style="width: 18%;">Recommended Action</th>
+                <th style="width: 22%;">Target Borrower Group</th>
+                <th style="width: 14%;">Team Owner</th>
+                <th style="width: 18%;">Expected Financial Impact</th>
+                <th style="width: 14%;">Tracking Metric</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="font-weight: 700;">Phase 1: Immediate</div>
+                  <div class="font-mono" style="font-size: 0.72rem; color: var(--ink-muted);">Days 1 to 30</div>
+                </td>
+                <td>
+                  <div style="font-weight: 700;">Add Automated Decline Rule</div>
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px;">Embed algorithmic hard-stop into application intake funnel.</div>
+                </td>
+                <td>
+                  Applicants in Grades D through G with monthly debt &gt; 25% of income AND credit card usage &gt; 65% (47,705 past loans; $813.3M).
+                </td>
+                <td>
+                  <div style="font-weight: 700;">Underwriting Policy Team</div>
+                </td>
+                <td>
+                  <div class="font-mono" style="font-weight: 700; color: var(--color-green);">+$230.0M in saved losses</div>
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); margin-top: 2px;">($184.0M at 80% rollout); 18,548 defaults prevented.</div>
+                </td>
+                <td>
+                  Overall default rate drops below <span class="font-mono" style="font-weight: 700;">19.3%</span> while keeping <span class="font-mono" style="font-weight: 700;">95.8%</span> of loan volume.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="font-weight: 700;">Phase 2: Near-Term</div>
+                  <div class="font-mono" style="font-size: 0.72rem; color: var(--ink-muted);">Days 30 to 60</div>
+                </td>
+                <td>
+                  <div style="font-weight: 700;">Update Subgrade C4 Pricing &amp; 5-Year Rules</div>
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px;">Reprice marginal prime loans and tighten long-term loan requirements.</div>
+                </td>
+                <td>
+                  Add +1.50% (+150 bps) interest rate to Subgrade C4 loans (74,422 loans) and require a 680+ credit score for 5-year loans in Grades D and E.
+                </td>
+                <td>
+                  <div style="font-weight: 700;">Pricing &amp; Product Team</div>
+                </td>
+                <td>
+                  <div class="font-mono" style="font-weight: 700; color: var(--color-green);">+$14.2M added interest</div>
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); margin-top: 2px;">and lower default rates on 5-year loans.</div>
+                </td>
+                <td>
+                  Subgrade C4 net return climbs back above our <span class="font-mono" style="font-weight: 700;">+4.00%</span> profit goal.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="font-weight: 700;">Phase 3: Ongoing</div>
+                  <div class="font-mono" style="font-size: 0.72rem; color: var(--ink-muted);">Days 60 to 90</div>
+                </td>
+                <td>
+                  <div style="font-weight: 700;">Verify Business Income &amp; Contact Late Accounts</div>
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px;">Introduce tax verification and early intervention payment plans.</div>
+                </td>
+                <td>
+                  Require IRS tax returns for unsecured small business loans ($240.1M volume; 29.71% default rate) and offer payment plans to $588.5M in late active accounts.
+                </td>
+                <td>
+                  <div style="font-weight: 700;">Credit Operations &amp; Servicing</div>
+                </td>
+                <td>
+                  <div class="font-mono" style="font-weight: 700; color: var(--color-green);">Stops -0.59% loss</div>
+                  <div style="font-size: 0.72rem; color: var(--ink-muted); margin-top: 2px;">on small business loans and helps 15% more late borrowers catch up.</div>
+                </td>
+                <td>
+                  Small business default rate drops below <span class="font-mono" style="font-weight: 700;">20.0%</span>; late account roll rate stays under <span class="font-mono" style="font-weight: 700;">3.5%</span>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <footer class="deck-footer">
+          <div>
+            Prepared by <strong>John Amores</strong> | Data Analyst Portfolio Case Study
+            <span style="margin: 0 8px; color: #CBD5E1;">|</span>
+            <a href="cockpit.html">Launch Interactive Cockpit</a>
+            <a href="https://github.com/jamores/credit-risk-optimization" target="_blank" rel="noopener">GitHub Repository</a>
+            <a href="https://www.linkedin.com/in/johnamores/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+          <div>
+            Quick Jump:
+            <a href="#slide-3" onclick="scrollToSlide('slide-3'); return false;">01 Overview</a>
+            <a href="#slide-4" onclick="scrollToSlide('slide-4'); return false;">02 Loss Skew</a>
+            <a href="#slide-5" onclick="scrollToSlide('slide-5'); return false;">03 Rates &amp; Terms</a>
+            <a href="#slide-6" onclick="scrollToSlide('slide-6'); return false;">04 Risk Grid</a>
+            <a href="#slide-7" onclick="scrollToSlide('slide-7'); return false;">05 Action Plan</a>
+          </div>
+        </footer>
+      </section>
+
+    </main>
+
+    <!-- COL 3: RIGHT DIE-CUT INDEX TAB RAIL -->
+    <nav id="binder-tabs" aria-label="Deck Index Tabs">
+      <button class="binder-tab is-active" data-tab-target="1" onclick="scrollToSlide('slide-3')">
+        <span class="tab-dot"></span>01 OVERVIEW
+      </button>
+      <button class="binder-tab" data-tab-target="2" onclick="scrollToSlide('slide-4')">
+        <span class="tab-dot"></span>02 LOSS SKEW
+      </button>
+      <button class="binder-tab" data-tab-target="3" onclick="scrollToSlide('slide-5')">
+        <span class="tab-dot"></span>03 RATES &amp; TERMS
+      </button>
+      <button class="binder-tab" data-tab-target="4" onclick="scrollToSlide('slide-6')">
+        <span class="tab-dot"></span>04 RISK GRID
+      </button>
+      <button class="binder-tab" data-tab-target="5" onclick="scrollToSlide('slide-7')">
+        <span class="tab-dot"></span>05 ACTION PLAN
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-card" onclick="event.stopPropagation()">
+      <button class="lightbox-close-btn" onclick="closeLightbox()">[ESC / Close X]</button>
+      <img id="lightbox-img" src="" alt="Enlarged Chart Figure">
+    </div>
+  </div>
+
+  <!-- CLIENT CONTROLLER SCRIPT -->
+  <script>
+    // Smooth scrolling to slide ID
+    function scrollToSlide(slideId) {
+      const el = document.getElementById(slideId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Scroll-Spy Tab Sync using IntersectionObserver
+    const scroller = document.getElementById('deck-scroller');
+    const slides = document.querySelectorAll('.slide');
+    const tabs = document.querySelectorAll('.binder-tab');
+
+    const observerOptions = {
+      root: scroller,
+      threshold: 0.55
+    };
+
+    const tabObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const tabIndex = entry.target.getAttribute('data-tab');
+          if (tabIndex) {
+            tabs.forEach(tab => {
+              if (tab.getAttribute('data-tab-target') === tabIndex) {
+                tab.classList.add('is-active');
+              } else {
+                tab.classList.remove('is-active');
+              }
+            });
+          }
+        }
+      });
+    }, observerOptions);
+
+    slides.forEach(slide => tabObserver.observe(slide));
+
+    // Keyboard Navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        return;
+      }
+
+      const activeModal = document.getElementById('lightbox-modal');
+      if (activeModal.classList.contains('is-open')) return;
+
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault();
+        const currentScroll = scroller.scrollTop;
+        const slideHeight = window.innerHeight;
+        scroller.scrollBy({ top: slideHeight, behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        const slideHeight = window.innerHeight;
+        scroller.scrollBy({ top: -slideHeight, behavior: 'smooth' });
+      }
+    });
+
+    // Lightbox Modal Controls
+    function openLightbox(src) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      modal.classList.add('is-open');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('is-open');
+    }
+
+    // Slide 5: Cohort Switcher Controller
+    function switchCohortView(viewId) {
+      document.querySelectorAll('.cohort-tab-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.getAttribute('data-view') === viewId);
+      });
+      document.querySelectorAll('.cohort-panel').forEach(panel => {
+        panel.classList.toggle('is-active', panel.id === `cohort-panel-${viewId}`);
+      });
+    }
+
+    // Slide 7: Interactive Scenario Tester Controller
+    const scenarioData = {
+      '60': {
+        title: '60% CONSERVATIVE ROLLOUT (GRADUAL TEST)',
+        val: '+$146.5M Total Identified Value',
+        desc: 'Phase 1 decline rule implemented with manual underwriter exceptions. Prevents 11,129 terminal defaults and saves $138.0M in net losses while preserving 97.4% of origination volume.'
+      },
+      '80': {
+        title: '80% YEAR 1 TARGET ROLLOUT',
+        val: '+$195.4M Total Identified Value',
+        desc: 'Realistic enterprise rollout target. Prevents 14,838 terminal defaults, saving $184.0M in net write-offs and generating $11.4M in adjusted rate revenue while preserving 96.6% of loan book.'
+      },
+      '100': {
+        title: '100% AUTOMATED PRODUCTION ROLLOUT',
+        val: '+$244.2M Total Identified Value',
+        desc: 'Eliminates 18,548 terminal defaults via automated decline filter. Preserves 95.81% of origination volume ($18.58B) and raises portfolio net return by +14.9 bps to 4.40%.'
+      }
+    };
+
+    function switchScenario(scenarioKey) {
+      document.querySelectorAll('.scenario-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.getAttribute('data-scenario') === scenarioKey);
+      });
+
+      ['60', '80', '100'].forEach(k => {
+        const row = document.getElementById(`row-scenario-${k}`);
+        if (row) row.classList.toggle('is-active', k === scenarioKey);
+      });
+
+      const d = scenarioData[scenarioKey];
+      if (d) {
+        document.getElementById('summary-scenario-title').innerText = d.title;
+        document.getElementById('summary-scenario-val').innerText = d.val;
+        document.getElementById('summary-scenario-desc').innerText = d.desc;
+      }
+    }
+  </script>
+</body>
+</html>

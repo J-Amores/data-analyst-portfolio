@@ -29,3 +29,6 @@ data/exports/*
 # OS artifacts
 .DS_Store
 Thumbs.db
+
+# Agent workspace tooling
+.agent/

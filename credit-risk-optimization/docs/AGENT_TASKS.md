@@ -129,41 +129,41 @@
 ## Phase 4: Executive Presentation Build & Asset Pipeline
 [SOP: Frontend Slides HTML Presentation Workflow][cite: 4, 6]
 
-* [ ] **Task 4.1: Production Chart Export Pipeline (`src/presentation/export_figures.py`)**
+* [x] **Task 4.1: Production Chart Export Pipeline (`src/presentation/export_figures.py`)**
   * Implement an automated matplotlib/seaborn script generating publication-grade static figures for executive consumption[cite: 4]:
-    * Figure 1 (`assets/fig1_loss_concentration.png`): Lorenz curve / cumulative concentration chart contrasting Originated Capital Share (%) vs. Net Charge-Off Share (%) across loan grades[cite: 3, 4].
+    * Figure 1 (`assets/fig1_loss_contribution.png`): Paired bar chart contrasting Originated Capital Share (%) vs. Net Charge-Off Share (%) across loan grades[cite: 3, 4].
     * Figure 2 (`assets/fig2_risk_grid_heatmap.png`): 2D Risk Heatmap showing Terminal Bad Loan Rate across DTI Brackets (rows) vs. Revolving Utilization Brackets (columns) with text overlays of default rates[cite: 3, 4].
-    * Figure 3 (`assets/fig3_capital_waterfall.png`): Financial Impact Waterfall chart displaying Baseline Losses $\rightarrow$ Capital Recovered via Hard-Stops $\rightarrow$ Post-Intervention Net Loss Exposure $\rightarrow$ Preserved Origination Volume[cite: 3, 4].
+    * Figure 3 (`assets/fig3_capital_waterfall.png`): Financial Impact Waterfall chart displaying Baseline Losses -> Capital Recovered via Hard-Stops -> Post-Intervention Net Loss Exposure -> Preserved Origination Volume[cite: 3, 4].
   * Enforce visual design rules: Monochromatic slate palette (`#1E293B`, `#64748B`), single accent colors (`#DC2626` for default risk, `#059669` for capital saved), zero background gridlines, clean percentage/dollar labels, and bold story-driven newsflash headlines on every image[cite: 3, 4, 15, 23].
 
-* [ ] **Task 4.2: Frontend-Slides Specification & Prompt Assembly**
+* [x] **Task 4.2: Frontend-Slides Specification & Prompt Assembly**
   * Assemble the slide-generation prompt in `docs/FRONTEND_SLIDES_PROMPT.md` following the standard operating procedure[cite: 4, 6]:
     * Purpose: Case Study / Portfolio Showcase[cite: 4, 6].
     * Density: Reading-first (optimized for asynchronous recruiter review without a speaker)[cite: 4, 6].
     * Style Direction: Cobalt Grid or Swiss Modern (clean financial risk aesthetic, slate/navy canvas with crisp metric callout badges)[cite: 4, 6].
     * Asset Integration: Map local absolute paths for Figures 1, 2, and 3[cite: 4, 6].
 
-* [ ] **Task 4.3: HTML Slide Deck Assembly (`index.html`)**
+* [x] **Task 4.3: HTML Slide Deck Assembly (`index.html`)**
   * Execute the `frontend-slides` workflow in Antigravity / Claude Code to build `index.html`[cite: 4, 6]:
-    * Slide 1: Executive Title, Context (1.35M seasoned loans, $18.5B funded principal), candidate metadata, and GitHub link[cite: 4, 6].
+    * Slide 1: Executive Title, Context (1.35M seasoned loans, $19.39B funded principal), candidate metadata, and GitHub link[cite: 4, 6].
     * Slide 2: Executive Decision Mandate, CRO problem context, North Star LAROC, and 2 Guardrail Metrics[cite: 4, 6, 12].
     * Slide 3: Data Lineage & The CLEAN Framework Audit (censoring isolation diagram, data cleaning log)[cite: 4, 6, 7].
-    * Slide 4: Primary Insight — Pareto Loss Concentration (embed `assets/fig1_loss_concentration.png`)[cite: 4, 6].
-    * Slide 5: Secondary Insight — Multi-Variable Risk Grid (embed `assets/fig2_risk_grid_heatmap.png`)[cite: 4, 6].
+    * Slide 4: Primary Insight: Subprime Loss Contribution Skew (embed `assets/fig1_loss_contribution.png`)[cite: 4, 6].
+    * Slide 5: Secondary Insight: Multi-Variable Risk Grid (embed `assets/fig2_risk_grid_heatmap.png`)[cite: 4, 6].
     * Slide 6: Policy Intervention & Capital Recovery Waterfall (embed `assets/fig3_capital_waterfall.png`)[cite: 4, 6].
-    * Slide 7: Prioritized Underwriting Roadmap (P0–P2 Decision Table with owners, expected dollar impact, and validation metrics)[cite: 4, 6, 12].
+    * Slide 7: Prioritized Underwriting Roadmap (P0 to P2 Decision Table with owners, expected dollar impact, and validation metrics)[cite: 4, 6, 12].
   * Validate responsive formatting, click-to-enlarge chart lightbox modals, keyboard navigation, and fast local loading (<500ms)[cite: 4, 6].
 
-* [ ] **Task 4.4: Technical Whitepaper Documentation (`README.md`)**
+* [x] **Task 4.4: Technical Whitepaper Documentation (`README.md`)**
   * Author the executive-facing repository `README.md` using the 2-layer architecture[cite: 5, 12, 15]:
     * Section 1: Executive Summary & Spoken Delivery Pitch Script (30-second conversational summary)[cite: 12, 15].
     * Section 2: Decision Context & 4-Layer Metric Model (LAROC, Bad Loan Rate, Volume Capacity)[cite: 12, 15, 25].
     * Section 3: Data Architecture & CLEAN Data Quality Audit (Production Issues Log ISS-01 to ISS-05)[cite: 7, 11, 15].
     * Section 4: Statistical Evidence & Hypotheses Findings (embedding key charts with newsflash headlines)[cite: 12, 15].
-    * Section 5: Prioritized Underwriting Policy Matrix (P0–P2 Recommendations Table)[cite: 12, 15].
+    * Section 5: Prioritized Underwriting Policy Matrix (P0 to P2 Recommendations Table)[cite: 12, 15].
     * Section 6: Assumptions, Censoring Scope Boundaries, and Reproducibility Instructions[cite: 15].
 
-* [ ] **Task 4.5: Deployment & Verification Run**
+* [x] **Task 4.5: Deployment & Verification Run**
   * Run pytest test suite: `./.venv/bin/pytest tests/`[cite: 3].
   * Deploy `index.html` and `assets/` to GitHub Pages for instant recruiter viewing[cite: 4, 6].
   * Run a final out-loud delivery test against the 45-second pitch script[cite: 3, 14].
