@@ -43,6 +43,8 @@ def setup_figure_style():
         "font.family": "sans-serif",
         "font.sans-serif": ["DejaVu Sans", "Helvetica", "Arial"],
         "font.serif": ["Georgia", "DejaVu Serif"],
+        "text.parse_math": False,
+        "text.usetex": False,
         "figure.facecolor": COLOR_BG_PAPER,
         "axes.facecolor": COLOR_BG_PAPER,
         "axes.edgecolor": COLOR_INK_BLACK,
@@ -188,7 +190,7 @@ def generate_fig1_loss_contribution(assets_dir: Path):
     ax.set_xticks(x)
     ax.set_xticklabels([f"Grade {g}" for g in grades], fontsize=10.5, fontweight="bold")
     ax.set_ylabel("Share of Portfolio (%)", fontsize=10.5, fontweight="bold", labelpad=8)
-    ax.set_ylim(0, 42.0)
+    ax.set_ylim(0, 45.0)
 
     # Exposed 1px solid #111111 hairlines
     ax.spines["top"].set_visible(False)
@@ -237,9 +239,9 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
         "Severe (>35%)",
     ]
     util_display_labels = [
-        "Conservative (<=40%)",
-        "Moderate (40-65%)",
-        "High (65-85%)",
+        "Low (<=40%)",
+        "Moderate (41-65%)",
+        "High (66-85%)",
         "Maxed (>85%)",
     ]
 
@@ -381,8 +383,9 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
 
     ax.set_xticks(np.arange(ncols))
     ax.set_yticks(np.arange(nrows))
-    ax.set_xticklabels(util_display_labels, fontsize=10.0, fontweight="bold")
+    ax.set_xticklabels(util_display_labels, fontsize=9.2, fontweight="bold")
     ax.set_yticklabels(dti_display_labels, fontsize=10.0, fontweight="bold")
+    ax.tick_params(axis="x", pad=6)
     ax.set_ylim(3.5, -1.15)
 
     ax.set_xlabel("Credit Card Usage (Revolving Line Utilization)", fontsize=10.5, fontweight="bold", labelpad=8)
@@ -588,7 +591,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     card_y = 1800
     gross_saved = sim["gross_charge_off_dollars_eliminated"] / 1e6
     badge_text = (
-        "95.81% of Lending Volume Kept ($18.58B Preserved)\n"
+        f"95.81% of Lending Volume Kept (${retained_funded_b:.2f}B Preserved)\n"
         f"* Avoided Defaults: {defaults_eliminated:,} terminal bad loans\n"
         f"* Saved Net Losses: ${hard_stop_savings:.2f}M (${gross_saved:.2f}M gross)\n"
         f"* Pruned Loan Volume: 3.55% (47,705 originations)\n"
@@ -607,6 +610,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
         fontweight="bold",
         linespacing=1.4,
         color=COLOR_INK_BLACK,
+        parse_math=False,
         bbox=dict(
             boxstyle="square,pad=0.5",
             facecolor=COLOR_BG_CARD,
