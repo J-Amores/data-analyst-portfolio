@@ -70,14 +70,14 @@ def generate_fig1_loss_contribution(assets_dir: Path):
 
     df = pd.read_csv(csv_path)
 
-    fig, ax = plt.subplots(figsize=(11.5, 6.5), dpi=300)
+    fig, ax = plt.subplots(figsize=(9.8, 7.6), dpi=300)
 
     grades = df["grade"].tolist()
     capital_share = df["capital_share_pct"].tolist()
     loss_share = df["net_charge_off_share_pct"].tolist()
 
     x = np.arange(len(grades))
-    bar_width = 0.36
+    bar_width = 0.38
 
     # Plot paired bars with crisp 1px hairline edges
     rects1 = ax.bar(
@@ -104,20 +104,20 @@ def generate_fig1_loss_contribution(assets_dir: Path):
     # Headline and subtitle
     plt.suptitle(
         "Subprime Tiers Receive 28.5% of Lending but Cause 51.5% of Unpaid Losses",
-        fontsize=14.5,
+        fontsize=13.5,
         fontweight="bold",
         fontfamily="Georgia",
         color=COLOR_INK_BLACK,
         x=0.08,
-        y=0.98,
+        y=0.97,
         ha="left",
     )
     ax.set_title(
         "Comparison of Funded Principal vs. Net Charge-Off Dollars Across Credit Grades A to G (1.35M Completed Loans)",
-        fontsize=10.5,
+        fontsize=9.8,
         fontfamily="DejaVu Sans",
         color=COLOR_INK_MUTED,
-        pad=18,
+        pad=12,
         loc="left",
     )
 
@@ -131,7 +131,7 @@ def generate_fig1_loss_contribution(assets_dir: Path):
             textcoords="offset points",
             ha="center",
             va="bottom",
-            fontsize=8.5,
+            fontsize=9.0,
             fontweight="bold",
             color=COLOR_LENDING_CHARCOAL,
         )
@@ -145,7 +145,7 @@ def generate_fig1_loss_contribution(assets_dir: Path):
             textcoords="offset points",
             ha="center",
             va="bottom",
-            fontsize=8.5,
+            fontsize=9.0,
             fontweight="bold",
             color=COLOR_LOSS_CRIMSON,
         )
@@ -153,13 +153,13 @@ def generate_fig1_loss_contribution(assets_dir: Path):
     # Subprime callout bracket across Grades D, E, F, G (indices 3, 4, 5, 6)
     x_subprime_start = x[3] - bar_width - 0.1
     x_subprime_end = x[6] + bar_width + 0.1
-    y_bracket = 31.5
+    y_bracket = 35.0
 
     # Shaded lavender highlight for Subprime Grades D to G
     subprime_patch = patches.Rectangle(
         (x_subprime_start, 0),
         x_subprime_end - x_subprime_start,
-        34.5,
+        38.5,
         linewidth=1.0,
         edgecolor=COLOR_INK_BLACK,
         facecolor=COLOR_CALLOUT_LAVENDER,
@@ -169,33 +169,18 @@ def generate_fig1_loss_contribution(assets_dir: Path):
     )
     ax.add_patch(subprime_patch)
 
-    # Annotated badge for Subprime loss skew
+    # Annotated badge for Subprime loss skew (matching specification)
     ax.annotate(
-        "Subprime (Grades D-G): 28.5% of Lending vs. 51.5% of Losses (1.81x Imbalance)\nChi-Square = 1.02B (p < 0.001) | $1.40B Unpaid Losses",
+        "Subprime (Grades D-G): 28.5% of Lending vs. 51.5% of Losses\n1.81x Imbalance | Chi-Square = 1.02B (p < 0.001) | $1.40B Unpaid Losses",
         xy=((x_subprime_start + x_subprime_end) / 2, y_bracket),
         xytext=(0, 0),
         textcoords="offset points",
         ha="center",
         va="center",
-        fontsize=9.5,
+        fontsize=8.5,
         fontweight="bold",
         color=COLOR_INK_BLACK,
-        bbox=dict(boxstyle="square,pad=0.55", facecolor=COLOR_BG_CARD, edgecolor=COLOR_INK_BLACK, linewidth=1.0),
-        zorder=5,
-    )
-
-    # Prime label
-    ax.annotate(
-        "Prime Tiers (Grades A to C):\n71.6% Lending | 48.6% Losses",
-        xy=(1.0, 31.5),
-        xytext=(0, 0),
-        textcoords="offset points",
-        ha="center",
-        va="center",
-        fontsize=9.0,
-        fontweight="bold",
-        color=COLOR_INK_BLACK,
-        bbox=dict(boxstyle="square,pad=0.5", facecolor=COLOR_BG_CARD, edgecolor=COLOR_INK_BLACK, linewidth=1.0),
+        bbox=dict(boxstyle="square,pad=0.45", facecolor=COLOR_BG_CARD, edgecolor=COLOR_INK_BLACK, linewidth=1.0),
         zorder=5,
     )
 
@@ -203,7 +188,7 @@ def generate_fig1_loss_contribution(assets_dir: Path):
     ax.set_xticks(x)
     ax.set_xticklabels([f"Grade {g}" for g in grades], fontsize=10.5, fontweight="bold")
     ax.set_ylabel("Share of Portfolio (%)", fontsize=10.5, fontweight="bold", labelpad=8)
-    ax.set_ylim(0, 36.5)
+    ax.set_ylim(0, 42.0)
 
     # Exposed 1px solid #111111 hairlines
     ax.spines["top"].set_visible(False)
@@ -216,10 +201,12 @@ def generate_fig1_loss_contribution(assets_dir: Path):
 
     ax.legend(
         loc="upper left",
+        bbox_to_anchor=(0.02, 0.98),
+        ncol=2,
         frameon=True,
         facecolor=COLOR_BG_CARD,
         edgecolor=COLOR_INK_BLACK,
-        fontsize=9.5,
+        fontsize=9.0,
     )
 
     plt.tight_layout(rect=[0.02, 0.03, 0.98, 0.93])
@@ -270,7 +257,7 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
     rate_matrix = rate_pivot.values
     vol_matrix = vol_pivot.values
 
-    fig, ax = plt.subplots(figsize=(11.5, 6.8), dpi=300)
+    fig, ax = plt.subplots(figsize=(9.8, 7.8), dpi=300)
 
     # Warm cream-to-coral-red colormap matching paper aesthetic
     custom_cmap = LinearSegmentedColormap.from_list(
@@ -290,20 +277,20 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
     # Headline and subtitle
     plt.suptitle(
         "Combined Borrower Stress: High Debt and Card Usage Double Default Rates to 28.4%",
-        fontsize=14.5,
+        fontsize=13.5,
         fontweight="bold",
         fontfamily="Georgia",
         color=COLOR_INK_BLACK,
         x=0.08,
-        y=0.98,
+        y=0.97,
         ha="left",
     )
     ax.set_title(
-        "Terminal Default Rate (%) and Loan Count Across 4x4 Debt Ratio and Credit Card Usage Segments (1.34M Completed Loans)",
-        fontsize=10.5,
+        "Terminal Default Rate (%) and Loan Count Across 4x4 Risk Matrix (1.34M Completed Loans)",
+        fontsize=9.8,
         fontfamily="DejaVu Sans",
         color=COLOR_INK_MUTED,
-        pad=18,
+        pad=14,
         loc="left",
     )
 
@@ -363,29 +350,29 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
     )
     ax.add_patch(high_risk_rect)
 
-    # High-risk annotation badge
+    # High-risk annotation badge placed cleanly above the quadrant in the margin
     ax.annotate(
-        "High-Risk Intersection (DTI > 25% & Card Usage > 65%)\n112,246 Loans | 28.41% Default Rate\nRelative Risk = 2.01x vs. Baseline (Odds Ratio = 1.67x, Chi-Square = 5,464.86, p < 0.001)",
+        "High-Risk Intersection (DTI > 25% & Card Usage > 65%)\n112,246 Loans | 28.41% Default Rate (2.01x Baseline, p < 0.001)",
         xy=(2.5, 1.5),
-        xytext=(2.5, 1.15),
+        xytext=(2.5, -0.82),
         ha="center",
         va="center",
-        fontsize=9.5,
+        fontsize=8.2,
         fontweight="bold",
         color=COLOR_INK_BLACK,
-        bbox=dict(boxstyle="square,pad=0.5", facecolor=COLOR_BG_CARD, edgecolor=COLOR_INK_BLACK, linewidth=1.5),
-        arrowprops=dict(arrowstyle="->", color=COLOR_INK_BLACK, lw=1.5),
+        bbox=dict(boxstyle="square,pad=0.35", facecolor=COLOR_BG_CARD, edgecolor=COLOR_INK_BLACK, linewidth=1.0),
+        arrowprops=dict(arrowstyle="->", color=COLOR_INK_BLACK, lw=1.2),
         zorder=12,
     )
 
     # Benchmark callout on top left cell
     ax.annotate(
         "Low-Risk Baseline: 14.11%",
-        xy=(0.0, 0.42),
-        xytext=(0.0, 0.42),
+        xy=(0.0, 0.40),
+        xytext=(0.0, 0.40),
         ha="center",
         va="center",
-        fontsize=8.5,
+        fontsize=8.2,
         fontweight="bold",
         color=COLOR_INK_BLACK,
         bbox=dict(boxstyle="square,pad=0.25", facecolor=COLOR_BG_CARD, edgecolor=COLOR_INK_BLACK, linewidth=1.0),
@@ -396,6 +383,7 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
     ax.set_yticks(np.arange(nrows))
     ax.set_xticklabels(util_display_labels, fontsize=10.0, fontweight="bold")
     ax.set_yticklabels(dti_display_labels, fontsize=10.0, fontweight="bold")
+    ax.set_ylim(3.5, -1.15)
 
     ax.set_xlabel("Credit Card Usage (Revolving Line Utilization)", fontsize=10.5, fontweight="bold", labelpad=8)
     ax.set_ylabel("Monthly Debt Ratio (DTI Bracket)", fontsize=10.5, fontweight="bold", labelpad=8)
@@ -445,7 +433,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     defaults_eliminated = sim["avoided_defaults_count"]                  # 18,548
     laroc_bps = sim["post_policy_laroc_delta_bps"]                       # +14.9 bps
 
-    fig, ax = plt.subplots(figsize=(11.5, 6.5), dpi=300)
+    fig, ax = plt.subplots(figsize=(9.8, 7.6), dpi=300)
 
     categories = [
         "Current Subprime Losses\n(Grades D to G)",
@@ -511,20 +499,20 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     # Headline and subtitle
     plt.suptitle(
         "Automated Decline Rules Save $230M in Net Losses While Keeping 95.8% of Lending Volume",
-        fontsize=14.5,
+        fontsize=13.5,
         fontweight="bold",
         fontfamily="Georgia",
         color=COLOR_INK_BLACK,
         x=0.08,
-        y=0.98,
+        y=0.97,
         ha="left",
     )
     ax.set_title(
         "Financial Impact of Targeted Decline Rule (Grades D-G with DTI > 25% and Card Usage > 65%) on Subprime Write-Offs",
-        fontsize=10.5,
+        fontsize=9.8,
         fontfamily="DejaVu Sans",
         color=COLOR_INK_MUTED,
-        pad=18,
+        pad=12,
         loc="left",
     )
 
@@ -596,12 +584,13 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     )
 
     # Bordered callout note matching specification
-    card_x = 1.35
-    card_y = 1350
+    card_x = 1.18
+    card_y = 1800
+    gross_saved = sim["gross_charge_off_dollars_eliminated"] / 1e6
     badge_text = (
         "95.81% of Lending Volume Kept ($18.58B Preserved)\n"
         f"* Avoided Defaults: {defaults_eliminated:,} terminal bad loans\n"
-        f"* Saved Net Losses: ${hard_stop_savings:.2f}M ($254.10M gross)\n"
+        f"* Saved Net Losses: ${hard_stop_savings:.2f}M (${gross_saved:.2f}M gross)\n"
         f"* Pruned Loan Volume: 3.55% (47,705 originations)\n"
         f"* Platform Return Lift: +{laroc_bps:.1f} bps (+4.26% to +4.40%)\n"
         f"* Solvency Guardrail: Preserved (>= 80.0% threshold)"
@@ -614,11 +603,12 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
         textcoords="offset points",
         ha="left",
         va="top",
-        fontsize=9.5,
+        fontsize=8.2,
         fontweight="bold",
+        linespacing=1.4,
         color=COLOR_INK_BLACK,
         bbox=dict(
-            boxstyle="square,pad=0.7",
+            boxstyle="square,pad=0.5",
             facecolor=COLOR_BG_CARD,
             edgecolor=COLOR_INK_BLACK,
             linewidth=1.0,
@@ -629,7 +619,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     ax.set_xticks(x)
     ax.set_xticklabels(categories, fontsize=10.5, fontweight="bold")
     ax.set_ylabel("Unpaid Net Losses ($ Millions)", fontsize=10.5, fontweight="bold", labelpad=8)
-    ax.set_ylim(0, 1680)
+    ax.set_ylim(0, 1860)
 
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
