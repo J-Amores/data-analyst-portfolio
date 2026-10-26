@@ -591,9 +591,9 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     card_y = 1800
     gross_saved = sim["gross_charge_off_dollars_eliminated"] / 1e6
     badge_text = (
-        f"95.81% of Lending Volume Kept (${retained_funded_b:.2f}B Preserved)\n"
+        f"95.81% of Lending Volume Kept (\\${retained_funded_b:.2f}B Preserved)\n"
         f"* Avoided Defaults: {defaults_eliminated:,} terminal bad loans\n"
-        f"* Saved Net Losses: ${hard_stop_savings:.2f}M (${gross_saved:.2f}M gross)\n"
+        f"* Saved Net Losses: \\${hard_stop_savings:.2f}M (\\${gross_saved:.2f}M gross)\n"
         f"* Pruned Loan Volume: 3.55% (47,705 originations)\n"
         f"* Platform Return Lift: +{laroc_bps:.1f} bps (+4.26% to +4.40%)\n"
         f"* Solvency Guardrail: Preserved (>= 80.0% threshold)"
