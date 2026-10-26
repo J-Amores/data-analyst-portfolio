@@ -82,11 +82,11 @@ def test_readme_whitepaper_structure_and_em_dashes():
 
     readme_content = readme_path.read_text(encoding="utf-8")
 
-    # Assert presence of P0 to P2 policy matrix items
-    assert "P0: IMMEDIATE" in readme_content, "P0 action item missing from README.md"
-    assert "P1: NEAR-TERM" in readme_content, "P1 action item missing from README.md"
-    assert "P2: ONGOING" in readme_content, "P2 action item missing from README.md"
-    assert "230.0" in readme_content, "Expected financial recovery ($230M) missing from README.md"
+    # Assert presence of Phase 1 to Phase 3 policy matrix items
+    assert "Phase 1" in readme_content or "P0" in readme_content, "Phase 1 / P0 action item missing from README.md"
+    assert "Phase 2" in readme_content or "P1" in readme_content, "Phase 2 / P1 action item missing from README.md"
+    assert "Phase 3" in readme_content or "P2" in readme_content, "Phase 3 / P2 action item missing from README.md"
+    assert "230" in readme_content, "Expected financial recovery ($230M) missing from README.md"
     assert "18,548" in readme_content, "Avoided defaults metric missing from README.md"
 
     # Assert figure references in README.md
