@@ -536,7 +536,7 @@ def generate_coverage_summary_report(
     supp_df = audit_results["suppression_audit"]
 
     md_lines = [
-        "# Medicaid Outpatient Drug Utilization (CY2020–CY2024): Data Profiling & Coverage Summary Report",
+        "# Medicaid Outpatient Drug Utilization (CY2020-CY2024): Data Profiling & Coverage Summary Report",
         "",
         "## 1. Executive Context & Scope",
         "- **Data Domain**: CMS Medicaid Outpatient Drug Spending & Utilization Dashboard (DSD_MCD_RY26).",
@@ -548,7 +548,7 @@ def generate_coverage_summary_report(
         "---",
         "",
         "## 2. HIPAA Privacy Redaction Audit (< 11 Claims)",
-        "Under federal statutory privacy guidelines, CMS suppresses utilization and spending figures for drug lines where total prescription fills are strictly fewer than 11 in historical benefit years (2020–2023).",
+        "Under federal statutory privacy guidelines, CMS suppresses utilization and spending figures for drug lines where total prescription fills are strictly fewer than 11 in historical benefit years (2020-2023).",
         "",
         "| Benefit Year | Overall Total Drugs | Overall Suppressed (< 11 Fills) | Overall Suppressed (%) | Detail Total Rows | Detail Suppressed Rows | Detail Suppressed (%) |",
         "|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
@@ -1102,7 +1102,7 @@ def render_figure_price_dispersion(
 
     insights = [
         ("Monopoly Premium in Generics:",
-         "Single-source generics (only 1 manufacturer) cost $197.63 per claim vs. $21.54 for multi-source generics—an 89.1% price discount unlocked by competitive market entry."),
+         "Single-source generics (only 1 manufacturer) cost $197.63 per claim vs. $21.54 for multi-source generics: an 89.1% price discount unlocked by competitive market entry."),
         ("Significant Avoidable Spread:",
          f"Even within multi-source generics where multiple labelers compete, the median price ratio between the highest-priced and lowest-priced manufacturer is {dispersion_summary['median_price_ratio_max_min']:.2f}x (and reaches {dispersion_summary['p75_price_ratio_max_min']:.2f}x in the upper quartile)."),
         ("PBM Arbitrage Blind Spot:",

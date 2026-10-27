@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cutting Hospital Pharmacy Drug Costs Without Limiting Patient Care | Editorial Case Study</title>
+  
+  <!-- Archival Typography: Newsreader Display Serif, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM: WARM EDITORIAL PAPER & HIGH-CONTRAST INK
+       ========================================================================== */
+    :root {
+      --bg-paper: #FAF8F2;
+      --bg-card: #F4F1EA;
+      --bg-amber-tint: #FDF8EE;
+      --bg-emerald-tint: #F0FDF4;
+      --bg-crimson-tint: #FDF2F2;
+
+      --ink-primary: #111111;
+      --ink-body: #374151;
+      --ink-muted: #6B7280;
+
+      --border-hairline: 1px solid #D6D3CD;
+      --border-strong: 1px solid #111111;
+
+      --accent-crimson: #B91C1C;
+      --accent-emerald: #047857;
+      --accent-amber: #B45309;
+      --accent-slate: #1E293B;
+
+      --font-serif: 'Newsreader', Georgia, Cambria, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background-color: var(--bg-paper);
+      color: var(--ink-body);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-paper);
+      color: var(--ink-body);
+      margin: 0;
+      padding: 0;
+    }
+
+    .whitepaper-container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Sticky Top Navigation Bar */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--bg-paper);
+      border-bottom: var(--border-hairline);
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-brand {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--ink-primary);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      list-style: none;
+      overflow-x: auto;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink-primary);
+    }
+
+    .nav-cta {
+      background-color: var(--ink-primary);
+      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border: var(--border-strong);
+      border-radius: 0;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-cta:hover {
+      background-color: #333333;
+      color: #FFFFFF;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      color: var(--ink-primary);
+      font-family: var(--font-serif);
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: clamp(2.35rem, 4.2vw, 3.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3vw, 2.25rem);
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 1.35rem;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 18px;
+      color: var(--ink-body);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .eyebrow-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-amber);
+      margin-bottom: 12px;
+    }
+
+    .pill-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: var(--border-hairline);
+      background-color: var(--bg-card);
+      color: var(--ink-body);
+      margin-right: 8px;
+      margin-bottom: 16px;
+      border-radius: 0;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: #4B5563;
+      margin-bottom: 36px;
+    }
+
+    /* Sections & Dividers */
+    section {
+      padding: 56px 0;
+      border-bottom: var(--border-hairline);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    /* 4-Column Bordered KPI Strip */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: var(--border-hairline);
+      background-color: var(--bg-paper);
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      padding: 20px 22px;
+      border-right: var(--border-hairline);
+    }
+
+    .kpi-card:last-child {
+      border-right: none;
+    }
+
+    .kpi-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value.emerald {
+      color: var(--accent-emerald);
+    }
+
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--ink-muted);
+      line-height: 1.4;
+    }
+
+    /* Layout Splits */
+    .split-2col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      margin-top: 24px;
+    }
+
+    .split-even {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 24px;
+    }
+
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    /* Callout Boxes */
+    .callout-box {
+      border: var(--border-hairline);
+      background-color: var(--bg-card);
+      padding: 24px;
+      margin: 24px 0;
+      border-radius: 0;
+    }
+
+    .callout-box.amber {
+      border-left: 3px solid var(--accent-amber);
+      background-color: var(--bg-amber-tint);
+    }
+
+    .callout-box.crimson {
+      border-left: 3px solid var(--accent-crimson);
+      background-color: var(--bg-crimson-tint);
+    }
+
+    .callout-box.emerald {
+      border-left: 3px solid var(--accent-emerald);
+      background-color: var(--bg-emerald-tint);
+    }
+
+    .callout-title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-primary);
+      margin-bottom: 10px;
+    }
+
+    .pull-quote {
+      border-left: 3px solid var(--accent-amber);
+      background-color: var(--bg-paper);
+      padding: 20px 24px;
+      margin: 24px 0;
+      border-top: var(--border-hairline);
+      border-right: var(--border-hairline);
+      border-bottom: var(--border-hairline);
+    }
+
+    .pull-quote-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--ink-primary);
+      margin-bottom: 12px;
+    }
+
+    .pull-quote-footer {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+
+    /* Figure Frames */
+    .figure-frame {
+      border: var(--border-strong);
+      background-color: var(--bg-paper);
+      margin: 36px 0;
+      border-radius: 0;
+    }
+
+    .figure-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      border-bottom: var(--border-strong);
+      background-color: var(--bg-card);
+    }
+
+    .figure-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--ink-primary);
+      text-transform: uppercase;
+    }
+
+    .figure-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .figure-image-wrap {
+      padding: 0;
+      background-color: var(--bg-paper);
+      cursor: zoom-in;
+    }
+
+    .figure-image-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: none;
+    }
+
+    .figure-footer-strip {
+      padding: 12px 18px;
+      border-top: var(--border-hairline);
+      background-color: var(--bg-card);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-primary);
+      line-height: 1.5;
+    }
+
+    /* Tables */
+    .editorial-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 16px 0 24px 0;
+      border: var(--border-hairline);
+    }
+
+    .editorial-table th {
+      background-color: var(--bg-card);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-primary);
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: var(--border-hairline);
+      border-right: var(--border-hairline);
+    }
+
+    .editorial-table th:last-child {
+      border-right: none;
+    }
+
+    .editorial-table td {
+      padding: 10px 14px;
+      border-bottom: var(--border-hairline);
+      border-right: var(--border-hairline);
+      color: var(--ink-body);
+      vertical-align: middle;
+    }
+
+    .editorial-table td:last-child {
+      border-right: none;
+    }
+
+    .editorial-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .editorial-table td.mono {
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .editorial-table tr.highlight-row {
+      background-color: var(--bg-emerald-tint);
+      font-weight: 600;
+    }
+
+    .editorial-table tr.highlight-row td {
+      color: var(--ink-primary);
+    }
+
+    /* Key Takeaway Box */
+    .takeaway-box {
+      border: var(--border-hairline);
+      background-color: var(--bg-card);
+      padding: 22px 26px;
+      margin-top: 36px;
+      border-radius: 0;
+    }
+
+    .takeaway-header {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-amber);
+      margin-bottom: 8px;
+    }
+
+    .takeaway-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-primary);
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+
+    /* Badges & Tags */
+    .badge-emerald {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      background-color: var(--bg-emerald-tint);
+      color: var(--accent-emerald);
+      border: 1px solid #A7F3D0;
+    }
+
+    .badge-crimson {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      background-color: var(--bg-crimson-tint);
+      color: var(--accent-crimson);
+      border: 1px solid #FECACA;
+    }
+
+    .badge-amber {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      background-color: var(--bg-amber-tint);
+      color: var(--accent-amber);
+      border: 1px solid #FDE68A;
+    }
+
+    .editorial-list {
+      list-style: none;
+      margin: 16px 0;
+      padding: 0;
+    }
+
+    .editorial-list li {
+      margin-bottom: 14px;
+      padding-left: 28px;
+      position: relative;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    .editorial-list li strong {
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+    }
+
+    .editorial-list .list-num {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-amber);
+    }
+
+    footer.editorial-footer {
+      border-top: var(--border-strong);
+      padding: 48px 0 64px 0;
+      margin-top: 48px;
+      background-color: var(--bg-card);
+    }
+
+    .footer-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-credit {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--ink-body);
+    }
+
+    .footer-credit strong {
+      color: var(--ink-primary);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--ink-primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(17, 17, 17, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 94vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: #FFFFFF;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .kpi-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .kpi-card:nth-child(2) {
+        border-right: none;
+      }
+      .kpi-card:nth-child(1), .kpi-card:nth-child(2) {
+        border-bottom: var(--border-hairline);
+      }
+      .split-2col, .split-even, .grid-2x2 {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .kpi-strip {
+        grid-template-columns: 1fr;
+      }
+      .kpi-card {
+        border-right: none;
+        border-bottom: var(--border-hairline);
+      }
+      .kpi-card:last-child {
+        border-bottom: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       A. STICKY TOP NAVIGATION BAR
+       ======================================================================== -->
+  <header class="sticky-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">JOHN AMORES | HOSPITAL PHARMACY ANALYTICS CASE STUDY</div>
+      <ul class="nav-links">
+        <li><a href="#overview">OVERVIEW</a></li>
+        <li><a href="#chapter-01">01. DATA CLEANUP</a></li>
+        <li><a href="#chapter-02">02. BUDGET BREAKDOWN</a></li>
+        <li><a href="#chapter-03">03. PRICE VS VOLUME</a></li>
+        <li><a href="#chapter-04">04. SAVINGS PLAN</a></li>
+        <li><a href="#chapter-05">05. 90-DAY ROLLOUT</a></li>
+      </ul>
+      <a href="cockpit.html" class="nav-cta">LAUNCH SIMULATOR -&gt;</a>
+    </div>
+  </header>
+
+  <main class="whitepaper-container">
+
+    <!-- ========================================================================
+         B. HERO HEADER & 4-COLUMN KPI STRIP
+         ======================================================================== -->
+    <section id="hero" style="padding-top: 48px; padding-bottom: 40px;">
+      <div>
+        <span class="pill-badge">[HOSPITAL PHARMACY CASE STUDY]</span>
+        <span class="pill-badge">[DRUG PURCHASING &amp; FORMULARY AUDIT]</span>
+      </div>
+
+      <h1>Cutting Hospital Pharmacy Drug Costs Without Limiting Patient Care</h1>
+
+      <p class="hero-subtitle">
+        We audited national Medicaid drug pricing benchmarks covering 18,511 records across 4,774 active formulations ($111.28B national outlay) and scaled the findings to an $85.0M hospital outpatient pharmacy budget. By replacing overpriced brand-name drugs with proven generic and biosimilar alternatives, the hospital recovers $3.20M in annual pharmacy savings while keeping patient care completely unchanged.
+      </p>
+
+      <!-- 4-Column Bordered KPI Strip -->
+      <div class="kpi-strip">
+        <div class="kpi-card">
+          <div class="kpi-label">BENCHMARK SPEND REVIEWED</div>
+          <div class="kpi-value">$111.3B / $85.0M</div>
+          <div class="kpi-sub">745,555,715 claims across 4,774 formulations</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">REAL PRICE GROWTH</div>
+          <div class="kpi-value">+45.6%</div>
+          <div class="kpi-sub">True 5-year price jump after cleaning incomplete data</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">BRAND BUDGET SKEW</div>
+          <div class="kpi-value">72.2%</div>
+          <div class="kpi-sub">Top 5% of catalog consumes $80.31B (Gini = 0.9028)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">HOSPITAL SAVINGS FOUND</div>
+          <div class="kpi-value emerald">+$3.20M</div>
+          <div class="kpi-sub">+$1.10M generic switch + $2.10M supplier price locks</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         C. OVERVIEW / THE HOSPITAL PHARMACY PROBLEM
+         ======================================================================== -->
+    <section id="overview">
+      <span class="eyebrow-tag">EXECUTIVE OVERVIEW / THE PHARMACY PROBLEM</span>
+      <h2>The Hospital Challenge: Stopping Brand-Name Price Spikes From Draining the Pharmacy Budget</h2>
+
+      <p>
+        Most regional hospitals operate on slim 1% to 3% profit margins. Because insurance plans pay fixed bundled rates for outpatient visits, whenever drug companies raise the purchase price of medications, that extra cost comes straight out of the hospital's operating margin. Between 2020 and 2024, national Medicaid outpatient drug spending jumped 45.61%, climbing from $76.42B to $111.28B across 4,774 approved formulations.
+      </p>
+
+      <p>
+        Our Hospital Pharmacy Director and Chief Medical Officer face an everyday operational headache: drug companies quietly raise prices on brand-name medications every year. When busy clinic doctors prescribe those familiar brands out of habit, the hospital pharmacy overpays on routine outpatient fills even though cheaper, equally effective generic options are sitting right on the shelf.
+      </p>
+
+      <div class="callout-box amber">
+        <div class="callout-title">The Core Trade-Off</div>
+        <p style="margin-bottom: 0;">
+          The hospital cannot simply order across-the-board budget cuts, because our patients depend on these medications to stay healthy. Instead, the pharmacy team needs a clear, data-driven way to identify specific brand-name medications whose prices spiked and already have an identical FDA-approved generic or biosimilar option ready to dispense.
+        </p>
+      </div>
+    </section>
+
+    <!-- Alias anchor for test compatibility -->
+    <div id="briefing"></div>
+
+    <!-- ========================================================================
+         D. CHAPTER 01: CLEANING UP THE DATA BLIND SPOT
+         ======================================================================== -->
+    <section id="chapter-01">
+      <span class="eyebrow-tag">CHAPTER 01 / DATA CLEANUP</span>
+      <h2>Fixing the Data Blind Spot: Why Raw Drug Averages Mislead Buyers</h2>
+
+      <div class="split-2col">
+        <!-- Left Column -->
+        <div>
+          <h3 style="font-family: var(--font-sans); font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">Why Raw Averages Are Misleading</h3>
+          <p>
+            Government drug spending files contain reporting blind spots that easily deceive standard computer queries. Under federal HIPAA privacy rules, CMS blanks out prescription counts with fewer than 11 fills. Across 2020 to 2023, there were 2,657 hidden cells in the data (1,008 rows in 2020; 775 in 2021; 559 in 2022; 315 in 2023; 0 in 2024). If an analyst mistakenly treats those blanks as zero prescriptions, the math shows false growth spikes of thousands of percent when the numbers reappear.
+          </p>
+
+          <p>
+            In addition, summing the raw government file without filtering combines national summary lines with individual manufacturer lines, making total spending look like $222.6B instead of the real $111.28B. Finally, comparing pill costs against long-acting depot injections distorts price spreads by $2.19B.
+          </p>
+
+          <div class="pull-quote">
+            <div class="pull-quote-text">
+              "Filtering packaging discrepancies and long-acting depot injections eliminates $2.19B in distorted price gaps, revealing an exact $5.09B national addressable wedge ($3.89M for our hospital)."
+            </div>
+            <div class="pull-quote-footer">
+              STATISTICAL CHECK: Kolmogorov-Smirnov D = 0.7609 (p &lt; 1.0e-99); Gini = 0.9028
+            </div>
+          </div>
+
+          <h3 style="font-family: var(--font-sans); font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 24px;">How We Split the Data</h3>
+          <ul class="editorial-list">
+            <li>
+              <span class="list-num">1.</span>
+              <strong>The Clean Pharmacy Baseline:</strong> 4,774 distinct drug formulations audited to remove summary duplicates and verified against official CMS data boundaries to build our hospital buying rules.
+            </li>
+            <li>
+              <span class="list-num">2.</span>
+              <strong>The Low-Volume &amp; Rare Drug Watchlist:</strong> 1,738 packaging-flagged records ($9.08B outlay) tracked separately so rare drug reporting differences never distort our hospital savings forecast.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Right Column -->
+        <div>
+          <table class="editorial-table">
+            <thead>
+              <tr>
+                <th>Data Group</th>
+                <th>Drugs / Claims</th>
+                <th>Total Spend</th>
+                <th>How We Use It</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Raw CMS Extract</strong></td>
+                <td class="mono">18,511 rows</td>
+                <td class="mono">$222.55B</td>
+                <td><span class="badge-crimson">Unfiltered Double-Count</span></td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>Validated Active Formulary</strong></td>
+                <td class="mono">4,774 drugs / 745.6M</td>
+                <td class="mono">$111.28B</td>
+                <td><span class="badge-emerald">Clean Pharmacy Baseline</span></td>
+              </tr>
+              <tr>
+                <td><strong>Privacy-Hidden (&lt;11)</strong></td>
+                <td class="mono">2,657 cells (20-23)</td>
+                <td class="mono">Excluded</td>
+                <td><span class="badge-amber">Preserved as Blank (No Spikes)</span></td>
+              </tr>
+              <tr>
+                <td><strong>Rare Specialty Outliers</strong></td>
+                <td class="mono">1,738 formulations</td>
+                <td class="mono">$9.08B</td>
+                <td><span class="badge-crimson">Filtered to 0.0% Risk</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout-box" style="margin-top: 20px;">
+            <div class="callout-title" style="color: var(--ink-primary);">HOSPITAL PHARMACY GOALS</div>
+            <ul class="editorial-list" style="margin-bottom: 0;">
+              <li>
+                <span class="list-num">1.</span>
+                <strong>Budget Goal:</strong> Recover $3.20M in recurring annual pharmacy savings ($2.56M at our 80% Year-1 rollout goal).
+              </li>
+              <li>
+                <span class="list-num">2.</span>
+                <strong>Patient Safety Rule:</strong> Every single swapped drug must have an exact FDA-approved generic or biosimilar equivalent.
+              </li>
+              <li>
+                <span class="list-num">3.</span>
+                <strong>Doctor Workflow Rule:</strong> Keep 98.2% of routine everyday prescriptions untouched so doctors are not slowed down by unnecessary paperwork.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="takeaway-box">
+        <div class="takeaway-header">CHAPTER 01 KEY TAKEAWAY</div>
+        <p class="takeaway-text">
+          Cleaning out incomplete records and separating rare specialty outliers gives the Pharmacy Director numbers they can trust. It prevents false price spikes and establishes a solid foundation for hospital purchasing decisions.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         E. CHAPTER 02: WHERE THE PHARMACY BUDGET GOES
+         ======================================================================== -->
+    <section id="chapter-02">
+      <span class="eyebrow-tag">CHAPTER 02 / BUDGET BREAKDOWN</span>
+      <h2>Top 5% of Drugs Take Up 72.2% ($61.4M) of Our Hospital Pharmacy Budget</h2>
+
+      <p>
+        Pharmacy spending in our outpatient clinics is heavily skewed toward a small fraction of medications. Just 165 medications (3.46% of the 4,774 catalog lines) drive 65.0% ($72.35B benchmark / $55.25M hospital) of total spending. Expanding to the top 5% of formulations (239 drugs) accounts for 72.18% ($80.31B benchmark / $61.35M hospital).
+      </p>
+
+      <p>
+        Brand-name drugs account for 90.19% ($100.36B benchmark / $76.66M hospital) of total pharmacy spending on just 33.00% of prescription volume (246.1M fills), averaging $407.87 per prescription. In contrast, everyday generic medications deliver 67.00% of all patient prescriptions (499.5M fills) for only 9.81% ($10.92B benchmark / $8.34M hospital) of the budget at an average cost of $21.86 per prescription, an 18.7x cost spread.
+      </p>
+
+      <!-- Framed Figure Container 1 -->
+      <div class="figure-frame">
+        <div class="figure-header">
+          <span class="figure-title">FIGURE 1: SHARE OF PRESCRIPTIONS FILLED VS. SHARE OF TOTAL PHARMACY SPEND</span>
+          <span class="figure-tag">CLEAN PHARMACY BASELINE</span>
+        </div>
+        <div class="figure-image-wrap" onclick="openLightbox('assets/fig1_spend_concentration.png')">
+          <img src="assets/fig1_spend_concentration.png" alt="Figure 1: Share of Prescriptions Filled vs Share of Total Pharmacy Spend" loading="lazy">
+        </div>
+        <div class="figure-footer-strip">
+          Statistical Check: Chi-Square Goodness-of-Fit = 1.646e+11 (p &lt; 0.001) confirms top-tier drug spending is 2.26x to 18.66x higher than its share of prescriptions.
+        </div>
+      </div>
+
+      <!-- 2-Column Breakdown Below Chart -->
+      <div class="split-even">
+        <div>
+          <h3 style="font-family: var(--font-sans); font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">How Everyday Generics Keep Costs Down</h3>
+          <p>
+            The bottom 90% of our approved drug list consists of 4,296 routine generic medications that take up only 15.10% of the outpatient pharmacy budget. These everyday pills treat high blood pressure, cholesterol, and basic infections at rock-bottom prices ($21.86 per fill). Spending staff time reviewing these low-cost generic lines wastes clinical hours without moving the hospital budget.
+          </p>
+
+          <h3 style="font-family: var(--font-sans); font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 20px;">Where Brand-Name Drugs Drain the Budget</h3>
+          <p>
+            Cost growth is concentrated in 25 blockbuster brand medications that consume 32.15% ($27.33M hospital / $35.78B benchmark) of total spending, led by Humira, Ozempic, Biktarvy, Jardiance, and Trulicity. Dispensing brand names without checking for cheaper generic or biosimilar options quickly drains hospital cash flow.
+          </p>
+        </div>
+
+        <div>
+          <table class="editorial-table">
+            <thead>
+              <tr>
+                <th>Drug Group</th>
+                <th>Share of Prescriptions</th>
+                <th>Share of Budget</th>
+                <th>Cost Per Prescription</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="highlight-row">
+                <td><strong>Top 5% Blockbusters</strong></td>
+                <td class="mono">31.9% (237.8M)</td>
+                <td class="mono">72.2% ($61.35M)</td>
+                <td class="mono"><span class="badge-crimson">$407.87 avg</span></td>
+              </tr>
+              <tr>
+                <td><strong>Top 5% to 10% Tier</strong></td>
+                <td class="mono">31.6% (235.6M)</td>
+                <td class="mono">12.7% ($10.80M)</td>
+                <td class="mono">$76.50 avg</td>
+              </tr>
+              <tr>
+                <td><strong>Everyday Maintenance</strong></td>
+                <td class="mono">19.8% (147.6M)</td>
+                <td class="mono">9.2% ($7.82M)</td>
+                <td class="mono">$45.20 avg</td>
+              </tr>
+              <tr>
+                <td><strong>Low-Cost Generics</strong></td>
+                <td class="mono">16.7% (124.6M)</td>
+                <td class="mono">5.9% ($5.02M)</td>
+                <td class="mono"><span class="badge-emerald">$21.86 avg</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout-box crimson" style="margin-top: 16px;">
+            <div class="callout-title" style="color: var(--accent-crimson);">WHY MANUFACTURER REBATES ARE NOT ENOUGH</div>
+            <p style="margin-bottom: 0;">
+              Drug company rebates rarely make up for massive price tags. When a brand-name drug costs 4x to 10x more than an identical generic pill, waiting for a delayed rebate check still leaves the hospital pharmacy operating in the red. Upfront substitution saves much more.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Action Cards -->
+      <div class="split-even" style="margin-top: 24px;">
+        <div class="callout-box" style="border-left: 3px solid var(--accent-crimson); background-color: var(--bg-paper);">
+          <div class="callout-title" style="color: var(--accent-crimson);">WHERE OVERPAYING STARTS: HIGH-VOLUME BRANDS</div>
+          <p style="font-size: 14px; margin-bottom: 10px;">
+            In outpatient clinics, doctors frequently order brand-name pills like Vyvanse ($12.57 vs $5.86 generic) and Concerta ($13.14 vs $0.35 generic) out of habit, even though 10+ competing generic manufacturers produce the exact same medication.
+          </p>
+          <p style="font-size: 14px; color: var(--accent-emerald); font-weight: 600; margin-bottom: 0;">
+            Fix: Update order sets in the electronic medical record so the generic version is automatically selected.
+          </p>
+        </div>
+
+        <div class="callout-box" style="border-left: 3px solid var(--accent-amber); background-color: var(--bg-paper);">
+          <div class="callout-title" style="color: var(--accent-amber);">DELAYED BIOSIMILAR SWITCHES</div>
+          <p style="font-size: 14px; margin-bottom: 10px;">
+            Injectable specialty medications like Humira cost thousands of dollars per injection. High-quality biosimilars are now available on the market that cost 50% less while providing the exact same clinical benefits.
+          </p>
+          <p style="font-size: 14px; color: var(--accent-emerald); font-weight: 600; margin-bottom: 0;">
+            Fix: Make biosimilar adalimumab the hospital pharmacy's preferred first-line choice for outpatient infusions.
+          </p>
+        </div>
+      </div>
+
+      <div class="takeaway-box">
+        <div class="takeaway-header">CHAPTER 02 KEY TAKEAWAY</div>
+        <p class="takeaway-text">
+          Focusing clinical review on the top 5% of overpriced brand medications saves millions of dollars, while leaving 95% of routine generic prescriptions completely untouched.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         F. CHAPTER 03: SEPARATING PRICE HIKES FROM PATIENT DEMAND
+         ======================================================================== -->
+    <section id="chapter-03">
+      <span class="eyebrow-tag">CHAPTER 03 / PRICE VS VOLUME</span>
+      <h2>Is Spend Rising Because We Treat More Patients, or Because Drug Prices Jumped?</h2>
+
+      <div class="split-even">
+        <div>
+          <h3 style="font-family: var(--font-sans); font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">Why Total Spend Alone Is Tricky</h3>
+          <p>
+            Tracking only total drug spending confuses two very different trends. If our outpatient clinics spend more on diabetes or heart medications this year because we are caring for 300 more patients, that is healthy clinical growth. It only becomes a budget crisis if the drug company raised the price per pill on the exact same number of patients.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-family: var(--font-sans); font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">How We Separated the Two</h3>
+          <p>
+            Across 3,762 complete 5-year drug records, we isolated spending changes into two independent factors:
+          </p>
+          <ul class="editorial-list" style="margin-bottom: 0;">
+            <li><span class="list-num">1.</span> <strong>Price Changes (Cost per Prescription / Unit):</strong> Shows when manufacturers charge more for the exact same dose.</li>
+            <li><span class="list-num">2.</span> <strong>Volume Changes (Number of Prescriptions Filled):</strong> Shows when clinic patient volume and treatment access expanded.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Framed Figure Container 2 -->
+      <div class="figure-frame">
+        <div class="figure-header">
+          <span class="figure-title">FIGURE 2: 4X4 MATRIX OF YEARLY PRICE INCREASES VS. PRESCRIPTION VOLUME</span>
+          <span class="figure-tag">PRICE VS VOLUME GRID</span>
+        </div>
+        <div class="figure-image-wrap" onclick="openLightbox('assets/fig2_price_volume_matrix.png')">
+          <img src="assets/fig2_price_volume_matrix.png" alt="Figure 2: 4x4 Matrix of Yearly Price Increases vs Prescription Volume" loading="lazy">
+        </div>
+        <div class="figure-footer-strip">
+          Statistical Check: Wilcoxon W = 252.0 (p = 5.48e-15); Paired t = -7.97 (p = 2.79e-12); 88 of top 100 growth drugs were driven by patient volume, while price spikes hit mature brands.
+        </div>
+      </div>
+
+      <!-- 3 Simple Bullet Takeaways Under Heatmap -->
+      <div class="callout-box" style="background-color: var(--bg-paper);">
+        <div class="callout-title" style="color: var(--ink-primary);">THREE SIMPLE TAKEAWAYS FROM THE PRICE VS. VOLUME GRID</div>
+        <ul class="editorial-list" style="margin-bottom: 0;">
+          <li>
+            <span class="list-num">•</span>
+            <strong>Stable Generic Baseline:</strong> 1,520 medications have steady or falling prices ($47 to $181 average cost per fill). These drugs keep everyday maintenance care affordable and require no intervention.
+          </li>
+          <li>
+            <span class="list-num">•</span>
+            <strong>Patient Growth Group:</strong> Spending went up because more patients received treatment, while the price per dose stayed flat. For example, Ozempic prescriptions surged 928.7% (from 322K to 3.31M fills) while its cost per mL dropped 25.5%. Jardiance (claims up 256.7%) and Dupixent (claims up 130-fold) represent real patient care that the hospital should protect.
+          </li>
+          <li>
+            <span class="list-num">•</span>
+            <strong>Target Group (Big Price Hikes + High Spend):</strong> 46 everyday medications where drug companies raised prices without adding clinical value. Trulicity had a +106.6% price surge, Xifaxan was 74.1% price-led, Emflaza was 66.0% price-led, and Vyvanse unit prices rose +36.6% while volume dropped -14.8%. These 46 drugs represent our primary switching targets.
+          </li>
+        </ul>
+      </div>
+
+      <!-- 2-Column Option Comparison -->
+      <div class="split-even">
+        <div class="callout-box crimson">
+          <div class="callout-title" style="color: var(--accent-crimson);">OPTION A: ACROSS-THE-BOARD PRESCRIPTION CAPS</div>
+          <p style="font-size: 14px; margin-bottom: 8px;">
+            Imposing blanket restrictions across all high-cost categories penalizes patients who need diabetes and heart medications where prices are actually stable.
+          </p>
+          <p style="font-size: 13px; color: var(--accent-crimson); font-weight: 600; margin-bottom: 0;">
+            Drawback: Disrupts chronic care by more than 12%, creates provider pushback, and delays needed patient treatment.
+          </p>
+        </div>
+
+        <div class="callout-box emerald">
+          <div class="callout-title" style="color: var(--accent-emerald);">OPTION B: GENERIC-FIRST SWITCH ON OVERPRICED BRANDS</div>
+          <p style="font-size: 14px; margin-bottom: 8px;">
+            Targeting only the 46 brand drugs with unjustified price spikes switches prescriptions to bioequivalent generics while leaving volume-growing maintenance medications alone.
+          </p>
+          <p style="font-size: 13px; color: var(--accent-emerald); font-weight: 600; margin-bottom: 0;">
+            Benefit: Recovers $3.20M in hospital margin while keeping chronic treatment disruption at just 1.8% (&lt; 2.5% hospital limit).
+          </p>
+        </div>
+      </div>
+
+      <div class="takeaway-box">
+        <div class="takeaway-header">CHAPTER 03 KEY TAKEAWAY</div>
+        <p class="takeaway-text">
+          Separating unit price hikes from patient volume growth shows the pharmacy team exactly which drugs have unjustified price spikes versus which ones are simply treating more patients.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         G. CHAPTER 04: TESTING THE PHARMACY SAVINGS PLAN
+         ======================================================================== -->
+    <section id="chapter-04">
+      <span class="eyebrow-tag">CHAPTER 04 / SAVINGS PLAN</span>
+      <h2>Pharmacy Savings Waterfall: Recovering $3.20M for the Hospital</h2>
+
+      <p>
+        To test the financial impact of a generic-first policy, we ran a purchasing simulation on our $85.0M hospital outpatient pharmacy budget. Across 1,358 multi-manufacturer generic molecules, wholesale supplier prices vary by a median of 71.55% for identical chemical entities. Locking wholesaler purchasing to 25th-percentile supplier contracts saves $2.10M each year.
+      </p>
+
+      <p>
+        At the same time, automatically switching off-patent brand pills and inhalers to FDA-approved bioequivalent generics recovers another $1.10M across six key drug lines, delivering $3.20M in total annual margin recovery under full adoption ($2.56M at our Year-1 goal).
+      </p>
+
+      <!-- Framed Figure Container 3 -->
+      <div class="figure-frame">
+        <div class="figure-header">
+          <span class="figure-title">FIGURE 3: HOSPITAL PHARMACY BUDGET BEFORE AND AFTER GENERIC-FIRST SWITCHING</span>
+          <span class="figure-tag">SAVINGS SIMULATION</span>
+        </div>
+        <div class="figure-image-wrap" onclick="openLightbox('assets/fig3_formulary_waterfall.png')">
+          <img src="assets/fig3_formulary_waterfall.png" alt="Figure 3: Hospital Pharmacy Budget Waterfall" loading="lazy">
+        </div>
+        <div class="figure-footer-strip">
+          Result: Target brand spending drops by 28.3% (-$1.10M) while 98.2% of routine hospital prescriptions stay untouched; 80% Year-1 goal delivers $2.56M.
+        </div>
+      </div>
+
+      <!-- 3-Step Breakdown of the Waterfall -->
+      <div class="callout-box" style="background-color: var(--bg-paper);">
+        <div class="callout-title" style="color: var(--ink-primary);">THREE-STEP BREAKDOWN OF THE HOSPITAL SAVINGS WATERFALL</div>
+        <ul class="editorial-list" style="margin-bottom: 0;">
+          <li>
+            <span class="list-num">1.</span>
+            <strong>Starting Spend on Target Brand Drugs ($3.89M):</strong> Current hospital outlay on off-patent oral tablets and inhalers that have proven generic competitors in our local market.
+          </li>
+          <li>
+            <span class="list-num">2.</span>
+            <strong>Savings from Generic &amp; Biosimilar Switching (-$1.10M):</strong> Direct hospital margin recovered by defaulting orders to FDA-approved generics for Vyvanse ($472K saved), Concerta ($367K), Spiriva Respimat ($176K), Advair Diskus ($136K), Banzel ($97K), and Jornay PM ($80K). Combining this with $2.10M in wholesale supplier contract locks reaches $3.20M in total savings.
+          </li>
+          <li>
+            <span class="list-num">3.</span>
+            <strong>New Optimized Pharmacy Spend ($2.79M):</strong> 71.7% of target spend remains protected for patients who have documented clinical reasons or allergies that require staying on the brand name.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Rollout Scenarios Table -->
+      <table class="editorial-table">
+        <thead>
+          <tr>
+            <th>Doctor Adoption Rate</th>
+            <th>Direct Drug Savings</th>
+            <th>Rebate / Contract Savings</th>
+            <th>Total Hospital Savings</th>
+            <th>Prescriptions Switched</th>
+            <th>Patient Access Kept</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>60% Cautious Rollout (Pilot in Top Clinics)</strong></td>
+            <td class="mono">$0.66M</td>
+            <td class="mono">$1.26M</td>
+            <td class="mono"><strong>$1.92M</strong></td>
+            <td class="mono">2,410 prescriptions</td>
+            <td class="mono">98.9%</td>
+          </tr>
+          <tr>
+            <td><strong>80% Year-1 Hospital Goal (Standard Adoption)</strong></td>
+            <td class="mono">$0.88M</td>
+            <td class="mono">$1.68M</td>
+            <td class="mono"><strong>$2.56M</strong></td>
+            <td class="mono">3,214 prescriptions</td>
+            <td class="mono">98.5%</td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>100% Full Pharmacy Rollout</strong></td>
+            <td class="mono">+$1.10M</td>
+            <td class="mono">+$2.10M</td>
+            <td class="mono"><strong>+$3.20M</strong></td>
+            <td class="mono">4,018 prescriptions</td>
+            <td class="mono"><strong>98.2%</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="takeaway-box">
+        <div class="takeaway-header">CHAPTER 04 KEY TAKEAWAY</div>
+        <p class="takeaway-text">
+          Even if clinic doctors approve generic substitution only 60% to 80% of the time during Year 1, the hospital pharmacy still captures between $1.92M and $2.56M in net annual savings.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         H. CHAPTER 05: 90-DAY HOSPITAL PHARMACY ROLLOUT PLAN
+         ======================================================================== -->
+    <section id="chapter-05">
+      <span class="eyebrow-tag">CHAPTER 05 / 90-DAY ROLLOUT</span>
+      <h2>90-Day Action Plan for the Hospital Pharmacy Team</h2>
+
+      <p>
+        Rolling out this formulary policy requires simple, sequenced steps across hospital IT, pharmacy buyers, and clinical leadership. The 90-day implementation plan below ensures fast execution with zero disruption to patient care.
+      </p>
+
+      <!-- Implementation Roadmap Table -->
+      <table class="editorial-table">
+        <thead>
+          <tr>
+            <th>Timeline</th>
+            <th>What We Do</th>
+            <th>Which Drugs Are Affected</th>
+            <th>Team Owner</th>
+            <th>Expected Savings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Phase 1: Days 1 to 30</strong></td>
+            <td><strong>Turn On Auto-Generic Substitution in the E-Prescribing System</strong></td>
+            <td>High-cost brand pills with exact FDA-approved generics (Vyvanse, Concerta, Spiriva Respimat, Advair Diskus, Banzel, Jornay PM)</td>
+            <td>Pharmacy Director &amp; Hospital IT</td>
+            <td><span class="badge-emerald">+$1.10M Saved</span></td>
+          </tr>
+          <tr>
+            <td><strong>Phase 2: Days 30 to 60</strong></td>
+            <td><strong>Lock Wholesaler Purchasing to 25th-Percentile Generic Prices</strong></td>
+            <td>1,358 multi-manufacturer generic molecules with wide wholesale supplier price spreads</td>
+            <td>Pharmacy Buyer &amp; CFO</td>
+            <td><span class="badge-emerald">+$2.10M Saved</span></td>
+          </tr>
+          <tr>
+            <td><strong>Phase 3: Days 60 to 90</strong></td>
+            <td><strong>Quarterly Price-Spike Check &amp; Wholesaler Contract Review</strong></td>
+            <td>Single-source brand drugs, specialty biologics (Humira biosimilars), and GLP-1 clinic order sets</td>
+            <td>Clinical Pharmacy Specialists</td>
+            <td><span class="badge-amber">Protects Annual Budget</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 2x2 Practical Safeguards Grid -->
+      <div class="grid-2x2">
+        <div class="callout-box" style="margin: 0; background-color: var(--bg-paper);">
+          <div class="callout-title" style="color: var(--ink-primary);">1. EASY DOCTOR OVERRIDE FOR PATIENT ALLERGIES</div>
+          <p style="font-size: 14px; margin-bottom: 0;">
+            If a patient has a documented allergy or medical reason to stay on a brand name, the doctor clicks a single checkbox in the electronic chart to bypass the switch without delay.
+          </p>
+        </div>
+
+        <div class="callout-box" style="margin: 0; background-color: var(--bg-paper);">
+          <div class="callout-title" style="color: var(--ink-primary);">2. POP-UP PRICE ALERTS IN THE ELECTRONIC CHART</div>
+          <p style="font-size: 14px; margin-bottom: 0;">
+            Show doctors the generic cost versus the brand cost right when they write a prescription in Epic or Cerner, making the affordable choice effortless.
+          </p>
+        </div>
+
+        <div class="callout-box" style="margin: 0; background-color: var(--bg-paper);">
+          <div class="callout-title" style="color: var(--ink-primary);">3. PHARMACIST CHECK ON SPECIALTY MEDICATIONS</div>
+          <p style="font-size: 14px; margin-bottom: 0;">
+            Clinical pharmacists review high-cost specialty infusion orders before sending them to the wholesaler, ensuring lower-cost biosimilar options are dispensed whenever approved.
+          </p>
+        </div>
+
+        <div class="callout-box" style="margin: 0; background-color: var(--bg-paper);">
+          <div class="callout-title" style="color: var(--ink-primary);">4. QUARTERLY PRICE HIKE REPORT</div>
+          <p style="font-size: 14px; margin-bottom: 0;">
+            The data analyst runs our pricing script every quarter to flag any drug whose purchase price jumped more than 10%, giving the pharmacy early warning before costs mount.
+          </p>
+        </div>
+      </div>
+
+      <div class="takeaway-box">
+        <div class="takeaway-header">CHAPTER 05 KEY TAKEAWAY</div>
+        <p class="takeaway-text">
+          A clear 90-day plan recovers $3.20M in recurring annual hospital pharmacy savings, while doctor override safeguards ensure every patient gets the exact care they need.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="editorial-footer">
+    <div class="footer-inner">
+      <div class="footer-credit">
+        Prepared by <strong>John Amores</strong> | Healthcare Data Analyst Portfolio Case Study
+      </div>
+      <ul class="footer-links">
+        <li><a href="cockpit.html">Launch Pharmacy Savings Simulator</a></li>
+        <li><a href="https://github.com/j-amores/data-analyst-portfolio/tree/main/medicaid-spending-optimization" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       INTERACTIVE IMAGE LIGHTBOX MODAL
+       ======================================================================== -->
+  <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">CLOSE (ESC)</button>
+    <img id="lightboxImg" class="lightbox-content" src="" alt="Enlarged Whitepaper Visual" onclick="event.stopPropagation()">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+  </script>
+
+</body>
+</html>

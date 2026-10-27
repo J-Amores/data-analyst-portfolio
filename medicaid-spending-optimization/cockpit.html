@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Outpatient Pharmacy Budget Recovery Cockpit | Spend Optimization</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-paper: #FAF8F2;
+      --bg-card: #F4F1EA;
+      --bg-amber-tint: #FDF8EE;
+      --bg-emerald-tint: #F0FDF4;
+      --bg-crimson-tint: #FDF2F2;
+
+      --ink-primary: #111111;
+      --ink-body: #2D3748;
+      --ink-muted: #4B5563;
+
+      --border-hairline: 1px solid #D6D3CD;
+      --border-strong: 1px solid #111111;
+
+      --accent-crimson: #B91C1C;
+      --accent-emerald: #047857;
+      --accent-emerald-dark: #065F46;
+      --accent-amber: #B45309;
+      --accent-slate: #1E293B;
+
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background-color: var(--bg-paper);
+      color: var(--ink-body);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .cockpit-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+    }
+
+    /* Top Navigation */
+    .cockpit-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: var(--border-hairline);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cockpit-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .cockpit-brand {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-primary);
+    }
+
+    .back-btn {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--ink-primary);
+      padding: 7px 14px;
+      border: var(--border-strong);
+      background-color: var(--bg-card);
+      transition: background-color 0.15s ease, color 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .back-btn:hover {
+      background-color: var(--ink-primary);
+      color: #FFFFFF;
+    }
+
+    /* Headers */
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.35rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.2;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .subtitle {
+      font-size: 14.5px;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+      max-width: 980px;
+    }
+
+    /* Guardrail & Compliance Banner */
+    .guardrail-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background-color: var(--bg-card);
+      border: var(--border-hairline);
+      margin-bottom: 22px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--ink-body);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .guardrail-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Controls Panel */
+    .controls-panel {
+      border: var(--border-strong);
+      background-color: #FFFFFF;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .controls-row:not(:last-child) {
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: var(--border-hairline);
+    }
+
+    .control-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .control-title {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-primary);
+      white-space: nowrap;
+    }
+
+    /* Segmented Button Groups */
+    .btn-group {
+      display: inline-flex;
+      border: var(--border-strong);
+      background-color: var(--bg-paper);
+      overflow: hidden;
+      flex-wrap: wrap;
+    }
+
+    .btn-toggle {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 7px 12px;
+      background-color: #FFFFFF;
+      color: var(--ink-body);
+      border: none;
+      border-right: 1px solid #D6D3CD;
+      cursor: pointer;
+      transition: background-color 0.12s ease, color 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .btn-toggle:last-child {
+      border-right: none;
+    }
+
+    .btn-toggle:hover {
+      background-color: var(--bg-card);
+      color: var(--ink-primary);
+    }
+
+    .btn-toggle.active {
+      background-color: var(--accent-slate);
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    /* Range Slider */
+    .slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-input {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 110px;
+      height: 6px;
+      background: #D6D3CD;
+      outline: none;
+      border-radius: 0;
+    }
+
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--ink-primary);
+      cursor: pointer;
+      border: 1px solid #111111;
+    }
+
+    .slider-val-badge {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      min-width: 36px;
+    }
+
+    /* Select & Search Input */
+    .select-input, .search-input {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      padding: 6px 10px;
+      border: var(--border-strong);
+      background-color: #FFFFFF;
+      color: var(--ink-primary);
+      outline: none;
+    }
+
+    .search-input {
+      width: 210px;
+    }
+
+    .search-input:focus, .select-input:focus {
+      border-color: var(--accent-slate);
+    }
+
+    /* Filter Chips */
+    .filter-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chip-btn {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border: var(--border-hairline);
+      background-color: #FFFFFF;
+      color: var(--ink-body);
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--ink-primary);
+      color: var(--ink-primary);
+    }
+
+    .chip-btn.active {
+      border-color: var(--ink-primary);
+      background-color: var(--bg-card);
+      color: var(--ink-primary);
+      font-weight: 700;
+    }
+
+    /* 4 Top KPI Callout Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .kpi-card {
+      border: var(--border-hairline);
+      background-color: var(--bg-card);
+      padding: 16px 16px 14px;
+      position: relative;
+    }
+
+    .kpi-card-header {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      margin-bottom: 6px;
+    }
+
+    .kpi-card-val {
+      font-family: var(--font-mono);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 4px;
+      line-height: 1.15;
+    }
+
+    .kpi-card-val.crimson {
+      color: var(--accent-crimson);
+    }
+
+    .kpi-card-val.emerald {
+      color: var(--accent-emerald);
+    }
+
+    .kpi-card-val.slate {
+      color: var(--accent-slate);
+    }
+
+    .kpi-card-sub {
+      font-size: 12px;
+      color: var(--ink-muted);
+      line-height: 1.35;
+    }
+
+    /* Section Container & Headers */
+    .section-wrap {
+      margin-bottom: 30px;
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .section-kicker {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--accent-amber);
+      margin-bottom: 2px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.25;
+    }
+
+    .section-sub {
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+
+    /* Chart Grids */
+    .charts-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .chart-box {
+      border: var(--border-hairline);
+      background-color: #FFFFFF;
+      padding: 16px 18px 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-box-header {
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: var(--border-hairline);
+    }
+
+    .chart-headline {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .chart-desc {
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    .chart-canvas-wrap {
+      width: 100%;
+      position: relative;
+    }
+
+    .chart-legend {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-body);
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: var(--border-hairline);
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-swatch {
+      width: 11px;
+      height: 11px;
+      display: inline-block;
+      border: 1px solid #111111;
+    }
+
+    /* Burn Down Curve Full Width */
+    .chart-box-full {
+      border: var(--border-hairline);
+      background-color: #FFFFFF;
+      padding: 18px 20px 14px;
+      margin-bottom: 30px;
+    }
+
+    /* Hospital Table */
+    .table-card {
+      overflow-x: auto;
+      border: var(--border-hairline);
+      background-color: #FFFFFF;
+      padding: 12px;
+    }
+
+    .hospital-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+      border: var(--border-hairline);
+    }
+
+    .hospital-table th {
+      background-color: var(--bg-card);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-primary);
+      padding: 11px 14px;
+      border-bottom: var(--border-strong);
+      border-right: var(--border-hairline);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .hospital-table th:hover {
+      background-color: #ECE8DE;
+    }
+
+    .hospital-table th:last-child {
+      border-right: none;
+    }
+
+    .hospital-table td {
+      padding: 11px 14px;
+      border-bottom: var(--border-hairline);
+      border-right: var(--border-hairline);
+      color: var(--ink-body);
+      vertical-align: middle;
+    }
+
+    .hospital-table td:last-child {
+      border-right: none;
+    }
+
+    .hospital-table tr.data-row {
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+    }
+
+    .hospital-table tr.data-row:hover {
+      background-color: var(--bg-paper);
+    }
+
+    .hospital-table tr.expanded-row {
+      background-color: #FAF8F2;
+    }
+
+    .hospital-table td.mono {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    /* Savings Cell with Conditional Color Bar */
+    .savings-cell-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .savings-val-text {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent-emerald);
+    }
+
+    .savings-bar-track {
+      width: 100%;
+      height: 4px;
+      background-color: #E5E7EB;
+      overflow: hidden;
+    }
+
+    .savings-bar-fill {
+      height: 100%;
+      background-color: var(--accent-emerald);
+      transition: width 0.25s ease;
+    }
+
+    /* Badges */
+    .badge-pill {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border: 1px solid #A7F3D0;
+      background-color: var(--bg-emerald-tint);
+      color: var(--accent-emerald-dark);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge-pill.phase1 {
+      border-color: #BFDBFE;
+      background-color: #EFF6FF;
+      color: #1D4ED8;
+    }
+
+    .badge-pill.phase2 {
+      border-color: #CBD5E1;
+      background-color: #F1F5F9;
+      color: #0F172A;
+    }
+
+    .badge-pill.phase3 {
+      border-color: #A7F3D0;
+      background-color: var(--bg-emerald-tint);
+      color: var(--accent-emerald-dark);
+    }
+
+    .badge-pill.status-ready {
+      border-color: #111111;
+      background-color: var(--bg-card);
+      color: var(--ink-primary);
+    }
+
+    .badge-pill.flag {
+      border-color: #FECACA;
+      background-color: var(--bg-crimson-tint);
+      color: var(--accent-crimson);
+    }
+
+    /* Expandable Row Detail Card */
+    .detail-card {
+      padding: 12px 14px;
+      background-color: #FFFFFF;
+      border: var(--border-hairline);
+      margin: 4px 0;
+      font-size: 12px;
+      line-height: 1.5;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .detail-item-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 2px;
+    }
+
+    .detail-item-desc {
+      color: var(--ink-primary);
+      font-size: 12px;
+    }
+
+    /* Action Toolbar Buttons */
+    .action-btn {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border: var(--border-strong);
+      background-color: #FFFFFF;
+      color: var(--ink-primary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.12s ease;
+    }
+
+    .action-btn:hover {
+      background-color: var(--ink-primary);
+      color: #FFFFFF;
+    }
+
+    /* Tooltip */
+    #chartTooltip {
+      position: absolute;
+      display: none;
+      background-color: #111111;
+      color: #FFFFFF;
+      padding: 8px 11px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      line-height: 1.4;
+      pointer-events: none;
+      z-index: 100;
+      border: 1px solid #444444;
+      max-width: 280px;
+    }
+
+    /* Footer */
+    .cockpit-footer {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: var(--border-hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--ink-muted);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .charts-split-grid {
+        grid-template-columns: 1fr;
+      }
+      .controls-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .detail-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cockpit-container">
+    
+    <!-- Top Nav -->
+    <div class="cockpit-nav">
+      <div class="cockpit-nav-left">
+        <a href="index.html" class="back-btn">&lt;- RETURN TO WHITEPAPER</a>
+        <span class="cockpit-brand">HOSPITAL OUTPATIENT PHARMACY COCKPIT</span>
+      </div>
+      <div>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted);">
+          ANNUAL OUTPATIENT BUDGET: $85.0M | TARGET BRAND SPEND: $3.89M
+        </span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <h1>Hospital Outpatient Pharmacy Budget Recovery Cockpit</h1>
+    <p class="subtitle">
+      Executive decision support for the Pharmacy Director, CFO, and P&amp;T Committee implementing our 3-phase budget recovery plan: recovering +$3.20M in addressable hospital drug spend while keeping 100% of patients on effective treatments.
+    </p>
+
+    <!-- Guardrail Compliance Strip -->
+    <div class="guardrail-strip">
+      <div class="guardrail-item">
+        <span class="badge-pill">PASS</span>
+        <span>PATIENT ACCESS GUARDRAIL 1: 100% Bioequivalent Coverage (1.8% &lt; 2.5% Chronic Limit)</span>
+      </div>
+      <div class="guardrail-item">
+        <span class="badge-pill" id="guardrail2Badge">PASS</span>
+        <span id="guardrail2Text">PACKAGING OUTLIER RISK (POST-FILTER): 0.0% &lt; 5.0% (Cleaned Dataset)</span>
+      </div>
+      <div class="guardrail-item">
+        <span>MAX RECOVERY CAPACITY: +$3.20M (80% GOAL: +$2.56M | 60% FLOOR: +$1.92M)</span>
+      </div>
+    </div>
+
+    <!-- 1. Interactive Controls Bar -->
+    <div class="controls-panel">
+      <!-- Lever 1: Implementation Phase Toggle -->
+      <div class="controls-row">
+        <div class="control-block">
+          <span class="control-title">1. IMPLEMENTATION PHASE:</span>
+          <div class="btn-group" id="phaseToggleGroup">
+            <button type="button" class="btn-toggle" data-phase="baseline" onclick="setPhase('baseline')">
+              Current Baseline (No Changes)
+            </button>
+            <button type="button" class="btn-toggle" data-phase="phase1" onclick="setPhase('phase1')">
+              Phase 1 Only: Auto-Generic E-Prescribing (Days 1-30)
+            </button>
+            <button type="button" class="btn-toggle" data-phase="phase2" onclick="setPhase('phase2')">
+              Phase 1 + Phase 2: Add Outpatient Biosimilars (Days 30-60)
+            </button>
+            <button type="button" class="btn-toggle active" data-phase="full" onclick="setPhase('full')">
+              Full Implementation: Phases 1, 2 &amp; 3 (Days 1-90 - Default Active)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Levers 2 & 3: Adoption Rate and Category Filter -->
+      <div class="controls-row">
+        <!-- Lever 2: Doctor Adoption Rate -->
+        <div class="control-block">
+          <span class="control-title">2. DOCTOR ADOPTION:</span>
+          <div class="btn-group" id="adoptionToggleGroup">
+            <button type="button" class="btn-toggle" data-adoption="0.60" onclick="setAdoption(0.60)">
+              60% Cautious Pilot
+            </button>
+            <button type="button" class="btn-toggle" data-adoption="0.80" onclick="setAdoption(0.80)">
+              80% Year-1 Hospital Goal
+            </button>
+            <button type="button" class="btn-toggle active" data-adoption="1.00" onclick="setAdoption(1.00)">
+              100% Full Pharmacy Rollout
+            </button>
+          </div>
+          
+          <div class="slider-wrap" style="margin-left: 6px;">
+            <input type="range" class="slider-input" id="adoptionSlider" min="50" max="100" value="100" step="1" oninput="handleSliderChange(this.value)">
+            <span class="slider-val-badge" id="sliderValDisplay">100%</span>
+          </div>
+        </div>
+
+        <!-- Lever 3: Category Filter & Search -->
+        <div class="control-block">
+          <span class="control-title">3. CATEGORY:</span>
+          <select id="categoryFilter" class="select-input" onchange="setCategory(this.value)">
+            <option value="ALL">All Pharmacy Categories</option>
+            <option value="CNS">CNS / ADHD &amp; Mental Health</option>
+            <option value="Specialty">Specialty Biologics &amp; Infusions</option>
+            <option value="Respiratory">Respiratory &amp; Pulmonary Inhalers</option>
+            <option value="AcuteCare">Acute Care &amp; Routine Generics</option>
+          </select>
+
+          <span class="control-title" style="margin-left: 6px;">SEARCH:</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="e.g. Vyvanse, Concerta, Humira..." oninput="handleSearch(this.value)">
+        </div>
+      </div>
+
+      <!-- Secondary Controls: Quick Category Pills, Outlier Filter Toggle, and CSV Export -->
+      <div class="controls-row" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
+        <div class="control-block">
+          <span class="control-title">QUICK FILTER:</span>
+          <div class="filter-chips">
+            <button type="button" class="chip-btn active" data-cat="ALL" onclick="setCategory('ALL')">All</button>
+            <button type="button" class="chip-btn" data-cat="CNS" onclick="setCategory('CNS')">CNS/ADHD</button>
+            <button type="button" class="chip-btn" data-cat="Specialty" onclick="setCategory('Specialty')">Biologics</button>
+            <button type="button" class="chip-btn" data-cat="Respiratory" onclick="setCategory('Respiratory')">Respiratory</button>
+            <button type="button" class="chip-btn" data-cat="AcuteCare" onclick="setCategory('AcuteCare')">Price Caps</button>
+          </div>
+        </div>
+
+        <div class="control-block">
+          <span class="control-title">GUARDRAIL 2 FILTER:</span>
+          <button type="button" class="action-btn" id="outlierToggleBtn" onclick="toggleOutlierFilter()">
+            [ACTIVE] 0.0% Post-Filter Outliers
+          </button>
+          <button type="button" class="action-btn" onclick="exportChecklistCSV()">
+            Export CSV
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Top 4 KPI Callout Cards (Before vs. After Budget) -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-card-header">1. CURRENT TARGET BRAND SPEND</div>
+        <div class="kpi-card-val crimson" id="kpiTargetSpend">$3.89M</div>
+        <div class="kpi-card-sub">Baseline before pharmacy switches ($85.0M hospital scale)</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">2. NEW OPTIMIZED BUDGET</div>
+        <div class="kpi-card-val slate" id="kpiOptimizedBudget">$0.69M</div>
+        <div class="kpi-card-sub" id="kpiOptimizedSub">Post-implementation spend across selected phases</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">3. ANNUAL HOSPITAL SAVINGS CAPTURED</div>
+        <div class="kpi-card-val emerald" id="kpiSavingsCaptured">+$3.20M</div>
+        <div class="kpi-card-sub" id="kpiSavingsSub">82.3% of target brand spend recovered</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">4. PATIENT PRESCRIPTION ACCESS KEPT</div>
+        <div class="kpi-card-val">100% Covered / &gt;=95% Untouched</div>
+        <div class="kpi-card-sub">
+          <span class="badge-pill">PASS</span> Zero treatment loss | Outlier risk: 0.0% &lt; 5.0%
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Charts Section (Charts 1 & 2 Split, Chart 3 Full Width) -->
+    <div class="charts-split-grid">
+      <!-- Chart 1: Current vs New Budget by Drug Group -->
+      <div class="chart-box">
+        <div class="chart-box-header">
+          <div class="section-kicker">CHART 1 // BEFORE VS AFTER BY CATEGORY</div>
+          <div class="chart-headline" id="chart1Headline">
+            Switching Overpriced Brands Cuts Top Drug Category Costs by 82% Without Reducing Prescriptions
+          </div>
+          <div class="chart-desc">
+            Current spend (crimson) vs. new implemented spend (dark slate with emerald savings cap) across primary target categories.
+          </div>
+        </div>
+
+        <div class="chart-canvas-wrap">
+          <svg id="svgChart1" viewBox="0 0 520 280" style="width: 100%; height: auto; display: block;"></svg>
+        </div>
+
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: var(--accent-crimson);"></span>
+            <span>Current Spend ($M)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: var(--accent-slate);"></span>
+            <span>New Implemented Spend ($M)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: var(--accent-emerald);"></span>
+            <span>Hospital Savings Cap ($M)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 2: Step-by-Step Budget Recovery Waterfall -->
+      <div class="chart-box">
+        <div class="chart-box-header">
+          <div class="section-kicker">CHART 2 // STEP-BY-STEP BUDGET RECOVERY</div>
+          <div class="chart-headline" id="chart2Headline">
+            How Phases 1 to 3 Recover +$3.20M for the Hospital Pharmacy Budget
+          </div>
+          <div class="chart-desc">
+            Complete 5-bar budget bridge from starting brand spend through Phase 1, Phase 2, and Phase 3 to final implemented budget.
+          </div>
+        </div>
+
+        <div class="chart-canvas-wrap">
+          <svg id="svgChart2" viewBox="0 0 520 280" style="width: 100%; height: auto; display: block;"></svg>
+        </div>
+
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: var(--accent-crimson);"></span>
+            <span>Starting Spend ($3.89M)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: var(--accent-emerald);"></span>
+            <span>Phase Savings Step-Down</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background-color: var(--accent-slate);"></span>
+            <span>Final Implemented Budget</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 3: Monthly Cumulative Savings & Budget Burn-Down Curve -->
+    <div class="chart-box-full">
+      <div class="chart-box-header">
+        <div class="section-kicker">CHART 3 // 12-MONTH IMPLEMENTATION TIMELINE</div>
+        <div class="chart-headline">
+          12-Month Pharmacy Budget Trajectory: Old Spending Pace vs. New Implemented Plan
+        </div>
+        <div class="chart-desc">
+          Comparing unchanged brand spending pace (red dashed line) against implemented plan (green solid line) with shaded savings gap kicking in at Days 30, 60, and 90.
+        </div>
+      </div>
+
+      <div class="chart-canvas-wrap">
+        <svg id="svgChart3" viewBox="0 0 980 270" style="width: 100%; height: auto; display: block;"></svg>
+      </div>
+    </div>
+
+    <!-- 4. Upgrade Bottom Table: Hospital Pharmacy Implementation Table -->
+    <div class="section-wrap">
+      <div class="section-header-row">
+        <div>
+          <div class="section-kicker">IMPLEMENTATION ROADMAP // PROCUREMENT CHECKLIST</div>
+          <div class="section-title">Hospital Pharmacy Purchasing &amp; Switch Checklist</div>
+          <div class="section-sub">
+            Drug-level formulary conversion actions for the Pharmacy Director and Procurement Buyer. Click any row to expand clinical &amp; contract details.
+          </div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted);" id="tableCountBadge">
+          Showing 12 target formulations
+        </div>
+      </div>
+
+      <div class="table-card">
+        <table class="hospital-table" id="pharmacyTable">
+          <thead>
+            <tr>
+              <th onclick="sortTable('name')">Drug / Category Name &#x25BE;</th>
+              <th onclick="sortTable('phase')">Rollout Phase &#x25BE;</th>
+              <th>Price Hike Driver</th>
+              <th onclick="sortTable('currCost')">Current Cost / Rx &#x25BE;</th>
+              <th onclick="sortTable('newCost')">New Cost / Rx &#x25BE;</th>
+              <th onclick="sortTable('savings')" style="min-width: 190px;">Annual Hospital Savings &#x25BE;</th>
+              <th>Hospital Action Status</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tooltip Element -->
+    <div id="chartTooltip"></div>
+
+    <!-- Footer -->
+    <div class="cockpit-footer">
+      <div>
+        Hospital Outpatient Pharmacy Spend Optimization Case Study | Verified CMS RY2026 Analytical Base (4,774 catalog drugs / $85.0M hospital benchmark)
+      </div>
+      <div>
+        <a href="index.html" class="back-btn">&lt;- VIEW EDITORIAL REPORT</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ---------------------------------------------------------------------------
+    // Verified Repository Data Model
+    // ---------------------------------------------------------------------------
+    const BASE_TARGET_SPEND = 3.89; // $3.89M starting target brand spend
+
+    // Phase baseline savings at 100% adoption
+    const PHASE_SAVINGS = {
+      phase1: 1.10, // Phase 1: Auto-Generic E-Prescribing
+      phase2: 0.80, // Phase 2: Outpatient Biosimilar Switch
+      phase3: 1.30  // Phase 3: Price-Spike Caps & Wholesaler Rebates
+    };
+
+    // Category Level Before and Max Savings (adds up to $3.89M before / $3.20M savings)
+    const CATEGORIES_DATA = [
+      { id: "CNS", name: "CNS / ADHD Brands", before: 1.02, phase1: 0.93, phase2: 0.00, phase3: 0.00 },
+      { id: "Specialty", name: "Specialty Biologics", before: 1.15, phase1: 0.00, phase2: 0.80, phase3: 0.00 },
+      { id: "Respiratory", name: "Respiratory Inhalers", before: 0.42, phase1: 0.31, phase2: 0.00, phase3: 0.00 },
+      { id: "AcuteCare", name: "Multi-Source Price Caps", before: 1.30, phase1: 0.00, phase2: 0.00, phase3: 1.16 }
+    ];
+
+    // Drug-level purchasing switch checklist with expanded clinical & procurement metadata
+    const DRUG_ITEMS = [
+      {
+        id: "vyvanse",
+        name: "Vyvanse",
+        generic: "Lisdexamfetamine Oral",
+        category: "CNS",
+        phase: 1,
+        phaseText: "Phase 1: Auto-Generic",
+        driver: "Price Spike (+36.6% unit price, -14.8% volume)",
+        currCost: "$377",
+        newCost: "$176",
+        currNum: 377,
+        newNum: 176,
+        baseSavings: 471826,
+        status: "E-Prescribing Rule Ready",
+        competitors: "14 FDA-Approved Suppliers",
+        rating: "AB Bioequivalent",
+        actionNote: "Automated Cerner/Epic order-set substitution prompts generic Lisdexamfetamine at dispense without interrupting ADHD patient stabilization."
+      },
+      {
+        id: "concerta",
+        name: "Concerta",
+        generic: "Methylphenidate ER Oral",
+        category: "CNS",
+        phase: 1,
+        phaseText: "Phase 1: Auto-Generic",
+        driver: "Price Spike (+42.1% unit cost on mature brand)",
+        currCost: "$394",
+        newCost: "$11",
+        currNum: 394,
+        newNum: 11,
+        baseSavings: 367385,
+        status: "E-Prescribing Rule Ready",
+        competitors: "9 Generic Manufacturers",
+        rating: "AB Bioequivalent (Osmotic Release)",
+        actionNote: "Mandates substitution to generic extended-release tablets, collapsing unit cost from $13.14 to $0.35 per dose."
+      },
+      {
+        id: "spiriva",
+        name: "Spiriva Respimat",
+        generic: "Tiotropium Inhaler",
+        category: "Respiratory",
+        phase: 1,
+        phaseText: "Phase 1: Auto-Generic",
+        driver: "Price Spike (+52.3% unit cost on inhaler format)",
+        currCost: "$507",
+        newCost: "$48",
+        currNum: 507,
+        newNum: 48,
+        baseSavings: 175892,
+        status: "E-Prescribing Rule Ready",
+        competitors: "Multiple Bioequivalent Devices",
+        rating: "Therapeutically Interchangeable",
+        actionNote: "Replaces high-priced brand inhaler with multi-source generic inhalation cartridge, saving $175K annually."
+      },
+      {
+        id: "advair",
+        name: "Advair Diskus",
+        generic: "Fluticasone/Salmeterol Inhaler",
+        category: "Respiratory",
+        phase: 1,
+        phaseText: "Phase 1: Auto-Generic",
+        driver: "Price Spike (+28.4% unit cost on blister strips)",
+        currCost: "$204",
+        newCost: "$12",
+        currNum: 204,
+        newNum: 12,
+        baseSavings: 136273,
+        status: "E-Prescribing Rule Ready",
+        competitors: "3 Authorized Generics",
+        rating: "AB Bioequivalent Inhaler",
+        actionNote: "Shifts maintenance asthma/COPD outpatient fills to authorized generic dry-powder inhalers."
+      },
+      {
+        id: "banzel",
+        name: "Banzel",
+        generic: "Rufinamide Oral",
+        category: "CNS",
+        phase: 1,
+        phaseText: "Phase 1: Auto-Generic",
+        driver: "Price Spike (+49.0% unit cost on anticonvulsant)",
+        currCost: "$884",
+        newCost: "$115",
+        currNum: 884,
+        newNum: 115,
+        baseSavings: 97366,
+        status: "E-Prescribing Rule Ready",
+        competitors: "4 Generic Suppliers",
+        rating: "AB Bioequivalent Anticonvulsant",
+        actionNote: "Switches pediatric and adult refractory epilepsy orders to generic Rufinamide tablets."
+      },
+      {
+        id: "jornay",
+        name: "Jornay PM",
+        generic: "Methylphenidate Delayed-Release",
+        category: "CNS",
+        phase: 1,
+        phaseText: "Phase 1: Auto-Generic",
+        driver: "Price Spike (+38.7% unit cost on delayed brand)",
+        currCost: "$436",
+        newCost: "$11",
+        currNum: 436,
+        newNum: 11,
+        baseSavings: 80160,
+        status: "E-Prescribing Rule Ready",
+        competitors: "Multi-Source Generic Tier",
+        rating: "Equivalent Daily Pharmacokinetics",
+        actionNote: "Establishes preferred generic extended-release morning dosing protocol across hospital outpatient psychiatry."
+      },
+      {
+        id: "humira",
+        name: "Humira Pen",
+        generic: "Adalimumab Injection",
+        category: "Specialty",
+        phase: 2,
+        phaseText: "Phase 2: Biosimilar",
+        driver: "Dual Pressure (+36.1% price hike, +45.2% claims)",
+        currCost: "$6,900",
+        newCost: "$1,380",
+        currNum: 6900,
+        newNum: 1380,
+        baseSavings: 465000,
+        status: "Biosimilar on Formulary",
+        competitors: "10 FDA-Approved Biosimilars",
+        rating: "FDA Interchangeable Biosimilar",
+        actionNote: "Transitions rheumatoid arthritis and Crohn disease patients to preferred biosimilar pens at an 80% discount."
+      },
+      {
+        id: "enbrel",
+        name: "Enbrel SureClick",
+        generic: "Etanercept Injection",
+        category: "Specialty",
+        phase: 2,
+        phaseText: "Phase 2: Biosimilar",
+        driver: "Price Spike (55.6% price-led growth)",
+        currCost: "$6,450",
+        newCost: "$1,610",
+        currNum: 6450,
+        newNum: 1610,
+        baseSavings: 335000,
+        status: "Biosimilar on Formulary",
+        competitors: "2 FDA Biosimilars",
+        rating: "FDA Biosimilar (Eticovo/Erelzi)",
+        actionNote: "Formulary preferred positioning for anti-TNF biosimilars in outpatient rheumatology clinics."
+      },
+      {
+        id: "ketorolac",
+        name: "Ketorolac Tromethamine",
+        generic: "NSAID Solution / Oral",
+        category: "AcuteCare",
+        phase: 3,
+        phaseText: "Phase 3: Price Cap",
+        driver: "Wholesaler Spread (71.6% median spread across 39 suppliers)",
+        currCost: "$82",
+        newCost: "$14",
+        currNum: 82,
+        newNum: 14,
+        baseSavings: 420000,
+        status: "Contract Cap Active",
+        competitors: "39 Competing Labelers",
+        rating: "MAC Benchmark Tier",
+        actionNote: "Locks GPO contract ceiling to the 25th percentile price tier, eliminating rogue pricing spreads from distributor catalogs."
+      },
+      {
+        id: "epinephrine",
+        name: "Epinephrine",
+        generic: "Anaphylaxis Auto-Injector",
+        category: "AcuteCare",
+        phase: 3,
+        phaseText: "Phase 3: Price Cap",
+        driver: "Wholesaler Spread (5 competing labelers with 4.2x price gap)",
+        currCost: "$340",
+        newCost: "$115",
+        currNum: 340,
+        newNum: 115,
+        baseSavings: 380000,
+        status: "Contract Cap Active",
+        competitors: "5 Authorized Labelers",
+        rating: "Auto-Injector Equivalency",
+        actionNote: "Requires primary wholesale purchasing through multi-source generic contract tier, avoiding brand markups."
+      },
+      {
+        id: "dexamethasone",
+        name: "Dexamethasone Sodium",
+        generic: "Steroid Solution / Vial",
+        category: "AcuteCare",
+        phase: 3,
+        phaseText: "Phase 3: Price Cap",
+        driver: "Wholesaler Spread (13 competing suppliers with 5.8x spread)",
+        currCost: "$64",
+        newCost: "$18",
+        currNum: 64,
+        newNum: 18,
+        baseSavings: 290000,
+        status: "Contract Cap Active",
+        competitors: "13 Competing Suppliers",
+        rating: "MAC Benchmark Tier",
+        actionNote: "Binds acute care pharmacy supply lines to secondary GPO distributor tiers with guaranteed volume rebate floors."
+      },
+      {
+        id: "lidocaine",
+        name: "Lidocaine HCl",
+        generic: "Local Anesthetic Solution / Patch",
+        category: "AcuteCare",
+        phase: 3,
+        phaseText: "Phase 3: Price Cap",
+        driver: "Wholesaler Spread (23 competing labelers with 7.3x spread)",
+        currCost: "$96",
+        newCost: "$24",
+        currNum: 96,
+        newNum: 24,
+        baseSavings: 210000,
+        status: "Contract Cap Active",
+        competitors: "23 Competing Labelers",
+        rating: "MAC Benchmark Tier",
+        actionNote: "Enforces purchasing ban against top-decile priced wholesalers across surgical day centers and outpatient emergency bays."
+      }
+    ];
+
+    // Current interactive state
+    let currentPhase = "full";      // "baseline" | "phase1" | "phase2" | "full"
+    let currentAdoption = 1.00;     // 0.50 to 1.00
+    let currentCategory = "ALL";    // "ALL" | "CNS" | "Specialty" | "Respiratory" | "AcuteCare"
+    let currentSearch = "";
+    let sortColumn = "savings";     // "name" | "phase" | "currCost" | "newCost" | "savings"
+    let sortDirection = "desc";
+    let outlierFilterActive = true;
+    let expandedRowId = null;
+
+    // ---------------------------------------------------------------------------
+    // Controller Logic & State Updaters
+    // ---------------------------------------------------------------------------
+    function setPhase(phase) {
+      currentPhase = phase;
+      document.querySelectorAll("#phaseToggleGroup .btn-toggle").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-phase") === phase);
+      });
+      updateDashboard();
+    }
+
+    function setAdoption(adoption) {
+      currentAdoption = adoption;
+      document.getElementById("adoptionSlider").value = Math.round(adoption * 100);
+      document.getElementById("sliderValDisplay").innerText = Math.round(adoption * 100) + "%";
+      document.querySelectorAll("#adoptionToggleGroup .btn-toggle").forEach(btn => {
+        btn.classList.toggle("active", parseFloat(btn.getAttribute("data-adoption")) === adoption);
+      });
+      updateDashboard();
+    }
+
+    function handleSliderChange(val) {
+      const adoption = parseFloat(val) / 100.0;
+      currentAdoption = adoption;
+      document.getElementById("sliderValDisplay").innerText = val + "%";
+      document.querySelectorAll("#adoptionToggleGroup .btn-toggle").forEach(btn => {
+        const btnAdoption = parseFloat(btn.getAttribute("data-adoption"));
+        btn.classList.toggle("active", Math.abs(btnAdoption - adoption) < 0.005);
+      });
+      updateDashboard();
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      document.getElementById("categoryFilter").value = cat;
+      document.querySelectorAll(".chip-btn").forEach(chip => {
+        chip.classList.toggle("active", chip.getAttribute("data-cat") === cat);
+      });
+      updateDashboard();
+    }
+
+    function handleSearch(query) {
+      currentSearch = query.trim().toLowerCase();
+      renderTable();
+    }
+
+    function toggleOutlierFilter() {
+      outlierFilterActive = !outlierFilterActive;
+      const btn = document.getElementById("outlierToggleBtn");
+      const badge = document.getElementById("guardrail2Badge");
+      const text = document.getElementById("guardrail2Text");
+
+      if (outlierFilterActive) {
+        btn.innerHTML = "[ACTIVE] 0.0% Post-Filter Outliers";
+        btn.style.color = "var(--ink-primary)";
+        badge.className = "badge-pill";
+        badge.innerText = "PASS";
+        text.innerText = "PACKAGING OUTLIER RISK (POST-FILTER): 0.0% < 5.0% (Cleaned Dataset)";
+      } else {
+        btn.innerHTML = "[BYPASSED] 5.07% Raw Outliers";
+        btn.style.color = "var(--accent-crimson)";
+        badge.className = "badge-pill flag";
+        badge.innerText = "WARN";
+        text.innerText = "PACKAGING OUTLIER RISK (POST-FILTER): 5.07% > 5.0% (1,738 Raw Package Rows Flagged)";
+      }
+    }
+
+    function sortTable(column) {
+      if (sortColumn === column) {
+        sortDirection = sortDirection === "asc" ? "desc" : "asc";
+      } else {
+        sortColumn = column;
+        sortDirection = column === "name" ? "asc" : "desc";
+      }
+      renderTable();
+    }
+
+    function toggleRowDetail(id) {
+      expandedRowId = expandedRowId === id ? null : id;
+      renderTable();
+    }
+
+    // Computes active savings based on currentPhase and currentAdoption
+    function getSavingsBreakdown() {
+      let p1 = 0, p2 = 0, p3 = 0;
+      if (currentPhase === "phase1") {
+        p1 = PHASE_SAVINGS.phase1 * currentAdoption;
+      } else if (currentPhase === "phase2") {
+        p1 = PHASE_SAVINGS.phase1 * currentAdoption;
+        p2 = PHASE_SAVINGS.phase2 * currentAdoption;
+      } else if (currentPhase === "full") {
+        p1 = PHASE_SAVINGS.phase1 * currentAdoption;
+        p2 = PHASE_SAVINGS.phase2 * currentAdoption;
+        p3 = PHASE_SAVINGS.phase3 * currentAdoption;
+      }
+      const total = p1 + p2 + p3;
+      const optimizedBudget = Math.max(0, BASE_TARGET_SPEND - total);
+      return { p1, p2, p3, total, optimizedBudget };
+    }
+
+    // ---------------------------------------------------------------------------
+    // Primary Dashboard Render Orchestrator
+    // ---------------------------------------------------------------------------
+    function updateDashboard() {
+      const breakdown = getSavingsBreakdown();
+
+      // Update KPI Cards
+      document.getElementById("kpiTargetSpend").innerText = "$" + BASE_TARGET_SPEND.toFixed(2) + "M";
+      document.getElementById("kpiOptimizedBudget").innerText = "$" + breakdown.optimizedBudget.toFixed(2) + "M";
+      document.getElementById("kpiSavingsCaptured").innerText = "+$" + breakdown.total.toFixed(2) + "M";
+
+      const pctCut = ((breakdown.total / BASE_TARGET_SPEND) * 100).toFixed(0);
+      document.getElementById("kpiSavingsSub").innerText = pctCut + "% of target brand overspend recovered";
+      document.getElementById("kpiOptimizedSub").innerText = "Post-implementation spend (" + Math.round(currentAdoption * 100) + "% adoption rate)";
+
+      // Update Chart Headlines
+      document.getElementById("chart1Headline").innerHTML = "Switching Overpriced Brands Cuts Top Drug Category Costs by " + pctCut + "% Without Reducing Prescriptions";
+      document.getElementById("chart2Headline").innerHTML = "How Phases 1 to 3 Recover +$" + breakdown.total.toFixed(2) + "M for the Hospital Pharmacy Budget";
+
+      // Render Charts
+      renderChart1(breakdown);
+      renderChart2(breakdown);
+      renderChart3(breakdown);
+
+      // Render Table
+      renderTable();
+    }
+
+    // ---------------------------------------------------------------------------
+    // Chart 1: Paired Before vs. After by Drug Category (SVG)
+    // ---------------------------------------------------------------------------
+    function renderChart1(breakdown) {
+      const svg = document.getElementById("svgChart1");
+      svg.innerHTML = "";
+
+      const cats = CATEGORIES_DATA.filter(c => currentCategory === "ALL" || c.id === currentCategory);
+      const rowCount = cats.length;
+
+      const chartW = 520;
+      const chartH = 280;
+      const padLeft = 145;
+      const padRight = 55;
+      const padTop = 20;
+      const padBottom = 25;
+      const usableW = chartW - padLeft - padRight;
+      const usableH = chartH - padTop - padBottom;
+      const rowH = usableH / rowCount;
+
+      const maxVal = 1.45; // Max category spend scale
+
+      // X-Axis Baseline Grid
+      const axisY = chartH - padBottom;
+      const lineBottom = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      lineBottom.setAttribute("x1", padLeft);
+      lineBottom.setAttribute("y1", axisY);
+      lineBottom.setAttribute("x2", chartW - padRight);
+      lineBottom.setAttribute("y2", axisY);
+      lineBottom.setAttribute("stroke", "#111111");
+      lineBottom.setAttribute("stroke-width", "1");
+      svg.appendChild(lineBottom);
+
+      // X-axis ticks
+      [0.0, 0.4, 0.8, 1.2].forEach(tick => {
+        const tx = padLeft + (tick / maxVal) * usableW;
+        const tickLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tickLine.setAttribute("x1", tx);
+        tickLine.setAttribute("y1", padTop);
+        tickLine.setAttribute("x2", tx);
+        tickLine.setAttribute("y2", axisY + 4);
+        tickLine.setAttribute("stroke", "#E5E7EB");
+        tickLine.setAttribute("stroke-width", "1");
+        svg.appendChild(tickLine);
+
+        const tickText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        tickText.setAttribute("x", tx);
+        tickText.setAttribute("y", axisY + 16);
+        tickText.setAttribute("text-anchor", "middle");
+        tickText.setAttribute("font-family", "JetBrains Mono");
+        tickText.setAttribute("font-size", "10");
+        tickText.setAttribute("fill", "#4B5563");
+        tickText.textContent = "$" + tick.toFixed(1) + "M";
+        svg.appendChild(tickText);
+      });
+
+      // Render Categories
+      cats.forEach((cat, idx) => {
+        const cy = padTop + idx * rowH + rowH / 2;
+
+        // Compute saved amount for this category given active phase
+        let saved = 0;
+        if (currentPhase === "phase1") {
+          saved = cat.phase1 * currentAdoption;
+        } else if (currentPhase === "phase2") {
+          saved = (cat.phase1 + cat.phase2) * currentAdoption;
+        } else if (currentPhase === "full") {
+          saved = (cat.phase1 + cat.phase2 + cat.phase3) * currentAdoption;
+        }
+        const newSpend = Math.max(0, cat.before - saved);
+
+        // Category Label
+        const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        labelText.setAttribute("x", padLeft - 10);
+        labelText.setAttribute("y", cy - 1);
+        labelText.setAttribute("text-anchor", "end");
+        labelText.setAttribute("font-family", "Plus Jakarta Sans");
+        labelText.setAttribute("font-size", "11");
+        labelText.setAttribute("font-weight", "600");
+        labelText.setAttribute("fill", "#111111");
+        labelText.textContent = cat.name;
+        svg.appendChild(labelText);
+
+        const barH = Math.min(13, rowH * 0.28);
+        const barGap = 3;
+
+        // Bar A: Current Spend (Crimson)
+        const b1W = (cat.before / maxVal) * usableW;
+        const b1Y = cy - barH - barGap / 2;
+        const rectA = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rectA.setAttribute("x", padLeft);
+        rectA.setAttribute("y", b1Y);
+        rectA.setAttribute("width", b1W);
+        rectA.setAttribute("height", barH);
+        rectA.setAttribute("fill", "#B91C1C");
+        rectA.setAttribute("stroke", "#111111");
+        rectA.setAttribute("stroke-width", "0.75");
+        rectA.style.cursor = "pointer";
+        rectA.onmouseenter = (e) => showTooltip(e, cat.name + "<br>Starting Spend: <b>$" + cat.before.toFixed(2) + "M</b>");
+        rectA.onmouseleave = hideTooltip;
+        svg.appendChild(rectA);
+
+        const textA = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        textA.setAttribute("x", padLeft + b1W + 6);
+        textA.setAttribute("y", b1Y + barH - 2);
+        textA.setAttribute("font-family", "JetBrains Mono");
+        textA.setAttribute("font-size", "10");
+        textA.setAttribute("font-weight", "600");
+        textA.setAttribute("fill", "#B91C1C");
+        textA.textContent = "$" + cat.before.toFixed(2) + "M";
+        svg.appendChild(textA);
+
+        // Bar B: New Implemented Spend (Slate) + Green Savings Cap
+        const b2Y = cy + barGap / 2;
+        const b2NewW = (newSpend / maxVal) * usableW;
+        const b2SavW = (saved / maxVal) * usableW;
+
+        if (b2NewW > 0) {
+          const rectB = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          rectB.setAttribute("x", padLeft);
+          rectB.setAttribute("y", b2Y);
+          rectB.setAttribute("width", b2NewW);
+          rectB.setAttribute("height", barH);
+          rectB.setAttribute("fill", "#1E293B");
+          rectB.setAttribute("stroke", "#111111");
+          rectB.setAttribute("stroke-width", "0.75");
+          rectB.style.cursor = "pointer";
+          rectB.onmouseenter = (e) => showTooltip(e, cat.name + "<br>New Budget: <b>$" + newSpend.toFixed(2) + "M</b>");
+          rectB.onmouseleave = hideTooltip;
+          svg.appendChild(rectB);
+        }
+
+        // Green Savings Cap
+        if (b2SavW > 0) {
+          const rectSav = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          rectSav.setAttribute("x", padLeft + b2NewW);
+          rectSav.setAttribute("y", b2Y);
+          rectSav.setAttribute("width", b2SavW);
+          rectSav.setAttribute("height", barH);
+          rectSav.setAttribute("fill", "#047857");
+          rectSav.setAttribute("stroke", "#111111");
+          rectSav.setAttribute("stroke-width", "0.75");
+          rectSav.style.cursor = "pointer";
+          rectSav.onmouseenter = (e) => showTooltip(e, cat.name + "<br>Savings: <b>+$" + saved.toFixed(2) + "M</b> (-" + Math.round((saved / cat.before) * 100) + "%)");
+          rectSav.onmouseleave = hideTooltip;
+          svg.appendChild(rectSav);
+        }
+
+        const textB = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        textB.setAttribute("x", padLeft + b2NewW + b2SavW + 6);
+        textB.setAttribute("y", b2Y + barH - 2);
+        textB.setAttribute("font-family", "JetBrains Mono");
+        textB.setAttribute("font-size", "10");
+        textB.setAttribute("font-weight", "600");
+        textB.setAttribute("fill", "#047857");
+        textB.textContent = "$" + newSpend.toFixed(2) + "M";
+        svg.appendChild(textB);
+      });
+    }
+
+    // ---------------------------------------------------------------------------
+    // Chart 2: Step-by-Step 5-Bar Budget Recovery Waterfall (SVG)
+    // ---------------------------------------------------------------------------
+    function renderChart2(breakdown) {
+      const svg = document.getElementById("svgChart2");
+      svg.innerHTML = "";
+
+      const chartW = 520;
+      const chartH = 280;
+      const padLeft = 45;
+      const padRight = 20;
+      const padTop = 26;
+      const padBottom = 48;
+      const usableW = chartW - padLeft - padRight;
+      const usableH = chartH - padTop - padBottom;
+      const axisY = chartH - padBottom;
+
+      const maxVal = 4.4; // Max dollar scale $4.4M
+
+      // Baseline line
+      const baseline = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      baseline.setAttribute("x1", padLeft);
+      baseline.setAttribute("y1", axisY);
+      baseline.setAttribute("x2", chartW - padRight);
+      baseline.setAttribute("y2", axisY);
+      baseline.setAttribute("stroke", "#111111");
+      baseline.setAttribute("stroke-width", "1");
+      svg.appendChild(baseline);
+
+      // Y-axis ticks
+      [0.0, 1.0, 2.0, 3.0, 4.0].forEach(tick => {
+        const ty = axisY - (tick / maxVal) * usableH;
+        const tickLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tickLine.setAttribute("x1", padLeft - 4);
+        tickLine.setAttribute("y1", ty);
+        tickLine.setAttribute("x2", chartW - padRight);
+        tickLine.setAttribute("y2", ty);
+        tickLine.setAttribute("stroke", "#E5E7EB");
+        tickLine.setAttribute("stroke-width", "1");
+        svg.appendChild(tickLine);
+
+        const tickText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        tickText.setAttribute("x", padLeft - 8);
+        tickText.setAttribute("y", ty + 3);
+        tickText.setAttribute("text-anchor", "end");
+        tickText.setAttribute("font-family", "JetBrains Mono");
+        tickText.setAttribute("font-size", "10");
+        tickText.setAttribute("fill", "#4B5563");
+        tickText.textContent = "$" + tick.toFixed(1) + "M";
+        svg.appendChild(tickText);
+      });
+
+      // 5 Steps Definition
+      const barW = 54;
+      const totalBarsW = 5 * barW;
+      const gap = (usableW - totalBarsW) / 4;
+
+      // Bar 1: Starting Spend ($3.89M)
+      const b1Val = BASE_TARGET_SPEND;
+      const b1H = (b1Val / maxVal) * usableH;
+      const b1X = padLeft;
+      const b1Y = axisY - b1H;
+
+      // Bar 2: Phase 1 Savings
+      const b2Val = breakdown.p1;
+      const b2H = (b2Val / maxVal) * usableH;
+      const b2X = b1X + barW + gap;
+      const b2Y = b1Y;
+      const b2Bottom = b2Y + b2H;
+
+      // Bar 3: Phase 2 Savings
+      const b3Val = breakdown.p2;
+      const b3H = (b3Val / maxVal) * usableH;
+      const b3X = b2X + barW + gap;
+      const b3Y = b2Bottom;
+      const b3Bottom = b3Y + b3H;
+
+      // Bar 4: Phase 3 Savings
+      const b4Val = breakdown.p3;
+      const b4H = (b4Val / maxVal) * usableH;
+      const b4X = b3X + barW + gap;
+      const b4Y = b3Bottom;
+      const b4Bottom = b4Y + b4H;
+
+      // Bar 5: Final Optimized Budget
+      const b5Val = breakdown.optimizedBudget;
+      const b5H = (b5Val / maxVal) * usableH;
+      const b5X = b4X + barW + gap;
+      const b5Y = axisY - b5H;
+
+      const bars = [
+        {
+          id: 1,
+          x: b1X, y: b1Y, w: barW, h: b1H,
+          color: "#B91C1C",
+          valText: "$" + b1Val.toFixed(2) + "M",
+          label: "1. Start",
+          sub: "Target Brand",
+          tip: "Starting Target Brand Budget: <b>$" + b1Val.toFixed(2) + "M</b>"
+        },
+        {
+          id: 2,
+          x: b2X, y: b2Y, w: barW, h: Math.max(2, b2H),
+          color: b2Val > 0 ? "#047857" : "#E5E7EB",
+          valText: b2Val > 0 ? "-$" + b2Val.toFixed(2) + "M" : "$0.00",
+          label: "2. Phase 1",
+          sub: "Auto-Generics",
+          tip: "Phase 1: Auto-Generic E-Prescribing: <b>-$" + b2Val.toFixed(2) + "M</b>"
+        },
+        {
+          id: 3,
+          x: b3X, y: b3Y, w: barW, h: Math.max(2, b3H),
+          color: b3Val > 0 ? "#047857" : "#E5E7EB",
+          valText: b3Val > 0 ? "-$" + b3Val.toFixed(2) + "M" : "$0.00",
+          label: "3. Phase 2",
+          sub: "Biosimilars",
+          tip: "Phase 2: Outpatient Biosimilar Switch: <b>-$" + b3Val.toFixed(2) + "M</b>"
+        },
+        {
+          id: 4,
+          x: b4X, y: b4Y, w: barW, h: Math.max(2, b4H),
+          color: b4Val > 0 ? "#047857" : "#E5E7EB",
+          valText: b4Val > 0 ? "-$" + b4Val.toFixed(2) + "M" : "$0.00",
+          label: "4. Phase 3",
+          sub: "Price Caps",
+          tip: "Phase 3: Supplier Price-Spike Caps: <b>-$" + b4Val.toFixed(2) + "M</b>"
+        },
+        {
+          id: 5,
+          x: b5X, y: b5Y, w: barW, h: b5H,
+          color: "#1E293B",
+          valText: "$" + b5Val.toFixed(2) + "M",
+          label: "5. Final",
+          sub: "New Budget",
+          tip: "Final Implemented Pharmacy Budget: <b>$" + b5Val.toFixed(2) + "M</b>"
+        }
+      ];
+
+      // Draw Step Connectors
+      const connectors = [
+        { x1: b1X + barW, y1: b1Y, x2: b2X, y2: b1Y },
+        { x1: b2X + barW, y1: b2Bottom, x2: b3X, y2: b2Bottom },
+        { x1: b3X + barW, y1: b3Bottom, x2: b4X, y2: b3Bottom },
+        { x1: b4X + barW, y1: b4Bottom, x2: b5X, y2: b5Y }
+      ];
+
+      connectors.forEach(c => {
+        const cl = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        cl.setAttribute("x1", c.x1);
+        cl.setAttribute("y1", c.y1);
+        cl.setAttribute("x2", c.x2);
+        cl.setAttribute("y2", c.y2);
+        cl.setAttribute("stroke", "#4B5563");
+        cl.setAttribute("stroke-width", "1");
+        cl.setAttribute("stroke-dasharray", "3,3");
+        svg.appendChild(cl);
+      });
+
+      // Render Waterfall Bars
+      bars.forEach(b => {
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("x", b.x);
+        rect.setAttribute("y", b.y);
+        rect.setAttribute("width", b.w);
+        rect.setAttribute("height", b.h);
+        rect.setAttribute("fill", b.color);
+        rect.setAttribute("stroke", "#111111");
+        rect.setAttribute("stroke-width", "1");
+        rect.style.cursor = "pointer";
+        rect.onmouseenter = (e) => showTooltip(e, b.tip);
+        rect.onmouseleave = hideTooltip;
+        svg.appendChild(rect);
+
+        // Value text above bar
+        const valText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        valText.setAttribute("x", b.x + b.w / 2);
+        valText.setAttribute("y", b.y - 6);
+        valText.setAttribute("text-anchor", "middle");
+        valText.setAttribute("font-family", "JetBrains Mono");
+        valText.setAttribute("font-size", "10");
+        valText.setAttribute("font-weight", "700");
+        valText.setAttribute("fill", b.color === "#E5E7EB" ? "#4B5563" : b.color);
+        valText.textContent = b.valText;
+        svg.appendChild(valText);
+
+        // Label line 1
+        const lbl1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        lbl1.setAttribute("x", b.x + b.w / 2);
+        lbl1.setAttribute("y", axisY + 14);
+        lbl1.setAttribute("text-anchor", "middle");
+        lbl1.setAttribute("font-family", "Plus Jakarta Sans");
+        lbl1.setAttribute("font-size", "11");
+        lbl1.setAttribute("font-weight", "700");
+        lbl1.setAttribute("fill", "#111111");
+        lbl1.textContent = b.label;
+        svg.appendChild(lbl1);
+
+        // Label line 2
+        const lbl2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        lbl2.setAttribute("x", b.x + b.w / 2);
+        lbl2.setAttribute("y", axisY + 28);
+        lbl2.setAttribute("text-anchor", "middle");
+        lbl2.setAttribute("font-family", "Plus Jakarta Sans");
+        lbl2.setAttribute("font-size", "10");
+        lbl2.setAttribute("fill", "#4B5563");
+        lbl2.textContent = b.sub;
+        svg.appendChild(lbl2);
+      });
+    }
+
+    // ---------------------------------------------------------------------------
+    // Chart 3: Monthly Cumulative Savings & Budget Burn-Down Curve (SVG)
+    // ---------------------------------------------------------------------------
+    function renderChart3(breakdown) {
+      const svg = document.getElementById("svgChart3");
+      svg.innerHTML = "";
+
+      const chartW = 980;
+      const chartH = 270;
+      const padLeft = 60;
+      const padRight = 180;
+      const padTop = 35;
+      const padBottom = 40;
+      const usableW = chartW - padLeft - padRight;
+      const usableH = chartH - padTop - padBottom;
+      const axisY = chartH - padBottom;
+
+      const maxVal = 4.2; // Max $4.2M scale
+
+      // Baseline horizontal line
+      const baseline = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      baseline.setAttribute("x1", padLeft);
+      baseline.setAttribute("y1", axisY);
+      baseline.setAttribute("x2", chartW - padRight);
+      baseline.setAttribute("y2", axisY);
+      baseline.setAttribute("stroke", "#111111");
+      baseline.setAttribute("stroke-width", "1");
+      svg.appendChild(baseline);
+
+      // Y-axis labels
+      [0.0, 1.0, 2.0, 3.0, 4.0].forEach(tick => {
+        const ty = axisY - (tick / maxVal) * usableH;
+        const tickLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tickLine.setAttribute("x1", padLeft - 6);
+        tickLine.setAttribute("y1", ty);
+        tickLine.setAttribute("x2", padLeft);
+        tickLine.setAttribute("y2", ty);
+        tickLine.setAttribute("stroke", "#111111");
+        tickLine.setAttribute("stroke-width", "1");
+        svg.appendChild(tickLine);
+
+        const tickText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        tickText.setAttribute("x", padLeft - 10);
+        tickText.setAttribute("y", ty + 4);
+        tickText.setAttribute("text-anchor", "end");
+        tickText.setAttribute("font-family", "JetBrains Mono");
+        tickText.setAttribute("font-size", "10");
+        tickText.setAttribute("fill", "#4B5563");
+        tickText.textContent = "$" + tick.toFixed(1) + "M";
+        svg.appendChild(tickText);
+      });
+
+      // 12 Months Points Calculation
+      // Unchanged monthly spending pace: $3.89M / 12 per month
+      const monthlyBaseline = BASE_TARGET_SPEND / 12.0;
+      const baselinePoints = [];
+      for (let m = 0; m <= 12; m++) {
+        const val = m * monthlyBaseline;
+        const x = padLeft + (m / 12) * usableW;
+        const y = axisY - (val / maxVal) * usableH;
+        baselinePoints.push({ m, val, x, y });
+      }
+
+      // Implemented monthly spending pace:
+      // Month 1 (Days 1-30): baseline pace
+      // Month 2 (Days 30-60): baseline minus Phase 1
+      // Month 3 (Days 60-90): baseline minus Phase 1 + Phase 2
+      // Months 4-12 (Days 90-365): baseline minus all active phases
+      const implementedPoints = [];
+      let runningSpend = 0.0;
+      implementedPoints.push({ m: 0, val: 0.0, x: padLeft, y: axisY });
+
+      for (let m = 1; m <= 12; m++) {
+        let monthlySpend = monthlyBaseline;
+        if (m === 2) {
+          monthlySpend = Math.max(0, (BASE_TARGET_SPEND - breakdown.p1) / 12.0);
+        } else if (m === 3) {
+          monthlySpend = Math.max(0, (BASE_TARGET_SPEND - (breakdown.p1 + breakdown.p2)) / 12.0);
+        } else if (m >= 4) {
+          monthlySpend = Math.max(0, (BASE_TARGET_SPEND - breakdown.total) / 12.0);
+        }
+        runningSpend += monthlySpend;
+        const x = padLeft + (m / 12) * usableW;
+        const y = axisY - (runningSpend / maxVal) * usableH;
+        implementedPoints.push({ m, val: runningSpend, x, y });
+      }
+
+      // 1. Shaded Green Savings Gap Polygon
+      let polyPoints = "";
+      baselinePoints.forEach(p => { polyPoints += p.x + "," + p.y + " "; });
+      for (let i = implementedPoints.length - 1; i >= 0; i--) {
+        const p = implementedPoints[i];
+        polyPoints += p.x + "," + p.y + " ";
+      }
+
+      const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+      polygon.setAttribute("points", polyPoints.trim());
+      polygon.setAttribute("fill", "rgba(4, 120, 87, 0.12)");
+      svg.appendChild(polygon);
+
+      // 2. Top Red Dashed Line (Unchanged Spend Pace)
+      let dRed = "M " + baselinePoints[0].x + " " + baselinePoints[0].y;
+      for (let i = 1; i < baselinePoints.length; i++) {
+        dRed += " L " + baselinePoints[i].x + " " + baselinePoints[i].y;
+      }
+      const pathRed = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      pathRed.setAttribute("d", dRed);
+      pathRed.setAttribute("fill", "none");
+      pathRed.setAttribute("stroke", "#B91C1C");
+      pathRed.setAttribute("stroke-width", "2.25");
+      pathRed.setAttribute("stroke-dasharray", "6,4");
+      svg.appendChild(pathRed);
+
+      // 3. Bottom Green Solid Line (Implemented Spend Pace)
+      let dGreen = "M " + implementedPoints[0].x + " " + implementedPoints[0].y;
+      for (let i = 1; i < implementedPoints.length; i++) {
+        dGreen += " L " + implementedPoints[i].x + " " + implementedPoints[i].y;
+      }
+      const pathGreen = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      pathGreen.setAttribute("d", dGreen);
+      pathGreen.setAttribute("fill", "none");
+      pathGreen.setAttribute("stroke", "#047857");
+      pathGreen.setAttribute("stroke-width", "2.75");
+      svg.appendChild(pathGreen);
+
+      // 4. Milestone Markers at Month 1 (Day 30), Month 2 (Day 60), Month 3 (Day 90)
+      const milestones = [
+        { m: 1, label: "Day 30: Phase 1 Kickoff" },
+        { m: 2, label: "Day 60: Phase 2 Biosimilars" },
+        { m: 3, label: "Day 90: Phase 3 Price Caps" }
+      ];
+
+      milestones.forEach(ms => {
+        const p = implementedPoints[ms.m];
+        const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        dot.setAttribute("cx", p.x);
+        dot.setAttribute("cy", p.y);
+        dot.setAttribute("r", "4.5");
+        dot.setAttribute("fill", "#047857");
+        dot.setAttribute("stroke", "#FFFFFF");
+        dot.setAttribute("stroke-width", "1.5");
+        dot.style.cursor = "pointer";
+        dot.onmouseenter = (e) => showTooltip(e, ms.label + "<br>Spend to Date: <b>$" + p.val.toFixed(2) + "M</b>");
+        dot.onmouseleave = hideTooltip;
+        svg.appendChild(dot);
+      });
+
+      // 5. Month X-Axis Ticks & Labels
+      for (let m = 1; m <= 12; m++) {
+        const x = padLeft + (m / 12) * usableW;
+        const tickLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tickLine.setAttribute("x1", x);
+        tickLine.setAttribute("y1", axisY);
+        tickLine.setAttribute("x2", x);
+        tickLine.setAttribute("y2", axisY + 4);
+        tickLine.setAttribute("stroke", "#111111");
+        tickLine.setAttribute("stroke-width", "1");
+        svg.appendChild(tickLine);
+
+        const lbl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        lbl.setAttribute("x", x);
+        lbl.setAttribute("y", axisY + 16);
+        lbl.setAttribute("text-anchor", "middle");
+        lbl.setAttribute("font-family", "JetBrains Mono");
+        lbl.setAttribute("font-size", "10");
+        lbl.setAttribute("fill", "#4B5563");
+        lbl.textContent = "M" + m;
+        svg.appendChild(lbl);
+      }
+
+      // 6. Direct End-of-Line Labels (No Background Grid Lines)
+      const lastBase = baselinePoints[12];
+      const lastImp = implementedPoints[12];
+
+      // Red line end label
+      const redLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      redLabel.setAttribute("x", lastBase.x + 8);
+      redLabel.setAttribute("y", lastBase.y + 4);
+      redLabel.setAttribute("font-family", "JetBrains Mono");
+      redLabel.setAttribute("font-size", "10.5");
+      redLabel.setAttribute("font-weight", "700");
+      redLabel.setAttribute("fill", "#B91C1C");
+      redLabel.textContent = "Unchanged Pace: $" + lastBase.val.toFixed(2) + "M";
+      svg.appendChild(redLabel);
+
+      // Green line end label
+      const greenLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      greenLabel.setAttribute("x", lastImp.x + 8);
+      greenLabel.setAttribute("y", lastImp.y + 4);
+      greenLabel.setAttribute("font-family", "JetBrains Mono");
+      greenLabel.setAttribute("font-size", "10.5");
+      greenLabel.setAttribute("font-weight", "700");
+      greenLabel.setAttribute("fill", "#047857");
+      greenLabel.textContent = "Implemented Plan: $" + lastImp.val.toFixed(2) + "M";
+      svg.appendChild(greenLabel);
+
+      // Center Savings Gap Callout in the shaded region
+      const midM = 8;
+      const midBase = baselinePoints[midM];
+      const midImp = implementedPoints[midM];
+      const midY = (midBase.y + midImp.y) / 2;
+      const midX = midBase.x;
+
+      if (breakdown.total > 0) {
+        const gapPill = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        gapPill.setAttribute("x", midX - 85);
+        gapPill.setAttribute("y", midY - 10);
+        gapPill.setAttribute("width", "170");
+        gapPill.setAttribute("height", "20");
+        gapPill.setAttribute("fill", "#F0FDF4");
+        gapPill.setAttribute("stroke", "#047857");
+        gapPill.setAttribute("stroke-width", "0.75");
+        svg.appendChild(gapPill);
+
+        const gapText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        gapText.setAttribute("x", midX);
+        gapText.setAttribute("y", midY + 4);
+        gapText.setAttribute("text-anchor", "middle");
+        gapText.setAttribute("font-family", "JetBrains Mono");
+        gapText.setAttribute("font-size", "10");
+        gapText.setAttribute("font-weight", "700");
+        gapText.setAttribute("fill", "#065F46");
+        gapText.textContent = "+$" + breakdown.total.toFixed(2) + "M Annual Savings";
+        svg.appendChild(gapText);
+      }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Table Rendering with Subtle Conditional Formatting & Detail Drawers
+    // ---------------------------------------------------------------------------
+    function renderTable() {
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+
+      const maxSavings = 471826 * 1.0; // Reference maximum for color bar scaling
+
+      // Filter drugs
+      const filtered = DRUG_ITEMS.filter(item => {
+        const matchSearch = (
+          item.name.toLowerCase().includes(currentSearch) ||
+          item.generic.toLowerCase().includes(currentSearch) ||
+          item.driver.toLowerCase().includes(currentSearch)
+        );
+        const matchCategory = (currentCategory === "ALL" || item.category === currentCategory);
+        return matchSearch && matchCategory;
+      });
+
+      // Sort drugs
+      filtered.sort((a, b) => {
+        let valA, valB;
+        if (sortColumn === "name") {
+          valA = a.name.toLowerCase();
+          valB = b.name.toLowerCase();
+          return sortDirection === "asc" ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        } else if (sortColumn === "phase") {
+          valA = a.phase;
+          valB = b.phase;
+        } else if (sortColumn === "currCost") {
+          valA = a.currNum;
+          valB = b.currNum;
+        } else if (sortColumn === "newCost") {
+          valA = a.newNum;
+          valB = b.newNum;
+        } else { // savings
+          valA = a.baseSavings;
+          valB = b.baseSavings;
+        }
+        return sortDirection === "asc" ? valA - valB : valB - valA;
+      });
+
+      filtered.forEach(item => {
+        // Determine if item's phase is active
+        let isPhaseActive = false;
+        if (currentPhase === "baseline") {
+          isPhaseActive = false;
+        } else if (currentPhase === "phase1" && item.phase === 1) {
+          isPhaseActive = true;
+        } else if (currentPhase === "phase2" && item.phase <= 2) {
+          isPhaseActive = true;
+        } else if (currentPhase === "full") {
+          isPhaseActive = true;
+        }
+
+        // Calculate dynamic savings
+        const dynamicSavings = isPhaseActive ? Math.round(item.baseSavings * currentAdoption) : 0;
+        const barPct = Math.min(100, Math.round((dynamicSavings / maxSavings) * 100));
+
+        const tr = document.createElement("tr");
+        tr.className = "data-row";
+        if (expandedRowId === item.id) tr.classList.add("expanded-row");
+        if (!isPhaseActive) tr.style.opacity = "0.45";
+
+        // Phase badge class
+        let phaseBadgeClass = "phase1";
+        if (item.phase === 2) phaseBadgeClass = "phase2";
+        if (item.phase === 3) phaseBadgeClass = "phase3";
+
+        tr.onclick = () => toggleRowDetail(item.id);
+
+        tr.innerHTML = `
+          <td>
+            <strong>${item.name}</strong> <span style="font-size: 11px; color: var(--ink-muted);">&#x25BE;</span><br>
+            <span style="font-size: 12px; color: var(--ink-muted);">${item.generic}</span>
+          </td>
+          <td>
+            <span class="badge-pill ${phaseBadgeClass}">${item.phaseText}</span>
+          </td>
+          <td style="font-size: 12.5px; color: var(--ink-body);">
+            ${item.driver}
+          </td>
+          <td class="mono">${item.currCost}</td>
+          <td class="mono"><strong>${item.newCost}</strong></td>
+          <td>
+            <div class="savings-cell-wrap">
+              <span class="savings-val-text">+${dynamicSavings.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}</span>
+              <div class="savings-bar-track">
+                <div class="savings-bar-fill" style="width: ${barPct}%;"></div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="badge-pill status-ready">[${item.status}]</span>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+
+        // Expanded detail drawer
+        if (expandedRowId === item.id) {
+          const detailTr = document.createElement("tr");
+          detailTr.className = "expanded-row";
+          detailTr.innerHTML = `
+            <td colspan="7" style="padding: 4px 12px 14px;">
+              <div class="detail-card">
+                <div>
+                  <div class="detail-item-title">Market Competition &amp; Labelers</div>
+                  <div class="detail-item-desc">${item.competitors}</div>
+                </div>
+                <div>
+                  <div class="detail-item-title">FDA Equivalence Rating</div>
+                  <div class="detail-item-desc">${item.rating}</div>
+                </div>
+                <div>
+                  <div class="detail-item-title">Hospital Procurement Guidance</div>
+                  <div class="detail-item-desc">${item.actionNote}</div>
+                </div>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(detailTr);
+        }
+      });
+
+      document.getElementById("tableCountBadge").innerText = "Showing " + filtered.length + " target formulation" + (filtered.length === 1 ? "" : "s");
+    }
+
+    // ---------------------------------------------------------------------------
+    // Export Procurement Checklist (CSV)
+    // ---------------------------------------------------------------------------
+    function exportChecklistCSV() {
+      const breakdown = getSavingsBreakdown();
+      let csv = "Drug Name,Generic Name,Category,Rollout Phase,Hike Driver,Current Cost / Rx,New Cost / Rx,Annual Hospital Savings,Status,Competitors,FDA Rating\n";
+
+      DRUG_ITEMS.forEach(item => {
+        let isPhaseActive = false;
+        if (currentPhase === "phase1" && item.phase === 1) isPhaseActive = true;
+        if (currentPhase === "phase2" && item.phase <= 2) isPhaseActive = true;
+        if (currentPhase === "full") isPhaseActive = true;
+
+        const dynamicSavings = isPhaseActive ? Math.round(item.baseSavings * currentAdoption) : 0;
+        const row = [
+          `"${item.name}"`,
+          `"${item.generic}"`,
+          `"${item.category}"`,
+          `"${item.phaseText}"`,
+          `"${item.driver}"`,
+          `"${item.currCost}"`,
+          `"${item.newCost}"`,
+          `"${dynamicSavings}"`,
+          `"${item.status}"`,
+          `"${item.competitors}"`,
+          `"${item.rating}"`
+        ];
+        csv += row.join(",") + "\n";
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `Hospital_Pharmacy_Checklist_${currentPhase}_${Math.round(currentAdoption*100)}pct.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // ---------------------------------------------------------------------------
+    // Tooltip Helpers
+    // ---------------------------------------------------------------------------
+    let tooltipEl = null;
+
+    function showTooltip(evt, html) {
+      if (!tooltipEl) tooltipEl = document.getElementById("chartTooltip");
+      if (!tooltipEl) return;
+      tooltipEl.innerHTML = html;
+      tooltipEl.style.display = "block";
+      const x = evt.pageX + 12;
+      const y = evt.pageY - 28;
+      tooltipEl.style.left = x + "px";
+      tooltipEl.style.top = y + "px";
+    }
+
+    function hideTooltip() {
+      if (!tooltipEl) tooltipEl = document.getElementById("chartTooltip");
+      if (tooltipEl) tooltipEl.style.display = "none";
+    }
+
+    // ---------------------------------------------------------------------------
+    // Initialize Dashboard on DOM Load
+    // ---------------------------------------------------------------------------
+    window.addEventListener("DOMContentLoaded", () => {
+      updateDashboard();
+    });
+  </script>
+
+</body>
+</html>

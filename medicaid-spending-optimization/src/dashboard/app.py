@@ -1075,7 +1075,7 @@ def main() -> None:
         st.markdown(
             """
             <div style="text-align: right; padding-top: 0.85rem;">
-                <span class="kpi-badge badge-neutral" style="font-size: 0.78rem; padding: 0.28rem 0.65rem; font-weight: 600;">CMS SDUD: CY2020–CY2024</span>
+                <span class="kpi-badge badge-neutral" style="font-size: 0.78rem; padding: 0.28rem 0.65rem; font-weight: 600;">CMS SDUD: CY2020-CY2024</span>
                 <div style="font-size: 0.75rem; color: var(--card-subtext-color); margin-top: 0.35rem; font-weight: 500;">Statutory Gross Pre-Rebate Outlay</div>
             </div>
             """,

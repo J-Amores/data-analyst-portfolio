@@ -255,7 +255,7 @@ def test_h2_price_volume_hypothesis(df_overall: pd.DataFrame) -> Dict[str, Any]:
     Statistical Result:
       Since observed unit cost contribution is ~13.4% (and claim volume growth outpaces unit cost
       in 88 of top 100 drugs, t = -7.97, p = 2.79e-12), we FAIL TO REJECT H0.
-      Utilization explosion—not unit price hikes alone—is the overwhelming driver of budget expansion.
+      Utilization explosion (not unit price hikes alone) is the overwhelming driver of budget expansion.
     """
     df_valid = prepare_longitudinal_data(df_overall)
     df_decomp = compute_log_decomposition(df_valid)
