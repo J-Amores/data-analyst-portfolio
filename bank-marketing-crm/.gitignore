@@ -1,0 +1,9 @@
+.venv/
+.agent/
+.agents/
+data/raw/
+*.csv
+__pycache__/
+.DS_Store
+*.pyc
+.pytest_cache/

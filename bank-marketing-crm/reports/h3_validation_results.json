@@ -1,0 +1,367 @@
+{
+  "hypothesis_id": "H3",
+  "hypothesis_name": "Macroeconomic Rate & Demographic Affinity",
+  "macro_elasticity": {
+    "low_rate_leads": 13498,
+    "low_rate_subs": 3301,
+    "low_rate_conv_pct": 24.455474885168176,
+    "low_rate_calls": 28241,
+    "low_rate_eff_pct": 11.688679579335009,
+    "high_rate_leads": 27690,
+    "high_rate_subs": 1339,
+    "high_rate_conv_pct": 4.835680751173709,
+    "high_rate_calls": 77513,
+    "high_rate_eff_pct": 1.7274521693135345,
+    "contingency_table": [
+      [
+        3301,
+        10197
+      ],
+      [
+        1339,
+        26351
+      ]
+    ],
+    "chi2_stat_yates": 3492.419569802405,
+    "chi2_p_value_yates": 0.0,
+    "chi2_stat_raw": 3494.381995716988,
+    "chi2_p_value_raw": 0.0,
+    "degrees_of_freedom": 1,
+    "relative_risk_conversion": 5.0572972335347774,
+    "relative_risk_ci_lower": 4.762414829339343,
+    "relative_risk_ci_upper": 5.370438364745841,
+    "relative_risk_efficiency": 6.766427335571281,
+    "odds_ratio": 6.370736300701425,
+    "odds_ratio_ci_lower": 5.954953962742807,
+    "odds_ratio_ci_upper": 6.815549081823823,
+    "macro_continuous_tests": {
+      "euribor3m": {
+        "subscriber_mean": 2.123135129310344,
+        "non_subscriber_mean": 3.8114911623071035,
+        "welch_t_statistic": -62.57987242559776,
+        "welch_t_p_value": 0.0,
+        "mann_whitney_u_statistic": 43501741.5,
+        "mann_whitney_u_p_value": 0.0
+      },
+      "emp_var_rate": {
+        "subscriber_mean": -1.2334482758620686,
+        "non_subscriber_mean": 0.24887545146109225,
+        "welch_t_statistic": -59.13666291410404,
+        "welch_t_p_value": 0.0,
+        "mann_whitney_u_statistic": 48033797.0,
+        "mann_whitney_u_p_value": 0.0
+      },
+      "nr_employed": {
+        "subscriber_mean": 5095.115991379309,
+        "non_subscriber_mean": 5176.166600087556,
+        "welch_t_statistic": -60.975155908992825,
+        "welch_t_p_value": 0.0,
+        "mann_whitney_u_statistic": 42565804.0,
+        "mann_whitney_u_p_value": 0.0
+      },
+      "cons_price_idx": {
+        "subscriber_mean": 93.35438599137932,
+        "non_subscriber_mean": 93.60375705920981,
+        "welch_t_statistic": -24.082466989605873,
+        "welch_t_p_value": 6.916521411453803e-122,
+        "mann_whitney_u_statistic": 66041971.5,
+        "mann_whitney_u_p_value": 9.572608866919173e-136
+      },
+      "cons_conf_idx": {
+        "subscriber_mean": -39.78978448275862,
+        "non_subscriber_mean": -40.59309674948013,
+        "welch_t_statistic": 8.636457755508305,
+        "welch_t_p_value": 7.588202230494857e-18,
+        "mann_whitney_u_statistic": 91117811.5,
+        "mann_whitney_u_p_value": 5.901951166896616e-17
+      }
+    }
+  },
+  "demographic_misallocation": {
+    "omnibus_age_chi2": 1293.452693154537,
+    "omnibus_age_p_value": 3.876743714640562e-280,
+    "omnibus_job_chi2": 717.6202859148603,
+    "omnibus_job_p_value": 3.1712187802116176e-155,
+    "age_cohorts": {
+      "1. Young (<30)": {
+        "leads": 7383,
+        "subscriptions": 1124,
+        "conversion_rate_pct": 15.224163619125017,
+        "calls": 18668,
+        "call_share_pct": 17.65228738392874,
+        "dialing_efficiency_pct": 6.020998500107135
+      },
+      "2. Core Working (31-45)": {
+        "leads": 21974,
+        "subscriptions": 2058,
+        "conversion_rate_pct": 9.365613907345043,
+        "calls": 56174,
+        "call_share_pct": 53.11761257257409,
+        "dialing_efficiency_pct": 3.6636166197885145
+      },
+      "3. Mature Working (46-60)": {
+        "leads": 10921,
+        "subscriptions": 1044,
+        "conversion_rate_pct": 9.559564142477795,
+        "calls": 29122,
+        "call_share_pct": 27.53749267167199,
+        "dialing_efficiency_pct": 3.58491861822677
+      },
+      "4. Senior/Retired (60+)": {
+        "leads": 910,
+        "subscriptions": 414,
+        "conversion_rate_pct": 45.494505494505496,
+        "calls": 1790,
+        "call_share_pct": 1.692607371825179,
+        "dialing_efficiency_pct": 23.12849162011173
+      }
+    },
+    "job_tiers": {
+      "Blue-Collar & Service": {
+        "leads": 21026,
+        "subscriptions": 1797,
+        "conversion_rate_pct": 8.546561400171218,
+        "calls": 54124,
+        "dialing_efficiency_pct": 3.320153721084916
+      },
+      "High-Yield Non-Working": {
+        "leads": 3609,
+        "subscriptions": 853,
+        "conversion_rate_pct": 23.635356054308673,
+        "calls": 8701,
+        "dialing_efficiency_pct": 9.803470865417768
+      },
+      "Unknown": {
+        "leads": 330,
+        "subscriptions": 37,
+        "conversion_rate_pct": 11.212121212121213,
+        "calls": 874,
+        "dialing_efficiency_pct": 4.233409610983982
+      },
+      "White-Collar": {
+        "leads": 16223,
+        "subscriptions": 1953,
+        "conversion_rate_pct": 12.038463909264625,
+        "calls": 42055,
+        "dialing_efficiency_pct": 4.643918677921769
+      }
+    },
+    "senior_to_core_conversion_ratio": 4.857610610963381,
+    "young_to_core_conversion_ratio": 1.6255382476513758,
+    "core_working_call_count": 56174,
+    "core_working_call_share_pct": 53.11761257257409,
+    "balance_benchmark": {
+      "total_benchmark_records": 45211,
+      "high_balance_leads": 22603,
+      "high_balance_subs": 3240,
+      "high_balance_conv_pct": 14.334380391983364,
+      "low_balance_leads": 22608,
+      "low_balance_subs": 2049,
+      "low_balance_conv_pct": 9.063163481953291,
+      "balance_conversion_lift": 1.5816089404683256,
+      "chi2_statistic": 303.51420310319975,
+      "chi2_p_value": 5.651444545849931e-68,
+      "mann_whitney_u_statistic": 511008624.0,
+      "mann_whitney_u_p_value": 0.0
+    }
+  },
+  "multivariate_propensity_model": {
+    "roc_auc": 0.7703972786849981,
+    "pseudo_r_squared": 0.1709691752809096,
+    "aic": 24066.835981815595,
+    "bic": 24178.97271081569,
+    "nobs": 41188,
+    "model_features": [
+      "const",
+      "has_unknown_attributes",
+      "campaign",
+      "euribor_regime_Low Rate Regime (Euribor <= 3.0%)",
+      "contact_telephone",
+      "poutcome_nonexistent",
+      "poutcome_success",
+      "age_bucket_2. Core Working (31-45)",
+      "age_bucket_3. Mature Working (46-60)",
+      "age_bucket_4. Senior/Retired (60+)",
+      "job_collar_tier_High-Yield Non-Working",
+      "job_collar_tier_Unknown",
+      "job_collar_tier_White-Collar"
+    ],
+    "coefficients": {
+      "const": -2.8990697616473406,
+      "has_unknown_attributes": -0.2639548396376122,
+      "campaign": -0.0637786421343541,
+      "euribor_regime_Low Rate Regime (Euribor <= 3.0%)": 1.3801168130771146,
+      "contact_telephone": -0.37302128909635157,
+      "poutcome_nonexistent": 0.35589264671317894,
+      "poutcome_success": 2.204651771934047,
+      "age_bucket_2. Core Working (31-45)": -0.2480010402510884,
+      "age_bucket_3. Mature Working (46-60)": -0.15027330650100534,
+      "age_bucket_4. Senior/Retired (60+)": 0.5435885359526573,
+      "job_collar_tier_High-Yield Non-Working": 0.49577649873722685,
+      "job_collar_tier_Unknown": 0.3218394947364495,
+      "job_collar_tier_White-Collar": 0.2610157252635924
+    },
+    "odds_ratios": {
+      "const": 0.05507442858036425,
+      "has_unknown_attributes": 0.7680082224031981,
+      "campaign": 0.938212657297883,
+      "euribor_regime_Low Rate Regime (Euribor <= 3.0%)": 3.9753659751054924,
+      "contact_telephone": 0.6886505719395191,
+      "poutcome_nonexistent": 1.4274542981273484,
+      "poutcome_success": 9.067093601573387,
+      "age_bucket_2. Core Working (31-45)": 0.7803591315081762,
+      "age_bucket_3. Mature Working (46-60)": 0.8604727714826177,
+      "age_bucket_4. Senior/Retired (60+)": 1.7221758767499264,
+      "job_collar_tier_High-Yield Non-Working": 1.641772578565574,
+      "job_collar_tier_Unknown": 1.3796633149609154,
+      "job_collar_tier_White-Collar": 1.298248080566448
+    },
+    "p_values": {
+      "const": 0.0,
+      "has_unknown_attributes": 8.000432466438221e-09,
+      "campaign": 1.4206773952614413e-11,
+      "euribor_regime_Low Rate Regime (Euribor <= 3.0%)": 5.783304212479202e-240,
+      "contact_telephone": 6.344683026107089e-16,
+      "poutcome_nonexistent": 3.92539230823298e-12,
+      "poutcome_success": 7.1998668045839445e-199,
+      "age_bucket_2. Core Working (31-45)": 2.1014985775270597e-08,
+      "age_bucket_3. Mature Working (46-60)": 0.0031285661114651957,
+      "age_bucket_4. Senior/Retired (60+)": 3.450102376326133e-10,
+      "job_collar_tier_High-Yield Non-Working": 2.3335984192882123e-17,
+      "job_collar_tier_Unknown": 0.11690396647957195,
+      "job_collar_tier_White-Collar": 2.467877667631278e-12
+    }
+  },
+  "policy_simulation": {
+    "baseline_summary": {
+      "total_leads": 41188,
+      "total_calls": 105754,
+      "total_subs": 4640,
+      "total_hours": 2955.0675,
+      "min_per_sub": 38.21207974137931
+    },
+    "scenarios": [
+      {
+        "scenario_id": "Scenario 0",
+        "scenario_name": "Historical Baseline (Uncapped Outreach)",
+        "target_pipeline_leads": 41188,
+        "total_calls_dialed": 105754,
+        "calls_saved_vs_baseline": 0,
+        "call_reduction_pct": 0.0,
+        "subscriptions_won": 4640,
+        "subscription_retention_pct": 100.0,
+        "incremental_subs_vs_baseline": 0,
+        "lead_conversion_rate_pct": 11.265417111780131,
+        "dialing_efficiency_pct": 4.38754089679823,
+        "labor_hours_expended": 2955.0675,
+        "labor_hours_saved": 0.0,
+        "minutes_per_subscription": 38.21207974137931,
+        "guardrail_1_status": "PASS",
+        "guardrail_2_status": "PASS",
+        "policy_recommendation": "Status Quo: Burning 48.18% of call capacity in Fatigue Zone with 41% labor penalty."
+      },
+      {
+        "scenario_id": "Scenario 1A",
+        "scenario_name": "Policy P0 (Strict 3-Touch Cap - Cohort Pruning)",
+        "target_pipeline_leads": 33553,
+        "total_calls_dialed": 54805,
+        "calls_saved_vs_baseline": 50949,
+        "call_reduction_pct": 48.176901110123495,
+        "subscriptions_won": 4085,
+        "subscription_retention_pct": 88.03879310344827,
+        "incremental_subs_vs_baseline": -555,
+        "lead_conversion_rate_pct": 12.174768277054213,
+        "dialing_efficiency_pct": 7.453699479974454,
+        "labor_hours_expended": 2479.8966666666665,
+        "labor_hours_saved": 475.17083333333335,
+        "minutes_per_subscription": 36.42443084455324,
+        "guardrail_1_status": "PASS",
+        "guardrail_2_status": "PASS",
+        "policy_recommendation": "Preserves 88.04% volume (PASS Guardrail 2) while slashing 50,949 wasted calls (48.18%)."
+      },
+      {
+        "scenario_id": "Scenario 1B",
+        "scenario_name": "Policy P0 (Strict 3-Touch Cap - Truncated Cap)",
+        "target_pipeline_leads": 41188,
+        "total_calls_dialed": 77710,
+        "calls_saved_vs_baseline": 28044,
+        "call_reduction_pct": 26.518145885734818,
+        "subscriptions_won": 4085,
+        "subscription_retention_pct": 88.03879310344827,
+        "incremental_subs_vs_baseline": -555,
+        "lead_conversion_rate_pct": 9.917937263280567,
+        "dialing_efficiency_pct": 5.256723716381418,
+        "labor_hours_expended": 2479.8966666666665,
+        "labor_hours_saved": 475.17083333333335,
+        "minutes_per_subscription": 36.42443084455324,
+        "guardrail_1_status": "PASS",
+        "guardrail_2_status": "PASS",
+        "policy_recommendation": "Enforces 3rd-attempt hard stop on exhaustive leads; eliminates 28,044 wasted calls."
+      },
+      {
+        "scenario_id": "Scenario 2A",
+        "scenario_name": "Policy P0 + P1/P2 Reallocation (Reinvest 28k Calls at 7.45%)",
+        "target_pipeline_leads": 58392,
+        "total_calls_dialed": 105754,
+        "calls_saved_vs_baseline": 0,
+        "call_reduction_pct": 0.0,
+        "subscriptions_won": 6175,
+        "subscription_retention_pct": 133.08189655172413,
+        "incremental_subs_vs_baseline": 1535,
+        "lead_conversion_rate_pct": 12.174768277054213,
+        "dialing_efficiency_pct": 5.83902263744161,
+        "labor_hours_expended": 2955.0675,
+        "labor_hours_saved": 0.0,
+        "minutes_per_subscription": 28.713206477732797,
+        "guardrail_1_status": "PASS",
+        "guardrail_2_status": "PASS",
+        "policy_recommendation": "Reallocates 28k calls from Fatigue Zone into fresh cellular leads, yielding +1,535 subscriptions (+33.1%)."
+      },
+      {
+        "scenario_id": "Scenario 2B",
+        "scenario_name": "Policy P0 + P1/P2 Reallocation (Reinvest 28k Calls at 11.69% Low Rate)",
+        "target_pipeline_leads": 54606,
+        "total_calls_dialed": 105754,
+        "calls_saved_vs_baseline": 0,
+        "call_reduction_pct": 0.0,
+        "subscriptions_won": 7362,
+        "subscription_retention_pct": 158.66379310344826,
+        "incremental_subs_vs_baseline": 2722,
+        "lead_conversion_rate_pct": 24.455474885168176,
+        "dialing_efficiency_pct": 6.961438810825123,
+        "labor_hours_expended": 2955.0675,
+        "labor_hours_saved": 0.0,
+        "minutes_per_subscription": 24.08367970660147,
+        "guardrail_1_status": "PASS",
+        "guardrail_2_status": "PASS",
+        "policy_recommendation": "Concentrates dialer capacity in low-rate macroeconomic cohorts, delivering +2,723 subscriptions (+58.7%)."
+      },
+      {
+        "scenario_id": "Scenario 2C",
+        "scenario_name": "Policy P0 + P1/P2 Reallocation (Reinvest 51k Calls at 7.45%)",
+        "target_pipeline_leads": 72445,
+        "total_calls_dialed": 105754,
+        "calls_saved_vs_baseline": 0,
+        "call_reduction_pct": 0.0,
+        "subscriptions_won": 7882,
+        "subscription_retention_pct": 169.8706896551724,
+        "incremental_subs_vs_baseline": 3242,
+        "lead_conversion_rate_pct": 12.174768277054213,
+        "dialing_efficiency_pct": 7.453145980293889,
+        "labor_hours_expended": 2955.0675,
+        "labor_hours_saved": 0.0,
+        "minutes_per_subscription": 22.494804618117232,
+        "guardrail_1_status": "PASS",
+        "guardrail_2_status": "PASS",
+        "policy_recommendation": "Full reinvestment of fatigue zone capacity into fresh leads, generating +3,242 subscriptions (+69.9%)."
+      }
+    ]
+  },
+  "guardrail_status": {
+    "guardrail_1_threshold_pct": 8.0,
+    "guardrail_1_status": "PASS",
+    "guardrail_2_threshold_pct": 85.0,
+    "guardrail_2_observed_retention_pct": 88.03879310344827,
+    "guardrail_2_status": "PASS"
+  }
+}

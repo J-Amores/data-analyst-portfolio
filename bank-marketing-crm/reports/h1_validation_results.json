@@ -1,0 +1,222 @@
+{
+  "hypothesis_id": "H1",
+  "hypothesis_name": "Contact Fatigue Boundary & Diminishing Returns",
+  "contingency_test": {
+    "touches_1_3_leads": 33553,
+    "touches_1_3_subs": 4085,
+    "touches_1_3_conv_rate": 0.12174768277054213,
+    "touches_1_3_conv_rate_pct": 12.174768277054213,
+    "touches_4_plus_leads": 7635,
+    "touches_4_plus_subs": 555,
+    "touches_4_plus_conv_rate": 0.07269155206286837,
+    "touches_4_plus_conv_rate_pct": 7.269155206286837,
+    "contingency_table": [
+      [
+        4085,
+        29468
+      ],
+      [
+        555,
+        7080
+      ]
+    ],
+    "chi2_stat_yates": 149.24216381290728,
+    "chi2_p_value_yates": 2.538676696354803e-34,
+    "chi2_stat_raw": 149.73250357322317,
+    "chi2_p_value_raw": 1.983482721082958e-34,
+    "degrees_of_freedom": 1,
+    "z_statistic": 12.236523345020151,
+    "z_p_value": 0.0,
+    "relative_risk": 1.6748532575731336,
+    "relative_risk_ci_lower": 1.538199018071492,
+    "relative_risk_ci_upper": 1.8236479164576878,
+    "odds_ratio": 1.768404756052374,
+    "odds_ratio_ci_lower": 1.6123515594451177,
+    "odds_ratio_ci_upper": 1.9395617307585726
+  },
+  "bandwidth_asymmetry": {
+    "total_calls_dialed": 105754,
+    "total_subscriptions": 4640,
+    "touches_1_3_calls": 54805,
+    "touches_1_3_call_share_pct": 51.823098889876505,
+    "touches_1_3_subs": 4085,
+    "touches_1_3_sub_share_pct": 88.03879310344827,
+    "touches_1_3_efficiency_pct": 7.453699479974454,
+    "touches_4_plus_calls": 50949,
+    "touches_4_plus_call_share_pct": 48.176901110123495,
+    "touches_4_plus_subs": 555,
+    "touches_4_plus_sub_share_pct": 11.961206896551724,
+    "touches_4_plus_efficiency_pct": 1.0893246187363834,
+    "efficiency_collapse_ratio": 6.842496122616549,
+    "gof_chi2_statistic": 2437.5266304081524,
+    "gof_p_value": 0.0,
+    "gof_expected_subscriptions": [
+      2404.59178849027,
+      2235.40821150973
+    ]
+  },
+  "logistic_decay": {
+    "beta_0": -1.7767171531112136,
+    "beta_1": -0.125440229885164,
+    "beta_1_se": 0.009193509545706934,
+    "beta_1_z": -13.644433527970879,
+    "beta_1_p_value": 2.1790012634524758e-42,
+    "odds_ratio_per_call": 0.8821084865769532,
+    "odds_ratio_ci_lower": 0.8663561980381418,
+    "odds_ratio_ci_upper": 0.8981471868650795,
+    "odds_decay_pct_per_call": 11.789151342304683,
+    "touch_ladder": [
+      {
+        "touch": 1,
+        "leads_at_touch": 17642,
+        "leads_reaching_touch": 41188,
+        "subscriptions": 2300,
+        "cohort_conversion_pct": 13.037070626913048,
+        "marginal_yield_pct": 5.584150723511702,
+        "dialing_efficiency_pct": 13.037070626913048,
+        "cumulative_subscriptions": 2300,
+        "subscription_retention_pct": 49.56896551724138,
+        "guardrail_1_status": "PASS"
+      },
+      {
+        "touch": 2,
+        "leads_at_touch": 10570,
+        "leads_reaching_touch": 23546,
+        "subscriptions": 1211,
+        "cohort_conversion_pct": 11.456953642384105,
+        "marginal_yield_pct": 5.143124097511254,
+        "dialing_efficiency_pct": 5.728476821192053,
+        "cumulative_subscriptions": 3511,
+        "subscription_retention_pct": 75.66810344827586,
+        "guardrail_1_status": "PASS"
+      },
+      {
+        "touch": 3,
+        "leads_at_touch": 5341,
+        "leads_reaching_touch": 12976,
+        "subscriptions": 574,
+        "cohort_conversion_pct": 10.747051114023591,
+        "marginal_yield_pct": 4.423551171393342,
+        "dialing_efficiency_pct": 3.582350371341197,
+        "cumulative_subscriptions": 4085,
+        "subscription_retention_pct": 88.03879310344827,
+        "guardrail_1_status": "PASS"
+      },
+      {
+        "touch": 4,
+        "leads_at_touch": 2651,
+        "leads_reaching_touch": 7635,
+        "subscriptions": 249,
+        "cohort_conversion_pct": 9.39268200678989,
+        "marginal_yield_pct": 3.261296660117878,
+        "dialing_efficiency_pct": 2.3481705016974725,
+        "cumulative_subscriptions": 4334,
+        "subscription_retention_pct": 93.4051724137931,
+        "guardrail_1_status": "PASS"
+      },
+      {
+        "touch": 5,
+        "leads_at_touch": 1599,
+        "leads_reaching_touch": 4984,
+        "subscriptions": 120,
+        "cohort_conversion_pct": 7.5046904315197,
+        "marginal_yield_pct": 2.4077046548956664,
+        "dialing_efficiency_pct": 1.5009380863039399,
+        "cumulative_subscriptions": 4454,
+        "subscription_retention_pct": 95.99137931034483,
+        "guardrail_1_status": "FAIL"
+      },
+      {
+        "touch": 6,
+        "leads_at_touch": 979,
+        "leads_reaching_touch": 3385,
+        "subscriptions": 75,
+        "cohort_conversion_pct": 7.6608784473953015,
+        "marginal_yield_pct": 2.2156573116691285,
+        "dialing_efficiency_pct": 1.2768130745658837,
+        "cumulative_subscriptions": 4529,
+        "subscription_retention_pct": 97.60775862068965,
+        "guardrail_1_status": "FAIL"
+      },
+      {
+        "touch": 7,
+        "leads_at_touch": 629,
+        "leads_reaching_touch": 2406,
+        "subscriptions": 38,
+        "cohort_conversion_pct": 6.041335453100159,
+        "marginal_yield_pct": 1.5793848711554446,
+        "dialing_efficiency_pct": 0.8630479218714513,
+        "cumulative_subscriptions": 4567,
+        "subscription_retention_pct": 98.42672413793103,
+        "guardrail_1_status": "FAIL"
+      },
+      {
+        "touch": 8,
+        "leads_at_touch": 400,
+        "leads_reaching_touch": 1777,
+        "subscriptions": 17,
+        "cohort_conversion_pct": 4.25,
+        "marginal_yield_pct": 0.9566685424873381,
+        "dialing_efficiency_pct": 0.53125,
+        "cumulative_subscriptions": 4584,
+        "subscription_retention_pct": 98.79310344827587,
+        "guardrail_1_status": "FAIL"
+      },
+      {
+        "touch": 9,
+        "leads_at_touch": 283,
+        "leads_reaching_touch": 1377,
+        "subscriptions": 17,
+        "cohort_conversion_pct": 6.007067137809187,
+        "marginal_yield_pct": 1.2345679012345678,
+        "dialing_efficiency_pct": 0.6674519042010209,
+        "cumulative_subscriptions": 4601,
+        "subscription_retention_pct": 99.15948275862068,
+        "guardrail_1_status": "FAIL"
+      },
+      {
+        "touch": 10,
+        "leads_at_touch": 225,
+        "leads_reaching_touch": 1094,
+        "subscriptions": 12,
+        "cohort_conversion_pct": 5.333333333333334,
+        "marginal_yield_pct": 1.0968921389396709,
+        "dialing_efficiency_pct": 0.5333333333333333,
+        "cumulative_subscriptions": 4613,
+        "subscription_retention_pct": 99.41810344827586,
+        "guardrail_1_status": "FAIL"
+      }
+    ],
+    "touch_4_cohort_conversion_pct": 9.39268200678989,
+    "touch_4_marginal_yield_pct": 3.261296660117878,
+    "touch_5_cohort_conversion_pct": 7.5046904315197,
+    "touch_5_marginal_yield_pct": 2.4077046548956664,
+    "fatigue_zone_aggregate_conversion_pct": 7.269155206286837,
+    "guardrail_1_threshold_pct": 8.0,
+    "permanent_breach_touch": 5
+  },
+  "labor_penalty": {
+    "portfolio_total_minutes": 177304.05,
+    "portfolio_total_hours": 2955.0674999999997,
+    "portfolio_min_per_sub": 38.212079741379306,
+    "touches_1_3_total_minutes": 148793.8,
+    "touches_1_3_total_hours": 2479.8966666666665,
+    "touches_1_3_min_per_sub": 36.42443084455324,
+    "touches_4_plus_total_minutes": 28510.25,
+    "touches_4_plus_total_hours": 475.17083333333335,
+    "touches_4_plus_min_per_sub": 51.36981981981982,
+    "labor_penalty_pct": 41.031221706794206,
+    "welch_t_statistic": 12.850975204724117,
+    "welch_t_p_value": 1.5459795827828056e-37,
+    "mann_whitney_u_statistic": 151825732.5,
+    "mann_whitney_u_p_value": 2.2433478691239577e-141
+  },
+  "guardrails": {
+    "guardrail_1_threshold_pct": 8.0,
+    "guardrail_1_status_touches_1_3": "PASS",
+    "guardrail_1_status_touches_4_plus": "FAIL",
+    "guardrail_2_threshold_pct": 85.0,
+    "guardrail_2_retention_pct": 88.03879310344827,
+    "guardrail_2_status": "PASS"
+  }
+}

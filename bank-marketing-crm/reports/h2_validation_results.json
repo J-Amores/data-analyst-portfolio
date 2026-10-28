@@ -1,0 +1,268 @@
+{
+  "hypothesis_id": "H2",
+  "hypothesis_name": "Channel Superiority & Prior-Outcome Retargeting",
+  "channel_superiority": {
+    "cellular_leads": 26144,
+    "cellular_subscriptions": 3853,
+    "cellular_conversion_rate": 0.14737607099143207,
+    "cellular_conversion_rate_pct": 14.737607099143208,
+    "cellular_calls": 62877,
+    "cellular_efficiency_pct": 6.127836887892234,
+    "telephone_leads": 15044,
+    "telephone_subscriptions": 787,
+    "telephone_conversion_rate": 0.05231321457059293,
+    "telephone_conversion_rate_pct": 5.231321457059293,
+    "telephone_calls": 42877,
+    "telephone_efficiency_pct": 1.8354828929262774,
+    "efficiency_ratio": 3.3385420869397118,
+    "contingency_table": [
+      [
+        3853,
+        22291
+      ],
+      [
+        787,
+        14257
+      ]
+    ],
+    "chi2_stat_yates": 862.3183642075705,
+    "chi2_p_value_yates": 1.5259856523129964e-189,
+    "chi2_stat_raw": 863.2690807479078,
+    "chi2_p_value_raw": 9.481264285591283e-190,
+    "degrees_of_freedom": 1,
+    "z_statistic": 29.381441093790954,
+    "z_p_value": 0.0,
+    "relative_risk": 2.817186292242826,
+    "relative_risk_ci_lower": 2.6162439662064694,
+    "relative_risk_ci_upper": 3.0335621248307323,
+    "odds_ratio": 3.1312869958456973,
+    "odds_ratio_ci_lower": 2.8919942644073964,
+    "odds_ratio_ci_upper": 3.3903795629973428
+  },
+  "cmh_stratified_test": {
+    "cmh_odds_ratio": 2.904818994764756,
+    "cmh_age_stratified_odds_ratio": 2.904818994764756,
+    "cmh_age_test_statistic": 730.4917191691509,
+    "cmh_age_p_value": 0.0,
+    "cmh_dual_stratified_odds_ratio": 1.5011746950731122,
+    "cmh_dual_test_statistic": 81.57703346560443,
+    "cmh_dual_p_value": 0.0,
+    "strata_age_details": [
+      {
+        "stratum": "1. Young (<30)",
+        "cellular_leads": 4996,
+        "cellular_subs": 976,
+        "cellular_conv_pct": 19.53562850280224,
+        "telephone_leads": 2387,
+        "telephone_subs": 148,
+        "telephone_conv_pct": 6.200251361541684,
+        "stratum_odds_ratio": 3.67295952669087
+      },
+      {
+        "stratum": "2. Core Working (31-45)",
+        "cellular_leads": 13581,
+        "cellular_subs": 1643,
+        "cellular_conv_pct": 12.09778366836021,
+        "telephone_leads": 8393,
+        "telephone_subs": 415,
+        "telephone_conv_pct": 4.944596687715954,
+        "stratum_odds_ratio": 2.6457690033042205
+      },
+      {
+        "stratum": "3. Mature Working (46-60)",
+        "cellular_leads": 6764,
+        "cellular_subs": 858,
+        "cellular_conv_pct": 12.684801892371379,
+        "telephone_leads": 4157,
+        "telephone_subs": 186,
+        "telephone_conv_pct": 4.474380562905942,
+        "stratum_odds_ratio": 3.101564292190555
+      },
+      {
+        "stratum": "4. Senior/Retired (60+)",
+        "cellular_leads": 803,
+        "cellular_subs": 376,
+        "cellular_conv_pct": 46.82440846824408,
+        "telephone_leads": 107,
+        "telephone_subs": 38,
+        "telephone_conv_pct": 35.51401869158878,
+        "stratum_odds_ratio": 1.5989153210896092
+      }
+    ],
+    "strata_dual_details": [
+      {
+        "age_bucket": "1. Young (<30)",
+        "euribor_regime": "High Rate Regime (Euribor > 3.0%)",
+        "cellular_leads": 2150,
+        "cellular_subs": 145,
+        "cellular_conv_pct": 6.744186046511628,
+        "telephone_leads": 2039,
+        "telephone_subs": 86,
+        "telephone_conv_pct": 4.217753800882786
+      },
+      {
+        "age_bucket": "1. Young (<30)",
+        "euribor_regime": "Low Rate Regime (Euribor <= 3.0%)",
+        "cellular_leads": 2846,
+        "cellular_subs": 831,
+        "cellular_conv_pct": 29.1988756148981,
+        "telephone_leads": 348,
+        "telephone_subs": 62,
+        "telephone_conv_pct": 17.81609195402299
+      },
+      {
+        "age_bucket": "2. Core Working (31-45)",
+        "euribor_regime": "High Rate Regime (Euribor > 3.0%)",
+        "cellular_leads": 7455,
+        "cellular_subs": 438,
+        "cellular_conv_pct": 5.875251509054326,
+        "telephone_leads": 7770,
+        "telephone_subs": 315,
+        "telephone_conv_pct": 4.054054054054054
+      },
+      {
+        "age_bucket": "2. Core Working (31-45)",
+        "euribor_regime": "Low Rate Regime (Euribor <= 3.0%)",
+        "cellular_leads": 6126,
+        "cellular_subs": 1205,
+        "cellular_conv_pct": 19.670257917074764,
+        "telephone_leads": 623,
+        "telephone_subs": 100,
+        "telephone_conv_pct": 16.051364365971107
+      },
+      {
+        "age_bucket": "3. Mature Working (46-60)",
+        "euribor_regime": "High Rate Regime (Euribor > 3.0%)",
+        "cellular_leads": 4371,
+        "cellular_subs": 217,
+        "cellular_conv_pct": 4.964539007092199,
+        "telephone_leads": 3904,
+        "telephone_subs": 138,
+        "telephone_conv_pct": 3.5348360655737703
+      },
+      {
+        "age_bucket": "3. Mature Working (46-60)",
+        "euribor_regime": "Low Rate Regime (Euribor <= 3.0%)",
+        "cellular_leads": 2393,
+        "cellular_subs": 641,
+        "cellular_conv_pct": 26.78646050982031,
+        "telephone_leads": 253,
+        "telephone_subs": 48,
+        "telephone_conv_pct": 18.972332015810274
+      },
+      {
+        "age_bucket": "4. Senior/Retired (60+)",
+        "euribor_regime": "High Rate Regime (Euribor > 3.0%)",
+        "cellular_leads": 0,
+        "cellular_subs": 0,
+        "cellular_conv_pct": 0.0,
+        "telephone_leads": 1,
+        "telephone_subs": 0,
+        "telephone_conv_pct": 0.0
+      },
+      {
+        "age_bucket": "4. Senior/Retired (60+)",
+        "euribor_regime": "Low Rate Regime (Euribor <= 3.0%)",
+        "cellular_leads": 803,
+        "cellular_subs": 376,
+        "cellular_conv_pct": 46.82440846824408,
+        "telephone_leads": 106,
+        "telephone_subs": 38,
+        "telephone_conv_pct": 35.84905660377358
+      }
+    ]
+  },
+  "prior_outcome_recency": {
+    "omnibus_chi2_statistic": 4230.5237978319765,
+    "omnibus_chi2_p_value": 0.0,
+    "omnibus_degrees_of_freedom": 2,
+    "poutcome_breakdown": {
+      "success": {
+        "lead_count": 1373,
+        "subscriptions": 894,
+        "conversion_rate_pct": 65.1128914785142,
+        "total_calls": 2483,
+        "dialing_efficiency_pct": 36.004832863471606,
+        "relative_lift_vs_baseline": 5.7798917547781095
+      },
+      "failure": {
+        "lead_count": 4252,
+        "subscriptions": 605,
+        "conversion_rate_pct": 14.22859830667921,
+        "total_calls": 8526,
+        "dialing_efficiency_pct": 7.095941825005865,
+        "relative_lift_vs_baseline": 1.2630334203782398
+      },
+      "nonexistent": {
+        "lead_count": 35563,
+        "subscriptions": 3141,
+        "conversion_rate_pct": 8.83221325534966,
+        "total_calls": 94745,
+        "dialing_efficiency_pct": 3.315214523193836,
+        "relative_lift_vs_baseline": 0.7840112059511677
+      }
+    },
+    "success_vs_nonexistent": {
+      "relative_risk": 7.372205538524039,
+      "relative_risk_ci": [
+        7.004754411734182,
+        7.75893219199802
+      ],
+      "odds_ratio": 19.26521545802402,
+      "odds_ratio_ci": [
+        17.14031396042388,
+        21.65354307400966
+      ],
+      "lift_vs_portfolio_baseline": 5.7798917547781095
+    },
+    "previously_contacted_test": {
+      "leads_contacted": 1515,
+      "subs_contacted": 967,
+      "conv_rate_contacted_pct": 63.82838283828383,
+      "leads_never_contacted": 39673,
+      "subs_never_contacted": 3673,
+      "conv_rate_never_contacted_pct": 9.258185667834548,
+      "relative_risk": 6.894264721871043,
+      "odds_ratio": 17.29527564531867,
+      "chi2_statistic": 4341.724740422483,
+      "p_value": 0.0
+    },
+    "recency_tier_breakdown": [
+      {
+        "recency_tier": "1. Recent (<=7 days)",
+        "leads": 1177,
+        "subscriptions": 774,
+        "conversion_rate_pct": 65.76040781648258,
+        "calls": 2123,
+        "dialing_efficiency_pct": 36.457842675459254
+      },
+      {
+        "recency_tier": "2. Warm (8-14 days)",
+        "leads": 276,
+        "subscriptions": 157,
+        "conversion_rate_pct": 56.88405797101449,
+        "calls": 522,
+        "dialing_efficiency_pct": 30.07662835249042
+      },
+      {
+        "recency_tier": "3. Cool (15+ days)",
+        "leads": 62,
+        "subscriptions": 36,
+        "conversion_rate_pct": 58.06451612903226,
+        "calls": 116,
+        "dialing_efficiency_pct": 31.03448275862069
+      }
+    ]
+  },
+  "decision_criteria": {
+    "relative_risk_threshold": 2.5,
+    "relative_risk_observed": 2.817186292242826,
+    "relative_risk_status": "PASS",
+    "cmh_odds_ratio_threshold": 2.0,
+    "cmh_odds_ratio_observed": 2.904818994764756,
+    "cmh_odds_ratio_status": "PASS",
+    "poutcome_success_conv_threshold_pct": 60.0,
+    "poutcome_success_conv_observed_pct": 65.1128914785142,
+    "poutcome_success_status": "PASS"
+  }
+}
