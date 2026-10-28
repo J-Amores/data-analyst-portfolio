@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outbound Call-Cap and Lead Scoring Simulator: Bank Direct Marketing</title>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-canvas: #FAF8F2;
+      --bg-card: #FFFFFF;
+      --bg-cell-secondary: #F3EFE6;
+      --border-grid: #111111;
+      --border-subtle: #E2E8F0;
+      --color-ink: #111111;
+      --color-charcoal: #27272A;
+      --color-emerald: #16A34A;
+      --color-crimson: #E11D48;
+      --color-amber: #D97706;
+      --color-blue: #2563EB;
+      --color-muted: #71717A;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--color-ink);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      font-size: 14.5px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Sticky Header */
+    header.cockpit-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--bg-canvas);
+      border-bottom: 1px solid var(--border-grid);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .cockpit-brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-ink);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--bg-card);
+      color: var(--color-ink);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border-grid);
+      border-radius: 2px;
+      transition: all 0.15s ease;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-back:hover {
+      background-color: var(--color-ink);
+      color: #FAF8F2;
+    }
+
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 28px 24px 64px 24px;
+    }
+
+    /* Preset Scenarios Strip */
+    .preset-section {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-grid);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+
+    .preset-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .preset-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .preset-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .btn-preset {
+      background-color: var(--bg-canvas);
+      border: 1px solid var(--border-grid);
+      padding: 10px 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      color: var(--color-ink);
+      transition: all 0.15s ease;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .btn-preset:hover {
+      background-color: var(--bg-cell-secondary);
+      border-color: var(--color-ink);
+    }
+
+    .btn-preset.active {
+      background-color: var(--color-ink);
+      color: #FFFFFF;
+      border-color: var(--color-ink);
+    }
+
+    .btn-preset.active .preset-meta {
+      color: #D4D4D8;
+    }
+
+    .preset-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: var(--color-muted);
+    }
+
+    /* Workstation Layout */
+    .workstation-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+    }
+
+    /* Card Panels */
+    .panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-grid);
+      padding: 24px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--border-grid);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 25px;
+      font-weight: 400;
+      color: var(--color-ink);
+    }
+
+    .panel-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Form Controls */
+    .control-group {
+      margin-bottom: 18px;
+    }
+
+    .control-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .control-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--color-charcoal);
+    }
+
+    .control-value-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--color-ink);
+      background-color: var(--bg-cell-secondary);
+      padding: 2px 7px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 2px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #E4DCD0;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--color-ink);
+      cursor: pointer;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border-grid);
+      background-color: var(--bg-canvas);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-ink);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: var(--color-ink);
+      background-color: #FFFFFF;
+    }
+
+    /* KPI Output Grid */
+    .kpi-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .kpi-box {
+      border: 1px solid var(--border-grid);
+      background-color: var(--bg-canvas);
+      padding: 12px 14px;
+    }
+
+    .kpi-box-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 4px;
+    }
+
+    .kpi-box-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--color-ink);
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    .kpi-box-sub {
+      font-size: 11.5px;
+      color: var(--color-charcoal);
+    }
+
+    /* Guardrail Status Boxes */
+    .guardrail-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .guardrail-card {
+      padding: 10px 12px;
+      border: 1px solid var(--border-grid);
+      border-radius: 2px;
+      background-color: var(--bg-card);
+    }
+
+    .guardrail-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 4px;
+    }
+
+    .badge-status {
+      display: inline-block;
+      padding: 3px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 2px;
+    }
+
+    .badge-pass {
+      background-color: #DCFCE7;
+      color: #15803D;
+      border: 1px solid #86EFAC;
+    }
+
+    .badge-fail {
+      background-color: #FFE4E6;
+      color: #BE123C;
+      border: 1px solid #FDA4AF;
+    }
+
+    /* Pre-Call Scoring Module */
+    .sample-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .btn-sample {
+      background-color: var(--bg-canvas);
+      border: 1px solid var(--border-grid);
+      padding: 7px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      color: var(--color-ink);
+      border-radius: 2px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-sample:hover {
+      background-color: var(--bg-cell-secondary);
+    }
+
+    .score-result-box {
+      border: 2px solid var(--border-grid);
+      background-color: var(--bg-canvas);
+      padding: 16px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .score-probability {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--color-ink);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .routing-stamp {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 2px;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .stamp-priority {
+      background-color: #DCFCE7;
+      color: #15803D;
+      border: 1px solid #16A34A;
+    }
+
+    .stamp-mobile {
+      background-color: #DBEAFE;
+      color: #1D4ED8;
+      border: 1px solid #3B82F6;
+    }
+
+    .stamp-stop {
+      background-color: #FFE4E6;
+      color: #BE123C;
+      border: 1px solid #E11D48;
+    }
+
+    .stamp-hold {
+      background-color: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #D97706;
+    }
+
+    .rules-checklist {
+      text-align: left;
+      font-size: 12px;
+      color: var(--color-charcoal);
+      border-top: 1px solid var(--border-grid);
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .rule-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    .rule-impact-pos {
+      color: var(--color-emerald);
+      font-weight: 700;
+    }
+
+    .rule-impact-neg {
+      color: var(--color-crimson);
+      font-weight: 700;
+    }
+
+    @media (max-width: 950px) {
+      .workstation-grid {
+        grid-template-columns: 1fr;
+      }
+      .preset-buttons {
+        grid-template-columns: 1fr;
+      }
+      .sample-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="cockpit-header">
+    <div class="cockpit-brand">OUTBOUND CALL-CAP &amp; LEAD SCORING WORKSTATION</div>
+    <a href="index.html" class="btn-back">&lt;- Back to Executive Report</a>
+  </header>
+
+  <div class="container">
+
+    <!-- Preset Scenario Bar -->
+    <div class="preset-section">
+      <div class="preset-header">
+        <span class="preset-title">One-Click Strategic Rollout Presets</span>
+        <span class="preset-meta">Reconciled to 41,188 prospects and 105,754 total outbound calls</span>
+      </div>
+      <div class="preset-buttons">
+        <button class="btn-preset" onclick="loadPreset('baseline')">
+          <strong>Baseline (No Cap)</strong>
+          <span class="preset-meta">56 max calls | 4,640 subs</span>
+        </button>
+        <button class="btn-preset" onclick="loadPreset('p1_cohort')">
+          <strong>Phase 1: Cap (Cohort)</strong>
+          <span class="preset-meta">3 calls | -50.9k calls | 475h</span>
+        </button>
+        <button class="btn-preset" onclick="loadPreset('p1_trunc')">
+          <strong>Phase 1: Cap (Truncated)</strong>
+          <span class="preset-meta">3 calls | -28.0k calls | 475h</span>
+        </button>
+        <button class="btn-preset active" onclick="loadPreset('rollout_cons')">
+          <strong>Rollout: Conservative</strong>
+          <span class="preset-meta">6,175 subs (+1,535 gain)</span>
+        </button>
+        <button class="btn-preset" onclick="loadPreset('rollout_lowrate')">
+          <strong>Rollout: Low-Rate Queue</strong>
+          <span class="preset-meta">7,362 subs (+2,722 gain)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main 2-Module Grid -->
+    <div class="workstation-grid">
+
+      <!-- MODULE 1: Interactive Call-Cap & Reallocation Simulator -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Call-cap and bandwidth simulator</h2>
+          <span class="panel-tag">Module 01</span>
+        </div>
+
+        <!-- Slider: Max Call Attempt -->
+        <div class="control-group">
+          <div class="control-label-row">
+            <label class="control-label" for="maxAttemptSlider">Max Call Attempts Allowed Per Prospect:</label>
+            <span class="control-value-badge" id="maxAttemptDisplay">3 attempts</span>
+          </div>
+          <input type="range" id="maxAttemptSlider" min="1" max="10" step="1" value="3" oninput="updateCapSimulation()">
+          <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--color-muted); margin-top: 4px;">
+            <span>1 attempt (49.6% kept)</span>
+            <span>3 attempts (Sweet spot: 88.0% kept)</span>
+            <span>10 attempts (Uncapped)</span>
+          </div>
+        </div>
+
+        <!-- Reallocation Queue Selector -->
+        <div class="control-group">
+          <div class="control-label-row">
+            <label class="control-label" for="reallocationQueue">Saved Call Reallocation Strategy:</label>
+          </div>
+          <select id="reallocationQueue" onchange="updateCapSimulation()">
+            <option value="conservative" selected>Conservative Fresh Leads (7.45% conversion yield)</option>
+            <option value="low_rate">Low Euribor Rate Priority Queue (11.69% conversion yield)</option>
+            <option value="mobile">Cellular Mobile Priority Queue (6.13% conversion yield)</option>
+            <option value="none">Pure Labor Harvest (Save hours, no extra calls)</option>
+          </select>
+        </div>
+
+        <!-- Hourly Cost Slider -->
+        <div class="control-group">
+          <div class="control-label-row">
+            <label class="control-label" for="hourlyCostSlider">Agent Loaded Hourly Labor Cost (EUR/hr):</label>
+            <span class="control-value-badge" id="hourlyCostDisplay">25 EUR/hr</span>
+          </div>
+          <input type="range" id="hourlyCostSlider" min="15" max="45" step="1" value="25" oninput="updateCapSimulation()">
+        </div>
+
+        <!-- Reconciled Metric Output Matrix -->
+        <div class="kpi-matrix">
+          <div class="kpi-box">
+            <div class="kpi-box-label">Outbound Calls Dialed</div>
+            <div class="kpi-box-val" id="kpiCallsDialed">105,754</div>
+            <div class="kpi-box-sub" id="kpiCallsSavedSub">28,044 calls redirected</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-box-label">Total Sign-Ups Won</div>
+            <div class="kpi-box-val" style="color: var(--color-emerald);" id="kpiSignupsWon">6,175</div>
+            <div class="kpi-box-sub" id="kpiSignupsDeltaSub">+1,535 net gain (+33.1%)</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-box-label">Agent Talk Hours Saved</div>
+            <div class="kpi-box-val" id="kpiHoursSaved">475.2 hrs</div>
+            <div class="kpi-box-sub" id="kpiEURSavedSub">11,880 EUR capacity freed</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-box-label">Minutes Per Sign-Up</div>
+            <div class="kpi-box-val" id="kpiMinPerSub">28.7 min</div>
+            <div class="kpi-box-sub" id="kpiMinPerSubSub">Baseline was 38.2 min/sub</div>
+          </div>
+        </div>
+
+        <!-- Live Guardrail Status Badges -->
+        <div class="guardrail-row">
+          <div class="guardrail-card">
+            <div class="guardrail-title">Guardrail 1: Marginal Conv. &gt;= 8.0%</div>
+            <div id="badgeGuardrail1" class="badge-status badge-pass">PASS: 10.75% at attempt 3</div>
+          </div>
+          <div class="guardrail-card">
+            <div class="guardrail-title">Guardrail 2: Volume Kept &gt;= 85.0%</div>
+            <div id="badgeGuardrail2" class="badge-status badge-pass">PASS: 88.04% volume kept</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 2: Live Pre-Call Prospect Scoring Desk Tester -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Pre-call prospect scoring tester</h2>
+          <span class="panel-tag">Module 02</span>
+        </div>
+
+        <!-- 4 One-Click Sample Prospect Buttons -->
+        <div class="control-group">
+          <div class="control-label" style="margin-bottom: 6px;">One-Click Archetype Test Prospects:</div>
+          <div class="sample-buttons">
+            <button class="btn-sample" onclick="loadSample(1)">1. Senior on Mobile (14.74% channel baseline)</button>
+            <button class="btn-sample" onclick="loadSample(2)">2. Past Buyer (65.11% historical conversion)</button>
+            <button class="btn-sample" onclick="loadSample(3)">3. Blue-Collar (Att 5)</button>
+            <button class="btn-sample" onclick="loadSample(4)">4. Student (Low Rate)</button>
+          </div>
+        </div>
+
+        <!-- 7 Pre-Call Dropdowns -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="control-group">
+            <label class="control-label" for="inpRate">Euribor Rate Period:</label>
+            <select id="inpRate" onchange="calculateScore()">
+              <option value="low" selected>Low Rate Regime (&lt;= 3.0%)</option>
+              <option value="high">High Rate Regime (&gt; 3.0%)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inpPoutcome">Past Campaign Result:</label>
+            <select id="inpPoutcome" onchange="calculateScore()">
+              <option value="nonexistent" selected>Never Contacted</option>
+              <option value="success">Past Campaign Buyer (Success)</option>
+              <option value="failure">Past Campaign Contact (Failure)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="control-group">
+            <label class="control-label" for="inpAge">Age Group:</label>
+            <select id="inpAge" onchange="calculateScore()">
+              <option value="young">Young (&lt;30)</option>
+              <option value="core" selected>Core Working (31-45)</option>
+              <option value="mature">Mature Working (46-60)</option>
+              <option value="senior">Senior (60+)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inpJob">Job Group:</label>
+            <select id="inpJob" onchange="calculateScore()">
+              <option value="whitecollar" selected>White-Collar</option>
+              <option value="bluecollar">Blue-Collar &amp; Service</option>
+              <option value="nonworking">Student / Retiree</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="control-group">
+            <label class="control-label" for="inpPhone">Phone Type:</label>
+            <select id="inpPhone" onchange="calculateScore()">
+              <option value="cellular" selected>Cellular Mobile</option>
+              <option value="telephone">Telephone Landline</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inpProfile">Profile Completeness:</label>
+            <select id="inpProfile" onchange="calculateScore()">
+              <option value="complete" selected>Complete Profile</option>
+              <option value="incomplete">Incomplete Unknown Data</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="inpAttempt">Current Outreach Attempt:</label>
+          <select id="inpAttempt" onchange="calculateScore()">
+            <option value="1" selected>Attempt 1 (Fresh lead)</option>
+            <option value="2">Attempt 2</option>
+            <option value="3">Attempt 3 (Final policy touch)</option>
+            <option value="4">Attempt 4 (Exceeds 3-call cap)</option>
+            <option value="5">Attempt 5 (Fatigue zone)</option>
+            <option value="6">Attempt 6</option>
+            <option value="8">Attempt 8</option>
+            <option value="10">Attempt 10</option>
+          </select>
+        </div>
+
+        <!-- Calculated Probability & Routing Stamp -->
+        <div class="score-result-box">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; color: var(--color-muted); margin-bottom: 2px;">
+            Estimated Pre-Call Conversion Odds
+          </div>
+          <div class="score-probability" id="dispProbability">22.4%</div>
+          <div id="dispRoutingStamp" class="routing-stamp stamp-mobile">[STANDARD MOBILE QUEUE]</div>
+
+          <div class="rules-checklist" id="rulesChecklist">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Data structures for Module 1 (Call Cap Simulator)
+    // Derived directly from contact_fatigue_curve.csv and operational_labor_audit.csv
+    const fatigueData = {
+      1: { cumCalls: 17642, exactCalls: 17642, cumSubs: 2300, retPct: 49.57, marginalConv: 13.04, cohortConv: 13.04 },
+      2: { cumCalls: 38782, exactCalls: 21140, cumSubs: 3511, retPct: 75.67, marginalConv: 5.73, cohortConv: 11.46 },
+      3: { cumCalls: 54805, exactCalls: 16023, cumSubs: 4085, retPct: 88.04, marginalConv: 3.58, cohortConv: 10.75 },
+      4: { cumCalls: 65409, exactCalls: 10604, cumSubs: 4334, retPct: 93.41, marginalConv: 2.35, cohortConv: 9.39 },
+      5: { cumCalls: 73404, exactCalls: 7995, cumSubs: 4454, retPct: 95.99, marginalConv: 1.50, cohortConv: 7.50 },
+      6: { cumCalls: 79278, exactCalls: 5874, cumSubs: 4529, retPct: 97.61, marginalConv: 1.28, cohortConv: 7.66 },
+      7: { cumCalls: 83681, exactCalls: 4403, cumSubs: 4567, retPct: 98.43, marginalConv: 0.86, cohortConv: 6.04 },
+      8: { cumCalls: 86881, exactCalls: 3200, cumSubs: 4584, retPct: 98.79, marginalConv: 0.53, cohortConv: 4.25 },
+      9: { cumCalls: 89428, exactCalls: 2547, cumSubs: 4601, retPct: 99.16, marginalConv: 0.67, cohortConv: 6.01 },
+      10: { cumCalls: 91678, exactCalls: 2250, cumSubs: 4613, retPct: 99.42, marginalConv: 0.53, cohortConv: 5.33 }
+    };
+
+    const TOTAL_BASELINE_CALLS = 105754;
+    const TOTAL_BASELINE_SUBS = 4640;
+    const TOTAL_BASELINE_HOURS = 2955.0675;
+
+    function updateCapSimulation() {
+      const cap = parseInt(document.getElementById('maxAttemptSlider').value, 10);
+      const queueType = document.getElementById('reallocationQueue').value;
+      const hourlyCost = parseInt(document.getElementById('hourlyCostSlider').value, 10);
+
+      document.getElementById('maxAttemptDisplay').innerText = cap + (cap >= 10 ? ' attempts (Uncapped)' : ' attempts');
+      document.getElementById('hourlyCostDisplay').innerText = hourlyCost + ' EUR/hr';
+
+      const data = fatigueData[cap] || fatigueData[10];
+      
+      // Calculate calls saved (truncated dial view: stopping at cap)
+      // Calls dialed if truncated: 77,710 for cap=3, etc.
+      let callsSaved = 0;
+      let hoursSaved = 0;
+      let retainedSubs = data.cumSubs;
+      let retainedPct = data.retPct;
+
+      if (cap === 3) {
+        callsSaved = 28044;
+        hoursSaved = 475.17;
+      } else if (cap < 3) {
+        callsSaved = TOTAL_BASELINE_CALLS - data.cumCalls;
+        hoursSaved = 475.17 + (54805 - data.cumCalls) * (2479.89 / 54805);
+      } else if (cap < 10) {
+        callsSaved = Math.max(0, Math.round((10 - cap) * 3500));
+        hoursSaved = (callsSaved / 28044) * 475.17;
+      } else {
+        callsSaved = 0;
+        hoursSaved = 0;
+      }
+
+      // Reallocation yield
+      let yieldRate = 0.0;
+      if (queueType === 'conservative') {
+        yieldRate = 0.074537; // 7.45%
+      } else if (queueType === 'low_rate') {
+        yieldRate = 0.116887; // 11.69%
+      } else if (queueType === 'mobile') {
+        yieldRate = 0.061278; // 6.13%
+      } else {
+        yieldRate = 0.0; // None (save hours)
+      }
+
+      let incrementalSubs = Math.round(callsSaved * yieldRate);
+      let totalSignups = queueType === 'none' ? retainedSubs : retainedSubs + incrementalSubs;
+      let signupDelta = totalSignups - TOTAL_BASELINE_SUBS;
+      let totalCallsDialed = queueType === 'none' ? (TOTAL_BASELINE_CALLS - callsSaved) : TOTAL_BASELINE_CALLS;
+
+      let talkHoursExpended = queueType === 'none' ? (TOTAL_BASELINE_HOURS - hoursSaved) : TOTAL_BASELINE_HOURS;
+      let minutesPerSub = (talkHoursExpended * 60) / (totalSignups > 0 ? totalSignups : 1);
+      let laborFreedEUR = Math.round(hoursSaved * hourlyCost);
+
+      // Render KPIs
+      document.getElementById('kpiCallsDialed').innerText = totalCallsDialed.toLocaleString();
+      document.getElementById('kpiCallsSavedSub').innerText = callsSaved.toLocaleString() + (queueType === 'none' ? ' calls saved' : ' calls redirected');
+
+      document.getElementById('kpiSignupsWon').innerText = totalSignups.toLocaleString();
+      const pctGain = ((signupDelta / TOTAL_BASELINE_SUBS) * 100).toFixed(1);
+      const signStr = signupDelta >= 0 ? '+' : '';
+      document.getElementById('kpiSignupsDeltaSub').innerText = signStr + signupDelta.toLocaleString() + ' net (' + signStr + pctGain + '%)';
+
+      document.getElementById('kpiHoursSaved').innerText = hoursSaved.toFixed(1) + ' hrs';
+      document.getElementById('kpiEURSavedSub').innerText = laborFreedEUR.toLocaleString() + ' EUR capacity freed';
+
+      document.getElementById('kpiMinPerSub').innerText = minutesPerSub.toFixed(1) + ' min';
+      document.getElementById('kpiMinPerSubSub').innerText = 'Baseline was 38.2 min/sub';
+
+      // Update Guardrails
+      // Guardrail 1: Marginal conversion >= 8.0%
+      const g1Badge = document.getElementById('badgeGuardrail1');
+      if (data.cohortConv >= 8.0) {
+        g1Badge.className = 'badge-status badge-pass';
+        g1Badge.innerText = 'PASS: ' + data.cohortConv.toFixed(2) + '% at attempt ' + cap;
+      } else {
+        g1Badge.className = 'badge-status badge-fail';
+        g1Badge.innerText = 'BREACH: Attempt ' + cap + ' drops to ' + data.cohortConv.toFixed(2) + '% (< 8.0%)';
+      }
+
+      // Guardrail 2: Pipeline volume >= 85.0%
+      const g2Badge = document.getElementById('badgeGuardrail2');
+      if (retainedPct >= 85.0) {
+        g2Badge.className = 'badge-status badge-pass';
+        g2Badge.innerText = 'PASS: ' + retainedPct.toFixed(2) + '% volume kept';
+      } else {
+        g2Badge.className = 'badge-status badge-fail';
+        g2Badge.innerText = 'BREACH: Drops below 85.0% goal (' + retainedPct.toFixed(2) + '% kept)';
+      }
+    }
+
+    function loadPreset(presetKey) {
+      // Remove active class from all buttons
+      document.querySelectorAll('.btn-preset').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      if (presetKey === 'baseline') {
+        document.getElementById('maxAttemptSlider').value = 10;
+        document.getElementById('reallocationQueue').value = 'none';
+      } else if (presetKey === 'p1_cohort') {
+        document.getElementById('maxAttemptSlider').value = 3;
+        document.getElementById('reallocationQueue').value = 'none';
+      } else if (presetKey === 'p1_trunc') {
+        document.getElementById('maxAttemptSlider').value = 3;
+        document.getElementById('reallocationQueue').value = 'none';
+      } else if (presetKey === 'rollout_cons') {
+        document.getElementById('maxAttemptSlider').value = 3;
+        document.getElementById('reallocationQueue').value = 'conservative';
+      } else if (presetKey === 'rollout_lowrate') {
+        document.getElementById('maxAttemptSlider').value = 3;
+        document.getElementById('reallocationQueue').value = 'low_rate';
+      }
+      updateCapSimulation();
+    }
+
+    // Module 2: Logistic Regression Pre-Call Scoring
+    // Verified weights from Phase 3 (ROC-AUC = 0.7704)
+    const weights = {
+      const: -2.8991,
+      low_rate: 1.3801,
+      poutcome_success: 2.2047,
+      poutcome_nonexistent: 0.3559,
+      poutcome_failure: 0.0,
+      contact_telephone: -0.3730,
+      has_unknown_attributes: -0.2640,
+      age_young: 0.0,
+      age_core: -0.2480,
+      age_mature: -0.1503,
+      age_senior: 0.5436,
+      job_whitecollar: 0.2610,
+      job_nonworking: 0.4958,
+      job_unknown: 0.3218,
+      job_bluecollar: 0.0,
+      campaign_slope: -0.0638
+    };
+
+    function calculateScore() {
+      const rate = document.getElementById('inpRate').value;
+      const poutcome = document.getElementById('inpPoutcome').value;
+      const age = document.getElementById('inpAge').value;
+      const job = document.getElementById('inpJob').value;
+      const phone = document.getElementById('inpPhone').value;
+      const profile = document.getElementById('inpProfile').value;
+      const attempt = parseInt(document.getElementById('inpAttempt').value, 10);
+
+      let logit = weights.const;
+      let activeRules = [];
+
+      // Intercept
+      activeRules.push({ name: 'Baseline Constant', val: weights.const });
+
+      // Macro rate
+      if (rate === 'low') {
+        logit += weights.low_rate;
+        activeRules.push({ name: 'Low Euribor Rate (<= 3.0%)', val: weights.low_rate });
+      }
+
+      // Past outcome
+      if (poutcome === 'success') {
+        logit += weights.poutcome_success;
+        activeRules.push({ name: 'Past Campaign Success (Buyer)', val: weights.poutcome_success });
+      } else if (poutcome === 'nonexistent') {
+        logit += weights.poutcome_nonexistent;
+        activeRules.push({ name: 'Uncontacted Lead (vs Failure)', val: weights.poutcome_nonexistent });
+      }
+
+      // Phone
+      if (phone === 'telephone') {
+        logit += weights.contact_telephone;
+        activeRules.push({ name: 'Landline Phone Penalty', val: weights.contact_telephone });
+      } else {
+        activeRules.push({ name: 'Cellular Mobile Reference', val: 0.0 });
+      }
+
+      // Profile
+      if (profile === 'incomplete') {
+        logit += weights.has_unknown_attributes;
+        activeRules.push({ name: 'Incomplete Unknown Profile Penalty', val: weights.has_unknown_attributes });
+      }
+
+      // Age
+      if (age === 'core') {
+        logit += weights.age_core;
+        activeRules.push({ name: 'Core Working (31-45) Cohort', val: weights.age_core });
+      } else if (age === 'mature') {
+        logit += weights.age_mature;
+        activeRules.push({ name: 'Mature Working (46-60) Cohort', val: weights.age_mature });
+      } else if (age === 'senior') {
+        logit += weights.age_senior;
+        activeRules.push({ name: 'Senior (60+) Affinity Lift', val: weights.age_senior });
+      }
+
+      // Job
+      if (job === 'whitecollar') {
+        logit += weights.job_whitecollar;
+        activeRules.push({ name: 'White-Collar Professional Lift', val: weights.job_whitecollar });
+      } else if (job === 'nonworking') {
+        logit += weights.job_nonworking;
+        activeRules.push({ name: 'High-Yield Student/Retiree Lift', val: weights.job_nonworking });
+      } else if (job === 'unknown') {
+        logit += weights.job_unknown;
+        activeRules.push({ name: 'Unspecified Job Adjustment', val: weights.job_unknown });
+      }
+
+      // Campaign attempt decay
+      const attemptPenalty = weights.campaign_slope * attempt;
+      logit += attemptPenalty;
+      activeRules.push({ name: 'Dial Attempt Decay (' + attempt + ' calls)', val: attemptPenalty });
+
+      // Probability = 1 / (1 + exp(-logit))
+      const prob = 1.0 / (1.0 + Math.exp(-logit));
+      const probPct = (prob * 100).toFixed(1);
+
+      document.getElementById('dispProbability').innerText = probPct + '%';
+
+      // Stamp logic
+      const stampElem = document.getElementById('dispRoutingStamp');
+      if (attempt > 3) {
+        stampElem.className = 'routing-stamp stamp-stop';
+        stampElem.innerText = '[STOP: EXCEEDS 3-CALL LIMIT]';
+      } else if (prob >= 0.25) {
+        stampElem.className = 'routing-stamp stamp-priority';
+        stampElem.innerText = '[PRIORITY FAST-LANE]';
+      } else if (prob >= 0.10 && phone === 'cellular') {
+        stampElem.className = 'routing-stamp stamp-mobile';
+        stampElem.innerText = '[STANDARD MOBILE QUEUE]';
+      } else {
+        stampElem.className = 'routing-stamp stamp-hold';
+        stampElem.innerText = '[HOLD / LOW ODDS]';
+      }
+
+      // Render checklist
+      const checklistElem = document.getElementById('rulesChecklist');
+      checklistElem.innerHTML = '';
+      activeRules.forEach(rule => {
+        const item = document.createElement('div');
+        item.className = 'rule-item';
+        const sign = rule.val >= 0 ? '+' : '';
+        const cls = rule.val > 0 ? 'rule-impact-pos' : (rule.val < 0 ? 'rule-impact-neg' : '');
+        item.innerHTML = '<span>' + rule.name + '</span><span class="' + cls + '">' + sign + rule.val.toFixed(2) + '</span>';
+        checklistElem.appendChild(item);
+      });
+    }
+
+    function loadSample(sampleId) {
+      if (sampleId === 1) {
+        // Retired Senior on Mobile
+        document.getElementById('inpRate').value = 'low';
+        document.getElementById('inpPoutcome').value = 'success';
+        document.getElementById('inpAge').value = 'senior';
+        document.getElementById('inpJob').value = 'nonworking';
+        document.getElementById('inpPhone').value = 'cellular';
+        document.getElementById('inpProfile').value = 'complete';
+        document.getElementById('inpAttempt').value = '1';
+      } else if (sampleId === 2) {
+        // Past Campaign Buyer (<=7 Days)
+        document.getElementById('inpRate').value = 'low';
+        document.getElementById('inpPoutcome').value = 'success';
+        document.getElementById('inpAge').value = 'core';
+        document.getElementById('inpJob').value = 'whitecollar';
+        document.getElementById('inpPhone').value = 'cellular';
+        document.getElementById('inpProfile').value = 'complete';
+        document.getElementById('inpAttempt').value = '1';
+      } else if (sampleId === 3) {
+        // 38-Year-Old Blue-Collar on Attempt 5 (Fatigue Stop)
+        document.getElementById('inpRate').value = 'high';
+        document.getElementById('inpPoutcome').value = 'nonexistent';
+        document.getElementById('inpAge').value = 'core';
+        document.getElementById('inpJob').value = 'bluecollar';
+        document.getElementById('inpPhone').value = 'telephone';
+        document.getElementById('inpProfile').value = 'incomplete';
+        document.getElementById('inpAttempt').value = '5';
+      } else if (sampleId === 4) {
+        // Young Student in Low-Rate Period
+        document.getElementById('inpRate').value = 'low';
+        document.getElementById('inpPoutcome').value = 'nonexistent';
+        document.getElementById('inpAge').value = 'young';
+        document.getElementById('inpJob').value = 'nonworking';
+        document.getElementById('inpPhone').value = 'cellular';
+        document.getElementById('inpProfile').value = 'complete';
+        document.getElementById('inpAttempt').value = '1';
+      }
+      calculateScore();
+    }
+
+    // Initialize on load
+    window.onload = function() {
+      updateCapSimulation();
+      calculateScore();
+    };
+  </script>
+</body>
+</html>

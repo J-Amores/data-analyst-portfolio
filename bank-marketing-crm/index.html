@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outbound Call Center and Marketing Review: Bank Direct Marketing</title>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-canvas: #FAF8F2;
+      --bg-card: #FFFFFF;
+      --bg-cell-secondary: #F3EFE6;
+      --border-grid: #111111;
+      --border-subtle: #E2E8F0;
+      --color-ink: #111111;
+      --color-charcoal: #27272A;
+      --color-emerald: #16A34A;
+      --color-crimson: #E11D48;
+      --color-amber: #D97706;
+      --color-muted: #71717A;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--color-ink);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.65;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--color-ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Sticky Top Header */
+    header.sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--bg-canvas);
+      border-bottom: 1px solid var(--border-grid);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-ink);
+    }
+
+    nav.nav-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    nav.nav-links a {
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--color-charcoal);
+      transition: color 0.15s ease;
+    }
+
+    nav.nav-links a:hover {
+      color: var(--color-crimson);
+      text-decoration: underline;
+    }
+
+    .btn-simulator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--color-ink);
+      color: #FAF8F2;
+      padding: 7px 15px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--color-ink);
+      border-radius: 2px;
+      transition: all 0.15s ease;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-simulator:hover {
+      background-color: var(--color-emerald);
+      border-color: var(--color-emerald);
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 44px 28px 80px 28px;
+    }
+
+    /* Hero Banner */
+    .hero {
+      border: 1px solid var(--border-grid);
+      background-color: var(--bg-card);
+      padding: 44px 40px 36px 40px;
+      margin-bottom: 36px;
+    }
+
+    .hero-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-crimson);
+      margin-bottom: 12px;
+    }
+
+    h1.hero-headline {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 44px;
+      line-height: 1.15;
+      font-weight: 400;
+      color: var(--color-ink);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    p.hero-subtitle {
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--color-charcoal);
+      max-width: 980px;
+      margin-bottom: 28px;
+    }
+
+    /* 4-Column Top KPI Strip */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border-grid);
+      background-color: var(--bg-canvas);
+    }
+
+    .kpi-cell {
+      padding: 18px 20px;
+      border-right: 1px solid var(--border-grid);
+      background-color: var(--bg-card);
+    }
+
+    .kpi-cell:last-child {
+      border-right: none;
+    }
+
+    .kpi-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--color-ink);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value.positive {
+      color: var(--color-emerald);
+    }
+
+    .kpi-value.alert {
+      color: var(--color-crimson);
+    }
+
+    .kpi-detail {
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--color-charcoal);
+    }
+
+    /* Section Styles */
+    section.report-section {
+      margin-top: 48px;
+      border: 1px solid var(--border-grid);
+      background-color: var(--bg-card);
+      padding: 36px 36px 32px 36px;
+    }
+
+    .section-header-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-grid);
+      padding-bottom: 14px;
+      margin-bottom: 24px;
+    }
+
+    .section-index {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h2.section-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 30px;
+      line-height: 1.25;
+      font-weight: 400;
+      color: var(--color-ink);
+    }
+
+    .lead-copy {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--color-charcoal);
+      margin-bottom: 20px;
+    }
+
+    .lead-copy p {
+      margin-bottom: 16px;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      margin: 24px 0 20px 0;
+      overflow-x: auto;
+      border: 1px solid var(--border-grid);
+    }
+
+    table.editorial-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+      background-color: var(--bg-card);
+    }
+
+    table.editorial-table th {
+      background-color: var(--bg-cell-secondary);
+      color: var(--color-ink);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-grid);
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    table.editorial-table th:last-child {
+      border-right: none;
+    }
+
+    table.editorial-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      color: var(--color-ink);
+      vertical-align: top;
+    }
+
+    table.editorial-table td:last-child {
+      border-right: none;
+    }
+
+    table.editorial-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.editorial-table tr:hover td {
+      background-color: #FAF6ED;
+    }
+
+    .mono-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
+    .status-pass {
+      display: inline-block;
+      padding: 2px 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      background-color: #DCFCE7;
+      color: #15803D;
+      border: 1px solid #86EFAC;
+      border-radius: 2px;
+    }
+
+    .status-fail {
+      display: inline-block;
+      padding: 2px 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      background-color: #FFE4E6;
+      color: #BE123C;
+      border: 1px solid #FDA4AF;
+      border-radius: 2px;
+    }
+
+    /* Embedded Figure and Lightbox */
+    .chart-container {
+      margin: 28px 0 20px 0;
+      border: 1px solid var(--border-grid);
+      background-color: var(--bg-canvas);
+      padding: 16px;
+      position: relative;
+    }
+
+    .chart-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+      transition: opacity 0.15s ease;
+    }
+
+    .chart-container img:hover {
+      opacity: 0.96;
+    }
+
+    .chart-caption-row {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--color-muted);
+    }
+
+    .lightbox-hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--color-ink);
+      font-weight: 600;
+    }
+
+    /* Statistical Footnote Bar */
+    .stat-footnote {
+      margin-top: 14px;
+      padding: 9px 14px;
+      background-color: var(--bg-cell-secondary);
+      border-left: 3px solid var(--color-ink);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--color-charcoal);
+      line-height: 1.5;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(17, 17, 17, 0.88);
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-modal img {
+      max-width: 96%;
+      max-height: 94%;
+      border: 2px solid #FAF8F2;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px;
+      color: #FAF8F2;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .kpi-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+      .kpi-cell {
+        border-bottom: 1px solid var(--border-grid);
+      }
+      header.sticky-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav.nav-links {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="sticky-header">
+    <div class="brand-title">OUTBOUND CALL CENTER &amp; MARKETING REVIEW</div>
+    <nav class="nav-links">
+      <a href="#overview">01 Overview</a>
+      <a href="#setup">02 Data Setup</a>
+      <a href="#fatigue">03 Call Fatigue</a>
+      <a href="#channel">04 Phone Type &amp; Past Buyers</a>
+      <a href="#demographics">05 Age &amp; Interest Rates</a>
+      <a href="#rollout">06 Rollout Plan</a>
+    </nav>
+    <a href="cockpit.html" class="btn-simulator">[Open Call-Cap Simulator -&gt;]</a>
+  </header>
+
+  <div class="container">
+
+    <!-- Cover Banner -->
+    <div class="hero">
+      <div class="hero-tag">Executive Decision Briefing</div>
+      <h1 class="hero-headline">Cutting wasted repeat calls to add up to 3,242 term deposit sign-ups</h1>
+      <p class="hero-subtitle">A review of 41,188 prospect records and 105,754 outbound phone calls from May 2008 to November 2010 to see where agent time is wasted and which customers actually sign up.</p>
+
+      <!-- 4-Column Top KPI Strip -->
+      <div class="kpi-strip">
+        <div class="kpi-cell">
+          <div class="kpi-label">PROSPECTS REVIEWED</div>
+          <div class="kpi-value">41,188</div>
+          <div class="kpi-detail">105,754 total calls dialed | 2,955.1 agent talk hours</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">CURRENT CONVERSION RATE</div>
+          <div class="kpi-value">11.27%</div>
+          <div class="kpi-detail">4,640 sign-ups | 4.39 sign-ups per 100 calls</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">CALLS SPENT ON 4+ ATTEMPTS</div>
+          <div class="kpi-value alert">48.18%</div>
+          <div class="kpi-detail">50,949 calls for just 555 sign-ups | 1.09% yield/call</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">PROJECTED SIGN-UP GAIN</div>
+          <div class="kpi-value positive">+1,535 to +3,242</div>
+          <div class="kpi-detail">6,175 to 7,882 sign-ups by redirecting saved calls</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 01: Executive Summary & 4-Question Overview -->
+    <section class="report-section" id="overview">
+      <div class="section-header-row">
+        <h2 class="section-title">Executive summary and 4-question overview</h2>
+        <span class="section-index">Section 01</span>
+      </div>
+
+      <div class="lead-copy">
+        <p>Between May 2008 and November 2010, our call center dialed 105,754 outbound calls across 41,188 prospects to sell term deposits. Overall, 4,640 customers signed up, which comes out to an 11.27% conversion rate per lead and 4.39 sign-ups for every 100 phone calls.</p>
+        <p>When we broke down performance by call attempt, we found a major drain on agent time. Calls 1 through 3 brought in 88.04% of all sign-ups (4,085 deposits). However, reps kept dialing unresponsive prospects up to 56 times in a single campaign. Nearly half of all outbound calls (50,949 dials, or 48.18% of call center volume) went to prospects on their 4th through 56th attempt. Those extra calls produced only 555 sign-ups, dropping our yield per call from 7.45% down to 1.09% and increasing agent talk time per sign-up by 41.0% (from 36.4 minutes to 51.4 minutes).</p>
+        <p>At the same time, our call lists were aimed at the wrong groups. More than half of all calls (56,174 dials) went to working-age adults between 31 and 45, who converted at just 9.37%. Seniors aged 60 and older converted at 45.49%, students converted at 31.43%, and customers who signed up in a previous campaign converted at 65.11%. Mobile phone outreach also beat landline calls by nearly three to one (14.74% vs. 5.23%).</p>
+        <p>Stopping repeat outreach after 3 calls frees up 28,044 to 50,949 phone calls (475.2 hours of agent talk time) while keeping 88.04% of our current sign-ups, staying safely above leadership's 85.0% volume goal. Redirecting those saved calls to mobile numbers, past buyers, and high-converting age groups adds 1,535 to 3,242 net new term deposits (+33.1% to +69.9%) using our existing staff.</p>
+      </div>
+
+      <!-- 4-Question Summary Table -->
+      <div class="table-wrapper">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Executive Question</th>
+              <th style="width: 75%;">Findings and Recommended Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>What did we find?</strong></td>
+              <td>Attempts 1 to 3 capture 88.04% of sign-ups (4,085 deposits). Attempts 4 to 56 take up 48.18% of all phone calls (50,949 dials) but bring in only 11.96% of sign-ups.</td>
+            </tr>
+            <tr>
+              <td><strong>Why is this happening?</strong></td>
+              <td>The dialer has no cap on repeat calls, and 53.1% of calls go to 31-45 year olds (9.37% conversion) or landline phones (5.23% conversion) instead of mobile numbers (14.74%), seniors (45.49%), and past buyers (65.11%).</td>
+            </tr>
+            <tr>
+              <td><strong>What does it cost us?</strong></td>
+              <td>Agents spend 475.2 hours of talk time on 4+ call attempts. Winning a sign-up on attempts 4+ takes 51.37 minutes of phone time compared to 36.42 minutes on attempts 1 to 3 (+41.0% higher labor cost).</td>
+            </tr>
+            <tr>
+              <td><strong>What should we change?</strong></td>
+              <td>Cap outreach at 3 calls per prospect (Phase 1), route calls to mobile numbers and recent leads within 7 days (Phase 2), and shift call lists toward seniors, students, and low-rate periods (Phase 3).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 02: How We Prepared the Data -->
+    <section class="report-section" id="setup">
+      <div class="section-header-row">
+        <h2 class="section-title">How we prepared the data (avoiding common reporting traps)</h2>
+        <span class="section-index">Section 02</span>
+      </div>
+
+      <div class="lead-copy">
+        <p>Before testing policy changes, we audited the raw campaign files to prevent data errors and unrealistic projections. We resolved four critical technical traps that commonly lead to flawed call center recommendations:</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Data Preparation Check</th>
+              <th style="width: 72%;">Plain-English Explanation and Operational Safeguard</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Separating call length from targeting rules</strong></td>
+              <td>A common mistake with this dataset is using call duration to predict who will buy. Because we only know how long a call lasted after the customer hangs up, we removed call duration from our targeting model and used it only to measure how many hours agents spent on the phone.</td>
+            </tr>
+            <tr>
+              <td><strong>Handling uncontacted prospects (code 999)</strong></td>
+              <td>In the raw file, 39,673 prospects (96.32%) had '999' listed for days since last contact. Instead of treating 999 as roughly three years, we separated prospects into two clear groups: never contacted before (9.26% conversion) and previously contacted (63.83% conversion).</td>
+            </tr>
+            <tr>
+              <td><strong>Keeping incomplete records visible</strong></td>
+              <td>Rather than deleting or guessing missing values, we tracked the 10,700 prospects who had 'unknown' listed on their credit or background fields. Those incomplete profiles converted at just 7.30% compared to 12.66% for complete profiles (a 1.73x drop).</td>
+            </tr>
+            <tr>
+              <td><strong>Checking account balances across both bank files</strong></td>
+              <td>The newer 41,188-row file adds interest rate data, while the older 45,211-row file includes yearly bank balances. Checking the older file confirmed that customers with more than the 448 EUR median balance convert at 14.33% vs. 9.06% for lower balances (1.58x higher).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 03: Key Finding 1 - Call Fatigue -->
+    <section class="report-section" id="fatigue">
+      <div class="section-header-row">
+        <h2 class="section-title">Attempts 4 and up use nearly half our phone calls for just 12% of sign-ups</h2>
+        <span class="section-index">Section 03</span>
+      </div>
+
+      <div class="lead-copy">
+        <p>Our analysis uncovered an immediate operational bottleneck: outbound agents continue dialing non-responsive prospects up to 56 times in a single campaign cycle. While the first 3 call attempts capture 88.04% of total deposits, attempts 4 through 56 consume 48.18% of all outbound calls (50,949 dials) while producing only 555 sign-ups.</p>
+        <p>There are two complementary ways to measure the phone calls saved by enforcing a 3-call limit:</p>
+        <p><strong>Stopping after attempt 3 on current lists (Truncated view):</strong> If agents still dial 3 times on the 7,635 stubborn leads before stopping, we cut 28,044 extra calls (26.5% of all dials).</p>
+        <p><strong>Filtering out low-odds leads upfront (Cohort view):</strong> If we use our pre-call scoring rules to skip those 7,635 low-odds prospects before they enter the repeat loop, we save all 50,949 calls (48.2% of all dials) and 475.2 hours of talk time.</p>
+      </div>
+
+      <!-- Embedded Figure 1 -->
+      <div class="chart-container">
+        <img src="assets/fig1_contact_fatigue_cliff.png" alt="Figure 1: Contact Fatigue Cliff" onclick="openLightbox(this.src)">
+        <div class="chart-caption-row">
+          <span>Figure 1: Contact attempt fatigue cliff and diminishing returns across 41,188 prospects.</span>
+          <span class="lightbox-hint">[Click image to enlarge]</span>
+        </div>
+      </div>
+
+      <!-- Contact Fatigue Breakdown Table -->
+      <div class="table-wrapper">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Attempt</th>
+              <th>Prospects Reached</th>
+              <th>Calls Dialed</th>
+              <th>Call Share</th>
+              <th>Sign-Ups Won</th>
+              <th>Sign-Up Share</th>
+              <th>Cohort Conv. %</th>
+              <th>Yield per Call</th>
+              <th>Guardrail 1 (&gt;= 8.0%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Attempt 1</strong></td>
+              <td class="mono-num">41,188</td>
+              <td class="mono-num">17,642</td>
+              <td class="mono-num">16.68%</td>
+              <td class="mono-num">2,300</td>
+              <td class="mono-num">49.57%</td>
+              <td class="mono-num">13.04%</td>
+              <td class="mono-num">13.04%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Attempt 2</strong></td>
+              <td class="mono-num">23,546</td>
+              <td class="mono-num">21,140</td>
+              <td class="mono-num">19.99%</td>
+              <td class="mono-num">1,211</td>
+              <td class="mono-num">26.10%</td>
+              <td class="mono-num">11.46%</td>
+              <td class="mono-num">5.73%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Attempt 3</strong></td>
+              <td class="mono-num">12,976</td>
+              <td class="mono-num">16,023</td>
+              <td class="mono-num">15.15%</td>
+              <td class="mono-num">574</td>
+              <td class="mono-num">12.37%</td>
+              <td class="mono-num">10.75%</td>
+              <td class="mono-num">3.58%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr style="background-color: #FEF2F2;">
+              <td><strong>Attempt 4</strong></td>
+              <td class="mono-num">7,635</td>
+              <td class="mono-num">10,604</td>
+              <td class="mono-num">10.03%</td>
+              <td class="mono-num">249</td>
+              <td class="mono-num">5.37%</td>
+              <td class="mono-num">9.39%</td>
+              <td class="mono-num">2.35%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr style="background-color: #FFF1F2;">
+              <td><strong>Attempt 5</strong></td>
+              <td class="mono-num">4,984</td>
+              <td class="mono-num">7,995</td>
+              <td class="mono-num">7.56%</td>
+              <td class="mono-num">120</td>
+              <td class="mono-num">2.59%</td>
+              <td class="mono-num">7.50%</td>
+              <td class="mono-num">1.50%</td>
+              <td><span class="status-fail">FAIL (&lt; 8.0%)</span></td>
+            </tr>
+            <tr style="background-color: #FFF1F2;">
+              <td><strong>Attempt 6</strong></td>
+              <td class="mono-num">3,385</td>
+              <td class="mono-num">5,874</td>
+              <td class="mono-num">5.55%</td>
+              <td class="mono-num">75</td>
+              <td class="mono-num">1.62%</td>
+              <td class="mono-num">7.66%</td>
+              <td class="mono-num">1.28%</td>
+              <td><span class="status-fail">FAIL (&lt; 8.0%)</span></td>
+            </tr>
+            <tr style="background-color: #FFF1F2;">
+              <td><strong>Attempt 7</strong></td>
+              <td class="mono-num">2,406</td>
+              <td class="mono-num">4,403</td>
+              <td class="mono-num">4.16%</td>
+              <td class="mono-num">38</td>
+              <td class="mono-num">0.82%</td>
+              <td class="mono-num">6.04%</td>
+              <td class="mono-num">0.86%</td>
+              <td><span class="status-fail">FAIL (&lt; 8.0%)</span></td>
+            </tr>
+            <tr style="background-color: #FFF1F2;">
+              <td><strong>Attempts 8 to 10</strong></td>
+              <td class="mono-num">1,777</td>
+              <td class="mono-num">7,997</td>
+              <td class="mono-num">7.56%</td>
+              <td class="mono-num">46</td>
+              <td class="mono-num">0.99%</td>
+              <td class="mono-num">5.18%</td>
+              <td class="mono-num">0.58%</td>
+              <td><span class="status-fail">FAIL (&lt; 8.0%)</span></td>
+            </tr>
+            <tr style="background-color: #FFF1F2;">
+              <td><strong>Attempts 11 to 56</strong></td>
+              <td class="mono-num">869</td>
+              <td class="mono-num">14,076</td>
+              <td class="mono-num">13.31%</td>
+              <td class="mono-num">27</td>
+              <td class="mono-num">0.58%</td>
+              <td class="mono-num">3.11%</td>
+              <td class="mono-num">0.19%</td>
+              <td><span class="status-fail">FAIL (&lt; 8.0%)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stat-footnote">
+        Statistical Verification: Chi-Square = 149.24, p &lt; 0.0001 | Odds per extra call = 0.882x, p &lt; 0.0001 | Welch t-test on talk time = 12.85, p &lt; 0.0001
+      </div>
+    </section>
+
+    <!-- Section 04: Key Finding 2 - Channel and Prior Buyers -->
+    <section class="report-section" id="channel">
+      <div class="section-header-row">
+        <h2 class="section-title">Mobile outreach beats landlines 2.8 to 1, and past buyers convert at 65.1%</h2>
+        <span class="section-index">Section 04</span>
+      </div>
+
+      <div class="lead-copy">
+        <p>Our second finding centers on channel selection and customer relationship history. Cellular outreach delivers a massive commercial advantage over traditional landlines, converting at 14.74% compared to 5.23% for landlines (a 2.82x lift, with an age-adjusted odds ratio of 2.90x).</p>
+        <p>Furthermore, prior campaign interaction is the single strongest commercial signal in the dataset. Customers who agreed to a deposit in a previous campaign converted at 65.11% (36.00% yield per dialed call), representing a 7.37x lift over uncontacted prospects.</p>
+        <p>When calling someone from an earlier campaign, timing matters. Prospects called within 7 days converted at 65.76%, compared to 56.88% when agents waited 8 to 14 days.</p>
+      </div>
+
+      <!-- Embedded Figure 2 -->
+      <div class="chart-container">
+        <img src="assets/fig2_channel_poutcome_matrix.png" alt="Figure 2: Channel and Prior Outcome Matrix" onclick="openLightbox(this.src)">
+        <div class="chart-caption-row">
+          <span>Figure 2: Channel performance and prior campaign response recency matrix.</span>
+          <span class="lightbox-hint">[Click image to enlarge]</span>
+        </div>
+      </div>
+
+      <!-- Channel & Prior Outcome Table -->
+      <div class="table-wrapper">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Outreach Dimension</th>
+              <th>Prospect Count</th>
+              <th>Calls Dialed</th>
+              <th>Sign-Ups Won</th>
+              <th>Conversion Rate</th>
+              <th>Yield per Call</th>
+              <th>Commercial Lift vs. Baseline</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Cellular Mobile</strong></td>
+              <td class="mono-num">26,144</td>
+              <td class="mono-num">62,877</td>
+              <td class="mono-num">3,853</td>
+              <td class="mono-num">14.74%</td>
+              <td class="mono-num">6.13%</td>
+              <td><strong>2.82x vs. Telephone</strong> (Age-adjusted CMH OR: 2.90x)</td>
+            </tr>
+            <tr>
+              <td><strong>Telephone Landline</strong></td>
+              <td class="mono-num">15,044</td>
+              <td class="mono-num">42,877</td>
+              <td class="mono-num">787</td>
+              <td class="mono-num">5.23%</td>
+              <td class="mono-num">1.84%</td>
+              <td>Baseline fixed line reference</td>
+            </tr>
+            <tr>
+              <td><strong>Past Campaign Buyer (Success)</strong></td>
+              <td class="mono-num">1,373</td>
+              <td class="mono-num">2,483</td>
+              <td class="mono-num">894</td>
+              <td class="mono-num">65.11%</td>
+              <td class="mono-num">36.00%</td>
+              <td><strong>7.37x lift</strong> vs. uncontacted leads</td>
+            </tr>
+            <tr>
+              <td><strong>Follow-up within 7 Days</strong></td>
+              <td class="mono-num">1,177</td>
+              <td class="mono-num">2,123</td>
+              <td class="mono-num">774</td>
+              <td class="mono-num">65.76%</td>
+              <td class="mono-num">36.46%</td>
+              <td><strong>Fast-lane SLA benchmark</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Follow-up between 8 and 14 Days</strong></td>
+              <td class="mono-num">255</td>
+              <td class="mono-num">457</td>
+              <td class="mono-num">145</td>
+              <td class="mono-num">56.88%</td>
+              <td class="mono-num">31.73%</td>
+              <td>High affinity (-8.9% speed decay)</td>
+            </tr>
+            <tr>
+              <td><strong>Never Contacted Before</strong></td>
+              <td class="mono-num">39,673</td>
+              <td class="mono-num">102,154</td>
+              <td class="mono-num">3,673</td>
+              <td class="mono-num">9.26%</td>
+              <td class="mono-num">3.60%</td>
+              <td>Standard cold outreach baseline</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stat-footnote">
+        Statistical Verification: Channel RR = 2.82x, Age-adjusted CMH Odds Ratio = 2.90x, p &lt; 0.0001 | Prior success RR = 7.37x, p &lt; 0.0001
+      </div>
+    </section>
+
+    <!-- Section 05: Key Finding 3 - Demographics & Macro -->
+    <section class="report-section" id="demographics">
+      <div class="section-header-row">
+        <h2 class="section-title">Shifting calls from 31-45 year olds (9.4%) to seniors (45.5%), students (31.4%), and low-rate periods (24.5%)</h2>
+        <span class="section-index">Section 05</span>
+      </div>
+
+      <div class="lead-copy">
+        <p>Outbound dialers currently direct 53.1% of all calls (56,174 dials) to core working-age adults (31-45 years old), where conversion averages only 9.37%. Meanwhile, demographic cohorts with the highest affinity for term deposit yields are drastically under-contacted: seniors aged 60+ convert at 45.49%, and students convert at 31.43%.</p>
+        <p>Simultaneously, macroeconomic interest rate shifts exert massive control over depositor behavior. In low-interest-rate environments (Euribor &lt;= 3.0%), retail depositors actively seek safe returns, driving conversion to 24.46% (11.69% yield per call) compared to just 4.84% during high-rate periods (Euribor &gt; 3.0%).</p>
+      </div>
+
+      <!-- Embedded Figure 3 -->
+      <div class="chart-container">
+        <img src="assets/fig3_macro_demographic_heatmap.png" alt="Figure 3: Macroeconomic and Demographic Matrix" onclick="openLightbox(this.src)">
+        <div class="chart-caption-row">
+          <span>Figure 3: Age by job interaction heatmap alongside interest rate and balance lift.</span>
+          <span class="lightbox-hint">[Click image to enlarge]</span>
+        </div>
+      </div>
+
+      <!-- Logistic Regression Odds Ratio Table -->
+      <div class="table-wrapper">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Pre-Call Predictive Factor</th>
+              <th>Odds Ratio</th>
+              <th>95% Confidence Interval</th>
+              <th>Z-Score</th>
+              <th>P-Value</th>
+              <th>Operational Interpretation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #F0FDF4;">
+              <td><strong>Past campaign success</strong></td>
+              <td class="mono-num"><strong>9.07x</strong></td>
+              <td class="mono-num">[7.85, 10.47]</td>
+              <td class="mono-num">30.09</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>Automatic top priority in daily queue</td>
+            </tr>
+            <tr style="background-color: #F0FDF4;">
+              <td><strong>Low Euribor rate &lt;= 3.0%</strong></td>
+              <td class="mono-num"><strong>3.98x</strong></td>
+              <td class="mono-num">[3.66, 4.31]</td>
+              <td class="mono-num">33.08</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>Macro tailwind: scale call center capacity</td>
+            </tr>
+            <tr style="background-color: #F0FDF4;">
+              <td><strong>Senior 60+</strong></td>
+              <td class="mono-num"><strong>1.72x</strong></td>
+              <td class="mono-num">[1.45, 2.04]</td>
+              <td class="mono-num">6.28</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>High savings affinity vs. young baseline</td>
+            </tr>
+            <tr style="background-color: #F0FDF4;">
+              <td><strong>Students/Retirees/Unemployed</strong></td>
+              <td class="mono-num"><strong>1.64x</strong></td>
+              <td class="mono-num">[1.46, 1.84]</td>
+              <td class="mono-num">8.48</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>Non-working high-affinity demographic</td>
+            </tr>
+            <tr>
+              <td><strong>White-collar</strong></td>
+              <td class="mono-num"><strong>1.30x</strong></td>
+              <td class="mono-num">[1.21, 1.40]</td>
+              <td class="mono-num">7.01</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>Modest lift vs. blue-collar baseline</td>
+            </tr>
+            <tr style="background-color: #FEF2F2;">
+              <td><strong>Incomplete profile</strong></td>
+              <td class="mono-num"><strong>0.77x</strong></td>
+              <td class="mono-num">[0.70, 0.84]</td>
+              <td class="mono-num">-5.77</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>Penalty for missing background data</td>
+            </tr>
+            <tr style="background-color: #FEF2F2;">
+              <td><strong>Core working 31-45</strong></td>
+              <td class="mono-num"><strong>0.78x</strong></td>
+              <td class="mono-num">[0.72, 0.85]</td>
+              <td class="mono-num">-5.60</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>Discount for saturated working cohort</td>
+            </tr>
+            <tr style="background-color: #FEF2F2;">
+              <td><strong>Landline phone</strong></td>
+              <td class="mono-num"><strong>0.69x</strong></td>
+              <td class="mono-num">[0.63, 0.75]</td>
+              <td class="mono-num">-8.08</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>Significant channel friction penalty</td>
+            </tr>
+            <tr style="background-color: #FEF2F2;">
+              <td><strong>Each extra call attempt</strong></td>
+              <td class="mono-num"><strong>0.94x</strong></td>
+              <td class="mono-num">[0.92, 0.96]</td>
+              <td class="mono-num">-6.76</td>
+              <td class="mono-num">&lt; 0.0001</td>
+              <td>Monotonic decay per additional dial</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stat-footnote">
+        Statistical Verification: Multivariate Pre-Call Propensity Model ROC-AUC = 0.7704 | Zero post-call duration leakage verified.
+      </div>
+    </section>
+
+    <!-- Section 06: Policy Testing & Rollout Plan -->
+    <section class="report-section" id="rollout">
+      <div class="section-header-row">
+        <h2 class="section-title">How our 3-phase rollout saves 475 talk hours or adds up to 3,242 sign-ups</h2>
+        <span class="section-index">Section 06</span>
+      </div>
+
+      <div class="lead-copy">
+        <p>By coupling an automated 3-call cap with targeted bandwidth reallocation, our operations can either bank 475.2 hours in direct labor savings or channel that exact same agent capacity into high-converting prospect queues to generate 1,535 to 3,242 net new deposits.</p>
+      </div>
+
+      <!-- Embedded Figure 4 -->
+      <div class="chart-container">
+        <img src="assets/fig4_policy_reallocation_waterfall.png" alt="Figure 4: Policy Reallocation Waterfall" onclick="openLightbox(this.src)">
+        <div class="chart-caption-row">
+          <span>Figure 4: Total sign-ups and talk minutes per sign-up across baseline and rollout scenarios.</span>
+          <span class="lightbox-hint">[Click image to enlarge]</span>
+        </div>
+      </div>
+
+      <!-- 6-Row Scenario Comparison Table -->
+      <div class="table-wrapper">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Simulation Scenario</th>
+              <th>Calls Dialed</th>
+              <th>Calls Saved</th>
+              <th>Sign-Ups Won</th>
+              <th>Sign-Up Delta</th>
+              <th>Yield / Call</th>
+              <th>Talk Hours Saved</th>
+              <th>Min / Sign-Up</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Scenario 0 Baseline (Uncapped)</strong></td>
+              <td class="mono-num">105,754</td>
+              <td class="mono-num">0</td>
+              <td class="mono-num">4,640</td>
+              <td class="mono-num">0</td>
+              <td class="mono-num">4.39%</td>
+              <td class="mono-num">0.0 hrs</td>
+              <td class="mono-num">38.2 min</td>
+            </tr>
+            <tr style="background-color: #F8FAFC;">
+              <td><strong>Scenario 1A: Cohort 3-Call Cap</strong></td>
+              <td class="mono-num">54,805</td>
+              <td class="mono-num">50,949</td>
+              <td class="mono-num">4,085</td>
+              <td class="mono-num">-555 (88.04% kept)</td>
+              <td class="mono-num">7.45%</td>
+              <td class="mono-num"><strong>475.2 hrs</strong></td>
+              <td class="mono-num">36.4 min</td>
+            </tr>
+            <tr style="background-color: #F8FAFC;">
+              <td><strong>Scenario 1B: Truncated 3-Call Cap</strong></td>
+              <td class="mono-num">77,710</td>
+              <td class="mono-num">28,044</td>
+              <td class="mono-num">4,085</td>
+              <td class="mono-num">-555 (88.04% kept)</td>
+              <td class="mono-num">5.26%</td>
+              <td class="mono-num"><strong>475.2 hrs</strong></td>
+              <td class="mono-num">36.4 min</td>
+            </tr>
+            <tr style="background-color: #F0FDF4;">
+              <td><strong>Scenario 2A: Conservative Reallocation</strong></td>
+              <td class="mono-num">105,754</td>
+              <td class="mono-num">0</td>
+              <td class="mono-num">6,175</td>
+              <td class="mono-num"><strong>+1,535 (+33.1%)</strong></td>
+              <td class="mono-num">5.84%</td>
+              <td class="mono-num">Reinvested</td>
+              <td class="mono-num">28.7 min</td>
+            </tr>
+            <tr style="background-color: #F0FDF4;">
+              <td><strong>Scenario 2B: Low-Rate Priority Queue</strong></td>
+              <td class="mono-num">105,754</td>
+              <td class="mono-num">0</td>
+              <td class="mono-num">7,362</td>
+              <td class="mono-num"><strong>+2,722 (+58.7%)</strong></td>
+              <td class="mono-num">6.96%</td>
+              <td class="mono-num">Reinvested</td>
+              <td class="mono-num">24.1 min</td>
+            </tr>
+            <tr style="background-color: #ECFDF5;">
+              <td><strong>Scenario 2C: Full Bandwidth Reallocation</strong></td>
+              <td class="mono-num">105,754</td>
+              <td class="mono-num">0</td>
+              <td class="mono-num">7,882</td>
+              <td class="mono-num"><strong>+3,242 (+69.9%)</strong></td>
+              <td class="mono-num">7.45%</td>
+              <td class="mono-num">Reinvested</td>
+              <td class="mono-num"><strong>22.5 min</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 90-Day Rollout Plan Table -->
+      <div style="margin-top: 32px;">
+        <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; font-weight: 400; margin-bottom: 14px;">90-Day Operational Rollout Schedule</h3>
+      </div>
+      <div class="table-wrapper">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th style="width: 15%;">Rollout Phase</th>
+              <th style="width: 20%;">Recommended Action</th>
+              <th style="width: 20%;">Target Group</th>
+              <th style="width: 15%;">Team Owner</th>
+              <th style="width: 18%;">Expected Impact</th>
+              <th style="width: 12%;">Tracking Metric</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Phase 1: Immediate (Days 1 to 30)</strong></td>
+              <td><strong>Cap Outbound Calls at 3 Attempts</strong></td>
+              <td>All prospects reaching attempt 3 without signing up (7,635 past leads; 50,949 total dials)</td>
+              <td><strong>Call Center Operations Manager</strong></td>
+              <td><strong>Frees up 28,044 to 50,949 calls</strong> and saves <strong>475.2 hours</strong> of phone time while keeping <strong>88.04%</strong> of sign-ups (4,085 deposits)</td>
+              <td>Conversion rate on active calls stays above <strong>8.0%</strong>; kept sign-ups stay above <strong>85.0%</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 2: Near-Term (Days 30 to 60)</strong></td>
+              <td><strong>Mobile-First Routing &amp; 7-Day Past Buyer Fast-Lane</strong></td>
+              <td>Prospects with mobile numbers (26,144 leads) and prior campaign contacts (1,515 leads, especially &lt;=7 days)</td>
+              <td><strong>CRM &amp; Dialer Routing Team</strong></td>
+              <td><strong>Lifts channel conversion from 5.23% to 14.74% (2.82x)</strong> and captures <strong>65.11%</strong> conversion on past buyers</td>
+              <td>Share of daily dials routed to mobile numbers and % of warm leads called within 7 days.</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 3: Ongoing (Days 60 to 90)</strong></td>
+              <td><strong>Pre-Call Lead Scoring &amp; Interest Rate Pacing</strong></td>
+              <td>Shift dialer share from 31-45 working cohorts (9.37%) toward Seniors 60+ (45.49%), Students (31.43%), complete profiles (12.66%), and low-Euribor windows (24.46%)</td>
+              <td><strong>VP of Growth Marketing</strong></td>
+              <td><strong>Adds +1,535 to +3,242 net new sign-ups (+33.1% to +69.9%)</strong> using the exact same call volume (105,754 calls)</td>
+              <td>Overall campaign yield climbs from <strong>4.39% to 5.84%-7.45%</strong> sign-ups per 100 calls; talk time drops to <strong>22.5-28.7 min/sign-up</strong>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightboxImg" src="" alt="Enlarged Chart">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      modal.classList.add('active');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.remove('active');
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+  </script>
+</body>
+</html>
