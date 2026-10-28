@@ -1,0 +1,18 @@
+{
+  "total_raw_rows": 541909,
+  "clean_rows_count": 522544,
+  "clean_invoices_count": 19773,
+  "clean_revenue": 10247610.15,
+  "clean_skus_count": 3801,
+  "clean_customers_count": 4334,
+  "duplicates_removed": 5268,
+  "duplicates_revenue": 21740.98,
+  "guest_rows_count": 135080,
+  "guest_revenue_raw": 1447682.12,
+  "cancellation_rows": 9288,
+  "cancellation_invoices": 3836,
+  "cancellation_gross_value": -896812.49,
+  "cancellation_leakage_rate_pct": 8.047186641873445,
+  "adjustments_rows": 2517,
+  "non_merchandise_rows": 2940
+}

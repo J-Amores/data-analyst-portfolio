@@ -1,0 +1,987 @@
+{
+  "baseline": {
+    "total_clean_orders": 19773,
+    "total_clean_revenue": 10247610.149999999,
+    "total_clean_units": 5561323,
+    "unique_skus": 3801,
+    "unique_registered_customers": 4334,
+    "date_range_start": "2010-12-01",
+    "date_range_end": "2011-12-09",
+    "registered_orders": 18402,
+    "registered_revenue": 8737227.64,
+    "registered_revenue_pct": 85.26112441933597,
+    "guest_orders": 1371,
+    "guest_revenue": 1510382.5100000002,
+    "guest_revenue_pct": 14.738875580664049,
+    "total_cancelled_value": 896812.49,
+    "overall_leakage_rate_pct": 8.047186641873447
+  },
+  "overall_distribution": {
+    "basket_skus": {
+      "count": 19773,
+      "mean": 26.161634552167097,
+      "std": 47.02100471578266,
+      "median": 15.0,
+      "iqr": 23.0,
+      "p10": 2.0,
+      "p25": 6.0,
+      "p75": 29.0,
+      "p90": 52.0,
+      "p99": 218.0,
+      "min": 1.0,
+      "max": 1107.0
+    },
+    "aov": {
+      "count": 19773,
+      "mean": 518.2627901684114,
+      "std": 1764.1535940459667,
+      "median": 302.20000000000005,
+      "iqr": 329.81,
+      "p10": 71.4,
+      "p25": 151.68,
+      "p75": 481.49,
+      "p90": 915.7699999999998,
+      "p99": 4408.9255999999905,
+      "min": 0.38,
+      "max": 168469.6
+    }
+  },
+  "three_tier_distribution": {
+    "Small (1-2 SKUs)": {
+      "order_count": 2313,
+      "order_pct": 11.697769685935366,
+      "total_revenue": 710521.8500000001,
+      "revenue_pct": 6.933537084253739,
+      "basket_skus": {
+        "count": 2313,
+        "mean": 1.3514915693904022,
+        "std": 0.4775393578254254,
+        "median": 1.0,
+        "iqr": 1.0,
+        "p10": 1.0,
+        "p25": 1.0,
+        "p75": 2.0,
+        "p90": 2.0,
+        "p99": 2.0,
+        "min": 1.0,
+        "max": 2.0
+      },
+      "aov": {
+        "count": 2313,
+        "mean": 307.1862732382188,
+        "std": 3951.0334328840813,
+        "median": 57.599999999999994,
+        "iqr": 181.5,
+        "p10": 5.9,
+        "p25": 16.5,
+        "p75": 198.0,
+        "p90": 429.9200000000001,
+        "p99": 2002.488,
+        "min": 0.38,
+        "max": 168469.6
+      }
+    },
+    "Medium (3-5 SKUs)": {
+      "order_count": 2041,
+      "order_pct": 10.322156476002629,
+      "total_revenue": 645761.75,
+      "revenue_pct": 6.301583886853853,
+      "basket_skus": {
+        "count": 2041,
+        "mean": 3.9897109260166586,
+        "std": 0.8179313725006272,
+        "median": 4.0,
+        "iqr": 2.0,
+        "p10": 3.0,
+        "p25": 3.0,
+        "p75": 5.0,
+        "p90": 5.0,
+        "p99": 5.0,
+        "min": 3.0,
+        "max": 5.0
+      },
+      "aov": {
+        "count": 2041,
+        "mean": 316.3947819696227,
+        "std": 855.2124306709313,
+        "median": 140.85,
+        "iqr": 253.78,
+        "p10": 38.45,
+        "p25": 76.85,
+        "p75": 330.63,
+        "p90": 596.7,
+        "p99": 2571.7439999999997,
+        "min": 3.12,
+        "max": 21535.9
+      }
+    },
+    "Large (6+ SKUs)": {
+      "order_count": 15419,
+      "order_pct": 77.980073838062,
+      "total_revenue": 8891326.55,
+      "revenue_pct": 86.76487902889242,
+      "basket_skus": {
+        "count": 15419,
+        "mean": 32.8182761527985,
+        "std": 51.317559812551586,
+        "median": 20.0,
+        "iqr": 22.0,
+        "p10": 8.0,
+        "p25": 12.0,
+        "p75": 34.0,
+        "p90": 60.0,
+        "p99": 251.45999999999913,
+        "min": 6.0,
+        "max": 1107.0
+      },
+      "aov": {
+        "count": 15419,
+        "mean": 576.6474187690512,
+        "std": 1240.1510839242874,
+        "median": 322.3,
+        "iqr": 333.675,
+        "p10": 130.63600000000002,
+        "p25": 202.18,
+        "p75": 535.855,
+        "p90": 1022.8700000000001,
+        "p99": 4858.562799999997,
+        "min": 5.86,
+        "max": 52940.94
+      }
+    }
+  },
+  "detailed_tier_distribution": {
+    "1-2 SKUs": {
+      "order_count": 2313,
+      "order_pct": 11.697769685935366,
+      "total_revenue": 710521.8500000001,
+      "revenue_pct": 6.933537084253739,
+      "basket_skus": {
+        "count": 2313,
+        "mean": 1.3514915693904022,
+        "std": 0.4775393578254254,
+        "median": 1.0,
+        "iqr": 1.0,
+        "p10": 1.0,
+        "p25": 1.0,
+        "p75": 2.0,
+        "p90": 2.0,
+        "p99": 2.0,
+        "min": 1.0,
+        "max": 2.0
+      },
+      "aov": {
+        "count": 2313,
+        "mean": 307.1862732382188,
+        "std": 3951.0334328840813,
+        "median": 57.599999999999994,
+        "iqr": 181.5,
+        "p10": 5.9,
+        "p25": 16.5,
+        "p75": 198.0,
+        "p90": 429.9200000000001,
+        "p99": 2002.488,
+        "min": 0.38,
+        "max": 168469.6
+      }
+    },
+    "3-5 SKUs": {
+      "order_count": 2041,
+      "order_pct": 10.322156476002629,
+      "total_revenue": 645761.75,
+      "revenue_pct": 6.301583886853853,
+      "basket_skus": {
+        "count": 2041,
+        "mean": 3.9897109260166586,
+        "std": 0.8179313725006272,
+        "median": 4.0,
+        "iqr": 2.0,
+        "p10": 3.0,
+        "p25": 3.0,
+        "p75": 5.0,
+        "p90": 5.0,
+        "p99": 5.0,
+        "min": 3.0,
+        "max": 5.0
+      },
+      "aov": {
+        "count": 2041,
+        "mean": 316.3947819696227,
+        "std": 855.2124306709313,
+        "median": 140.85,
+        "iqr": 253.78,
+        "p10": 38.45,
+        "p25": 76.85,
+        "p75": 330.63,
+        "p90": 596.7,
+        "p99": 2571.7439999999997,
+        "min": 3.12,
+        "max": 21535.9
+      }
+    },
+    "6-15 SKUs": {
+      "order_count": 5622,
+      "order_pct": 28.43271127294796,
+      "total_revenue": 2119603.95,
+      "revenue_pct": 20.68388550085505,
+      "basket_skus": {
+        "count": 5622,
+        "mean": 10.316257559587335,
+        "std": 2.8946912638016706,
+        "median": 10.0,
+        "iqr": 5.0,
+        "p10": 6.0,
+        "p25": 8.0,
+        "p75": 13.0,
+        "p90": 14.0,
+        "p99": 15.0,
+        "min": 6.0,
+        "max": 15.0
+      },
+      "aov": {
+        "count": 5622,
+        "mean": 377.0195570971185,
+        "std": 925.9284316224343,
+        "median": 230.43,
+        "iqr": 189.82,
+        "p10": 108.875,
+        "p25": 149.51,
+        "p75": 339.33,
+        "p90": 590.2480000000008,
+        "p99": 2900.6479999999992,
+        "min": 5.86,
+        "max": 31698.159999999996
+      }
+    },
+    "16-30 SKUs": {
+      "order_count": 5253,
+      "order_pct": 26.566530116825977,
+      "total_revenue": 2376824.45,
+      "revenue_pct": 23.193939027822992,
+      "basket_skus": {
+        "count": 5253,
+        "mean": 21.814391776127927,
+        "std": 4.258990579718972,
+        "median": 21.0,
+        "iqr": 7.0,
+        "p10": 16.0,
+        "p25": 18.0,
+        "p75": 25.0,
+        "p90": 28.0,
+        "p99": 30.0,
+        "min": 16.0,
+        "max": 30.0
+      },
+      "aov": {
+        "count": 5253,
+        "mean": 452.4699124309918,
+        "std": 677.3537676720939,
+        "median": 335.5,
+        "iqr": 211.34,
+        "p10": 144.434,
+        "p25": 249.52,
+        "p75": 460.86,
+        "p90": 675.4640000000002,
+        "p99": 3159.996799999977,
+        "min": 28.009999999999998,
+        "max": 18841.48
+      }
+    },
+    "31+ SKUs": {
+      "order_count": 4544,
+      "order_pct": 22.98083244828807,
+      "total_revenue": 4394898.15,
+      "revenue_pct": 42.88705450021438,
+      "basket_skus": {
+        "count": 4544,
+        "mean": 73.3794014084507,
+        "std": 80.58542663885666,
+        "median": 48.0,
+        "iqr": 32.0,
+        "p10": 33.0,
+        "p25": 38.0,
+        "p75": 70.0,
+        "p90": 133.70000000000027,
+        "p99": 505.41999999999825,
+        "min": 31.0,
+        "max": 1107.0
+      },
+      "aov": {
+        "count": 4544,
+        "mean": 967.1870928697184,
+        "std": 1846.2593595172605,
+        "median": 550.575,
+        "iqr": 674.6775,
+        "p10": 193.41400000000002,
+        "p25": 300.28749999999997,
+        "p75": 974.965,
+        "p90": 1838.6130000000003,
+        "p99": 7271.9499,
+        "min": 45.57,
+        "max": 52940.94
+      }
+    }
+  },
+  "top_20_revenue_skus": [
+    {
+      "StockCode_str": "22423",
+      "Description": "REGENCY CAKESTAND 3 TIER",
+      "gross_revenue": 174156.54,
+      "order_frequency": 1988,
+      "total_quantity": 13851,
+      "avg_unit_price": 13.983936223218734,
+      "cancelled_revenue": 9722.550000000001,
+      "cancellation_rate_pct": 5.287469064590216
+    },
+    {
+      "StockCode_str": "23843",
+      "Description": "PAPER CRAFT , LITTLE BIRDIE",
+      "gross_revenue": 168469.6,
+      "order_frequency": 1,
+      "total_quantity": 80995,
+      "avg_unit_price": 2.08,
+      "cancelled_revenue": 168469.6,
+      "cancellation_rate_pct": 50.0
+    },
+    {
+      "StockCode_str": "85123A",
+      "Description": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "gross_revenue": 106415.23,
+      "order_frequency": 2265,
+      "total_quantity": 37933,
+      "avg_unit_price": 3.2195689655172415,
+      "cancelled_revenue": 6624.3,
+      "cancellation_rate_pct": 5.860162369747999
+    },
+    {
+      "StockCode_str": "47566",
+      "Description": "PARTY BUNTING",
+      "gross_revenue": 99445.23,
+      "order_frequency": 1685,
+      "total_quantity": 18283,
+      "avg_unit_price": 5.797928193054738,
+      "cancelled_revenue": 1201.3500000000001,
+      "cancellation_rate_pct": 1.1936322128382308
+    },
+    {
+      "StockCode_str": "85099B",
+      "Description": "JUMBO BAG RED RETROSPOT",
+      "gross_revenue": 94159.81,
+      "order_frequency": 2089,
+      "total_quantity": 48371,
+      "avg_unit_price": 2.4861972498814606,
+      "cancelled_revenue": 1984.02,
+      "cancellation_rate_pct": 2.0635957606431945
+    },
+    {
+      "StockCode_str": "23166",
+      "Description": "MEDIUM CERAMIC TOP STORAGE JAR",
+      "gross_revenue": 81700.92000000001,
+      "order_frequency": 247,
+      "total_quantity": 78033,
+      "avg_unit_price": 1.46848,
+      "cancelled_revenue": 77479.64000000001,
+      "cancellation_rate_pct": 48.67405919416291
+    },
+    {
+      "StockCode_str": "23084",
+      "Description": "RABBIT NIGHT LIGHT",
+      "gross_revenue": 66870.03,
+      "order_frequency": 994,
+      "total_quantity": 30739,
+      "avg_unit_price": 2.386401179941003,
+      "cancelled_revenue": 208.40000000000003,
+      "cancellation_rate_pct": 0.31068109375845565
+    },
+    {
+      "StockCode_str": "22086",
+      "Description": "PAPER CHAIN KIT 50'S CHRISTMAS",
+      "gross_revenue": 64875.590000000004,
+      "order_frequency": 1160,
+      "total_quantity": 19329,
+      "avg_unit_price": 3.362331081081081,
+      "cancelled_revenue": 1160.35,
+      "cancellation_rate_pct": 1.7571492129891688
+    },
+    {
+      "StockCode_str": "84879",
+      "Description": "ASSORTED COLOUR BIRD ORNAMENT",
+      "gross_revenue": 58927.62,
+      "order_frequency": 1455,
+      "total_quantity": 36362,
+      "avg_unit_price": 1.7225745257452574,
+      "cancelled_revenue": 135.20000000000002,
+      "cancellation_rate_pct": 0.22890881268452812
+    },
+    {
+      "StockCode_str": "79321",
+      "Description": "CHILLI LIGHTS",
+      "gross_revenue": 54096.36,
+      "order_frequency": 661,
+      "total_quantity": 10302,
+      "avg_unit_price": 6.7953973013493245,
+      "cancelled_revenue": 349.7,
+      "cancellation_rate_pct": 0.6422870635634608
+    },
+    {
+      "StockCode_str": "22502",
+      "Description": "PICNIC BASKET WICKER SMALL",
+      "gross_revenue": 51408.770000000004,
+      "order_frequency": 463,
+      "total_quantity": 1937,
+      "avg_unit_price": 10.30233905579399,
+      "cancelled_revenue": 385.25,
+      "cancellation_rate_pct": 0.7438117373395615
+    },
+    {
+      "StockCode_str": "22197",
+      "Description": "POPCORN HOLDER",
+      "gross_revenue": 51334.47,
+      "order_frequency": 1392,
+      "total_quantity": 56898,
+      "avg_unit_price": 1.0435543018335685,
+      "cancelled_revenue": 366.55,
+      "cancellation_rate_pct": 0.70898020967478
+    },
+    {
+      "StockCode_str": "23298",
+      "Description": "SPOTTY BUNTING",
+      "gross_revenue": 43148.18,
+      "order_frequency": 1146,
+      "total_quantity": 8466,
+      "avg_unit_price": 5.519121447028423,
+      "cancelled_revenue": 482.80999999999995,
+      "cancellation_rate_pct": 1.1065758535389638
+    },
+    {
+      "StockCode_str": "22386",
+      "Description": "JUMBO BAG PINK POLKADOT",
+      "gross_revenue": 42401.01,
+      "order_frequency": 1218,
+      "total_quantity": 21448,
+      "avg_unit_price": 2.598733766233766,
+      "cancelled_revenue": 816.58,
+      "cancellation_rate_pct": 1.8894621379859449
+    },
+    {
+      "StockCode_str": "23203",
+      "Description": "JUMBO BAG VINTAGE DOILY",
+      "gross_revenue": 42030.340000000004,
+      "order_frequency": 1231,
+      "total_quantity": 20485,
+      "avg_unit_price": 2.275764895330113,
+      "cancelled_revenue": 1076.4,
+      "cancellation_rate_pct": 2.4970573047277527
+    },
+    {
+      "StockCode_str": "21137",
+      "Description": "BLACK RECORD COVER FRAME",
+      "gross_revenue": 40633.38,
+      "order_frequency": 375,
+      "total_quantity": 11651,
+      "avg_unit_price": 4.215585106382979,
+      "cancelled_revenue": 55.17,
+      "cancellation_rate_pct": 0.13559097092425268
+    },
+    {
+      "StockCode_str": "23284",
+      "Description": "DOORMAT KEEP CALM AND COME IN",
+      "gross_revenue": 38133.64,
+      "order_frequency": 728,
+      "total_quantity": 5487,
+      "avg_unit_price": 8.776284153005465,
+      "cancelled_revenue": 1601.25,
+      "cancellation_rate_pct": 4.02983373050737
+    },
+    {
+      "StockCode_str": "22720",
+      "Description": "SET OF 3 CAKE TINS PANTRY DESIGN",
+      "gross_revenue": 38108.89,
+      "order_frequency": 1385,
+      "total_quantity": 7483,
+      "avg_unit_price": 5.83371408045977,
+      "cancelled_revenue": 744.95,
+      "cancellation_rate_pct": 1.9173137069592097
+    },
+    {
+      "StockCode_str": "22960",
+      "Description": "JAM MAKING SET WITH JARS",
+      "gross_revenue": 37082.13,
+      "order_frequency": 1132,
+      "total_quantity": 8695,
+      "avg_unit_price": 5.077669902912621,
+      "cancelled_revenue": 1012.79,
+      "cancellation_rate_pct": 2.6585959492761764
+    },
+    {
+      "StockCode_str": "82484",
+      "Description": "WOOD BLACK BOARD ANT WHITE FINISH",
+      "gross_revenue": 35966.92,
+      "order_frequency": 685,
+      "total_quantity": 6012,
+      "avg_unit_price": 8.440540145985402,
+      "cancelled_revenue": 170.95,
+      "cancellation_rate_pct": 0.4730494630701809
+    }
+  ],
+  "top_20_frequency_skus": [
+    {
+      "StockCode_str": "85123A",
+      "Description": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "gross_revenue": 106415.23,
+      "order_frequency": 2265,
+      "total_quantity": 37933,
+      "avg_unit_price": 3.2195689655172415,
+      "cancelled_revenue": 6624.3,
+      "cancellation_rate_pct": 5.860162369747999
+    },
+    {
+      "StockCode_str": "85099B",
+      "Description": "JUMBO BAG RED RETROSPOT",
+      "gross_revenue": 94159.81,
+      "order_frequency": 2089,
+      "total_quantity": 48371,
+      "avg_unit_price": 2.4861972498814606,
+      "cancelled_revenue": 1984.02,
+      "cancellation_rate_pct": 2.0635957606431945
+    },
+    {
+      "StockCode_str": "22423",
+      "Description": "REGENCY CAKESTAND 3 TIER",
+      "gross_revenue": 174156.54,
+      "order_frequency": 1988,
+      "total_quantity": 13851,
+      "avg_unit_price": 13.983936223218734,
+      "cancelled_revenue": 9722.550000000001,
+      "cancellation_rate_pct": 5.287469064590216
+    },
+    {
+      "StockCode_str": "47566",
+      "Description": "PARTY BUNTING",
+      "gross_revenue": 99445.23,
+      "order_frequency": 1685,
+      "total_quantity": 18283,
+      "avg_unit_price": 5.797928193054738,
+      "cancelled_revenue": 1201.3500000000001,
+      "cancellation_rate_pct": 1.1936322128382308
+    },
+    {
+      "StockCode_str": "20725",
+      "Description": "LUNCH BAG RED RETROSPOT",
+      "gross_revenue": 35862.36,
+      "order_frequency": 1565,
+      "total_quantity": 19432,
+      "avg_unit_price": 2.1314222503160556,
+      "cancelled_revenue": 854.6999999999999,
+      "cancellation_rate_pct": 2.3278007552892306
+    },
+    {
+      "StockCode_str": "84879",
+      "Description": "ASSORTED COLOUR BIRD ORNAMENT",
+      "gross_revenue": 58927.62,
+      "order_frequency": 1455,
+      "total_quantity": 36362,
+      "avg_unit_price": 1.7225745257452574,
+      "cancelled_revenue": 135.20000000000002,
+      "cancellation_rate_pct": 0.22890881268452812
+    },
+    {
+      "StockCode_str": "22197",
+      "Description": "POPCORN HOLDER",
+      "gross_revenue": 51334.47,
+      "order_frequency": 1392,
+      "total_quantity": 56898,
+      "avg_unit_price": 1.0435543018335685,
+      "cancelled_revenue": 366.55,
+      "cancellation_rate_pct": 0.70898020967478
+    },
+    {
+      "StockCode_str": "22720",
+      "Description": "SET OF 3 CAKE TINS PANTRY DESIGN",
+      "gross_revenue": 38108.89,
+      "order_frequency": 1385,
+      "total_quantity": 7483,
+      "avg_unit_price": 5.83371408045977,
+      "cancelled_revenue": 744.95,
+      "cancellation_rate_pct": 1.9173137069592097
+    },
+    {
+      "StockCode_str": "21212",
+      "Description": "PACK OF 72 RETROSPOT CAKE CASES",
+      "gross_revenue": 21246.45,
+      "order_frequency": 1320,
+      "total_quantity": 36396,
+      "avg_unit_price": 0.7612056213017753,
+      "cancelled_revenue": 199.38000000000002,
+      "cancellation_rate_pct": 0.9296912266860271
+    },
+    {
+      "StockCode_str": "22383",
+      "Description": "LUNCH BAG SUKI DESIGN",
+      "gross_revenue": 22486.34,
+      "order_frequency": 1284,
+      "total_quantity": 12518,
+      "avg_unit_price": 2.168208269525268,
+      "cancelled_revenue": 223.8,
+      "cancellation_rate_pct": 0.9854628813384683
+    },
+    {
+      "StockCode_str": "20727",
+      "Description": "LUNCH BAG  BLACK SKULL.",
+      "gross_revenue": 22346.96,
+      "order_frequency": 1273,
+      "total_quantity": 12195,
+      "avg_unit_price": 2.1077863182167564,
+      "cancelled_revenue": 202.20000000000002,
+      "cancellation_rate_pct": 0.8967074604996372
+    },
+    {
+      "StockCode_str": "22457",
+      "Description": "NATURAL SLATE HEART CHALKBOARD",
+      "gross_revenue": 27991.61,
+      "order_frequency": 1249,
+      "total_quantity": 9119,
+      "avg_unit_price": 3.59003187250996,
+      "cancelled_revenue": 152.6,
+      "cancellation_rate_pct": 0.5422074380485364
+    },
+    {
+      "StockCode_str": "23203",
+      "Description": "JUMBO BAG VINTAGE DOILY",
+      "gross_revenue": 42030.340000000004,
+      "order_frequency": 1231,
+      "total_quantity": 20485,
+      "avg_unit_price": 2.275764895330113,
+      "cancelled_revenue": 1076.4,
+      "cancellation_rate_pct": 2.4970573047277527
+    },
+    {
+      "StockCode_str": "22386",
+      "Description": "JUMBO BAG PINK POLKADOT",
+      "gross_revenue": 42401.01,
+      "order_frequency": 1218,
+      "total_quantity": 21448,
+      "avg_unit_price": 2.598733766233766,
+      "cancelled_revenue": 816.58,
+      "cancellation_rate_pct": 1.8894621379859449
+    },
+    {
+      "StockCode_str": "22469",
+      "Description": "HEART OF WICKER SMALL",
+      "gross_revenue": 32094.6,
+      "order_frequency": 1201,
+      "total_quantity": 17963,
+      "avg_unit_price": 1.959712879409352,
+      "cancelled_revenue": 207.95000000000002,
+      "cancellation_rate_pct": 0.6437572265966619
+    },
+    {
+      "StockCode_str": "21931",
+      "Description": "JUMBO STORAGE BAG SUKI",
+      "gross_revenue": 30764.01,
+      "order_frequency": 1184,
+      "total_quantity": 13651,
+      "avg_unit_price": 2.746616415410385,
+      "cancelled_revenue": 602.33,
+      "cancellation_rate_pct": 1.9203069277448372
+    },
+    {
+      "StockCode_str": "22411",
+      "Description": "JUMBO SHOPPER VINTAGE RED PAISLEY",
+      "gross_revenue": 28577.1,
+      "order_frequency": 1175,
+      "total_quantity": 12574,
+      "avg_unit_price": 2.689254237288136,
+      "cancelled_revenue": 622.4700000000001,
+      "cancellation_rate_pct": 2.1317779679632274
+    },
+    {
+      "StockCode_str": "22961",
+      "Description": "JAM MAKING SET PRINTED",
+      "gross_revenue": 25637.78,
+      "order_frequency": 1162,
+      "total_quantity": 16396,
+      "avg_unit_price": 1.9049140893470793,
+      "cancelled_revenue": 425.75,
+      "cancellation_rate_pct": 1.633508584600781
+    },
+    {
+      "StockCode_str": "22086",
+      "Description": "PAPER CHAIN KIT 50'S CHRISTMAS",
+      "gross_revenue": 64875.590000000004,
+      "order_frequency": 1160,
+      "total_quantity": 19329,
+      "avg_unit_price": 3.362331081081081,
+      "cancelled_revenue": 1160.35,
+      "cancellation_rate_pct": 1.7571492129891688
+    },
+    {
+      "StockCode_str": "22382",
+      "Description": "LUNCH BAG SPACEBOY DESIGN",
+      "gross_revenue": 18031.31,
+      "order_frequency": 1157,
+      "total_quantity": 10427,
+      "avg_unit_price": 2.0130927835051544,
+      "cancelled_revenue": 242.35,
+      "cancellation_rate_pct": 1.3262258354374548
+    }
+  ],
+  "monthly_summary": [
+    {
+      "invoice_YearMonth": "2010-12",
+      "order_count": 1550,
+      "gross_revenue": 775714.95,
+      "total_units": 357531,
+      "mean_aov": 500.4612580645161,
+      "median_aov": 254.39499999999998,
+      "mean_basket_size": 26.044516129032257,
+      "large_basket_pct": 73.16129032258064
+    },
+    {
+      "invoice_YearMonth": "2011-01",
+      "order_count": 1081,
+      "gross_revenue": 670439.4600000001,
+      "total_units": 386741,
+      "mean_aov": 620.2030157261795,
+      "median_aov": 305.07,
+      "mean_basket_size": 31.14708603145236,
+      "large_basket_pct": 79.64847363552266
+    },
+    {
+      "invoice_YearMonth": "2011-02",
+      "order_count": 1093,
+      "gross_revenue": 507850.09,
+      "total_units": 282625,
+      "mean_aov": 464.63869167429095,
+      "median_aov": 303.00000000000006,
+      "mean_basket_size": 24.24794144556267,
+      "large_basket_pct": 78.13357731015553
+    },
+    {
+      "invoice_YearMonth": "2011-03",
+      "order_count": 1440,
+      "gross_revenue": 689716.82,
+      "total_units": 376145,
+      "mean_aov": 478.97001388888884,
+      "median_aov": 292.78499999999997,
+      "mean_basket_size": 24.319444444444443,
+      "large_basket_pct": 77.15277777777779
+    },
+    {
+      "invoice_YearMonth": "2011-04",
+      "order_count": 1235,
+      "gross_revenue": 515463.08,
+      "total_units": 307653,
+      "mean_aov": 417.379012145749,
+      "median_aov": 300.12,
+      "mean_basket_size": 23.13441295546559,
+      "large_basket_pct": 77.89473684210526
+    },
+    {
+      "invoice_YearMonth": "2011-05",
+      "order_count": 1668,
+      "gross_revenue": 740000.14,
+      "total_units": 394646,
+      "mean_aov": 443.64516786570744,
+      "median_aov": 304.41999999999996,
+      "mean_basket_size": 21.28896882494005,
+      "large_basket_pct": 75.1199040767386
+    },
+    {
+      "invoice_YearMonth": "2011-06",
+      "order_count": 1525,
+      "gross_revenue": 737683.99,
+      "total_units": 388129,
+      "mean_aov": 483.72720655737703,
+      "median_aov": 283.95,
+      "mean_basket_size": 23.151475409836067,
+      "large_basket_pct": 76.72131147540983
+    },
+    {
+      "invoice_YearMonth": "2011-07",
+      "order_count": 1452,
+      "gross_revenue": 688178.1199999999,
+      "total_units": 399264,
+      "mean_aov": 473.9518732782368,
+      "median_aov": 301.23,
+      "mean_basket_size": 26.133608815426996,
+      "large_basket_pct": 78.65013774104683
+    },
+    {
+      "invoice_YearMonth": "2011-08",
+      "order_count": 1339,
+      "gross_revenue": 724288.4199999999,
+      "total_units": 420695,
+      "mean_aov": 540.9174159820761,
+      "median_aov": 305.34000000000003,
+      "mean_basket_size": 25.287528005974607,
+      "large_basket_pct": 77.59522031366691
+    },
+    {
+      "invoice_YearMonth": "2011-09",
+      "order_count": 1818,
+      "gross_revenue": 1028338.8,
+      "total_units": 568699,
+      "mean_aov": 565.6429042904291,
+      "median_aov": 323.42,
+      "mean_basket_size": 26.572607260726073,
+      "large_basket_pct": 80.8030803080308
+    },
+    {
+      "invoice_YearMonth": "2011-10",
+      "order_count": 2005,
+      "gross_revenue": 1103327.63,
+      "total_units": 619597,
+      "mean_aov": 550.2880947630922,
+      "median_aov": 311.76,
+      "mean_basket_size": 28.66633416458853,
+      "large_basket_pct": 80.1995012468828
+    },
+    {
+      "invoice_YearMonth": "2011-11",
+      "order_count": 2751,
+      "gross_revenue": 1452112.6900000002,
+      "total_units": 746951,
+      "mean_aov": 527.8490330788804,
+      "median_aov": 297.65000000000003,
+      "mean_basket_size": 29.217739003998545,
+      "large_basket_pct": 79.46201381315885
+    },
+    {
+      "invoice_YearMonth": "2011-12",
+      "order_count": 816,
+      "gross_revenue": 614495.96,
+      "total_units": 312647,
+      "mean_aov": 753.0587745098039,
+      "median_aov": 295.46000000000004,
+      "mean_basket_size": 29.872549019607842,
+      "large_basket_pct": 77.20588235294117
+    }
+  ],
+  "day_of_week_summary": [
+    {
+      "day_of_week": "Monday",
+      "order_count": 3076,
+      "gross_revenue": 1682958.17,
+      "mean_aov": 547.1255429128738,
+      "median_aov": 304.985
+    },
+    {
+      "day_of_week": "Tuesday",
+      "order_count": 3509,
+      "gross_revenue": 2085029.78,
+      "mean_aov": 594.1948646337988,
+      "median_aov": 309.35
+    },
+    {
+      "day_of_week": "Wednesday",
+      "order_count": 3667,
+      "gross_revenue": 1782370.47,
+      "mean_aov": 486.0568502863376,
+      "median_aov": 303.15000000000003
+    },
+    {
+      "day_of_week": "Thursday",
+      "order_count": 4209,
+      "gross_revenue": 2131735.86,
+      "mean_aov": 506.4708624376336,
+      "median_aov": 300.84000000000003
+    },
+    {
+      "day_of_week": "Friday",
+      "order_count": 3109,
+      "gross_revenue": 1767204.37,
+      "mean_aov": 568.4156867159859,
+      "median_aov": 303.91
+    },
+    {
+      "day_of_week": "Sunday",
+      "order_count": 2203,
+      "gross_revenue": 798311.5,
+      "mean_aov": 362.37471629596007,
+      "median_aov": 262.42
+    }
+  ],
+  "country_summary": [
+    {
+      "Country": "United Kingdom",
+      "order_count": 17901,
+      "gross_revenue": 8724834.5,
+      "mean_aov": 487.39369308977155,
+      "median_aov": 299.67,
+      "mean_basket_size": 26.46394056197978,
+      "median_basket_size": 15.0,
+      "wholesale_pct": 77.44260097201273
+    },
+    {
+      "Country": "Netherlands",
+      "order_count": 93,
+      "gross_revenue": 283889.33999999997,
+      "mean_aov": 3052.5735483870963,
+      "median_aov": 814.62,
+      "mean_basket_size": 24.967741935483872,
+      "median_basket_size": 13.0,
+      "wholesale_pct": 76.34408602150538
+    },
+    {
+      "Country": "EIRE",
+      "order_count": 282,
+      "gross_revenue": 270850.86,
+      "mean_aov": 960.4640425531915,
+      "median_aov": 624.71,
+      "mean_basket_size": 27.5354609929078,
+      "median_basket_size": 22.5,
+      "wholesale_pct": 84.75177304964538
+    },
+    {
+      "Country": "Germany",
+      "order_count": 443,
+      "gross_revenue": 205381.15,
+      "mean_aov": 463.61433408577875,
+      "median_aov": 318.85,
+      "mean_basket_size": 19.48758465011287,
+      "median_basket_size": 14.0,
+      "wholesale_pct": 81.03837471783297
+    },
+    {
+      "Country": "France",
+      "order_count": 382,
+      "gross_revenue": 184493.0,
+      "mean_aov": 482.9659685863874,
+      "median_aov": 344.57,
+      "mean_basket_size": 21.112565445026178,
+      "median_basket_size": 17.0,
+      "wholesale_pct": 87.17277486910994
+    },
+    {
+      "Country": "Australia",
+      "order_count": 56,
+      "gross_revenue": 138103.81,
+      "mean_aov": 2466.1394642857144,
+      "median_aov": 430.45000000000005,
+      "mean_basket_size": 21.053571428571427,
+      "median_basket_size": 10.0,
+      "wholesale_pct": 66.07142857142857
+    },
+    {
+      "Country": "Spain",
+      "order_count": 88,
+      "gross_revenue": 55706.56,
+      "mean_aov": 633.0290909090909,
+      "median_aov": 363.055,
+      "mean_basket_size": 27.28409090909091,
+      "median_basket_size": 21.0,
+      "wholesale_pct": 85.22727272727273
+    },
+    {
+      "Country": "Switzerland",
+      "order_count": 50,
+      "gross_revenue": 53065.6,
+      "mean_aov": 1061.312,
+      "median_aov": 557.185,
+      "mean_basket_size": 38.28,
+      "median_basket_size": 25.0,
+      "wholesale_pct": 84.0
+    }
+  ]
+}

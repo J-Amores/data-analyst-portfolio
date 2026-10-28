@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Merchandising Decision Cockpit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0F172A;
+      --bg-panel: #1E293B;
+      --bg-panel-alt: #162032;
+      --bg-card: #273549;
+      --border-slate: #334155;
+      --border-highlight: #475569;
+      --text-white: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --emerald-400: #34D399;
+      --emerald-500: #10B981;
+      --emerald-900: rgba(16, 185, 129, 0.15);
+      --crimson-400: #F87171;
+      --crimson-500: #EF4444;
+      --crimson-900: rgba(239, 68, 68, 0.18);
+      --amber-400: #FBBF24;
+      --amber-500: #F59E0B;
+      --blue-400: #38BDF8;
+      --blue-500: #0EA5E9;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 4rem;
+    }
+
+    /* Sticky Navigation */
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-slate);
+      padding: 0.85rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-white);
+    }
+
+    .badge-mode {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--emerald-400);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .back-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.15s ease;
+    }
+
+    .back-btn:hover {
+      color: var(--text-white);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Header */
+    .header-box {
+      margin-bottom: 2rem;
+    }
+
+    .header-tagline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--emerald-400);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .header-h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .header-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 950px;
+    }
+
+    /* Alert Banner (Guardrail 1 Breach) */
+    .alert-banner {
+      display: none;
+      background: var(--crimson-900);
+      border: 1px solid var(--crimson-500);
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.35rem;
+      margin-bottom: 1.75rem;
+      animation: pulseAlert 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { border-color: var(--crimson-500); }
+      50% { border-color: rgba(239, 68, 68, 0.4); }
+    }
+
+    .alert-banner.active {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .alert-icon {
+      color: var(--crimson-400);
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .alert-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--crimson-400);
+      margin-bottom: 0.25rem;
+    }
+
+    .alert-text {
+      font-size: 0.86rem;
+      color: #FECACA;
+      line-height: 1.5;
+    }
+
+    /* 4 Scorecard Tiles */
+    .scorecards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .scorecard {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-slate);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.15rem;
+      position: relative;
+    }
+
+    .scorecard-label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .scorecard-val {
+      font-size: 1.75rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-white);
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+    }
+
+    .scorecard.gross .scorecard-val { color: var(--blue-400); }
+    .scorecard.cost .scorecard-val { color: var(--crimson-400); }
+    .scorecard.net .scorecard-val { color: var(--emerald-400); }
+    .scorecard.guardrail .scorecard-val { font-size: 1.45rem; }
+
+    .scorecard-sub {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    /* Main Simulator Layout: 2 Columns */
+    .simulator-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Controls Panel */
+    .controls-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-slate);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .controls-header {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-slate);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .controls-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: 1px solid var(--border-slate);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0.3rem 0.65rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .reset-btn:hover {
+      background: var(--bg-card);
+      color: var(--text-white);
+      border-color: var(--border-highlight);
+    }
+
+    /* Sliders */
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .slider-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .slider-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-white);
+    }
+
+    .slider-val-bubble {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--emerald-400);
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .slider-desc {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      line-height: 1.35;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: var(--bg-card);
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+      margin: 0.4rem 0;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--emerald-500);
+      cursor: pointer;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      transition: transform 0.1s ease;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    /* Toggle Switch */
+    .toggle-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-slate);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--border-slate);
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--emerald-500);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    .toggle-content {
+      font-size: 0.82rem;
+    }
+
+    .toggle-title {
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 0.2rem;
+    }
+
+    .toggle-desc {
+      color: var(--text-dim);
+      font-size: 0.74rem;
+      line-height: 1.35;
+    }
+
+    /* Presets */
+    .presets-box {
+      margin-top: 0.5rem;
+    }
+
+    .presets-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .presets-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .preset-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-slate);
+      color: var(--text-muted);
+      padding: 0.45rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+
+    .preset-btn:hover {
+      background: var(--border-slate);
+      color: var(--text-white);
+    }
+
+    /* Right Column: Visualization & Detailed Breakdown */
+    .viz-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-slate);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .viz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-slate);
+    }
+
+    .viz-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    /* Waterfall Bar Visualizer */
+    .waterfall-display {
+      background: var(--bg-panel-alt);
+      border: 1px solid var(--border-slate);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .wf-bar-row {
+      margin-bottom: 1rem;
+    }
+
+    .wf-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .wf-bar-track {
+      height: 20px;
+      background: var(--bg-card);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .wf-bar-fill {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .wf-bar-fill.gross { background: linear-gradient(90deg, #0284C7, #38BDF8); }
+    .wf-bar-fill.cost { background: linear-gradient(90deg, #DC2626, #F87171); }
+    .wf-bar-fill.net { background: linear-gradient(90deg, #059669, #34D399); }
+
+    /* Interactive Table */
+    .table-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-slate);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+      margin-top: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.84rem;
+    }
+
+    th {
+      background: var(--bg-panel-alt);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-slate);
+    }
+
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-slate);
+      vertical-align: middle;
+      color: var(--text-white);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    tr.row-flagged td {
+      background: rgba(239, 68, 68, 0.06);
+    }
+
+    tr.row-excluded {
+      opacity: 0.35;
+      filter: grayscale(0.8);
+    }
+
+    .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .badge-pass {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald-400);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+
+    .badge-breach {
+      background: rgba(239, 68, 68, 0.18);
+      color: var(--crimson-400);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+    }
+
+    .badge-excluded {
+      background: rgba(100, 116, 139, 0.2);
+      color: var(--text-dim);
+      border: 1px solid var(--border-slate);
+    }
+
+    /* Baseline Stats Strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      background: var(--bg-panel-alt);
+      border: 1px solid var(--border-slate);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .strip-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .strip-label {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .strip-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-white);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    @media (max-width: 1024px) {
+      .simulator-grid { grid-template-columns: 1fr; }
+      .scorecards-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .scorecards-grid { grid-template-columns: 1fr; }
+      .stats-strip { grid-template-columns: 1fr; }
+      .nav-title { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header Bar -->
+  <nav class="nav-bar">
+    <div class="nav-left">
+      <a href="index.html" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Back to Executive Report</span>
+      </a>
+      <span style="color: var(--border-slate);">|</span>
+      <span class="nav-title">Merchandising Decision Cockpit</span>
+      <span class="badge-mode">REAL-TIME SIMULATOR</span>
+    </div>
+    <div class="nav-right">
+      <span style="font-size: 0.78rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">Online Retail Ledger V2.0</span>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Header Section -->
+    <header class="header-box">
+      <div class="header-tagline">Econometric Policy Simulator</div>
+      <h1 class="header-h1">Merchandising Bundle & Profitability Decision Cockpit</h1>
+      <p class="header-desc">
+        Evaluate net promotional revenue lift across single-unit retail and multi-unit wholesale intake modes. Test the financial impact of Guardrail 1 return rate enforcement to protect net contribution margins.
+      </p>
+    </header>
+
+    <!-- Guardrail 1 Breach Alert Banner -->
+    <div id="alertBanner" class="alert-banner">
+      <div class="alert-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="alert-title">GUARDRAIL 1 BREACH: High-Return SKU Included in Storefront Bundles</div>
+        <div class="alert-text">
+          Anchor SKU <strong>23170 (Regency Tea Plate Roses)</strong> has an observed return rate of <strong>8.62%</strong>, exceeding the 5.0% risk ceiling. While mathematical gross attach increases, un-quarantined reverse logistics costs, restocking overhead, and credit cancellations will severely erode realized margin. Re-enable Guardrail 1 to quarantine this item!
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Real-Time Scorecard Tiles -->
+    <div class="scorecards-grid">
+      <div class="scorecard gross">
+        <div class="scorecard-label">Gross Incremental Attach</div>
+        <div id="cardGross" class="scorecard-val">£3,549.72</div>
+        <div class="scorecard-sub">New revenue from solo anchor buyers</div>
+      </div>
+      <div class="scorecard cost">
+        <div class="scorecard-label">Cannibalized Discount Cost</div>
+        <div id="cardCost" class="scorecard-val">-£601.68</div>
+        <div class="scorecard-sub">Discount conceded to organic pair buyers</div>
+      </div>
+      <div class="scorecard net">
+        <div class="scorecard-label">Net Incremental Profit Lift</div>
+        <div id="cardNet" class="scorecard-val">+£2,948.04</div>
+        <div id="cardNetSub" class="scorecard-sub">+83.1% margin efficiency</div>
+      </div>
+      <div class="scorecard guardrail">
+        <div class="scorecard-label">Guardrail 1 Compliance</div>
+        <div id="cardStatus" class="scorecard-val" style="color: var(--emerald-400);">PASS</div>
+        <div id="cardStatusSub" class="scorecard-sub">All active SKUs &lt; 5.0% return rate</div>
+      </div>
+    </div>
+
+    <!-- Simulator Layout -->
+    <div class="simulator-grid">
+
+      <!-- Left Column: Sliders & Policy Toggles -->
+      <aside class="controls-panel">
+        <div class="controls-header">
+          <span class="controls-title">Policy Parameters</span>
+          <button id="resetBtn" class="reset-btn">Reset Defaults</button>
+        </div>
+
+        <!-- Slider 1: Promotional Discount -->
+        <div class="slider-group">
+          <div class="slider-meta">
+            <label for="sliderDiscount" class="slider-label">Promotional Bundle Discount</label>
+            <span id="valDiscount" class="slider-val-bubble">10%</span>
+          </div>
+          <input type="range" id="sliderDiscount" min="0" max="25" step="1" value="10">
+          <span class="slider-desc">Co-purchase incentive applied to combined bundle retail price (0% to 25%).</span>
+        </div>
+
+        <!-- Slider 2: Solo Attach Rate -->
+        <div class="slider-group">
+          <div class="slider-meta">
+            <label for="sliderAttach" class="slider-label">Solo Anchor Attach Rate</label>
+            <span id="valAttach" class="slider-val-bubble">25%</span>
+          </div>
+          <input type="range" id="sliderAttach" min="5" max="50" step="1" value="25">
+          <span class="slider-desc">Conversion rate of shoppers buying anchor item who accept bundle suggestion (5% to 50%).</span>
+        </div>
+
+        <!-- Slider 3: Cannibalization Rate -->
+        <div class="slider-group">
+          <div class="slider-meta">
+            <label for="sliderRedemption" class="slider-label">Organic Redemption (Cannibalization)</label>
+            <span id="valRedemption" class="slider-val-bubble">30%</span>
+          </div>
+          <input type="range" id="sliderRedemption" min="0" max="100" step="5" value="30">
+          <span class="slider-desc">Share of natural co-purchasers who claim promotional discount instead of full price (0% to 100%).</span>
+        </div>
+
+        <!-- Slider 4: Scale Multiplier -->
+        <div class="slider-group">
+          <div class="slider-meta">
+            <label for="sliderScale" class="slider-label">Order Scale Multiplier</label>
+            <span id="valScale" class="slider-val-bubble">1.0x (Retail)</span>
+          </div>
+          <input type="range" id="sliderScale" min="1.0" max="8.3" step="0.1" value="1.0">
+          <span class="slider-desc">1.0x single-unit retail storefront up to 8.3x wholesale multi-pack intake volume (+£24,500+ scale).</span>
+        </div>
+
+        <!-- Guardrail 1 Enforcement Toggle -->
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleGuardrail" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="toggle-content">
+            <div class="toggle-title">Enforce Guardrail 1 (&lt; 5.0% Return Rate)</div>
+            <div class="toggle-desc">
+              When checked, automatically excludes fragile SKU 23170 (8.62% return rate). Uncheck to test the risk of un-quarantined bundling.
+            </div>
+          </div>
+        </div>
+
+        <!-- Preset Buttons -->
+        <div class="presets-box">
+          <div class="presets-label">Operational Presets</div>
+          <div class="presets-grid">
+            <button class="preset-btn" onclick="applyPreset(10, 25, 30, 1.0, true)">Retail Baseline (10%)</button>
+            <button class="preset-btn" onclick="applyPreset(5, 20, 20, 1.0, true)">Conservative (5%)</button>
+            <button class="preset-btn" onclick="applyPreset(15, 35, 40, 1.0, true)">Aggressive (15%)</button>
+            <button class="preset-btn" onclick="applyPreset(10, 25, 30, 8.3, true)">Wholesale Scale (8.3x)</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Column: Visualizer & Breakdown -->
+      <section class="viz-panel">
+        <div class="viz-header">
+          <span class="viz-title">Dynamic Revenue & Margin Visualizer</span>
+          <span id="vizScaleIndicator" class="badge-mode">1.0x RETAIL SCALE</span>
+        </div>
+
+        <!-- Visual Bar Breakdown -->
+        <div class="waterfall-display">
+          <div class="wf-bar-row">
+            <div class="wf-bar-label">
+              <span style="color: var(--blue-400);">Gross Incremental Attach Revenue</span>
+              <span id="barGrossVal" class="num" style="color: var(--blue-400);">£3,549.72</span>
+            </div>
+            <div class="wf-bar-track">
+              <div id="barGrossFill" class="wf-bar-fill gross" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <div class="wf-bar-row">
+            <div class="wf-bar-label">
+              <span style="color: var(--crimson-400);">Less Promotional Discount Cost (Cannibalization)</span>
+              <span id="barCostVal" class="num" style="color: var(--crimson-400);">-£601.68</span>
+            </div>
+            <div class="wf-bar-track">
+              <div id="barCostFill" class="wf-bar-fill cost" style="width: 17%;"></div>
+            </div>
+          </div>
+
+          <div class="wf-bar-row" style="margin-bottom: 0;">
+            <div class="wf-bar-label">
+              <span style="color: var(--emerald-400);">Net Incremental Margin Lift</span>
+              <span id="barNetVal" class="num" style="color: var(--emerald-400); font-weight: 700;">+£2,948.04</span>
+            </div>
+            <div class="wf-bar-track">
+              <div id="barNetFill" class="wf-bar-fill net" style="width: 83%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commercial Takeaway Box -->
+        <div style="background: var(--bg-panel-alt); border: 1px solid var(--border-slate); border-radius: var(--radius-md); padding: 1.15rem;">
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-white); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            Decision Rule: Guardrail 2 Margin Retention
+          </div>
+          <div id="decisionText" style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.45;">
+            At a 10% promotional discount, the policy retains 83.1% of gross incremental attach value after fully absorbing organic cannibalization. Net lift remains strongly positive across all tested product categories.
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Interactive Bundle Table -->
+    <div class="table-panel">
+      <table>
+        <thead>
+          <tr>
+            <th>Bundle ID & Family</th>
+            <th>Anchor & Attachment SKUs</th>
+            <th>Affinity Metrics</th>
+            <th>Unit Price</th>
+            <th>Incremental Units</th>
+            <th>Gross Attach (£)</th>
+            <th>Discount Cost (-£)</th>
+            <th>Net Lift (£)</th>
+            <th>Return Rate</th>
+            <th>Guardrail 1</th>
+          </tr>
+        </thead>
+        <tbody id="bundleTableBody">
+          <!-- Populated dynamically by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Verified Baseline Portfolio Stats -->
+    <div class="stats-strip">
+      <div class="strip-item">
+        <span class="strip-label">Commercial GMV</span>
+        <span class="strip-val">£10,247,610.15</span>
+      </div>
+      <div class="strip-item">
+        <span class="strip-label">Valid Invoices</span>
+        <span class="strip-val">19,773 Orders</span>
+      </div>
+      <div class="strip-item">
+        <span class="strip-label">Cancellation Leakage</span>
+        <span class="strip-val" style="color: var(--crimson-400);">8.05% (-£896.81k)</span>
+      </div>
+      <div class="strip-item">
+        <span class="strip-label">Guest Revenue Saved</span>
+        <span class="strip-val" style="color: var(--emerald-400);">£1,510,382.51 (14.74%)</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Embedded Self-Contained Simulation Engine -->
+  <script>
+    // Verified Empirical Data from Phase 1 & data/exports/cockpit_bundle_cube.json
+    const BUNDLES_DATA = [
+      {
+        id: "BDL-01",
+        name: "Regency Heritage Teaware Duet",
+        family: "Regency Teaware Collection",
+        anchorSku: "22697",
+        anchorDesc: "GREEN REGENCY TEACUP",
+        attachSku: "22699",
+        attachDesc: "ROSES REGENCY TEACUP",
+        supportPct: 3.88,
+        confidencePct: 75.72,
+        lift: 14.06,
+        priceA: 3.83536,
+        priceB: 3.66143,
+        combinedPrice: 7.49679,
+        soloOrders: 246,
+        pairOrders: 767,
+        returnRate: 3.81,
+        isFlagged: false
+      },
+      {
+        id: "BDL-02",
+        name: "Retro Storage Organizer Pack",
+        family: "Jumbo Storage Bags",
+        anchorSku: "85099B",
+        anchorDesc: "JUMBO BAG RED RETROSPOT",
+        attachSku: "22386",
+        attachDesc: "JUMBO BAG PINK POLKADOT",
+        supportPct: 4.17,
+        confidencePct: 39.49,
+        lift: 6.41,
+        priceA: 2.48620,
+        priceB: 2.59873,
+        combinedPrice: 5.08493,
+        soloOrders: 1264,
+        pairOrders: 825,
+        returnRate: 2.06,
+        isFlagged: false
+      },
+      {
+        id: "BDL-03",
+        name: "Vintage Bakelike Clock Companion",
+        family: "Bakelike Vintage Clocks",
+        anchorSku: "22726",
+        anchorDesc: "ALARM CLOCK GREEN",
+        attachSku: "22727",
+        attachDesc: "ALARM CLOCK RED",
+        supportPct: 3.24,
+        confidencePct: 65.31,
+        lift: 12.29,
+        priceA: 4.54201,
+        priceB: 4.39688,
+        combinedPrice: 8.93889,
+        soloOrders: 340,
+        pairOrders: 640,
+        returnRate: 0.90,
+        isFlagged: false
+      },
+      {
+        id: "BDL-04",
+        name: "Everyday Lunch Bag Twin Pack",
+        family: "Lunch Bag Collection",
+        anchorSku: "20725",
+        anchorDesc: "LUNCH BAG RED RETROSPOT",
+        attachSku: "22383",
+        attachDesc: "LUNCH BAG SUKI DESIGN",
+        supportPct: 3.31,
+        confidencePct: 41.85,
+        lift: 6.45,
+        priceA: 2.13142,
+        priceB: 2.16821,
+        combinedPrice: 4.29963,
+        soloOrders: 910,
+        pairOrders: 655,
+        returnRate: 2.33,
+        isFlagged: false
+      },
+      {
+        id: "BDL-05",
+        name: "Poppy's Playhouse Nursery",
+        family: "Children's Playsets",
+        anchorSku: "22745",
+        anchorDesc: "PLAYHOUSE BEDROOM",
+        attachSku: "22748",
+        attachDesc: "PLAYHOUSE KITCHEN",
+        supportPct: 1.58,
+        confidencePct: 74.00,
+        lift: 33.56,
+        priceA: 2.54631,
+        priceB: 2.48166,
+        combinedPrice: 5.02797,
+        soloOrders: 110,
+        pairOrders: 313,
+        returnRate: 0.73,
+        isFlagged: false
+      },
+      {
+        id: "FLAG-01",
+        name: "Regency Tea Plate Roses + Green",
+        family: "Regency Teaware (Flagged)",
+        anchorSku: "23170",
+        anchorDesc: "TEA PLATE ROSES",
+        attachSku: "23171",
+        attachDesc: "TEA PLATE GREEN",
+        supportPct: 1.61,
+        confidencePct: 71.69,
+        lift: 37.20,
+        priceA: 2.07571,
+        priceB: 2.12843,
+        combinedPrice: 4.20414,
+        soloOrders: 126,
+        pairOrders: 319,
+        returnRate: 8.62,
+        isFlagged: true
+      }
+    ];
+
+    // DOM Elements
+    const sliderDiscount = document.getElementById("sliderDiscount");
+    const sliderAttach = document.getElementById("sliderAttach");
+    const sliderRedemption = document.getElementById("sliderRedemption");
+    const sliderScale = document.getElementById("sliderScale");
+    const toggleGuardrail = document.getElementById("toggleGuardrail");
+
+    const valDiscount = document.getElementById("valDiscount");
+    const valAttach = document.getElementById("valAttach");
+    const valRedemption = document.getElementById("valRedemption");
+    const valScale = document.getElementById("valScale");
+
+    const cardGross = document.getElementById("cardGross");
+    const cardCost = document.getElementById("cardCost");
+    const cardNet = document.getElementById("cardNet");
+    const cardNetSub = document.getElementById("cardNetSub");
+    const cardStatus = document.getElementById("cardStatus");
+    const cardStatusSub = document.getElementById("cardStatusSub");
+    const alertBanner = document.getElementById("alertBanner");
+
+    const barGrossVal = document.getElementById("barGrossVal");
+    const barCostVal = document.getElementById("barCostVal");
+    const barNetVal = document.getElementById("barNetVal");
+    const barGrossFill = document.getElementById("barGrossFill");
+    const barCostFill = document.getElementById("barCostFill");
+    const barNetFill = document.getElementById("barNetFill");
+    const vizScaleIndicator = document.getElementById("vizScaleIndicator");
+    const decisionText = document.getElementById("decisionText");
+
+    const bundleTableBody = document.getElementById("bundleTableBody");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function formatGBP(val) {
+      const sign = val < 0 ? "-" : (val > 0 ? "+" : "");
+      return `${sign}£${Math.abs(val).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    function runSimulation() {
+      const discount = parseFloat(sliderDiscount.value) / 100.0;
+      const attachRate = parseFloat(sliderAttach.value) / 100.0;
+      const redemptionRate = parseFloat(sliderRedemption.value) / 100.0;
+      const scale = parseFloat(sliderScale.value);
+      const enforceGuardrail = toggleGuardrail.checked;
+
+      // Update Slider Label Displays
+      valDiscount.textContent = `${sliderDiscount.value}%`;
+      valAttach.textContent = `${sliderAttach.value}%`;
+      valRedemption.textContent = `${sliderRedemption.value}%`;
+      valScale.textContent = `${scale.toFixed(1)}x ${scale > 1.0 ? '(Wholesale)' : '(Retail)'}`;
+      vizScaleIndicator.textContent = `${scale.toFixed(1)}x ${scale > 1.0 ? 'WHOLESALE INTAKE SCALE' : 'RETAIL SCALE'}`;
+
+      let totalGross = 0.0;
+      let totalCost = 0.0;
+      let totalNet = 0.0;
+      let hasBreach = !enforceGuardrail;
+
+      let tableHtml = "";
+
+      BUNDLES_DATA.forEach(b => {
+        const isIncluded = !b.isFlagged || !enforceGuardrail;
+
+        // Bundle calculations
+        const incUnits = b.soloOrders * attachRate * scale;
+        const discountedPrice = b.combinedPrice * (1.0 - discount);
+        const grossRev = incUnits * discountedPrice;
+
+        const canUnits = b.pairOrders * redemptionRate * scale;
+        const discountAmt = b.combinedPrice * discount;
+        const costRev = canUnits * discountAmt;
+
+        const netRev = grossRev - costRev;
+
+        if (isIncluded) {
+          totalGross += grossRev;
+          totalCost += costRev;
+          totalNet += netRev;
+        }
+
+        const rowClass = b.isFlagged 
+          ? (enforceGuardrail ? "row-excluded" : "row-flagged") 
+          : "";
+
+        let badgeHtml = "";
+        if (b.isFlagged) {
+          badgeHtml = enforceGuardrail 
+            ? '<span class="badge-pill badge-excluded">EXCLUDED (&gt; 5%)</span>' 
+            : '<span class="badge-pill badge-breach">BREACH (8.62%)</span>';
+        } else {
+          badgeHtml = '<span class="badge-pill badge-pass">PASS (&lt; 5%)</span>';
+        }
+
+        tableHtml += `
+          <tr class="${rowClass}">
+            <td>
+              <strong>${b.id}</strong><br>
+              <small style="color: var(--text-dim);">${b.name}</small>
+            </td>
+            <td>
+              <span class="num">${b.anchorSku} + ${b.attachSku}</span><br>
+              <small style="color: var(--text-dim);">${b.anchorDesc}</small>
+            </td>
+            <td>
+              <span class="num" style="font-weight: 700; color: var(--emerald-400);">${b.lift.toFixed(1)}x Lift</span><br>
+              <small style="color: var(--text-dim);">Conf: ${b.confidencePct.toFixed(1)}%</small>
+            </td>
+            <td class="num">£${b.combinedPrice.toFixed(2)}</td>
+            <td class="num">${isIncluded ? incUnits.toFixed(1) : '-'}</td>
+            <td class="num" style="color: var(--blue-400); font-weight: 600;">${isIncluded ? '+' + formatGBP(grossRev).replace('+', '') : '-'}</td>
+            <td class="num" style="color: var(--crimson-400);">${isIncluded ? '-' + formatGBP(costRev).replace('-', '').replace('+', '') : '-'}</td>
+            <td class="num" style="color: var(--emerald-400); font-weight: 700;">${isIncluded ? formatGBP(netRev) : '-'}</td>
+            <td class="num" style="${b.returnRate >= 5.0 ? 'color: var(--crimson-400); font-weight: 700;' : ''}">${b.returnRate.toFixed(2)}%</td>
+            <td>${badgeHtml}</td>
+          </tr>
+        `;
+      });
+
+      bundleTableBody.innerHTML = tableHtml;
+
+      // Update Scorecards
+      cardGross.textContent = `£${totalGross.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      cardCost.textContent = `-£${totalCost.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      cardNet.textContent = formatGBP(totalNet);
+
+      const marginEff = totalGross > 0 ? ((totalNet / totalGross) * 100).toFixed(1) : "0.0";
+      cardNetSub.textContent = `+${marginEff}% margin efficiency retained`;
+
+      if (hasBreach) {
+        cardStatus.textContent = "BREACH";
+        cardStatus.style.color = "var(--crimson-400)";
+        cardStatusSub.textContent = "SKU 23170 return rate 8.62% > 5.0%";
+        alertBanner.classList.add("active");
+      } else {
+        cardStatus.textContent = "PASS";
+        cardStatus.style.color = "var(--emerald-400)";
+        cardStatusSub.textContent = "All active SKUs < 5.0% return rate";
+        alertBanner.classList.remove("active");
+      }
+
+      // Update Waterfall Visual Bars
+      barGrossVal.textContent = `£${totalGross.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      barCostVal.textContent = `-£${totalCost.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      barNetVal.textContent = formatGBP(totalNet);
+
+      const costPctOfGross = totalGross > 0 ? Math.min(100, Math.max(0, (totalCost / totalGross) * 100)) : 0;
+      const netPctOfGross = totalGross > 0 ? Math.min(100, Math.max(0, (totalNet / totalGross) * 100)) : 0;
+
+      barGrossFill.style.width = "100%";
+      barCostFill.style.width = `${costPctOfGross}%`;
+      barNetFill.style.width = `${netPctOfGross}%`;
+
+      // Update Dynamic Commercial Takeaway
+      if (hasBreach) {
+        decisionText.innerHTML = `
+          <span style="color: var(--crimson-400); font-weight: 700;">POLICY RISK DETECTED:</span> 
+          Including flagged SKU 23170 adds +£${(totalNet - 2948.04).toFixed(2)} in theoretical gross revenue but introduces high return risks (8.62% cancellation rate). Re-enable Guardrail 1 to prevent downstream customer service friction and un-budgeted return logistics.
+        `;
+      } else if (scale > 1.0) {
+        decisionText.innerHTML = `
+          <span style="color: var(--emerald-400); font-weight: 700;">WHOLESALE SCALE ACTIVATED:</span> 
+          Applying the ${scale.toFixed(1)}x case-pack multiplier projects <strong>${formatGBP(totalNet)} in net cycle lift</strong> across high-AOV accounts in Netherlands, EIRE, Germany, and France while maintaining 100% Guardrail 1 compliance.
+        `;
+      } else {
+        decisionText.innerHTML = `
+          At a <strong>${sliderDiscount.value}% promotional discount</strong>, the policy retains <strong>${marginEff}% of gross incremental attach value</strong> after absorbing £${totalCost.toFixed(2)} in organic cannibalization. Net lift remains strongly positive at <strong>${formatGBP(totalNet)} per sales cycle</strong>.
+        `;
+      }
+    }
+
+    function applyPreset(discount, attach, redemption, scale, guardrail) {
+      sliderDiscount.value = discount;
+      sliderAttach.value = attach;
+      sliderRedemption.value = redemption;
+      sliderScale.value = scale;
+      toggleGuardrail.checked = guardrail;
+      runSimulation();
+    }
+
+    // Event Listeners
+    sliderDiscount.addEventListener("input", runSimulation);
+    sliderAttach.addEventListener("input", runSimulation);
+    sliderRedemption.addEventListener("input", runSimulation);
+    sliderScale.addEventListener("input", runSimulation);
+    toggleGuardrail.addEventListener("change", runSimulation);
+
+    resetBtn.addEventListener("click", () => {
+      applyPreset(10, 25, 30, 1.0, true);
+    });
+
+    // Initial Execution on Page Load
+    runSimulation();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+{
+  "H1_basket_tier_multiplier": {
+    "hypothesis_id": "H1",
+    "name": "Basket Tier AOV Multiplier",
+    "status": "SUPPORTED",
+    "kruskal_wallis": {
+      "statistic": 3413.699950783805,
+      "p_value": 0.0
+    },
+    "mann_whitney_u_small_vs_large": {
+      "statistic": 6056732.5,
+      "p_value": 0.0
+    },
+    "welch_t_test_small_vs_large": {
+      "statistic": -3.2560233606709685,
+      "p_value": 0.00114569464442901
+    },
+    "single_item_median_aov": 45.0,
+    "multi_item_median_aov": 308.6,
+    "multi_vs_single_multiplier": 6.86,
+    "small_tier_median_aov": 57.599999999999994,
+    "large_tier_median_aov": 322.3,
+    "large_vs_small_multiplier": 5.6
+  },
+  "H2_association_synergy": {
+    "hypothesis_id": "H2",
+    "name": "High-Lift Collection Synergy & Bundle Margin Retention",
+    "status": "SUPPORTED",
+    "top_10_pairs_max_chi2_p_value": 0.0,
+    "top_10_pairs_min_lift": 16.9724853442851,
+    "all_bundles_pass_guardrail_1_returns": true,
+    "total_portfolio_net_revenue_lift_10pct": 2948.0382062305507,
+    "recommended_bundles_count": 5
+  },
+  "H3_regime_shifts": {
+    "hypothesis_id": "H3",
+    "name": "Cross-Border Wholesale vs Domestic Retail & Q4 Holiday Surge",
+    "status": "SUPPORTED",
+    "geographic": {
+      "intl_orders_count": 1872,
+      "uk_orders_count": 17901,
+      "intl_median_aov": 385.28,
+      "uk_median_aov": 299.67,
+      "intl_median_skus": 17.0,
+      "uk_median_skus": 15.0,
+      "mann_whitney_u_aov_stat": 20455334.5,
+      "mann_whitney_u_aov_p": 3.6940059458494577e-56,
+      "mann_whitney_u_skus_stat": 17920985.0,
+      "mann_whitney_u_skus_p": 3.473351617836779e-07
+    },
+    "seasonality": {
+      "q4_monthly_avg_gmv": 1194593.04,
+      "baseline_monthly_avg_gmv": 659202.515,
+      "q4_revenue_surge_pct": 81.22,
+      "mann_whitney_u_aov_stat": 37278741.5,
+      "mann_whitney_u_aov_p": 2.0168589455816711e-07,
+      "mann_whitney_u_skus_stat": 37480004.0,
+      "mann_whitney_u_skus_p": 5.6559329958077424e-09
+    }
+  }
+}
