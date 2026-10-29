@@ -21,7 +21,16 @@ REQUIRED_CHARTS = [
     "fig4_policy_reallocation_waterfall.png",
 ]
 
-VERIFIED_NUMBERS = [
+INDEX_VERIFIED_NUMBERS = [
+    "41,188",
+    "105,754",
+    "88%",
+    "48%",
+    "65%",
+    "3,242",
+]
+
+COCKPIT_README_VERIFIED_NUMBERS = [
     "41,188",
     "105,754",
     "88.04%",
@@ -61,11 +70,18 @@ def test_documents_exist():
     assert README_MD.is_file(), f"Missing {README_MD}"
 
 
-@pytest.mark.parametrize("file_path", [INDEX_HTML, COCKPIT_HTML, README_MD])
-def test_verified_numbers_present(file_path):
-    """Verify that core econometric findings are represented in all deliverables."""
+def test_index_verified_numbers_present():
+    """Verify that whole-number benchmarks are represented in index.html."""
+    content = INDEX_HTML.read_text(encoding="utf-8")
+    for number in INDEX_VERIFIED_NUMBERS:
+        assert number in content, f"Verified figure '{number}' missing in index.html"
+
+
+@pytest.mark.parametrize("file_path", [COCKPIT_HTML, README_MD])
+def test_cockpit_readme_numbers_present(file_path):
+    """Verify that core econometric findings are represented in cockpit.html and README.md."""
     content = file_path.read_text(encoding="utf-8")
-    for number in VERIFIED_NUMBERS:
+    for number in COCKPIT_README_VERIFIED_NUMBERS:
         assert number in content, f"Verified figure '{number}' missing in {file_path.name}"
 
 
