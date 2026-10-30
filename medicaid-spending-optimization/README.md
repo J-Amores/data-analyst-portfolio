@@ -10,8 +10,8 @@ Rising brand-name drug prices and wide wholesale supplier price gaps quietly dra
 ---
 
 ### Live Deliverables & Reports
-* **[Executive Case Study Report (index.html)](index.html):** Stakeholder report in warm editorial paper styling featuring our 4-card KPI bar, data caveats audit, click-to-enlarge charts, and 90-day pharmacy rollout plan.
-* **[Interactive Pharmacy Cost Simulator (cost-simulator.html)](cost-simulator.html):** Interactive decision simulator where pharmacy leaders can toggle rollout phases (Phase 1, Phase 2, Phase 3) and doctor adoption rates (60% pilot, 80% Year-1 goal, 100% full rollout) to test budget savings live.
+* **[Executive Case Study Report (Live Report)](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/):** Stakeholder report in warm editorial paper styling featuring our 4-card KPI bar, data caveats audit, click-to-enlarge charts, and 90-day pharmacy rollout plan. ([Source: index.html](index.html))
+* **[Interactive Pharmacy Cost Simulator (Live App)](https://j-amores.github.io/data-analyst-portfolio/medicaid-spending-optimization/cost-simulator.html):** Interactive decision simulator where pharmacy leaders can toggle rollout phases (Phase 1, Phase 2, Phase 3) and doctor adoption rates (60% pilot, 80% Year-1 goal, 100% full rollout) to test budget savings live. ([Source: cost-simulator.html](cost-simulator.html))
 
 ---
 

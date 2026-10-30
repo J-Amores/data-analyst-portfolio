@@ -12,15 +12,14 @@ Validates:
 - Interactive image lightbox modal with ESC key handling
 - Accessibility (prefers-reduced-motion)
 - Strict executive restraint: ZERO em dashes and ZERO en dashes across deliverables
-- P&T Decision Cockpit (cockpit.html / dashboard.html) synchronization and Guardrail 2 (0.0% outlier risk)
+- Interactive Pharmacy Cost Simulator (cost-simulator.html) and Guardrail 2 (0.0% outlier risk)
 """
 
 from pathlib import Path
 import pytest
 
 INDEX_HTML_PATH = Path("index.html")
-COCKPIT_HTML_PATH = Path("cockpit.html")
-DASHBOARD_HTML_PATH = Path("dashboard.html")
+COST_SIMULATOR_HTML_PATH = Path("cost-simulator.html")
 README_MD_PATH = Path("README.md")
 FIGURES_SCRIPT_PATH = Path("src/presentation/export_figures.py")
 
@@ -36,15 +35,9 @@ def html_content() -> str:
 
 
 @pytest.fixture(scope="module")
-def cockpit_content() -> str:
-    assert COCKPIT_HTML_PATH.exists(), "cockpit.html must exist at repository root."
-    return COCKPIT_HTML_PATH.read_text(encoding="utf-8")
-
-
-@pytest.fixture(scope="module")
-def dashboard_content() -> str:
-    assert DASHBOARD_HTML_PATH.exists(), "dashboard.html must exist at repository root."
-    return DASHBOARD_HTML_PATH.read_text(encoding="utf-8")
+def cost_simulator_content() -> str:
+    assert COST_SIMULATOR_HTML_PATH.exists(), "cost-simulator.html must exist at repository root."
+    return COST_SIMULATOR_HTML_PATH.read_text(encoding="utf-8")
 
 
 @pytest.fixture(scope="module")
@@ -78,7 +71,7 @@ def test_sticky_top_navigation_bar(html_content: str):
     assert "04 SAVINGS PLAN" in html_content or "04. SAVINGS PLAN" in html_content
     assert "05 90-DAY ROLLOUT" in html_content or "05. 90-DAY ROLLOUT" in html_content
     assert "LAUNCH SIMULATOR" in html_content or "LAUNCH COCKPIT" in html_content
-    assert "cockpit.html" in html_content
+    assert "cost-simulator.html" in html_content
 
 
 def test_hero_header_and_4column_kpi_strip(html_content: str):
@@ -110,8 +103,8 @@ def test_chapter_structure_and_anchors(html_content: str):
     assert 'id="overview"' in html_content or 'id="briefing"' in html_content
 
 
-def test_plain_english_analyst_voice(html_content: str):
-    """Verify plain-English voice and absence of forbidden academic jargon."""
+def test_plain_english_analyst_voice(html_content: str, readme_content: str):
+    """Verify plain-English voice and absence of forbidden academic jargon across index.html and README.md."""
     forbidden_terms = [
         "econometric decomposition",
         "pareto asymmetry",
@@ -130,6 +123,64 @@ def test_plain_english_analyst_voice(html_content: str):
     ]
     for term in forbidden_terms:
         assert term not in html_content.lower(), f"Forbidden academic term found in index.html: {term}"
+
+    readme_forbidden = [
+        "gini",
+        "kolmogorov-smirnov",
+        "wilcoxon",
+        "logarithmic growth decomposition",
+        "bundled prospective payment models",
+        "bioequivalent",
+        "multi-source generic molecules",
+        "0.076386%",
+    ]
+    for term in readme_forbidden:
+        assert term not in readme_content.lower(), f"Forbidden academic term found in README.md: {term}"
+
+
+def test_readme_editorial_and_phases(readme_content: str):
+    """Verify README.md matches plain-English voice, whole numbers, and Phase 1-3 structure."""
+    # Phase 1 / Phase 2 / Phase 3 structure (no P0 / P1 / P2 phase tags)
+    assert "Phase 1: Days 1 to 30" in readme_content
+    assert "Phase 2: Days 30 to 60" in readme_content
+    assert "Phase 3: Days 60 to 90" in readme_content
+    assert "P0 " not in readme_content and "P1 " not in readme_content and "P2 " not in readme_content
+    assert "P0:" not in readme_content and "P1:" not in readme_content and "P2:" not in readme_content
+
+    # Whole-Number Rounding metrics
+    whole_numbers = [
+        "$85M",
+        "$111B",
+        "46%",
+        "72%",
+        "$61M",
+        "90%",
+        "$77M",
+        "33%",
+        "$408",
+        "$22",
+        "19x",
+        "98%",
+        "$3.2M",
+        "$3,200K",
+        "$1.1M",
+        "$2.1M",
+    ]
+    for metric in whole_numbers:
+        assert metric in readme_content, f"Missing metric '{metric}' in README.md"
+
+    # Plus-prefixed savings
+    assert "+$3.2M" in readme_content or r"+\$3.2M" in readme_content
+    assert "+$1.1M" in readme_content or r"+\$1.1M" in readme_content
+    assert "+$2.1M" in readme_content or r"+\$2.1M" in readme_content
+
+    # 6 target drug clean savings
+    for drug_saving in ["$472K", "$367K", "$176K", "$136K", "$97K", "$80K"]:
+        assert drug_saving in readme_content, f"Missing 6-drug saving '{drug_saving}' in README.md"
+
+    # Zero em or en dashes
+    assert "—" not in readme_content, "Em dash found in README.md"
+    assert "–" not in readme_content, "En dash found in README.md"
 
 
 def test_figure_assets_and_containers(html_content: str):
@@ -185,12 +236,11 @@ def test_verified_analytical_findings_and_tables(html_content: str):
         assert drug in html_content, f"Must include target drug {drug} in Chapter 05 roadmap."
 
 
-def test_zero_em_and_en_dashes(html_content: str, cockpit_content: str, dashboard_content: str, readme_content: str):
+def test_zero_em_and_en_dashes(html_content: str, cost_simulator_content: str, readme_content: str):
     """Enforce executive restraint rule: zero em dashes and zero en dashes across deliverables."""
     files_to_check = [
         ("index.html", html_content),
-        ("cockpit.html", cockpit_content),
-        ("dashboard.html", dashboard_content),
+        ("cost-simulator.html", cost_simulator_content),
         ("README.md", readme_content),
     ]
     for name, content in files_to_check:
@@ -211,109 +261,109 @@ def test_accessibility_reduced_motion(html_content: str):
         "Must include prefers-reduced-motion media query."
 
 
-def test_cockpit_and_dashboard_guardrail2(cockpit_content: str, dashboard_content: str):
-    """Verify cockpit.html and dashboard.html display 0.0% post-filter outlier risk."""
-    for name, content in [("cockpit.html", cockpit_content), ("dashboard.html", dashboard_content)]:
-        assert "PACKAGING OUTLIER RISK (POST-FILTER)" in content
-        assert "0.0%" in content
-        assert "0.0% < 5.0%" in content or "0.0% &lt; 5.0%" in content
+def test_cost_simulator_guardrail2(cost_simulator_content: str):
+    """Verify cost-simulator.html displays 0.0% post-filter outlier risk."""
+    content = cost_simulator_content
+    assert "PACKAGING OUTLIER RISK (POST-FILTER)" in content
+    assert "0.0%" in content
+    assert "0.0% < 5.0%" in content or "0.0% &lt; 5.0%" in content
 
 
-def test_cockpit_interactive_controls(cockpit_content: str, dashboard_content: str):
-    """Verify upgraded 3-lever interactive controls across cockpit and dashboard."""
-    for name, content in [("cockpit.html", cockpit_content), ("dashboard.html", dashboard_content)]:
-        # Lever 1: Implementation Phase Toggle
-        assert "Current Baseline (No Changes)" in content
-        assert "Phase 1 Only: Auto-Generic E-Prescribing (Days 1-30)" in content
-        assert "Phase 1 + Phase 2: Add Outpatient Biosimilars (Days 30-60)" in content
-        assert "Full Implementation: Phases 1, 2 &amp; 3 (Days 1-90 - Default Active)" in content or \
-               "Full Implementation: Phases 1, 2 & 3 (Days 1-90 - Default Active)" in content
+def test_cost_simulator_interactive_controls(cost_simulator_content: str):
+    """Verify upgraded 3-lever interactive controls in cost-simulator.html."""
+    content = cost_simulator_content
+    # Lever 1: Implementation Phase Toggle
+    assert "Current Baseline (No Changes)" in content
+    assert "Phase 1 Only: Auto-Generic E-Prescribing (Days 1-30)" in content
+    assert "Phase 1 + Phase 2: Add Outpatient Biosimilars (Days 30-60)" in content
+    assert "Full Implementation: Phases 1, 2 &amp; 3 (Days 1-90 - Default Active)" in content or \
+           "Full Implementation: Phases 1, 2 & 3 (Days 1-90 - Default Active)" in content
 
-        # Lever 2: Doctor Adoption Rate Selector
-        assert "60% Cautious Pilot" in content
-        assert "80% Year-1 Hospital Goal" in content
-        assert "100% Full Pharmacy Rollout" in content
+    # Lever 2: Doctor Adoption Rate Selector
+    assert "60% Cautious Pilot" in content
+    assert "80% Year-1 Hospital Goal" in content
+    assert "100% Full Pharmacy Rollout" in content
 
-        # Lever 3: Category Filter and Search
-        assert "All Pharmacy Categories" in content
-        assert "CNS / ADHD &amp; Mental Health" in content or "CNS / ADHD & Mental Health" in content
-        assert "Specialty Biologics &amp; Infusions" in content or "Specialty Biologics & Infusions" in content
-        assert "Respiratory &amp; Pulmonary Inhalers" in content or "Respiratory & Pulmonary Inhalers" in content
-        assert "Acute Care &amp; Routine Generics" in content or "Acute Care & Routine Generics" in content
-        assert "searchInput" in content
-
-
-def test_cockpit_top_kpi_cards(cockpit_content: str, dashboard_content: str):
-    """Verify 4 upgraded KPI cards showing before vs. after budget numbers."""
-    for name, content in [("cockpit.html", cockpit_content), ("dashboard.html", dashboard_content)]:
-        assert "CURRENT TARGET BRAND SPEND" in content
-        assert "$3.89M" in content
-        assert "Baseline before pharmacy switches" in content
-
-        assert "NEW OPTIMIZED BUDGET" in content
-        assert "kpiOptimizedBudget" in content
-
-        assert "ANNUAL HOSPITAL SAVINGS CAPTURED" in content
-        assert "+$3.20M" in content
-        assert "kpiSavingsCaptured" in content
-
-        assert "PATIENT PRESCRIPTION ACCESS KEPT" in content
-        assert "100% Covered / &gt;=95% Untouched" in content or "100% Covered / >=95% Untouched" in content
+    # Lever 3: Category Filter and Search
+    assert "All Pharmacy Categories" in content
+    assert "CNS / ADHD &amp; Mental Health" in content or "CNS / ADHD & Mental Health" in content
+    assert "Specialty Biologics &amp; Infusions" in content or "Specialty Biologics & Infusions" in content
+    assert "Respiratory &amp; Pulmonary Inhalers" in content or "Respiratory & Pulmonary Inhalers" in content
+    assert "Acute Care &amp; Routine Generics" in content or "Acute Care & Routine Generics" in content
+    assert "searchInput" in content
 
 
-def test_cockpit_implementation_charts(cockpit_content: str, dashboard_content: str):
-    """Verify 3 implementation-focused charts inside cockpit and dashboard."""
-    for name, content in [("cockpit.html", cockpit_content), ("dashboard.html", dashboard_content)]:
-        # Chart 1: Paired Before vs After Bar Chart
-        assert "svgChart1" in content
-        assert "Switching Overpriced Brands Cuts Top Drug Category Costs" in content
-        assert "Current Spend ($M)" in content
-        assert "New Implemented Spend ($M)" in content
+def test_cost_simulator_top_kpi_cards(cost_simulator_content: str):
+    """Verify 4 upgraded KPI cards showing before vs. after budget numbers in cost-simulator.html."""
+    content = cost_simulator_content
+    assert "CURRENT TARGET BRAND SPEND" in content
+    assert "$3.89M" in content
+    assert "Baseline before pharmacy switches" in content
 
-        # Chart 2: Step-by-Step Budget Recovery Waterfall
-        assert "svgChart2" in content
-        assert "How Phases 1 to 3 Recover" in content
-        assert "Starting Spend ($3.89M)" in content
-        assert "Phase Savings Step-Down" in content
-        assert "Final Implemented Budget" in content
+    assert "NEW OPTIMIZED BUDGET" in content
+    assert "kpiOptimizedBudget" in content
 
-        # Chart 3: Monthly Cumulative Savings & Budget Burn-Down Curve
-        assert "svgChart3" in content
-        assert "12-Month Pharmacy Budget Trajectory: Old Spending Pace vs. New Implemented Plan" in content
-        assert "Unchanged Pace" in content or "Unchanged spending pace" in content.lower()
-        assert "Implemented Plan" in content or "Implemented spend pace" in content.lower()
+    assert "ANNUAL HOSPITAL SAVINGS CAPTURED" in content
+    assert "+$3.20M" in content
+    assert "kpiSavingsCaptured" in content
+
+    assert "PATIENT PRESCRIPTION ACCESS KEPT" in content
+    assert "100% Covered / &gt;=95% Untouched" in content or "100% Covered / >=95% Untouched" in content
 
 
-def test_cockpit_purchasing_switch_table(cockpit_content: str, dashboard_content: str):
-    """Verify hospital pharmacy implementation table and conditional formatting color bars."""
-    for name, content in [("cockpit.html", cockpit_content), ("dashboard.html", dashboard_content)]:
-        # Table Headers
-        assert "Drug / Category Name" in content
-        assert "Rollout Phase" in content
-        assert "Price Hike Driver" in content
-        assert "Current Cost / Rx" in content
-        assert "New Cost / Rx" in content
-        assert "Annual Hospital Savings" in content
-        assert "Hospital Action Status" in content
+def test_cost_simulator_implementation_charts(cost_simulator_content: str):
+    """Verify 3 implementation-focused charts inside cost-simulator.html."""
+    content = cost_simulator_content
+    # Chart 1: Paired Before vs After Bar Chart
+    assert "svgChart1" in content
+    assert "Switching Overpriced Brands Cuts Top Drug Category Costs" in content
+    assert "Current Spend ($M)" in content
+    assert "New Implemented Spend ($M)" in content
 
-        # Core Target Formulations
-        assert "Vyvanse" in content
-        assert "Concerta" in content
-        assert "Spiriva Respimat" in content
-        assert "Advair Diskus" in content
-        assert "Banzel" in content
-        assert "Jornay PM" in content
-        assert "Humira Pen" in content
-        assert "Enbrel SureClick" in content
-        assert "Ketorolac Tromethamine" in content
-        assert "Epinephrine" in content
+    # Chart 2: Step-by-Step Budget Recovery Waterfall
+    assert "svgChart2" in content
+    assert "How Phases 1 to 3 Recover" in content
+    assert "Starting Spend ($3.89M)" in content
+    assert "Phase Savings Step-Down" in content
+    assert "Final Implemented Budget" in content
 
-        # Action status badges
-        assert "E-Prescribing Rule Ready" in content
-        assert "Biosimilar on Formulary" in content
-        assert "Contract Cap Active" in content
+    # Chart 3: Monthly Cumulative Savings & Budget Burn-Down Curve
+    assert "svgChart3" in content
+    assert "12-Month Pharmacy Budget Trajectory: Old Spending Pace vs. New Implemented Plan" in content
+    assert "Unchanged Pace" in content or "Unchanged spending pace" in content.lower()
+    assert "Implemented Plan" in content or "Implemented spend pace" in content.lower()
 
-        # Conditional color bar element
-        assert "savings-bar-fill" in content
-        assert "savings-bar-track" in content
+
+def test_cost_simulator_purchasing_switch_table(cost_simulator_content: str):
+    """Verify hospital pharmacy implementation table and conditional formatting color bars in cost-simulator.html."""
+    content = cost_simulator_content
+    # Table Headers
+    assert "Drug / Category Name" in content
+    assert "Rollout Phase" in content
+    assert "Price Hike Driver" in content
+    assert "Current Cost / Rx" in content
+    assert "New Cost / Rx" in content
+    assert "Annual Hospital Savings" in content
+    assert "Hospital Action Status" in content
+
+    # Core Target Formulations
+    assert "Vyvanse" in content
+    assert "Concerta" in content
+    assert "Spiriva Respimat" in content
+    assert "Advair Diskus" in content
+    assert "Banzel" in content
+    assert "Jornay PM" in content
+    assert "Humira Pen" in content
+    assert "Enbrel SureClick" in content
+    assert "Ketorolac Tromethamine" in content
+    assert "Epinephrine" in content
+
+    # Action status badges
+    assert "E-Prescribing Rule Ready" in content
+    assert "Biosimilar on Formulary" in content
+    assert "Contract Cap Active" in content
+
+    # Conditional color bar element
+    assert "savings-bar-fill" in content
+    assert "savings-bar-track" in content
 
