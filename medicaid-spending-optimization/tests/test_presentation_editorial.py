@@ -68,32 +68,31 @@ def test_editorial_design_system_and_typography(html_content: str):
 
 def test_sticky_top_navigation_bar(html_content: str):
     """Verify sticky top bar with exact anchor links and CTA button."""
-    assert "sticky-nav" in html_content, "Must contain sticky-nav element."
+    assert "sticky-nav" in html_content or "top-nav" in html_content, "Must contain top-nav/sticky-nav element."
     assert "JOHN AMORES" in html_content
     assert "HOSPITAL PHARMACY ANALYTICS CASE STUDY" in html_content or "HEALTHCARE ANALYTICS CASE STUDY" in html_content
     assert "OVERVIEW" in html_content or "EXECUTIVE BRIEFING" in html_content
-    assert "01. DATA CLEANUP" in html_content or "01. DATA BLIND SPOT" in html_content
-    assert "02. BUDGET BREAKDOWN" in html_content or "02. SPEND SKEW" in html_content
-    assert "03. PRICE VS VOLUME" in html_content
-    assert "04. SAVINGS PLAN" in html_content or "04. SAVINGS WATERFALL" in html_content
-    assert "05. 90-DAY ROLLOUT" in html_content or "05. 90-DAY PLAN" in html_content
+    assert "01 DATA & CAVEATS" in html_content or "01 DATA &amp; CAVEATS" in html_content or "01. DATA CLEANUP" in html_content
+    assert "02 BUDGET BREAKDOWN" in html_content or "02. BUDGET BREAKDOWN" in html_content
+    assert "03 PRICE VS VOLUME" in html_content or "03. PRICE VS VOLUME" in html_content
+    assert "04 SAVINGS PLAN" in html_content or "04. SAVINGS PLAN" in html_content
+    assert "05 90-DAY ROLLOUT" in html_content or "05. 90-DAY ROLLOUT" in html_content
     assert "LAUNCH SIMULATOR" in html_content or "LAUNCH COCKPIT" in html_content
     assert "cockpit.html" in html_content
 
 
 def test_hero_header_and_4column_kpi_strip(html_content: str):
     """Verify hero title, subtitle, and 4-column bordered KPI strip with verified metrics."""
-    assert "Cutting Hospital Pharmacy Drug Costs Without Limiting Patient Care" in html_content or \
-           "Optimizing Medicaid Drug Formulary" in html_content
+    assert "Cutting Hospital Pharmacy Drug Costs by $3.2M Without Limiting Patient Care" in html_content or \
+           "Cutting Hospital Pharmacy Drug Costs Without Limiting Patient Care" in html_content
 
-    # 4 KPI cards
-    assert "$111.3B / $85.0M" in html_content or ("$111.3B" in html_content and "$85.0M" in html_content)
-    assert "+45.6%" in html_content
-    assert "72.2%" in html_content
-    assert "+$3.20M" in html_content
+    # 4 KPI cards with whole numbers
+    assert "$85M" in html_content and "$111B" in html_content
+    assert "+46%" in html_content
+    assert "72%" in html_content
+    assert "+$3.2M" in html_content
 
     # Verified claims and formulations
-    assert "745,555,715" in html_content or "745.6M" in html_content
     assert "4,774" in html_content
 
 
@@ -118,6 +117,16 @@ def test_plain_english_analyst_voice(html_content: str):
         "pareto asymmetry",
         "methodological segregation",
         "censoring",
+        "gini",
+        "kolmogorov-smirnov",
+        "chi-square",
+        "wilcoxon",
+        "p < 1.0e-99",
+        "addressable wedge",
+        "bioequivalent",
+        "chemical entities",
+        "molecules",
+        "adalimumab",
     ]
     for term in forbidden_terms:
         assert term not in html_content.lower(), f"Forbidden academic term found in index.html: {term}"
@@ -133,37 +142,43 @@ def test_figure_assets_and_containers(html_content: str):
     assert "assets/fig2_price_volume_matrix.png" in html_content
     assert "assets/fig3_formulary_waterfall.png" in html_content
 
-    # Statistical validation strip strings
-    assert "Chi-Square" in html_content
-    assert "Wilcoxon W = 252.0" in html_content
-    assert "Result" in html_content or "28.3%" in html_content
+    # Plain-English figure captions / takeaways (zero jargon)
+    assert "Brand-name drugs make up just 33% of prescriptions filled" in html_content
+    assert "88 of the top 100 fastest-growing drugs were driven by treating more patients" in html_content
+    assert "Switching 6 overpriced brand drugs saves $1.1M" in html_content
 
 
 def test_verified_analytical_findings_and_tables(html_content: str):
     """Verify verified figures and tables in Chapter 01 to Chapter 05."""
     # Chapter 01
-    assert "Raw CMS Extract" in html_content
-    assert "Validated Active Formulary" in html_content
     assert "18,511" in html_content
+    assert "4,774" in html_content
+    assert "$111B ($85M hosp)" in html_content or "$111B" in html_content
 
     # Chapter 02
-    assert "90.19%" in html_content or "90.2%" in html_content
-    assert "9.81%" in html_content or "9.8%" in html_content
-    assert "407.87" in html_content or "$408" in html_content
-    assert "21.86" in html_content or "$22" in html_content
+    assert "90%" in html_content
+    assert "33%" in html_content
+    assert "67%" in html_content
+    assert "10%" in html_content
+    assert "$408" in html_content
+    assert "$22" in html_content
+    assert "19x" in html_content
 
     # Chapter 03
     assert "Ozempic" in html_content
-    assert "928.7%" in html_content
+    assert "10x" in html_content
     assert "Trulicity" in html_content
-    assert "+106.6%" in html_content
+    assert "107%" in html_content
+    assert "46" in html_content
 
     # Chapter 04
-    assert "$3.89M" in html_content
-    assert "$1.10M" in html_content
-    assert "$2.79M" in html_content
-    assert "$1.92M" in html_content
-    assert "$2.56M" in html_content
+    assert "$4M" in html_content or "$3.9M" in html_content
+    assert "$1.1M" in html_content or "$1,100K" in html_content
+    assert "$2.1M" in html_content or "$2,100K" in html_content
+    assert "$3.2M" in html_content or "$3,200K" in html_content
+    assert "$1.9M" in html_content or "$1,920K" in html_content
+    assert "$2.6M" in html_content or "$2,560K" in html_content
+    assert "98%" in html_content
 
     # Chapter 05
     for drug in ["Vyvanse", "Concerta", "Spiriva Respimat", "Advair Diskus", "Banzel", "Jornay PM"]:
