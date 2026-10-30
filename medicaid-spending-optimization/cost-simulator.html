@@ -721,12 +721,12 @@
     <!-- Top Nav -->
     <div class="cockpit-nav">
       <div class="cockpit-nav-left">
-        <a href="index.html" class="back-btn">&lt;- RETURN TO WHITEPAPER</a>
+        <a href="index.html" class="back-btn">&lt;- BACK TO CASE STUDY REPORT</a>
         <span class="cockpit-brand">HOSPITAL OUTPATIENT PHARMACY COST SIMULATOR</span>
       </div>
       <div>
         <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted);">
-          ANNUAL OUTPATIENT BUDGET: $85.0M | TARGET BRAND SPEND: $3.89M
+          ANNUAL OUTPATIENT BUDGET: $85M | TARGET BRAND SPEND: $3.89M
         </span>
       </div>
     </div>
@@ -734,21 +734,21 @@
     <!-- Header -->
     <h1>Hospital Outpatient Pharmacy Cost Simulator</h1>
     <p class="subtitle">
-      Executive decision support for the Pharmacy Director, CFO, and P&amp;T Committee implementing our 3-phase budget recovery plan: recovering +$3.20M in addressable hospital drug spend while keeping 100% of patients on effective treatments.
+      Executive decision support for the Pharmacy Director, CFO, and P&amp;T Committee implementing our 3-phase budget recovery plan: recovering +$3.2M (+$1.1M generic switch + +$2.1M supplier price caps) in overpriced brand drugs while keeping 100% of patients on effective treatments.
     </p>
 
     <!-- Guardrail Compliance Strip -->
     <div class="guardrail-strip">
       <div class="guardrail-item">
         <span class="badge-pill">PASS</span>
-        <span>PATIENT ACCESS GUARDRAIL 1: 100% Bioequivalent Coverage (1.8% &lt; 2.5% Chronic Limit)</span>
+        <span>PATIENT ACCESS GUARDRAIL 1: 100% FDA-Approved Generic Coverage (1.8% &lt; 2.5% Chronic Limit)</span>
       </div>
       <div class="guardrail-item">
         <span class="badge-pill" id="guardrail2Badge">PASS</span>
         <span id="guardrail2Text">PACKAGING OUTLIER RISK (POST-FILTER): 0.0% &lt; 5.0% (Cleaned Dataset)</span>
       </div>
       <div class="guardrail-item">
-        <span>MAX RECOVERY CAPACITY: +$3.20M (80% GOAL: +$2.56M | 60% FLOOR: +$1.92M)</span>
+        <span>MAX RECOVERY CAPACITY: +$3.2M (80% GOAL: $2.6M ($2,560K) | 60% FLOOR: $1.9M ($1,920K))</span>
       </div>
     </div>
 
@@ -844,7 +844,7 @@
       <div class="kpi-card">
         <div class="kpi-card-header">1. CURRENT TARGET BRAND SPEND</div>
         <div class="kpi-card-val crimson" id="kpiTargetSpend">$3.89M</div>
-        <div class="kpi-card-sub">Baseline before pharmacy switches ($85.0M hospital scale)</div>
+        <div class="kpi-card-sub">Baseline before pharmacy switches ($85M hospital scale)</div>
       </div>
 
       <div class="kpi-card">
@@ -855,7 +855,7 @@
 
       <div class="kpi-card">
         <div class="kpi-card-header">3. ANNUAL HOSPITAL SAVINGS CAPTURED</div>
-        <div class="kpi-card-val emerald" id="kpiSavingsCaptured">+$3.20M</div>
+        <div class="kpi-card-val emerald" id="kpiSavingsCaptured">+$3.2M</div>
         <div class="kpi-card-sub" id="kpiSavingsSub">82.3% of target brand spend recovered</div>
       </div>
 
@@ -907,7 +907,7 @@
         <div class="chart-box-header">
           <div class="section-kicker">CHART 2 // STEP-BY-STEP BUDGET RECOVERY</div>
           <div class="chart-headline" id="chart2Headline">
-            How Phases 1 to 3 Recover +$3.20M for the Hospital Pharmacy Budget
+            How Phases 1 to 3 Recover +$3.2M for the Hospital Pharmacy Budget
           </div>
           <div class="chart-desc">
             Complete 5-bar budget bridge from starting brand spend through Phase 1, Phase 2, and Phase 3 to final implemented budget.
@@ -993,10 +993,10 @@
     <!-- Footer -->
     <div class="cockpit-footer">
       <div>
-        Hospital Outpatient Pharmacy Spend Optimization Case Study | Verified CMS RY2026 Analytical Base (4,774 catalog drugs / $85.0M hospital benchmark)
+        Hospital Outpatient Pharmacy Spend Optimization Case Study | Verified CMS RY2026 Analytical Base (4,774 catalog drugs / $85M hospital benchmark)
       </div>
       <div>
-        <a href="index.html" class="back-btn">&lt;- VIEW EDITORIAL REPORT</a>
+        <a href="index.html" class="back-btn">&lt;- BACK TO CASE STUDY REPORT</a>
       </div>
     </div>
 
@@ -1015,12 +1015,12 @@
       phase3: 1.30  // Phase 3: Price-Spike Caps & Wholesaler Rebates
     };
 
-    // Category Level Before and Max Savings (adds up to $3.89M before / $3.20M savings)
+    // Category Level Before and Max Savings (adds up to $3.89M before / $3.2M savings)
     const CATEGORIES_DATA = [
       { id: "CNS", name: "CNS / ADHD Brands", before: 1.02, phase1: 0.93, phase2: 0.00, phase3: 0.00 },
       { id: "Specialty", name: "Specialty Biologics", before: 1.15, phase1: 0.00, phase2: 0.80, phase3: 0.00 },
       { id: "Respiratory", name: "Respiratory Inhalers", before: 0.42, phase1: 0.31, phase2: 0.00, phase3: 0.00 },
-      { id: "AcuteCare", name: "Multi-Source Price Caps", before: 1.30, phase1: 0.00, phase2: 0.00, phase3: 1.16 }
+      { id: "AcuteCare", name: "Generic Supplier Price Caps", before: 1.30, phase1: 0.00, phase2: 0.00, phase3: 1.16 }
     ];
 
     // Drug-level purchasing switch checklist with expanded clinical & procurement metadata
@@ -1040,7 +1040,7 @@
         baseSavings: 471826,
         status: "E-Prescribing Rule Ready",
         competitors: "14 FDA-Approved Suppliers",
-        rating: "AB Bioequivalent",
+        rating: "FDA-Approved Generic (AB Rated)",
         actionNote: "Automated Cerner/Epic order-set substitution prompts generic Lisdexamfetamine at dispense without interrupting ADHD patient stabilization."
       },
       {
@@ -1058,7 +1058,7 @@
         baseSavings: 367385,
         status: "E-Prescribing Rule Ready",
         competitors: "9 Generic Manufacturers",
-        rating: "AB Bioequivalent (Osmotic Release)",
+        rating: "FDA-Approved Generic (Osmotic Release)",
         actionNote: "Mandates substitution to generic extended-release tablets, collapsing unit cost from $13.14 to $0.35 per dose."
       },
       {
@@ -1075,9 +1075,9 @@
         newNum: 48,
         baseSavings: 175892,
         status: "E-Prescribing Rule Ready",
-        competitors: "Multiple Bioequivalent Devices",
+        competitors: "Multiple FDA-Approved Generic Devices",
         rating: "Therapeutically Interchangeable",
-        actionNote: "Replaces high-priced brand inhaler with multi-source generic inhalation cartridge, saving $175K annually."
+        actionNote: "Replaces high-priced brand inhaler with FDA-approved generic inhalation cartridge, saving $175K annually."
       },
       {
         id: "advair",
@@ -1094,7 +1094,7 @@
         baseSavings: 136273,
         status: "E-Prescribing Rule Ready",
         competitors: "3 Authorized Generics",
-        rating: "AB Bioequivalent Inhaler",
+        rating: "FDA-Approved Generic Inhaler",
         actionNote: "Shifts maintenance asthma/COPD outpatient fills to authorized generic dry-powder inhalers."
       },
       {
@@ -1112,7 +1112,7 @@
         baseSavings: 97366,
         status: "E-Prescribing Rule Ready",
         competitors: "4 Generic Suppliers",
-        rating: "AB Bioequivalent Anticonvulsant",
+        rating: "FDA-Approved Generic Anticonvulsant",
         actionNote: "Switches pediatric and adult refractory epilepsy orders to generic Rufinamide tablets."
       },
       {
@@ -1129,7 +1129,7 @@
         newNum: 11,
         baseSavings: 80160,
         status: "E-Prescribing Rule Ready",
-        competitors: "Multi-Source Generic Tier",
+        competitors: "Multiple Generic Suppliers",
         rating: "Equivalent Daily Pharmacokinetics",
         actionNote: "Establishes preferred generic extended-release morning dosing protocol across hospital outpatient psychiatry."
       },
@@ -1203,7 +1203,7 @@
         status: "Contract Cap Active",
         competitors: "5 Authorized Labelers",
         rating: "Auto-Injector Equivalency",
-        actionNote: "Requires primary wholesale purchasing through multi-source generic contract tier, avoiding brand markups."
+        actionNote: "Requires primary wholesale purchasing through low-cost generic supplier contracts, avoiding brand markups."
       },
       {
         id: "dexamethasone",
@@ -1362,7 +1362,8 @@
       // Update KPI Cards
       document.getElementById("kpiTargetSpend").innerText = "$" + BASE_TARGET_SPEND.toFixed(2) + "M";
       document.getElementById("kpiOptimizedBudget").innerText = "$" + breakdown.optimizedBudget.toFixed(2) + "M";
-      document.getElementById("kpiSavingsCaptured").innerText = "+$" + breakdown.total.toFixed(2) + "M";
+      const savingsDisplay = breakdown.total === 3.2 ? "+$3.2M" : "+$" + breakdown.total.toFixed(2) + "M";
+      document.getElementById("kpiSavingsCaptured").innerText = savingsDisplay;
 
       const pctCut = ((breakdown.total / BASE_TARGET_SPEND) * 100).toFixed(0);
       document.getElementById("kpiSavingsSub").innerText = pctCut + "% of target brand overspend recovered";
@@ -1370,7 +1371,7 @@
 
       // Update Chart Headlines
       document.getElementById("chart1Headline").innerHTML = "Switching Overpriced Brands Cuts Top Drug Category Costs by " + pctCut + "% Without Reducing Prescriptions";
-      document.getElementById("chart2Headline").innerHTML = "How Phases 1 to 3 Recover +$" + breakdown.total.toFixed(2) + "M for the Hospital Pharmacy Budget";
+      document.getElementById("chart2Headline").innerHTML = "How Phases 1 to 3 Recover " + savingsDisplay + " for the Hospital Pharmacy Budget";
 
       // Render Charts
       renderChart1(breakdown);
@@ -1973,7 +1974,8 @@
         gapText.setAttribute("font-size", "10");
         gapText.setAttribute("font-weight", "700");
         gapText.setAttribute("fill", "#065F46");
-        gapText.textContent = "+$" + breakdown.total.toFixed(2) + "M Annual Savings";
+        const chart3SavingsDisplay = breakdown.total === 3.2 ? "+$3.2M" : "+$" + breakdown.total.toFixed(2) + "M";
+        gapText.textContent = chart3SavingsDisplay + " Annual Savings";
         svg.appendChild(gapText);
       }
     }

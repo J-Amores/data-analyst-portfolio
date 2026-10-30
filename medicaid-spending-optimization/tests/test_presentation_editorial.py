@@ -5,7 +5,7 @@ Validates:
 - Google Fonts typography: Newsreader Serif, Plus Jakarta Sans, JetBrains Mono
 - Sticky Top Navigation Bar with exact anchor links and CTA button
 - 4-Column Bordered KPI Strip with exact verified CMS project metrics
-- Hospital Pharmacy Framing: $85.0M hospital budget model, $3.20M annual savings
+- Hospital Pharmacy Framing: $85M hospital budget model, $3.2M annual savings
 - Plain-English Analyst Voice: zero forbidden academic jargon terms
 - 5 Chapters + Executive Overview (CLEAN framework, Budget Breakdown, Price vs Volume, Savings Plan, 90-Day Rollout)
 - Figure containers referencing assets/fig1, assets/fig2, and assets/fig3
@@ -304,7 +304,7 @@ def test_cost_simulator_top_kpi_cards(cost_simulator_content: str):
     assert "kpiOptimizedBudget" in content
 
     assert "ANNUAL HOSPITAL SAVINGS CAPTURED" in content
-    assert "+$3.20M" in content
+    assert "+$3.2M" in content or "+$3.20M" in content
     assert "kpiSavingsCaptured" in content
 
     assert "PATIENT PRESCRIPTION ACCESS KEPT" in content
