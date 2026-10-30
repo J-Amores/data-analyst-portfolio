@@ -86,5 +86,9 @@ data/exports/*
 .agent/
 .agents/
 assets/docs/
+docs/
 *-bkp/
 *bkp/
+
+# Generated Plotly interactive artifacts (regenerated via src/analytics/)
+reports/figures/*.html

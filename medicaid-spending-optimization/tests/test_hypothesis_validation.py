@@ -306,22 +306,25 @@ class TestHypothesis3PriceSpread:
 # Visual Artifacts Existence & Integrity Tests
 # =============================================================================
 class TestVisualArtifacts:
-    """Verifies that required publication PNG and HTML figures exist and are non-empty."""
+    """Verifies that required publication PNG figures exist and optional HTML figures are valid."""
 
     def test_h1_figures_exist(self):
         """Verifies H1 capital allocation Sankey figures exist."""
         assert H1_PNG.exists(), f"Missing {H1_PNG}"
-        assert H1_HTML.exists(), f"Missing {H1_HTML}"
         assert H1_PNG.stat().st_size > 50_000
+        if H1_HTML.exists():
+            assert H1_HTML.stat().st_size > 50_000
 
     def test_h2_figures_exist(self):
         """Verifies H2 price-volume decomposition figures exist."""
         assert H2_PNG.exists(), f"Missing {H2_PNG}"
-        assert H2_HTML.exists(), f"Missing {H2_HTML}"
         assert H2_PNG.stat().st_size > 50_000
+        if H2_HTML.exists():
+            assert H2_HTML.stat().st_size > 50_000
 
     def test_h3_figures_exist(self):
         """Verifies H3 MAC savings spread figures exist."""
         assert H3_PNG.exists(), f"Missing {H3_PNG}"
-        assert H3_HTML.exists(), f"Missing {H3_HTML}"
         assert H3_PNG.stat().st_size > 50_000
+        if H3_HTML.exists():
+            assert H3_HTML.stat().st_size > 50_000
