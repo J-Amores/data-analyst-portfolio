@@ -1,39 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Commerce Merchandising, Basket Profitability & Cross-Sell Engine</title>
+  <title>Growing order value with return-safe product bundles and wholesale case-packs | John Amores</title>
+
+  <!-- Typography: High-Contrast Editorial Serif + Crisp Sans + Tabular Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
   <style>
     :root {
-      --bg-primary: #F8FAFC;
+      --bg-paper: #FAF8F2;
+      --bg-paper-alt: #F3EFE6;
       --bg-card: #FFFFFF;
-      --bg-alt: #F1F5F9;
-      --text-main: #0F172A;
-      --text-muted: #64748B;
-      --text-light: #94A3B8;
-      --border-color: #E2E8F0;
-      --border-focus: #CBD5E1;
-      --emerald-600: #059669;
-      --emerald-500: #10B981;
-      --emerald-50: #ECFDF5;
-      --crimson-600: #DC2626;
-      --crimson-500: #EF4444;
-      --crimson-50: #FEF2F2;
-      --amber-600: #D97706;
-      --amber-50: #FFFBEB;
-      --blue-600: #0284C7;
-      --blue-50: #F0F9FF;
-      --indigo-600: #4F46E5;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+      --ink-black: #111111;
+      --ink-muted: #4A4843;
+      --ink-subtle: #52504A;
+      --border-color: #111111;
+      --hairline: 1px solid var(--border-color);
+      --border-divider: #E2E8F0;
+      --color-green: #166534;
+      --color-green-light: #F0FDF4;
+      --color-crimson: #BE123C;
+      --color-crimson-light: #FFF1F2;
+      --color-amber: #D97706;
+      --color-amber-light: #FFFBEB;
+      --color-charcoal: #27272A;
+      --content-width: 1140px;
+      --prose-width: 74ch;
     }
 
     * {
@@ -42,1004 +41,1774 @@
       padding: 0;
     }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-primary);
-      color: var(--text-main);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
+    ::selection {
+      background: #111111;
+      color: #FAF8F2;
     }
 
-    /* Top Navigation */
+    body {
+      background-color: var(--bg-paper);
+      color: var(--ink-black);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--ink-black);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Fixed Editorial Navigation Header */
     .top-nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: rgba(255, 255, 255, 0.95);
+      background: rgba(250, 248, 242, 0.95);
       backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 0.85rem 2rem;
+      border-bottom: var(--hairline);
+    }
+
+    .top-nav-inner {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 12px 24px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
     }
 
     .nav-brand {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-main);
-      text-decoration: none;
+      gap: 12px;
+      text-transform: uppercase;
     }
 
-    .brand-badge {
-      background: var(--text-main);
-      color: #FFFFFF;
-      padding: 0.25rem 0.55rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.72rem;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.05em;
+    .nav-badge {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-green);
     }
 
     .nav-links {
       display: flex;
-      gap: 1.75rem;
       align-items: center;
+      gap: 20px;
     }
 
     .nav-links a {
-      color: var(--text-muted);
+      color: var(--ink-black);
       text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 500;
-      transition: color 0.15s ease;
+      text-transform: uppercase;
+      transition: opacity 140ms ease;
     }
 
     .nav-links a:hover {
-      color: var(--text-main);
+      opacity: 0.65;
     }
 
-    .cta-btn-nav {
-      background: var(--emerald-600);
-      color: #FFFFFF;
-      text-decoration: none;
-      padding: 0.55rem 1.15rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-weight: 600;
+    .nav-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 1px 2px rgba(5, 150, 105, 0.2);
+      gap: 8px;
+      background: var(--ink-black);
+      color: var(--bg-paper) !important;
+      padding: 6px 14px;
+      text-decoration: none !important;
+      transition: transform 120ms ease, opacity 140ms ease;
     }
 
-    .cta-btn-nav:hover {
-      background: #047857;
+    .nav-btn:hover {
+      opacity: 0.85;
       transform: translateY(-1px);
     }
 
-    /* Container */
-    .container {
-      max-width: 1240px;
+    /* Outer Container */
+    .report-container {
+      max-width: var(--content-width);
       margin: 0 auto;
-      padding: 2.5rem 1.5rem 6rem;
+      padding: 0 24px 80px 24px;
     }
 
-    /* Hero / Header */
-    .hero-header {
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border-color);
+    /* Hero Section */
+    .hero-section {
+      padding: 64px 0 48px 0;
+      border-bottom: var(--hairline);
     }
 
-    .hero-pretitle {
-      color: var(--emerald-600);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
+    .hero-tag {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+    }
+
+    .hero-tag span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .hero-title {
-      font-size: 2.45rem;
-      font-weight: 800;
-      line-height: 1.22;
-      color: var(--text-main);
-      margin-bottom: 1rem;
-      letter-spacing: -0.025em;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(2.8rem, 5.5vw, 4.4rem);
+      line-height: 1.05;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      width: 100%;
     }
 
     .hero-subtitle {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 980px;
-      line-height: 1.6;
+      font-size: 1.2rem;
+      line-height: 1.55;
+      color: var(--ink-muted);
+      width: 100%;
+      margin-bottom: 36px;
     }
 
-    /* KPI Grid */
-    .kpi-grid {
+    /* Key Numbers Bar */
+    .metrics-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .kpi-card {
+      border: var(--hairline);
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1.35rem 1.25rem;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      overflow: hidden;
+      margin-top: 32px;
     }
 
-    .kpi-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--border-color);
+    .metric-item {
+      padding: 24px;
+      border-right: var(--hairline);
     }
 
-    .kpi-card.emerald::before { background: var(--emerald-600); }
-    .kpi-card.blue::before { background: var(--blue-600); }
-    .kpi-card.crimson::before { background: var(--crimson-600); }
-    .kpi-card.amber::before { background: var(--amber-600); }
-
-    .kpi-label {
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 0.45rem;
+    .metric-item:last-child {
+      border-right: none;
     }
 
-    .kpi-value {
-      font-size: 1.85rem;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.15;
+    .metric-label {
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 0.4rem;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-subtle);
+      margin-bottom: 8px;
     }
 
-    .kpi-subtext {
+    .metric-number {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 2.75rem;
+      line-height: 1.0;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .metric-note {
       font-size: 0.82rem;
-      color: var(--text-muted);
+      color: var(--ink-muted);
+      line-height: 1.4;
     }
 
-    /* Sections */
-    .section {
-      margin-bottom: 4rem;
+    /* Section Styling */
+    .report-section {
+      padding: 64px 0;
+      border-bottom: var(--hairline);
     }
 
     .section-header {
-      margin-bottom: 1.75rem;
+      margin-bottom: 32px;
     }
 
-    .section-eyebrow {
-      font-size: 0.8rem;
-      font-weight: 700;
+    .section-chapter {
       font-family: 'JetBrains Mono', monospace;
-      color: var(--emerald-600);
+      font-size: 0.76rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.35rem;
+      letter-spacing: 0.12em;
+      color: var(--color-crimson);
+      margin-bottom: 12px;
     }
 
     .section-title {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: -0.015em;
-    }
-
-    .section-lead {
-      font-size: 1rem;
-      color: var(--text-muted);
-      margin-top: 0.35rem;
-      max-width: 950px;
-    }
-
-    /* Tables */
-    .table-container {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      overflow-x: auto;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 1.5rem;
-    }
-
-    table {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(2.0rem, 3.8vw, 3.0rem);
+      line-height: 1.15;
+      font-weight: 400;
+      letter-spacing: -0.01em;
       width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 0.88rem;
     }
 
-    th {
-      background: var(--bg-alt);
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.78rem;
+    /* Two-Column Prose and Exhibit Spread */
+    .two-column-spread {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-top: 32px;
+    }
+
+    .prose-block {
+      width: 100%;
+    }
+
+    .prose-lead {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--ink-black);
+      margin-bottom: 20px;
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: var(--ink-muted);
+    }
+
+    p strong {
+      color: var(--ink-black);
+      font-weight: 700;
+    }
+
+    h3.subhead {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 400;
+      line-height: 1.25;
+      margin: 28px 0 12px 0;
+      color: var(--ink-black);
+    }
+
+    /* Editorial Pull Quote */
+    .editorial-quote {
+      border: var(--hairline);
+      padding: 24px;
+      margin: 28px 0;
+      background: var(--bg-paper-alt);
+    }
+
+    .quote-text {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.35rem;
+      line-height: 1.35;
+      font-style: italic;
+      color: var(--ink-black);
+      margin-bottom: 12px;
+    }
+
+    .quote-author {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.85rem 1.15rem;
-      border-bottom: 1px solid var(--border-color);
+      letter-spacing: 0.08em;
+      color: var(--ink-subtle);
     }
 
-    td {
-      padding: 1rem 1.15rem;
-      border-bottom: 1px solid var(--border-color);
-      vertical-align: middle;
-      color: var(--text-main);
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    tr:hover td {
-      background: #FBFDFF;
-    }
-
-    .num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-    }
-
-    /* Badges */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.75rem;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .badge-pass {
-      background: var(--emerald-50);
-      color: var(--emerald-600);
-      border: 1px solid #A7F3D0;
-    }
-
-    .badge-breach {
-      background: var(--crimson-50);
-      color: var(--crimson-600);
-      border: 1px solid #FECACA;
-    }
-
-    .badge-slate {
-      background: var(--bg-alt);
-      color: var(--text-muted);
-      border: 1px solid var(--border-color);
-    }
-
-    /* Cards Grid */
-    .cards-grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .cards-grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .info-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1.35rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .info-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.65rem;
-    }
-
-    .info-card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .info-card-body {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.55;
-    }
-
-    /* Interview Script Box */
-    .interview-box {
-      background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%);
-      border: 1px solid #BBF7D0;
-      border-radius: var(--radius-md);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .interview-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.85rem;
-    }
-
-    .interview-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--emerald-600);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .interview-quote {
-      font-size: 0.95rem;
-      color: #1E293B;
-      font-style: normal;
-      line-height: 1.65;
-    }
-
-    /* Image Display Card */
+    /* Figure Card */
     .figure-card {
+      border: var(--hairline);
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-bottom: 2.25rem;
-      box-shadow: var(--shadow-sm);
+      margin: 36px 0;
     }
 
-    .figure-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .figure-caption {
-      padding: 1.15rem 1.35rem;
-      background: #FFFFFF;
+    .figure-header {
+      padding: 14px 20px;
+      border-bottom: var(--hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background: var(--bg-paper-alt);
     }
 
     .figure-title {
-      font-size: 0.95rem;
       font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.35rem;
+      color: var(--ink-black);
     }
 
-    .figure-text {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.55;
+    .figure-meta {
+      color: var(--ink-subtle);
     }
 
-    .stat-pill {
-      display: inline-block;
+    .figure-body {
+      padding: 20px;
+      background: var(--bg-paper);
+      text-align: center;
+      cursor: zoom-in;
+    }
+
+    .figure-body img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .figure-footer {
+      padding: 12px 20px;
+      border-top: var(--hairline);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      background: var(--bg-alt);
-      color: var(--text-main);
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
-      font-weight: 600;
+      font-size: 0.76rem;
+      color: var(--ink-muted);
+      background: var(--bg-paper-alt);
+      line-height: 1.5;
     }
 
-    /* Rollout Timeline */
-    .rollout-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-      margin-top: 1.5rem;
+    /* Data Tables */
+    .data-table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
     }
 
-    .rollout-phase {
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      text-align: left;
+      border: var(--hairline);
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1.35rem;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
     }
 
-    .rollout-phase.phase-1 { border-top: 4px solid var(--emerald-600); }
-    .rollout-phase.phase-2 { border-top: 4px solid var(--blue-600); }
-    .rollout-phase.phase-3 { border-top: 4px solid var(--amber-600); }
+    .data-table th,
+    .data-table td {
+      padding: 11px 14px;
+      border-bottom: var(--hairline);
+      vertical-align: middle;
+    }
 
-    .phase-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
+    .data-table th {
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 0.5rem;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--bg-paper-alt);
+      color: var(--ink-black);
+      border-bottom: var(--hairline);
     }
 
-    .phase-1 .phase-badge { color: var(--emerald-600); }
-    .phase-2 .phase-badge { color: var(--blue-600); }
-    .phase-3 .phase-badge { color: var(--amber-600); }
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
 
-    .phase-title {
-      font-size: 1.1rem;
+    .data-table .num-cell {
+      font-family: 'JetBrains Mono', monospace;
+      text-align: right;
+    }
+
+    .status-pass {
+      display: inline-block;
+      padding: 3px 8px;
+      border: 1px solid var(--color-green);
+      color: var(--color-green);
+      background: var(--color-green-light);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
       font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.65rem;
+      letter-spacing: 0.05em;
     }
 
-    .phase-list {
-      list-style: none;
-      font-size: 0.85rem;
-      color: var(--text-muted);
+    .status-fail {
+      display: inline-block;
+      padding: 3px 8px;
+      border: 1px solid var(--color-crimson);
+      color: var(--color-crimson);
+      background: var(--color-crimson-light);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .status-amber {
+      display: inline-block;
+      padding: 3px 8px;
+      border: 1px solid var(--color-amber);
+      color: var(--color-amber);
+      background: var(--color-amber-light);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    /* Insight Card */
+    .insight-card {
+      border: var(--hairline);
+      background: var(--bg-paper-alt);
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .insight-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-black);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .insight-body {
+      font-size: 0.90rem;
+      color: var(--ink-muted);
       line-height: 1.55;
     }
 
-    .phase-list li {
-      margin-bottom: 0.5rem;
-      position: relative;
-      padding-left: 1.15rem;
+    /* Comparison Split Container */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: var(--hairline);
+      margin: 24px 0;
     }
 
-    .phase-list li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--text-light);
-      font-weight: bold;
+    .comparison-grid.three-col {
+      grid-template-columns: repeat(3, 1fr);
     }
 
-    /* Footer */
-    .footer {
-      border-top: 1px solid var(--border-color);
-      padding-top: 2rem;
-      margin-top: 4rem;
+    .comparison-col {
+      padding: 20px;
+      border-right: var(--hairline);
+    }
+
+    .comparison-col:last-child {
+      border-right: none;
+    }
+
+    /* Chapter Takeaway Banner */
+    .takeaway-strip {
+      border: var(--hairline);
+      background: var(--bg-paper-alt);
+      padding: 20px 24px;
+      margin-top: 40px;
       display: flex;
-      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .takeaway-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-black);
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+
+    .takeaway-body {
+      font-size: 0.94rem;
+      line-height: 1.55;
+      color: var(--ink-muted);
+    }
+
+    .narrative-callout {
+      border-left: 3px solid var(--ink-black);
+      padding: 14px 20px;
+      margin: 24px 0;
+      background: var(--bg-paper-alt);
+      font-size: 0.98rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      width: 100%;
+    }
+
+    .narrative-callout strong {
+      color: var(--ink-black);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(17, 17, 17, 0.92);
+      z-index: 1000;
+      justify-content: center;
       align-items: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
+      padding: 24px;
+      cursor: zoom-out;
     }
 
-    @media (max-width: 1024px) {
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-      .cards-grid-4 { grid-template-columns: repeat(2, 1fr); }
-      .rollout-grid { grid-template-columns: 1fr; }
+    .lightbox-modal img {
+      max-width: 95vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border: 1px solid #FFFFFF;
+      background: var(--bg-paper);
     }
 
-    @media (max-width: 640px) {
-      .kpi-grid { grid-template-columns: 1fr; }
-      .cards-grid-2 { grid-template-columns: 1fr; }
-      .cards-grid-4 { grid-template-columns: 1fr; }
-      .nav-links a { display: none; }
-      .hero-title { font-size: 1.85rem; }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      color: #FFFFFF;
+      font-size: 2.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .two-column-spread {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .metrics-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .metric-item:nth-child(2) {
+        border-right: none;
+      }
+
+      .metric-item:nth-child(1),
+      .metric-item:nth-child(2) {
+        border-bottom: var(--hairline);
+      }
+
+      .comparison-grid,
+      .comparison-grid.three-col {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-grid .comparison-col,
+      .comparison-grid.three-col .comparison-col {
+        border-right: none;
+        border-bottom: var(--hairline);
+      }
+
+      .comparison-grid .comparison-col:last-child,
+      .comparison-grid.three-col .comparison-col:last-child {
+        border-bottom: none;
+      }
+
+      .nav-links a:not(.nav-btn) {
+        display: none;
+      }
+
+      .nav-brand {
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .metrics-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-item {
+        border-right: none;
+        border-bottom: var(--hairline);
+      }
+
+      .metric-item:last-child {
+        border-bottom: none;
+      }
+
+      .takeaway-strip {
+        flex-direction: column;
+        gap: 8px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Top Sticky Navigation -->
-  <nav class="top-nav">
-    <a href="#" class="nav-brand">
-      <span class="brand-badge">DECISION ARCHITECTURE</span>
-      <span>Merchandising Analytics</span>
-    </a>
-    <div class="nav-links">
-      <a href="#overview">Overview</a>
-      <a href="#metrics">Metric Hierarchy</a>
-      <a href="#governance">Data Governance</a>
-      <a href="#findings">Econometric Proof</a>
-      <a href="#rollout">Rollout Strategy</a>
-      <a href="cockpit.html" class="cta-btn-nav">
-        <span>Launch Interactive Simulator</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </nav>
-
-  <div class="container">
-
-    <!-- Hero Header -->
-    <header class="hero-header" id="overview">
-      <div class="hero-pretitle">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-        Executive Portfolio Dossier: Online Retail Merchandising Engine
+  <!-- FIXED EDITORIAL NAVIGATION HEADER -->
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <div class="nav-brand">
+        <span class="nav-badge"></span>
+        <span>JOHN AMORES | MERCHANDISING &amp; BASKET PROFITABILITY ENGINE</span>
       </div>
-      <h1 class="hero-title">E-Commerce Merchandising, Basket Profitability & Cross-Sell Engine</h1>
+      <div class="nav-links">
+        <a href="#briefing">OVERVIEW</a>
+        <a href="#setup">01 DATA CLEANUP</a>
+        <a href="#tiers">02 BASKET TIERS</a>
+        <a href="#bundles">03 SAFE BUNDLES</a>
+        <a href="#wholesale">04 WHOLESALE &amp; TIMING</a>
+        <a href="#rollout">05 ROLLOUT PLAN</a>
+        <a href="cockpit.html" class="nav-btn">OPEN BUNDLE PLANNER -&gt;</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="report-container">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="hero-tag">
+        <span>[MERCHANDISING &amp; BUNDLE ROLLOUT PLAN]</span>
+        <span>[19,773 ORDERS | £10.25M SALES]</span>
+      </div>
+      <h1 class="hero-title">Growing order value with return-safe product bundles and wholesale case-packs</h1>
       <p class="hero-subtitle">
-        An end-to-end econometric investigation and decision architecture converting 541,909 raw transactional records into high-margin cross-sell bundles, leak-free returns governance, and a predictable +£2,948 net cycle lift across international wholesale regimes.
+        A practical 90-day merchandising plan built from 19,773 completed orders (£10.25M in sales), showing which
+        product sets to bundle at 10% off, which fragile items to hold back for better packaging, and how to price
+        multi-unit case-packs for wholesale buyers.
       </p>
-    </header>
 
-    <!-- 4 Headline KPI Cards -->
-    <div class="kpi-grid">
-      <div class="kpi-card emerald">
-        <div class="kpi-label">Commercial GMV (Clean)</div>
-        <div class="kpi-value">£10.25M</div>
-        <div class="kpi-subtext">Across 19,773 valid orders and 3,801 merchandise SKUs</div>
+      <!-- 4-Box Key Metrics Bar (Whole Numbers) -->
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <div class="metric-label">COMPLETED ORDERS</div>
+          <div class="metric-number">19,773</div>
+          <div class="metric-note">£10.25M sales across 522,544 clean item lines</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">SALES FROM 6+ ITEM BASKETS</div>
+          <div class="metric-number">87%</div>
+          <div class="metric-note">£8.89M sales | £322 typical order vs £58 on 1-2 items</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">COST OF RETURNS &amp; CANCELLATIONS</div>
+          <div class="metric-number" style="color: var(--color-crimson);">8%</div>
+          <div class="metric-note">-£897K lost across 3,836 credit invoices</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">NET PROFIT FROM 5 NEW BUNDLES</div>
+          <div class="metric-number" style="color: var(--color-green);">+£2,948 to +£24,528</div>
+          <div class="metric-note">Per sales cycle from retail sets to wholesale case-packs</div>
+        </div>
       </div>
-      <div class="kpi-card blue">
-        <div class="kpi-label">Multi-SKU Revenue Share</div>
-        <div class="kpi-value">86.8%</div>
-        <div class="kpi-subtext">5.6x median AOV surge (£57.60 small vs. £322.30 multi-line)</div>
-      </div>
-      <div class="kpi-card crimson">
-        <div class="kpi-label">Cancellation Leakage</div>
-        <div class="kpi-value">8.05%</div>
-        <div class="kpi-subtext">-£896.81k isolated via 4-way financial accounting split</div>
-      </div>
-      <div class="kpi-card amber">
-        <div class="kpi-label">Net Promotional Lift</div>
-        <div class="kpi-value">+£2,948</div>
-        <div class="kpi-subtext">Per cycle at 10% discount; scales to +£24.5k in wholesale tiers</div>
-      </div>
-    </div>
+    </section>
 
-    <!-- 4-Question Executive Framing Table -->
-    <div class="section">
+    <!-- EXECUTIVE BRIEFING -->
+    <section class="report-section" id="briefing">
       <div class="section-header">
-        <div class="section-eyebrow">DASH Presentation Framework</div>
-        <h2 class="section-title">The 4-Question Executive Framing</h2>
-        <p class="section-lead">A structured executive synthesis connecting diagnostic data discovery directly to commercial action and risk mitigation.</p>
+        <div class="section-chapter">EXECUTIVE RESOLUTION / WHAT WE ARE CHANGING</div>
+        <h2 class="section-title">How we will grow small baskets without losing money on fragile returns</h2>
       </div>
 
-      <div class="table-container">
-        <table>
+      <div class="prose-block">
+        <p class="prose-lead">
+          Over the past year, our online store fulfilled 19,773 completed merchandise orders worth £10.25M across 3,910
+          products. Right now, almost all of our revenue comes from large, multi-item orders. Baskets with 6 or more
+          distinct products bring in 87% of store revenue (£8.89M) with a typical (median) order value of £322, and bulk
+          orders of 31 or more products reach £551. By contrast, shoppers who check out with just 1 or 2 items make up
+          12% of orders and spend a median of only £58.
+        </p>
+        <p>
+          Our product pages currently show items one by one with no "Buy the Set for 10% Off" prompt or multi-pack
+          option. Thousands of retail shoppers put a single popular item in their cart, such as a green Regency teacup, a
+          jumbo retro storage bag, or a vintage alarm clock, and head straight to checkout. Yet when shoppers do buy more
+          than one piece from those collections, they pick the matching color or companion piece 62% to 84% of the time.
+          Putting a 1-click bundle offer directly on those product pages is the simplest way to turn single-item
+          checkouts into larger baskets.
+        </p>
+        <p>
+          However, discounting our top sellers without checking return rates would backfire. Cancelled orders and
+          returns cost the business £897K a year (8% of sales). When we checked returns for every product, we found that
+          several popular ceramic and glass items break in shipping. Our #1 revenue item (the 3-tier Regency cakestand,
+          £174K in sales) has a 5.3% return rate, our #1 most-ordered item (the glass hanging heart tea-light holder)
+          sits at 6%, and our most frequently paired tea plates (Regency rose and green plates) have a 9% return rate on
+          the rose plate. Promoting fragile glass and ceramic items in discounted bundles would only multiply shipping
+          losses.
+        </p>
+        <p>
+          To protect our margins, we are putting a strict 5% return ceiling in place: no product with a return rate of 5%
+          or higher can be included in a discounted bundle until its packaging passes a warehouse drop test. That rule
+          holds back fragile ceramics and clears 5 durable, high-demand bundles across teaware, storage bags, alarm
+          clocks, lunch bags, and playsets where returns sit between 1% and 4%. Launching those 5 bundles at 10% off adds
+          £2,948 in net profit per cycle on single-unit retail orders, grows to £4,368 when paired with a 48-hour
+          follow-up email, and reaches £24,528 per cycle when offered as multi-unit case-packs for our wholesale buyers.
+        </p>
+
+        <div class="narrative-callout">
+          <strong>Our Core Rule:</strong> Never discount a fragile item that breaks in the mail. By capping bundle
+          eligibility at a 5% maximum return rate, we block high-return ceramics and glassware while capturing £2,948 to
+          £24,528 in clean profit from 5 durable product sets.
+        </div>
+      </div>
+
+      <!-- 3-Column Summary Grid -->
+      <div class="comparison-grid three-col" style="margin: 32px 0 28px 0;">
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--color-crimson);">THE SMALL BASKET GAP</div>
+          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
+            Shoppers buying 1-2 items spend a median of £58 because product pages do not suggest matching pieces.
+          </p>
+          <div
+            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--color-crimson); margin-top: 12px; line-height: 1.6;">
+            • 22% of orders have 5 or fewer items.<br>
+            • 2,831 shoppers bought our 5 anchor items solo.<br>
+            • No 1-click set discounts on product pages.
+          </div>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--ink-black);">THE 5% RETURN SAFETY RULE</div>
+          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
+            Any product with a return rate of 5% or higher is held back from bundle discounts until packaging is upgraded.
+          </p>
+          <div
+            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--ink-black); margin-top: 12px; line-height: 1.6;">
+            • Holds back #1 seller 3-tier cakestand (5.3% returns).<br>
+            • Holds back #1 volume glass heart holder (6% returns).<br>
+            • Blocks fragile rose tea plates (9% returns).
+          </div>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--color-green);">THE 3-STEP ROLLOUT GAIN</div>
+          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
+            Launch 5 durable product bundles at 10% off across retail pages, follow-up emails, and wholesale case-packs.
+          </p>
+          <div
+            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--color-green); margin-top: 12px; line-height: 1.6;">
+            • +£2,948 net profit in retail (6x return on discount).<br>
+            • +£4,368 net profit with 48-hour follow-up emails.<br>
+            • +£24,528 net profit at 8x wholesale case-pack scale.
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Core Executive Questions Table -->
+      <div class="data-table-wrap">
+        <table class="data-table">
           <thead>
             <tr>
-              <th style="width: 20%;">Executive Question</th>
-              <th style="width: 45%;">Empirical Evidence & Analysis</th>
-              <th style="width: 35%;">Commercial Impact</th>
+              <th style="width: 28%;">Executive Question</th>
+              <th>Findings and Practical Resolution</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>1. What did we find?</strong></td>
-              <td>Multi-SKU baskets (6+ items) generate 86.8% of portfolio revenue despite accounting for 77.9% of orders. Median order value jumps by 5.6x from £57.60 for small 1-2 SKU baskets to £322.30 for multi-line checkouts. Simultaneously, 8.05% of GMV (-£896.81k) leaks via customer cancellations.</td>
-              <td>Extreme revenue concentration in multi-item orders confirms that expanding basket size is our most powerful revenue lever.</td>
+              <td><strong>What did we find?</strong></td>
+              <td>Orders with 6+ items bring in 87% of sales (£8.89M) with a £322 typical order value, compared to £58 on
+                1-2 item orders. Matching pieces in top collections sell together 62% to 84% of the time.</td>
             </tr>
             <tr>
-              <td><strong>2. Why did it happen?</strong></td>
-              <td>Affinity clusters in Regency Teaware, Jumbo Bags, and Vintage Clocks yield statistical lift up to 37.2x and co-purchase confidence up to 81.8%. However, uncurated cross-selling introduces fragile high-return items like SKU 23170 (8.62% return rate), which erodes operational profits.</td>
-              <td>Customers possess strong natural collection loyalty, but unvetted bundling risks compounding return shipping costs and margins.</td>
+              <td><strong>Why are baskets staying small?</strong></td>
+              <td>Product pages do not offer 1-click set bundles for matching colors and styles, and wholesale buyers have
+                no multi-unit case-pack pricing on the website.</td>
             </tr>
             <tr>
-              <td><strong>3. What does it mean commercially?</strong></td>
-              <td>Deploying a curated 10% promotional bundle across our top 5 validated pairs generates £3,549.72 in gross incremental attach. After deducting £601.68 in organic cannibalization, it yields +£2,948.04 in net incremental profit per cycle, scaling to +£24.5k in wholesale case packs.</td>
-              <td>Bundling delivers measurable, positive net incremental margin even after accounting for organic discount cannibalization.</td>
+              <td><strong>Where is the hidden risk?</strong></td>
+              <td>Returns cost £897K (8% of sales). Several top sellers and matching sets (like the 3-tier cakestand at
+                5.3% returns and rose tea plates at 9% returns) break in transit and fail our 5% return limit.</td>
             </tr>
             <tr>
-              <td><strong>4. What decision comes next?</strong></td>
-              <td>Execute a 3-phase rollout: Phase 1: Immediate deployment of the top 5 vetted bundles; Phase 2: Near-Term automated 48-hour post-purchase emails and supplier QA on SKU 23170; Phase 3: Ongoing wholesale case packs for Netherlands, EIRE, Germany, and France ahead of the +81.2% Q4 holiday surge.</td>
-              <td>Structured 90-day execution roadmap balances immediate digital storefront conversion gains with upstream supply chain quality control.</td>
+              <td><strong>What are we implementing?</strong></td>
+              <td>Roll out 5 return-safe bundles at 10% off on product pages (Phase 1), turn on 48-hour follow-up emails
+                and upgrade fragile packaging (Phase 2), and launch 4x and 8x wholesale case-packs for European and UK
+                business buyers before Q4 (Phase 3).</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- 45-Second Interview Script -->
-      <div class="interview-box">
-        <div class="interview-header">
-          <div class="interview-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            45-Second Executive Walkthrough Script
-          </div>
-          <span class="badge badge-pass">Christine Jiang Standard</span>
+      <div class="takeaway-strip">
+        <div class="takeaway-tag">OVERVIEW TAKEAWAY</div>
+        <div class="takeaway-body">
+          Baskets with 6 or more items generate 87% of store revenue (£8.89M) at a £322 typical order value. Enforcing a
+          5% return limit clears 5 safe bundles, capturing +£2,948 to +£24,528 in net cycle profit while preventing return
+          shipping losses.
         </div>
-        <p class="interview-quote">
-          "When analyzing £10.25 million in commercial sales across 19,773 orders, we discovered that multi-SKU baskets drive 86.8% of our revenue with a 5.6x higher median order value than small checkouts. To scale this multi-item behavior, we mined high-affinity product pairs with statistical lift up to 37 times independence. However, we established strict guardrails: any SKU with a return rate above 5% is immediately disqualified, which successfully flagged fragile products like the Regency Rose Plate at an 8.62% return rate. By deploying our top five verified bundles under a 10% promotional discount, we capture £3,550 in gross incremental attach, absorb £602 in cannibalization, and lock in +£2,948 in net incremental profit per cycle, expanding to over £24,500 when rolled out across our high-volume European wholesale accounts ahead of the fourth-quarter peak."
+      </div>
+    </section>
+
+    <!-- CHAPTER 1: DATA SETUP & INTEGRITY -->
+    <section class="report-section" id="setup">
+      <div class="section-header">
+        <div class="section-chapter">STEP 01 / PREPARING THE STORE LEDGER</div>
+        <h2 class="section-title">Cleaning up the invoice records: four reporting traps we fixed first</h2>
+      </div>
+
+      <div class="two-column-spread">
+        <div class="prose-block">
+          <p class="prose-lead">
+            Before testing bundle rules, we checked the raw 541,909-line transaction ledger for reporting traps that
+            could distort product associations and financial projections. We resolved four specific issues to ensure
+            reliable numbers.
+          </p>
+
+          <h3 class="subhead">Keeping guest checkouts (saving £1.51M in wholesale orders)</h3>
+          <p>
+            Nearly a quarter of the raw records (135,080 rows) lack an account ID. Many reports delete those rows. When we
+            inspected them, we found 1,371 valid guest orders worth £1.51M (15% of store revenue). Even more important,
+            guest checkouts average £1,102 and 96 items per order, compared to £475 and 21 items for registered accounts.
+            Deleting guest checkouts would have erased some of our largest wholesale buyers.
+          </p>
+
+          <div class="editorial-quote">
+            <div class="quote-text">
+              "Deleting guest checkouts would have discarded 15% of revenue (£1.51M) and erased our largest wholesale
+              buyers, who average £1,102 per order compared to £475 for registered accounts."
+            </div>
+            <div class="quote-author">LEDGER RECONCILIATION | 19,773 COMPLETED MERCHANDISE ORDERS</div>
+          </div>
+
+          <h3 class="subhead">Separating credit cancellations (-£897K) and non-merchandise fees</h3>
+          <p>
+            Instead of throwing away the 9,288 cancelled invoice lines, we saved them into a separate cancellation ledger.
+            That allowed us to calculate the exact return rate for every product and hold back fragile items (like the
+            3-tier cakestand with a 5.3% return rate and rose tea plates with a 9% return rate) from our bundle
+            promotions.
+          </p>
+          <p>
+            We also separated 2,334 service lines for postage, bank charges, and account fees (£395K) along with 2,512
+            warehouse write-offs (-£22K) so delivery charges would not show up as suggested product bundles. Finally, we
+            removed 5,268 identical duplicate rows (£22K) and mapped every product code to its clean catalog name.
+          </p>
+        </div>
+
+        <div>
+          <!-- Reconciled Ledger Table (Plain English Ledger Names) -->
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>STORE LEDGER COMPONENT</th>
+                  <th class="num-cell">ROWS</th>
+                  <th class="num-cell">ORDERS</th>
+                  <th class="num-cell">NET IMPACT (£)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: var(--color-green-light);">
+                  <td><strong>Completed Merchandise Orders</strong></td>
+                  <td class="num-cell">522,544</td>
+                  <td class="num-cell">19,773</td>
+                  <td class="num-cell" style="font-weight: 700; color: var(--color-green);">+£10,247,610</td>
+                </tr>
+                <tr style="background: var(--color-crimson-light);">
+                  <td><strong>Customer Returns &amp; Cancellations</strong></td>
+                  <td class="num-cell">9,288</td>
+                  <td class="num-cell">3,836</td>
+                  <td class="num-cell" style="font-weight: 700; color: var(--color-crimson);">-£896,812</td>
+                </tr>
+                <tr>
+                  <td><strong>Warehouse Stock Write-Offs</strong></td>
+                  <td class="num-cell">2,512</td>
+                  <td class="num-cell">0</td>
+                  <td class="num-cell">-£22,044</td>
+                </tr>
+                <tr>
+                  <td><strong>Postage, Bank &amp; Account Fees</strong></td>
+                  <td class="num-cell">2,334</td>
+                  <td class="num-cell">1,215</td>
+                  <td class="num-cell">+£395,124</td>
+                </tr>
+                <tr style="background: var(--bg-paper-alt); font-weight: 700;">
+                  <td><strong>Total Reconciled Store Ledger</strong></td>
+                  <td class="num-cell">541,909</td>
+                  <td class="num-cell">24,824</td>
+                  <td class="num-cell">£9,723,878</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-title">THREE RULES EVERY BUNDLE MUST PASS</div>
+            <div class="insight-body">
+              <strong>1. Under 5% Return Rate:</strong> Every item in a bundle must have a return rate below 5% so
+              shipping damage does not eat up profits.
+              <br><br>
+              <strong>2. Profitable After Discounts:</strong> The added sales from new bundle buyers must outweigh the
+              10% discount given to shoppers who would have bought both items anyway.
+              <br><br>
+              <strong>3. Proven Buy-Together Habit:</strong> Bundled items must naturally sell together at least 50% to
+              84% of the time (6x to 34x more often than random pairs).
+            </div>
+          </div>
+
+          <div class="takeaway-strip" style="margin-top: 20px; padding: 16px 20px; flex-direction: column; gap: 8px;">
+            <div class="takeaway-tag" style="color: var(--ink-black);">CHAPTER 01 TAKEAWAY</div>
+            <div class="takeaway-body" style="font-size: 0.88rem;">
+              Preserving guest checkouts protected £1.51M in large wholesale orders, while isolating 9,288 credit
+              cancellations enabled exact product return rate checks.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2: BASKET SIZE TIERS & GUEST WHOLESALE ORDERS -->
+    <section class="report-section" id="tiers">
+      <div class="section-header">
+        <div class="section-chapter">STEP 02 / WHERE OUR REVENUE COMES FROM</div>
+        <h2 class="section-title">Moving shoppers from 1-2 items (£58 typical order) to multi-item baskets (£322+)</h2>
+      </div>
+
+      <div class="prose-block">
+        <p class="prose-lead">
+          Our store records show a sharp contrast between small retail checkouts and multi-item baskets. Orders
+          containing 6 or more items represent 78% of all store checkouts and generate 87% of all sales (£8.89M).
+          Shoppers in the 6-15 item tier spend a median of £230, those in the 16-30 tier reach £336, and bulk wholesale
+          orders with 31 or more products reach a median of £551.
+        </p>
+        <p>
+          On paper, 1-2 item orders show an average value of £307, which looks almost the same as 3-5 item orders
+          (£316). That happens because a handful of wholesale buyers placed massive single-item orders (up to £168,470 on
+          a single line). Looking at the median typical order value removes that distortion and shows the real
+          progression for everyday shoppers: from £58 on 1-2 items to £141 on 3-5 items (2.5x) and £322 on 6+ items
+          (6x).
         </p>
       </div>
-    </div>
 
-    <!-- 4-Layer Metric Architecture & Guardrails -->
-    <div class="section" id="metrics">
-      <div class="section-header">
-        <div class="section-eyebrow">Decision-Driven Architecture</div>
-        <h2 class="section-title">4-Layer Metric Hierarchy & Guardrails</h2>
-        <p class="section-lead">A balanced measurement system preventing vanity metric optimization by enforcing reverse logistics cost controls and cannibalization accounting.</p>
-      </div>
-
-      <div class="cards-grid-4">
-        <div class="info-card">
-          <div class="info-card-header">
-            <span class="info-card-title">North Star Metric</span>
-            <span class="badge badge-pass">PRIMARY</span>
-          </div>
-          <p class="info-card-body">
-            <strong>Net AOV & Multi-SKU Basket Share:</strong> Expanding single-item retail checkouts into multi-line baskets (6+ items) to monetize strong wholesale and collection loyalty.
-          </p>
+      <!-- FIGURE 1 EXHIBIT -->
+      <div class="figure-card">
+        <div class="figure-header">
+          <span class="figure-title">Figure 1: Five-tier order breakdown and order value comparison across 19,773
+            orders</span>
+          <span class="figure-meta">19,773 Orders | £10.25M Sales</span>
         </div>
-        <div class="info-card">
-          <div class="info-card-header">
-            <span class="info-card-title">Association KPIs</span>
-            <span class="badge badge-slate">DISCOVERY</span>
-          </div>
-          <p class="info-card-body">
-            <strong>Support, Confidence & Lift:</strong> Statistical co-occurrence filtering (support >= 1.0%, chi-square p &lt; 0.0001) isolating organic cross-purchase affinity from random transactional chance.
-          </p>
+        <div class="figure-body" onclick="openLightbox('assets/fig1_basket_tier_aov.png')">
+          <img src="assets/fig1_basket_tier_aov.png"
+            alt="Orders with 6 or more items bring in 87% of revenue and a 6x higher typical order value">
         </div>
-        <div class="info-card">
-          <div class="info-card-header">
-            <span class="info-card-title">Guardrail 1: Quality</span>
-            <span class="badge badge-breach">RISK CEILING</span>
-          </div>
-          <p class="info-card-body">
-            <strong>SKU Return Rate &lt; 5.0%:</strong> Hard operational ceiling. Automatically blocks high-return products from recommendation carousels to safeguard reverse shipping and warehouse intake costs.
-          </p>
-        </div>
-        <div class="info-card">
-          <div class="info-card-header">
-            <span class="info-card-title">Guardrail 2: Finance</span>
-            <span class="badge badge-pass">MARGIN FLOOR</span>
-          </div>
-          <p class="info-card-body">
-            <strong>Net Margin Retention:</strong> Requires net incremental profit > 0 after deducting cannibalized promotional discounts from organic buyers who would have co-purchased at full price.
-          </p>
+        <div class="figure-footer">
+          Orders with 6 or more items generate 87% of revenue (£8.89M) with a £322 typical order value. Typical order
+          values jump 10x (£58 to £551), avoiding average distortions from single-item wholesale checkouts.
+          <br>
+          <strong>[Click image to enlarge]</strong>
         </div>
       </div>
-    </div>
 
-    <!-- CLEAN Data Governance & 4-Way Ledger Split -->
-    <div class="section" id="governance">
-      <div class="section-header">
-        <div class="section-eyebrow">Production Data Engineering</div>
-        <h2 class="section-title">CLEAN Data Governance & 4-Way Ledger Separation</h2>
-        <p class="section-lead">Rigorous financial accounting reconciling all 541,909 raw transactional records into segregated, audited data marts while preserving £1.51M in guest checkouts.</p>
-      </div>
-
-      <div class="table-container">
-        <table>
+      <!-- 5-Tier Basket Table (Rounded Whole Numbers) -->
+      <div class="data-table-wrap">
+        <table class="data-table">
           <thead>
             <tr>
-              <th>Target Data Mart</th>
-              <th>Row Count</th>
-              <th>Monetary Value (£)</th>
-              <th>Business Classification & Treatment Rationale</th>
+              <th>BASKET SIZE TIER</th>
+              <th class="num-cell">ORDERS</th>
+              <th class="num-cell">ORDER SHARE</th>
+              <th class="num-cell">TOTAL SALES (£)</th>
+              <th class="num-cell">SALES SHARE</th>
+              <th class="num-cell">TYPICAL ORDER (£)</th>
+              <th class="num-cell">AVERAGE ORDER (£)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><span class="num">fct_order_items_clean.parquet</span></td>
-              <td class="num">522,544</td>
-              <td class="num" style="color: var(--emerald-600); font-weight: 700;">£10,247,610.15</td>
-              <td><strong>Clean Commercial Merchandise Ledger:</strong> Valid forward revenue across 19,773 invoices and 3,801 distinct SKUs. Preserved 135,080 guest checkout records (£1.51M) to prevent understating storefront transaction volume.</td>
+              <td><strong>1-2 items</strong></td>
+              <td class="num-cell">2,313</td>
+              <td class="num-cell">12%</td>
+              <td class="num-cell">£710,522</td>
+              <td class="num-cell">7%</td>
+              <td class="num-cell">£58</td>
+              <td class="num-cell">£307</td>
             </tr>
             <tr>
-              <td><span class="num">fct_cancellations_refunds.parquet</span></td>
-              <td class="num">9,288</td>
-              <td class="num" style="color: var(--crimson-600); font-weight: 700;">-£896,812.49</td>
-              <td><strong>Cancellations & Credit Slips ('C' Invoices):</strong> 3,836 credit note slips isolated to establish SKU-level baseline return rates (Guardrail 1) without polluting forward market basket affinity rules.</td>
+              <td><strong>3-5 items</strong></td>
+              <td class="num-cell">2,041</td>
+              <td class="num-cell">10%</td>
+              <td class="num-cell">£645,762</td>
+              <td class="num-cell">6%</td>
+              <td class="num-cell">£141</td>
+              <td class="num-cell">£316</td>
             </tr>
-            <tr>
-              <td><span class="num">fct_inventory_adjustments.parquet</span></td>
-              <td class="num">2,512</td>
-              <td class="num" style="color: var(--text-muted);">-£22,124.12</td>
-              <td><strong>Warehouse Inventory Adjustments:</strong> Unbilled damaged goods, lost stock write-offs, and zero-price internal sample lines cleanly segregated from sales transactions.</td>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>6-15 items</strong></td>
+              <td class="num-cell">5,622</td>
+              <td class="num-cell">28%</td>
+              <td class="num-cell">£2,119,604</td>
+              <td class="num-cell">21%</td>
+              <td class="num-cell" style="font-weight: 700;">£230</td>
+              <td class="num-cell">£377</td>
             </tr>
-            <tr>
-              <td><span class="num">fct_non_merchandise.parquet</span></td>
-              <td class="num">2,334</td>
-              <td class="num" style="color: var(--text-muted);">£394,500.00</td>
-              <td><strong>Non-Product Fees & Postage:</strong> Service codes (POST, DOT, M, BANK CHARGES, AMAZONFEE) isolated to prevent logistics fees from distorting physical product affinity algorithms.</td>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>16-30 items</strong></td>
+              <td class="num-cell">5,253</td>
+              <td class="num-cell">27%</td>
+              <td class="num-cell">£2,376,824</td>
+              <td class="num-cell">23%</td>
+              <td class="num-cell" style="font-weight: 700;">£336</td>
+              <td class="num-cell">£452</td>
+            </tr>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>31+ items</strong></td>
+              <td class="num-cell">4,544</td>
+              <td class="num-cell">23%</td>
+              <td class="num-cell">£4,394,898</td>
+              <td class="num-cell">43%</td>
+              <td class="num-cell" style="font-weight: 700;">£551</td>
+              <td class="num-cell">£967</td>
+            </tr>
+            <tr style="background: var(--bg-paper-alt); font-weight: 700;">
+              <td><strong>Total Store Portfolio</strong></td>
+              <td class="num-cell">19,773</td>
+              <td class="num-cell">100%</td>
+              <td class="num-cell">£10,247,610</td>
+              <td class="num-cell">100%</td>
+              <td class="num-cell">£300</td>
+              <td class="num-cell">£518</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Production Issues Log -->
-      <div class="section-header" style="margin-top: 2rem;">
-        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">Production Issues Log (ISS-01 through ISS-05)</h3>
-      </div>
-      <div class="table-container">
-        <table>
+      <!-- Guest vs. Registered Table (Rounded Whole Numbers) -->
+      <div class="data-table-wrap">
+        <table class="data-table">
           <thead>
             <tr>
-              <th>Issue ID</th>
-              <th>Anomaly Description</th>
-              <th>Volume Impact</th>
-              <th>Pipeline Treatment & Commercial Governance Rationale</th>
+              <th>ACCOUNT TYPE</th>
+              <th class="num-cell">ORDERS</th>
+              <th class="num-cell">ORDER SHARE</th>
+              <th class="num-cell">TOTAL SALES (£)</th>
+              <th class="num-cell">SALES SHARE</th>
+              <th class="num-cell">AVERAGE ORDER (£)</th>
+              <th class="num-cell">AVERAGE BASKET ITEMS</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><span class="badge badge-slate">ISS-01</span></td>
-              <td><strong>Guest Checkouts (Missing CustomerID):</strong> 135,080 rows lack a registered customer account key.</td>
-              <td class="num">135,080 rows (£1.51M)</td>
-              <td><strong>Retained with flag:</strong> Dropping guest checkouts would discard 14.74% of revenue and severely bias market basket co-occurrences against unregistered shoppers.</td>
+              <td><strong>Registered Accounts</strong></td>
+              <td class="num-cell">18,402</td>
+              <td class="num-cell">93%</td>
+              <td class="num-cell">£8,737,228</td>
+              <td class="num-cell">85%</td>
+              <td class="num-cell">£475</td>
+              <td class="num-cell">21 items</td>
             </tr>
-            <tr>
-              <td><span class="badge badge-slate">ISS-02</span></td>
-              <td><strong>Cancellations & Credit Invoices:</strong> Invoice strings beginning with prefix 'C'.</td>
-              <td class="num">9,288 rows (-£896.81k)</td>
-              <td><strong>Isolated into Returns Mart:</strong> Preserved specifically to calculate SKU return rates for Guardrail 1 while excluding negative units from forward sales rules.</td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-slate">ISS-03</span></td>
-              <td><strong>Damaged & Zero-Price Stock Entries:</strong> Un-cancelled negative quantities with missing prices.</td>
-              <td class="num">2,512 rows (-£22.12k)</td>
-              <td><strong>Isolated into Adjustments Mart:</strong> Prevents administrative inventory write-offs from skewing retail order size distributions.</td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-slate">ISS-04</span></td>
-              <td><strong>Non-Merchandise Fee Codes:</strong> Postage, carriage, manual fees, and bank charges.</td>
-              <td class="num">2,334 rows (£394.50k)</td>
-              <td><strong>Isolated into Service Mart:</strong> Ensures non-merchandise logistics overhead items do not trigger cross-sell recommendations on merchandise PDPs.</td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-slate">ISS-05</span></td>
-              <td><strong>Duplicate Invoice Line Items:</strong> Identical records logged synchronously in the database.</td>
-              <td class="num">5,268 rows (£21.74k)</td>
-              <td><strong>Deduplicated:</strong> Deduplicated to first occurrence to restore true line-item invoice grain.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Econometric Findings & Visual Evidence -->
-    <div class="section" id="findings">
-      <div class="section-header">
-        <div class="section-eyebrow">Statistical Proof & Visual Assets</div>
-        <h2 class="section-title">Econometric Findings & Visual Evidence</h2>
-        <p class="section-lead">Rigorous hypothesis testing establishing basket tier polarization, affinity cluster synergy, international wholesale regimes, and positive net margin retention.</p>
-      </div>
-
-      <!-- Figure 1 -->
-      <div class="figure-card">
-        <img src="assets/fig1_basket_tier_aov.png" alt="Figure 1: Basket Tier Segmentation and AOV Skew">
-        <div class="figure-caption">
-          <div class="figure-title">Figure 1: Multi-SKU Baskets Drive 86.8% of Revenue With a 5.6x Higher Median AOV Than Small Checkouts</div>
-          <p class="figure-text">
-            <strong>Statistical Proof:</strong> Kruskal-Wallis non-parametric ANOVA confirms significant AOV differences across basket tiers (<span class="stat-pill">H = 3,413.70, p &lt; 0.0001</span>). Small baskets (1-2 SKUs) generate only 6.9% of revenue with a median AOV of £57.60, while wholesale baskets (16+ SKUs) deliver 66.1% of revenue with a median AOV of £389.72. Welch's t-test further confirms significant mean difference (<span class="stat-pill">t = -3.26, p = 0.0011</span>).
-          </p>
-        </div>
-      </div>
-
-      <!-- Figure 2 -->
-      <div class="figure-card">
-        <img src="assets/fig2_product_pair_matrix.png" alt="Figure 2: Product Pair Association Matrix">
-        <div class="figure-caption">
-          <div class="figure-title">Figure 2: Cross-Sell Affinity Matrix and Guardrail 1 Risk Flagging</div>
-          <p class="figure-text">
-            <strong>Statistical Proof:</strong> Vectorized Chi-Square tests of independence verify highly significant co-occurrence across top product pairs (<span class="stat-pill">all p &lt; 0.0001</span>). Regency Teaware and Jumbo Storage Bag collections demonstrate strong lift (6.4x to 37.2x) and confidence (40% to 82%). Crucially, Guardrail 1 catches and flags <span class="stat-pill">SKU 23170 (8.62% Return Rate)</span>, safely excluding it from bundle deployment.
-          </p>
-        </div>
-      </div>
-
-      <!-- Top 10 Product Pairs Table -->
-      <div class="section-header" style="margin-top: 2rem;">
-        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">Top 10 High-Affinity Product Pairs by Lift</h3>
-      </div>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>SKU Pair & Descriptions</th>
-              <th>Support</th>
-              <th>Confidence</th>
-              <th>Lift</th>
-              <th>Max Return Rate</th>
-              <th>Guardrail 1 Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="background: #FEF2F2;">
-              <td><strong>#1</strong></td>
-              <td><span class="num">23170 + 23171</span><br><small style="color: var(--text-muted);">REGENCY TEA PLATE ROSES + GREEN</small></td>
-              <td class="num">1.61%</td>
-              <td class="num">71.69%</td>
-              <td class="num" style="font-weight: 700;">37.20x</td>
-              <td class="num" style="color: var(--crimson-600); font-weight: 700;">8.62%</td>
-              <td><span class="badge badge-breach">FLAGGED: EXCLUDED</span></td>
-            </tr>
-            <tr>
-              <td><strong>#2</strong></td>
-              <td><span class="num">22745 + 22748</span><br><small style="color: var(--text-muted);">POPPY'S PLAYHOUSE BEDROOM + KITCHEN</small></td>
-              <td class="num">1.58%</td>
-              <td class="num">74.00%</td>
-              <td class="num" style="font-weight: 700;">33.56x</td>
-              <td class="num">0.73%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
-            </tr>
-            <tr>
-              <td><strong>#3</strong></td>
-              <td><span class="num">21086 + 21094</span><br><small style="color: var(--text-muted);">SET/6 RED SPOTTY PAPER CUPS + PLATES</small></td>
-              <td class="num">1.77%</td>
-              <td class="num">81.78%</td>
-              <td class="num" style="font-weight: 700;">30.68x</td>
-              <td class="num">0.00%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
-            </tr>
-            <tr>
-              <td><strong>#4</strong></td>
-              <td><span class="num">84596B + 84596F</span><br><small style="color: var(--text-muted);">SMALL DOLLY MIX ORANGE + PINK BOWL</small></td>
-              <td class="num">1.77%</td>
-              <td class="num">66.22%</td>
-              <td class="num" style="font-weight: 700;">29.29x</td>
-              <td class="num">0.34%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
-            </tr>
-            <tr>
-              <td><strong>#5</strong></td>
-              <td><span class="num">22577 + 22578</span><br><small style="color: var(--text-muted);">WOODEN HEART + STAR SCANDINAVIAN</small></td>
-              <td class="num">1.96%</td>
-              <td class="num">72.12%</td>
-              <td class="num" style="font-weight: 700;">27.85x</td>
-              <td class="num">2.82%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
-            </tr>
-            <tr>
-              <td><strong>#6</strong></td>
-              <td><span class="num">84997C + 84997D</span><br><small style="color: var(--text-muted);">CHILDRENS CUTLERY POLKADOT BLUE + PINK</small></td>
-              <td class="num">1.51%</td>
-              <td class="num">75.06%</td>
-              <td class="num" style="font-weight: 700;">27.18x</td>
-              <td class="num">0.48%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
-            </tr>
-            <tr>
-              <td><strong>#7</strong></td>
-              <td><span class="num">23293 + 23295</span><br><small style="color: var(--text-muted);">SET 12 FAIRY CAKE + MINI LOAF CASES</small></td>
-              <td class="num">1.55%</td>
-              <td class="num">55.43%</td>
-              <td class="num" style="font-weight: 700;">24.69x</td>
-              <td class="num">0.38%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
-            </tr>
-            <tr>
-              <td><strong>#8</strong></td>
-              <td><span class="num">23343 + 23344</span><br><small style="color: var(--text-muted);">JUMBO BAG VINTAGE + 50'S CHRISTMAS</small></td>
-              <td class="num">1.63%</td>
-              <td class="num">67.65%</td>
-              <td class="num" style="font-weight: 700;">18.68x</td>
-              <td class="num">3.49%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
-            </tr>
-            <tr>
-              <td><strong>#9</strong></td>
-              <td><span class="num">22865 + 22866</span><br><small style="color: var(--text-muted);">HAND WARMER OWL + SCOTTY DOG</small></td>
-              <td class="num">1.69%</td>
-              <td class="num">51.22%</td>
-              <td class="num" style="font-weight: 700;">18.48x</td>
-              <td class="num">1.43%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
-            </tr>
-            <tr>
-              <td><strong>#10</strong></td>
-              <td><span class="num">22865 + 22867</span><br><small style="color: var(--text-muted);">HAND WARMER OWL + BIRD DESIGN</small></td>
-              <td class="num">1.57%</td>
-              <td class="num">47.55%</td>
-              <td class="num" style="font-weight: 700;">16.97x</td>
-              <td class="num">1.43%</td>
-              <td><span class="badge badge-pass">PASS (&lt; 5.0%)</span></td>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>Guest Checkouts</strong></td>
+              <td class="num-cell">1,371</td>
+              <td class="num-cell">7%</td>
+              <td class="num-cell">£1,510,383</td>
+              <td class="num-cell">15%</td>
+              <td class="num-cell" style="font-weight: 700; color: var(--color-green);">£1,102</td>
+              <td class="num-cell" style="font-weight: 700; color: var(--color-green);">96 items</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Figure 3 -->
-      <div class="figure-card">
-        <img src="assets/fig3_country_seasonality_regime.png" alt="Figure 3: Geographic Regimes and Seasonality">
-        <div class="figure-caption">
-          <div class="figure-title">Figure 3: Q4 Holiday Demand Surge and Continental European Wholesale Scale</div>
-          <p class="figure-text">
-            <strong>Statistical Proof:</strong> Temporal analysis reveals an <span class="stat-pill">+81.2% revenue surge in Q4</span> (September to November monthly average GMV of £1.19M vs. baseline £659k; Mann-Whitney <span class="stat-pill">U = 37,278,741.5, p = 2.02 x 10^-7</span>). Geographically, continental European wholesale accounts demonstrate vastly superior median order values over UK domestic retail (<span class="stat-pill">Netherlands: £814.90, EIRE: £625.30 vs. UK: £299.67</span>; Mann-Whitney <span class="stat-pill">U = 20,455,334.50, p = 3.69 x 10^-56</span>).
-          </p>
+      <div class="takeaway-strip">
+        <div class="takeaway-tag">CHAPTER 02 TAKEAWAY</div>
+        <div class="takeaway-body">
+          Shifting shoppers from 1-2 items to multi-item baskets drives a 6x typical order value increase (£58 to £322).
+          Guest checkouts represent large wholesale buyers averaging £1,102 per order.
         </div>
       </div>
+    </section>
 
-      <!-- Figure 4 -->
-      <div class="figure-card">
-        <img src="assets/fig4_bundle_revenue_waterfall.png" alt="Figure 4: Bundle Revenue Waterfall and Margin Retention">
-        <div class="figure-caption">
-          <div class="figure-title">Figure 4: Econometric Waterfall Simulation Demonstrating Positive Net Margin Lift</div>
-          <p class="figure-text">
-            <strong>Financial Policy Model:</strong> Under a 10% promotional bundle discount, attaching cross-sell SKUs to 25% of solo anchor checkouts generates +£3,549.72 in gross incremental sales. Deducting £601.68 in organic cannibalization yields a verified <span class="stat-pill" style="color: var(--emerald-600); font-weight: 700;">+£2,948.04 in net incremental profit per cycle</span>. All five bundles exhibit return rates below 3.9%, fully satisfying Guardrail 1.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 90-Day Rollout Strategy -->
-    <div class="section" id="rollout">
+    <!-- CHAPTER 3: PRODUCT PAIRS & RETURN SAFETY -->
+    <section class="report-section" id="bundles">
       <div class="section-header">
-        <div class="section-eyebrow">Operational Execution</div>
-        <h2 class="section-title">90-Day Merchandising Rollout Strategy</h2>
-        <p class="section-lead">A staged implementation plan balancing rapid storefront conversion capture with rigorous quality control audits and international wholesale tiering.</p>
+        <div class="section-chapter">STEP 03 / CHOOSING SAFE PRODUCT SETS</div>
+        <h2 class="section-title">Picking matching sets that sell together up to 84% of the time without return losses
+        </h2>
       </div>
 
-      <div class="rollout-grid">
-        <div class="rollout-phase phase-1">
-          <div>
-            <div class="phase-badge">PHASE 1: IMMEDIATE (DAYS 1-30)</div>
-            <h3 class="phase-title">Storefront Cross-Sell Engine</h3>
-            <ul class="phase-list">
-              <li>Deploy Top 5 Verified Bundles (BDL-01 to BDL-05) at 10% promotional bundle discount.</li>
-              <li>Implement cart drawer cross-sell widgets and PDP "Frequently Bought Together" modules.</li>
-              <li>Automate Guardrail 1 filter blocking any SKU with return rate >= 5.0% from recommendation feeds.</li>
-              <li>Expected Impact: +£2,948 net incremental profit per digital sales cycle.</li>
-            </ul>
-          </div>
-          <span class="badge badge-pass" style="align-self: flex-start; margin-top: 1rem;">Execution Ready</span>
-        </div>
+      <div class="prose-block">
+        <p class="prose-lead">
+          When we checked which products customers buy together across all 19,773 orders, clear collection habits stood
+          out. When a shopper puts one piece of a popular set in their cart, such as a Regency teacup, a poppy playhouse
+          kit, or a spotty paper plate pack, they also buy the matching piece 62% to 84% of the time (14x to 37x more
+          often than random store items).
+        </p>
+        <p>
+          However, pairing items by popularity alone would have been a costly mistake. Several top-selling items and
+          matching sets have high return rates because ceramic and glass pieces break in transit. We set a strict 5%
+          return cutoff for all promotions: any product with 5% or higher returns is held back for a warehouse packaging
+          upgrade, while 5 durable, low-return sets are cleared for immediate launch.
+        </p>
+      </div>
 
-        <div class="rollout-phase phase-2">
-          <div>
-            <div class="phase-badge">PHASE 2: NEAR-TERM (DAYS 30-60)</div>
-            <h3 class="phase-title">Lifecycle Triggers & QA Audits</h3>
-            <ul class="phase-list">
-              <li>Launch 48-hour post-purchase automated email workflows offering bundle completion discounts to solo anchor buyers.</li>
-              <li>Initiate supplier QA inspection on SKU 23170 (Regency Tea Plate Roses) to address its 8.62% return rate.</li>
-              <li>A/B test dynamic discount tiers (5%, 10%, 15%) across low-margin vs. high-margin collections.</li>
-              <li>Expected Impact: +15% incremental attachment lift and reduced reverse logistics costs.</li>
-            </ul>
-          </div>
-          <span class="badge badge-slate" style="align-self: flex-start; margin-top: 1rem;">Planned Setup</span>
+      <!-- FIGURE 2 EXHIBIT -->
+      <div class="figure-card">
+        <div class="figure-header">
+          <span class="figure-title">Figure 2: Store order share vs. buy-together rate with return safety check</span>
+          <span class="figure-meta">19,773 Orders | Top Product Pairs</span>
         </div>
-
-        <div class="rollout-phase phase-3">
-          <div>
-            <div class="phase-badge">PHASE 3: ONGOING (DAYS 60-90)</div>
-            <h3 class="phase-title">Continental Wholesale Expansion</h3>
-            <ul class="phase-list">
-              <li>Introduce multi-unit case-pack tiers for high-AOV accounts in Netherlands, EIRE, Germany, and France.</li>
-              <li>Pre-position bulk inventory for Q4 holiday peak (+81.2% demand expansion from September onwards).</li>
-              <li>Expand market basket association mining to 3-item affinity sets across home decor lines.</li>
-              <li>Expected Impact: +£24,500+ net wholesale lift during peak commercial quarters.</li>
-            </ul>
-          </div>
-          <span class="badge badge-slate" style="align-self: flex-start; margin-top: 1rem;">Strategic Scale</span>
+        <div class="figure-body" onclick="openLightbox('assets/fig2_product_pair_matrix.png')">
+          <img src="assets/fig2_product_pair_matrix.png"
+            alt="Top matching sets sell together 62% to 84% of the time, while our 5% return limit blocks fragile items">
+        </div>
+        <div class="figure-footer">
+          Top matching sets achieve 62% to 84% buy-together rates. Our 5% return limit flags fragile items like Regency
+          tea plate roses (9% returns), blocking them from discounted bundles.
+          <br>
+          <strong>[Click image to enlarge]</strong>
         </div>
       </div>
-    </div>
 
-    <!-- Final CTA Banner -->
-    <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: #FFFFFF; border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; margin-top: 3rem;">
-      <h2 style="font-size: 1.85rem; font-weight: 800; margin-bottom: 0.75rem;">Test Merchandising Policies in Real Time</h2>
-      <p style="color: #94A3B8; font-size: 1.05rem; max-width: 650px; margin: 0 auto 1.75rem;">
-        Adjust discount rates, attach probabilities, and wholesale intake multipliers in our dark-mode Interactive Merchandising Decision Cockpit.
+      <!-- Top 10 Product Pairs Table (Plain English Headers & Whole Numbers) -->
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>PRODUCT PAIR</th>
+              <th class="num-cell">SHARED ORDERS</th>
+              <th class="num-cell">SHARE OF ORDERS</th>
+              <th class="num-cell">BUY-TOGETHER RATE</th>
+              <th class="num-cell">PAIRING STRENGTH</th>
+              <th class="num-cell">HIGHEST RETURN RATE</th>
+              <th>BUNDLE STATUS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: var(--color-crimson-light);">
+              <td><strong>Regency Tea Plates Roses + Green</strong> (23170 + 23171)</td>
+              <td class="num-cell">319</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">84%</td>
+              <td class="num-cell" style="font-weight: 700;">37x</td>
+              <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">9%</td>
+              <td><span class="status-fail">BLOCKED</span></td>
+            </tr>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>Poppy's Playhouse Bedroom + Kitchen</strong> (22745 + 22748)</td>
+              <td class="num-cell">313</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">74%</td>
+              <td class="num-cell" style="font-weight: 700;">34x</td>
+              <td class="num-cell">1%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Set 6 Red Spotty Cups + Plates</strong> (21086 + 21094)</td>
+              <td class="num-cell">350</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">82%</td>
+              <td class="num-cell">31x</td>
+              <td class="num-cell">0%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Dolly Mix + Marshmallows Bowls</strong> (84596B + 84596F)</td>
+              <td class="num-cell">349</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">78%</td>
+              <td class="num-cell">29x</td>
+              <td class="num-cell">&lt;1%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Wooden Heart + Star Scandinavian</strong> (22577 + 22578)</td>
+              <td class="num-cell">388</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">76%</td>
+              <td class="num-cell">28x</td>
+              <td class="num-cell">3%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Childrens Cutlery Blue + Pink</strong> (84997C + 84997D)</td>
+              <td class="num-cell">298</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">75%</td>
+              <td class="num-cell">27x</td>
+              <td class="num-cell">&lt;1%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Fairy Cake + Mini Loaf Cases</strong> (23293 + 23295)</td>
+              <td class="num-cell">306</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">69%</td>
+              <td class="num-cell">25x</td>
+              <td class="num-cell">&lt;1%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Jumbo Bags Vintage + 50s Christmas</strong> (23343 + 23344)</td>
+              <td class="num-cell">322</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">68%</td>
+              <td class="num-cell">19x</td>
+              <td class="num-cell">3%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Owl + Scotty Dog Hand Warmers</strong> (22865 + 22866)</td>
+              <td class="num-cell">335</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">61%</td>
+              <td class="num-cell">18x</td>
+              <td class="num-cell">1%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>Regency Teacups Green + Pink</strong> (22697 + 22698)</td>
+              <td class="num-cell">632</td>
+              <td class="num-cell">3%</td>
+              <td class="num-cell">83%</td>
+              <td class="num-cell" style="font-weight: 700;">16x</td>
+              <td class="num-cell">2%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Blocked Items Callout Table (Whole Numbers) -->
+      <div class="insight-card" style="background: var(--color-crimson-light); border-color: var(--color-crimson);">
+        <div class="insight-title" style="color: var(--color-crimson);">ITEMS HELD BACK FROM BUNDLING (OVER OUR 5%
+          RETURN LIMIT)</div>
+        <div class="data-table-wrap" style="margin: 12px 0 0 0;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>STOCK CODE</th>
+                <th>PRODUCT DESCRIPTION</th>
+                <th>COMMERCIAL ROLE</th>
+                <th class="num-cell">GROSS SALES (£)</th>
+                <th class="num-cell">CANCELLED (£)</th>
+                <th class="num-cell">RETURN RATE %</th>
+                <th>ACTION REQUIRED</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>22423</strong></td>
+                <td>REGENCY CAKESTAND 3 TIER</td>
+                <td>Store #1 Revenue Item</td>
+                <td class="num-cell">£174,157</td>
+                <td class="num-cell" style="color: var(--color-crimson);">-£9,723</td>
+                <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">5.3%</td>
+                <td><span class="status-fail">HELD: UPGRADE PACKAGING</span></td>
+              </tr>
+              <tr>
+                <td><strong>85123A</strong></td>
+                <td>WHITE HANGING HEART T-LIGHT HOLDER</td>
+                <td>Store #1 Order Count Item</td>
+                <td class="num-cell">£106,415</td>
+                <td class="num-cell" style="color: var(--color-crimson);">-£6,624</td>
+                <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">6%</td>
+                <td><span class="status-fail">HELD: UPGRADE PACKAGING</span></td>
+              </tr>
+              <tr>
+                <td><strong>23170</strong></td>
+                <td>REGENCY TEA PLATE ROSES</td>
+                <td>Top Buy-Together Set Piece</td>
+                <td class="num-cell">£3,218</td>
+                <td class="num-cell" style="color: var(--color-crimson);">-£277</td>
+                <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">9%</td>
+                <td><span class="status-fail">HELD: UPGRADE PACKAGING</span></td>
+              </tr>
+              <tr>
+                <td><strong>23843</strong></td>
+                <td>PAPER CRAFT , LITTLE BIRDIE</td>
+                <td>Single Large Wholesale Order</td>
+                <td class="num-cell">£168,470</td>
+                <td class="num-cell" style="color: var(--color-crimson);">-£168,470</td>
+                <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">50%</td>
+                <td><span class="status-fail">EXCLUDED: BULK CANCELLATION</span></td>
+              </tr>
+              <tr>
+                <td><strong>23166</strong></td>
+                <td>MEDIUM CERAMIC TOP STORAGE JAR</td>
+                <td>Bulk Wholesale Order Cancellation</td>
+                <td class="num-cell">£25,057</td>
+                <td class="num-cell" style="color: var(--color-crimson);">-£23,767</td>
+                <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">49%</td>
+                <td><span class="status-fail">EXCLUDED: BULK CANCELLATION</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="takeaway-strip">
+        <div class="takeaway-tag">CHAPTER 03 TAKEAWAY</div>
+        <div class="takeaway-body">
+          High buy-together rates alone do not justify promotional bundling. Setting a 5% return limit blocks fragile
+          items with transit breakage while safely clearing 5 high-performing bundles.
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: EUROPEAN WHOLESALE MARKETS, TIMING & Q4 -->
+    <section class="report-section" id="wholesale">
+      <div class="section-header">
+        <div class="section-chapter">STEP 04 / TIMING &amp; WHOLESALE ACCOUNTS</div>
+        <h2 class="section-title">Weekday business hours bring in 78% of orders, European buyers spend more, and Q4
+          jumps 81%</h2>
+      </div>
+
+      <div class="prose-block">
+        <p class="prose-lead">
+          Order timing and geographic patterns reveal clear buying routines across our customer base. Between 10:00 and
+          15:00 on weekdays, the store captures 15,375 completed orders (78% of total volume), driven primarily by small
+          retail shops and business buyers replenishing stock during regular working hours.
+        </p>
+        <p>
+          Continental European wholesale accounts spend substantially more per order than domestic UK shoppers. Buyers
+          in the Netherlands spend a typical (median) order value of £815 with virtually zero return loss (&lt;1%
+          returns), while Ireland (EIRE) and Switzerland spend £625 and £557 respectively. In contrast, Spanish accounts
+          show an elevated return rate of 11%, signaling postal breakage or courier issues that require holding back deep
+          discounts until shipping is resolved.
+        </p>
+      </div>
+
+      <!-- FIGURE 3 EXHIBIT -->
+      <div class="figure-card">
+        <div class="figure-header">
+          <span class="figure-title">Figure 3: Monthly sales trend and top market typical order values with return
+            rates</span>
+          <span class="figure-meta">Dec 2010 to Dec 2011 | Top 8 Export Markets</span>
+        </div>
+        <div class="figure-body" onclick="openLightbox('assets/fig3_country_seasonality_regime.png')">
+          <img src="assets/fig3_country_seasonality_regime.png"
+            alt="Holiday sales jump 81% in Q4, and European wholesale buyers spend up to £815 per order">
+        </div>
+        <div class="figure-footer">
+          Q4 monthly sales jump 81% over baseline (£1,195K vs £659K). Netherlands leads European wholesale at £815
+          typical order value (&lt;1% returns), while Spain is flagged at 11% returns.
+          <br>
+          <strong>[Click image to enlarge]</strong>
+        </div>
+      </div>
+
+      <!-- Top 8 Countries Table (Rounded Whole Numbers) -->
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>DESTINATION MARKET</th>
+              <th class="num-cell">COMPLETED ORDERS</th>
+              <th class="num-cell">GROSS SALES (£)</th>
+              <th class="num-cell">TYPICAL ORDER (£)</th>
+              <th class="num-cell">AVERAGE ORDER (£)</th>
+              <th class="num-cell">RETURN RATE %</th>
+              <th>STRATEGIC CATEGORY</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>Netherlands</strong></td>
+              <td class="num-cell">95</td>
+              <td class="num-cell">£285,446</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">£815</td>
+              <td class="num-cell">£1,054</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">&lt;1%</td>
+              <td><span class="status-pass">PRIORITY WHOLESALE</span></td>
+            </tr>
+            <tr>
+              <td><strong>EIRE</strong></td>
+              <td class="num-cell">260</td>
+              <td class="num-cell">£265,546</td>
+              <td class="num-cell">£625</td>
+              <td class="num-cell">£960</td>
+              <td class="num-cell">7%</td>
+              <td><span class="status-pass">REGULAR COMMERCIAL</span></td>
+            </tr>
+            <tr>
+              <td><strong>Switzerland</strong></td>
+              <td class="num-cell">51</td>
+              <td class="num-cell">£56,448</td>
+              <td class="num-cell">£557</td>
+              <td class="num-cell">£780</td>
+              <td class="num-cell">1%</td>
+              <td><span class="status-pass">HIGH MARGIN B2B</span></td>
+            </tr>
+            <tr>
+              <td><strong>Australia</strong></td>
+              <td class="num-cell">57</td>
+              <td class="num-cell">£138,521</td>
+              <td class="num-cell">£430</td>
+              <td class="num-cell">£1,075</td>
+              <td class="num-cell">1%</td>
+              <td><span class="status-pass">BULK CASE-PACKS</span></td>
+            </tr>
+            <tr style="background: var(--color-crimson-light);">
+              <td><strong>Spain</strong></td>
+              <td class="num-cell">88</td>
+              <td class="num-cell">£55,707</td>
+              <td class="num-cell">£363</td>
+              <td class="num-cell">£633</td>
+              <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">11%</td>
+              <td><span class="status-fail">HOLD PROMOS: HIGH RETURNS</span></td>
+            </tr>
+            <tr>
+              <td><strong>France</strong></td>
+              <td class="num-cell">389</td>
+              <td class="num-cell">£209,715</td>
+              <td class="num-cell">£345</td>
+              <td class="num-cell">£486</td>
+              <td class="num-cell">6%</td>
+              <td><span class="status-pass">CONTINENTAL RETAIL</span></td>
+            </tr>
+            <tr>
+              <td><strong>Germany</strong></td>
+              <td class="num-cell">457</td>
+              <td class="num-cell">£228,867</td>
+              <td class="num-cell">£319</td>
+              <td class="num-cell">£463</td>
+              <td class="num-cell">3%</td>
+              <td><span class="status-pass">LOW-RETURN HUB</span></td>
+            </tr>
+            <tr>
+              <td><strong>United Kingdom</strong></td>
+              <td class="num-cell">18,041</td>
+              <td class="num-cell">£8,979,620</td>
+              <td class="num-cell">£300</td>
+              <td class="num-cell">£489</td>
+              <td class="num-cell">9%</td>
+              <td><span class="status-pass">CORE DOMESTIC BASE</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Comparison Split Container -->
+      <div class="comparison-grid" style="margin-top: 24px;">
+        <div class="comparison-col" style="background: var(--bg-paper-alt); padding: 20px;">
+          <div class="insight-title" style="color: var(--ink-black);">UK DOMESTIC RETAIL BASE</div>
+          <p style="font-size: 0.88rem; margin-top: 6px; color: var(--ink-muted); line-height: 1.5;">
+            91% of orders and £8.98M in commercial volume. Typical order value sits at £300 with a 9% return rate. Suited
+            for 1-click single-unit bundles and seasonal retail cross-sells.
+          </p>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt); padding: 20px;">
+          <div class="insight-title" style="color: var(--color-green);">CONTINENTAL EUROPEAN WHOLESALE</div>
+          <p style="font-size: 0.88rem; margin-top: 6px; color: var(--ink-muted); line-height: 1.5;">
+            Netherlands (£815 typical order, &lt;1% returns) and Switzerland (£557 typical order, 1% returns) outspend
+            domestic accounts. Suited for 4x and 8x case-pack quantity tiers during weekday business hours.
+          </p>
+        </div>
+      </div>
+
+      <div class="takeaway-strip">
+        <div class="takeaway-tag">CHAPTER 04 TAKEAWAY</div>
+        <div class="takeaway-body">
+          78% of checkouts occur between 10:00 and 15:00 on weekdays, and European accounts outspend UK shoppers.
+          Tailoring wholesale case-pack promotions for Netherlands, EIRE, and Germany maximizes profit before the Q4
+          holiday rush.
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 5: POLICY SIMULATION & 90-DAY ROLLOUT -->
+    <section class="report-section" id="rollout">
+      <div class="section-header">
+        <div class="section-chapter">STEP 05 / FINANCIAL IMPACT &amp; 90-DAY ROLLOUT PLAN</div>
+        <h2 class="section-title">Our 90-day rollout plan: from £2,948 in retail sets to £24,528 in wholesale case-packs
+        </h2>
+      </div>
+
+      <div class="prose-block">
+        <p class="prose-lead">
+          To make sure our bundle discounts make money from day one, we calculated the exact profit left over after paying
+          for the 10% discount on shoppers who already buy both items together. When we convert 25% of single-item buyers
+          into bundle buyers on the website (Option 1A), our 5 safe bundles add £3,550 in new sales against just £602 in
+          discount cost, leaving £2,948 in net profit per sales cycle (nearly a 6x return on the discount).
+        </p>
+        <p>
+          In Month 2, sending an automated 48-hour follow-up email to shoppers who bought only the main item lifts take-up
+          to 35% and grows net profit to £4,368 per cycle (Option 2A). In Month 3, offering 4-unit multi-packs (+£11,792)
+          and 8-unit wholesale case-packs (+£24,528) to our UK guest wholesale buyers and European accounts scales the
+          program ahead of the Q4 holiday rush.
+        </p>
+      </div>
+
+      <!-- FIGURE 4 EXHIBIT -->
+      <div class="figure-card">
+        <div class="figure-header">
+          <span class="figure-title">Figure 4: Net profit gain across 6 rollout options</span>
+          <span class="figure-meta">Simulation Engine Across 19,773 Orders</span>
+        </div>
+        <div class="figure-body" onclick="openLightbox('assets/fig4_bundle_revenue_waterfall.png')">
+          <img src="assets/fig4_bundle_revenue_waterfall.png"
+            alt="Rolling out 5 safe product bundles adds £2,948 in retail profit and £24,528 in wholesale case-packs">
+        </div>
+        <div class="figure-footer">
+          Deploying 5 safe bundles delivers +£2,948 net profit per cycle at 10% discount, expanding to +£24,528 for
+          wholesale case-packs while keeping returns below 4%.
+          <br>
+          <strong>[Click image to enlarge]</strong>
+        </div>
+      </div>
+
+      <!-- 6-Scenario Policy Table (Rounded Whole Numbers) -->
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ROLLOUT OPTION</th>
+              <th class="num-cell">DISCOUNT</th>
+              <th class="num-cell">TAKE-UP %</th>
+              <th class="num-cell">SCALE</th>
+              <th class="num-cell">ADDED SALES (£)</th>
+              <th class="num-cell">DISCOUNT COST (£)</th>
+              <th class="num-cell">NET PROFIT (£)</th>
+              <th class="num-cell">MAX RETURN %</th>
+              <th>SAFETY STATUS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Option 0: Current Store</strong></td>
+              <td class="num-cell">0%</td>
+              <td class="num-cell">0%</td>
+              <td class="num-cell">1x</td>
+              <td class="num-cell">£0</td>
+              <td class="num-cell">£0</td>
+              <td class="num-cell">£0</td>
+              <td class="num-cell">0%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>Option 1A: Retail 1-Unit Bundles</strong></td>
+              <td class="num-cell">10%</td>
+              <td class="num-cell">25%</td>
+              <td class="num-cell">1x</td>
+              <td class="num-cell">£3,550</td>
+              <td class="num-cell">-£602</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£2,948</td>
+              <td class="num-cell">4%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr style="background: var(--color-crimson-light);">
+              <td><strong>Option 1B: High-Return Policy Trap</strong></td>
+              <td class="num-cell">10%</td>
+              <td class="num-cell">25%</td>
+              <td class="num-cell">1x</td>
+              <td class="num-cell">£3,669</td>
+              <td class="num-cell">-£642</td>
+              <td class="num-cell">+£3,027</td>
+              <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">9%</td>
+              <td><span class="status-fail">BLOCKED: 9% RETURNS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Option 2A: Phase 1 + 48-Hr Emails</strong></td>
+              <td class="num-cell">10%</td>
+              <td class="num-cell">35%</td>
+              <td class="num-cell">1x</td>
+              <td class="num-cell">£4,970</td>
+              <td class="num-cell">-£602</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£4,368</td>
+              <td class="num-cell">4%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td><strong>Option 2B: 4x Multi-Packs</strong></td>
+              <td class="num-cell">10%</td>
+              <td class="num-cell">25%</td>
+              <td class="num-cell">4x</td>
+              <td class="num-cell">£14,199</td>
+              <td class="num-cell">-£2,407</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£11,792</td>
+              <td class="num-cell">4%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>Option 2C: Wholesale Case-Packs (8x)</strong></td>
+              <td class="num-cell">10%</td>
+              <td class="num-cell">25%</td>
+              <td class="num-cell">8.32x</td>
+              <td class="num-cell">£29,534</td>
+              <td class="num-cell">-£5,006</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£24,528</td>
+              <td class="num-cell">4%</td>
+              <td><span class="status-pass">PASS</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Top 5 Approved Bundles Table (Rounded Whole Numbers) -->
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>BUNDLE ID</th>
+              <th>COLLECTION NAME</th>
+              <th>MAIN SKU</th>
+              <th>MATCHING SKU</th>
+              <th class="num-cell">PAIRING STRENGTH</th>
+              <th class="num-cell">BUY-TOGETHER %</th>
+              <th class="num-cell">MAIN RETURN %</th>
+              <th class="num-cell">MATCHING RETURN %</th>
+              <th class="num-cell">NET PROFIT (10% OFF)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>BDL-01</strong></td>
+              <td>Regency Teaware Set</td>
+              <td>22697</td>
+              <td>22699</td>
+              <td class="num-cell">14x</td>
+              <td class="num-cell">76%</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">4%</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£242</td>
+            </tr>
+            <tr style="background: var(--color-green-light);">
+              <td><strong>BDL-02</strong></td>
+              <td>Retro Storage Bags</td>
+              <td>85099B</td>
+              <td>22386</td>
+              <td class="num-cell">6x</td>
+              <td class="num-cell">68%</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£1,320</td>
+            </tr>
+            <tr>
+              <td><strong>BDL-03</strong></td>
+              <td>Vintage Bakelike Clocks</td>
+              <td>22726</td>
+              <td>22727</td>
+              <td class="num-cell">12x</td>
+              <td class="num-cell">65%</td>
+              <td class="num-cell">1%</td>
+              <td class="num-cell">1%</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£512</td>
+            </tr>
+            <tr>
+              <td><strong>BDL-04</strong></td>
+              <td>Everyday Lunch Bag Twin Pack</td>
+              <td>20725</td>
+              <td>22383</td>
+              <td class="num-cell">6x</td>
+              <td class="num-cell">51%</td>
+              <td class="num-cell">2%</td>
+              <td class="num-cell">1%</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£796</td>
+            </tr>
+            <tr>
+              <td><strong>BDL-05</strong></td>
+              <td>Poppy's Playhouse Nursery Set</td>
+              <td>22745</td>
+              <td>22748</td>
+              <td class="num-cell">34x</td>
+              <td class="num-cell">74%</td>
+              <td class="num-cell">1%</td>
+              <td class="num-cell">1%</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£77</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 90-Day Operational Rollout Schedule -->
+      <h3 class="subhead" style="margin-top: 48px;">Structured 90-day execution roadmap</h3>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 18%;">ROLLOUT PHASE</th>
+              <th style="width: 24%;">RECOMMENDED ACTION</th>
+              <th style="width: 22%;">TARGET PRODUCTS &amp; MARKETS</th>
+              <th style="width: 14%;">TEAM OWNER</th>
+              <th style="width: 12%;">EXPECTED PROFIT LIFT</th>
+              <th>TRACKING METRIC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Phase 1: Immediate (Days 1 to 30)</strong></td>
+              <td><strong>Launch 5 Return-Safe Storefront Bundles at 10% Off:</strong> Deploy 1-click cart drawer and product page cross-sell bundles.</td>
+              <td>BDL-01 Regency Teacups, BDL-02 Jumbo Bags, BDL-03 Bakelike Clocks, BDL-04 Lunch Bags, BDL-05 Poppy's Playhouse (2,831 solo anchor checkouts).</td>
+              <td>Head of E-Commerce</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£2,948 net profit per cycle (6x return on discount cost).</td>
+              <td>Bundle take-up reaches <strong>25%</strong> on solo anchor pages; bundle return rate stays below <strong>5%</strong> (currently <strong>4%</strong> max).</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 2: Near-Term (Days 30 to 60)</strong></td>
+              <td><strong>48-Hour Follow-Up Emails &amp; Fragile Packaging Fix:</strong> Trigger automated cross-sell emails to solo anchor buyers and upgrade packaging.</td>
+              <td>Solo buyers of anchor SKUs (follow-up email within 48 hours) + warehouse drop-test packaging upgrade on fragile SKUs (22423 cakestand, 85123A glass holder, 23170 rose tea plate).</td>
+              <td>CRM Lead &amp; Fulfilment Manager</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Lifts net bundle gain to +£4,368 per cycle (8x return on discount cost) and cuts ceramic and glass breakage below <strong>4%</strong>.</td>
+              <td>Email cross-sell conversion reaches <strong>10%+</strong>; return rates on 22423, 85123A, and 23170 drop below <strong>5%</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 3: Ongoing (Days 60 to 90)</strong></td>
+              <td><strong>Wholesale Case-Pack Bundles &amp; Weekday Promos:</strong> Launch tiered volume pricing timed for weekday business hours.</td>
+              <td>Multi-unit case-packs (4x to 8x quantity tiers) for UK guest wholesale checkouts and high-value European accounts (Netherlands, EIRE, Switzerland, Germany), timed for 10:00 to 15:00 Mon-Fri and Q4 intake.</td>
+              <td>VP of Merchandising</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£11,792 (4x pack) to +£24,528 (8x case-pack) net profit per cycle.</td>
+              <td>Wholesale multi-pack take-up rate and Q4 monthly sales target (£1.2M+/month); protects margin in high-return Spain (11%) by restricting deep discounts.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose-block" style="margin-top: 36px;">
+        <h3 class="subhead">Practical safeguards</h3>
+        <p>
+          • <strong>Preventing Transit Damage on Anchor Sellers:</strong> Requiring reinforced packaging drop-tests on the 3-tier cakestand (22423) and tea-light holder (85123A) prevents shipping losses before promotional launch.
+        </p>
+        <p>
+          • <strong>Maintaining Positive Margin After Discounts:</strong> Sensitivity testing across 5%, 10%, 15%, and 20% discount depths confirms that a 10% promotional incentive preserves healthy margins across all 5 approved bundles.
+        </p>
+        <p>
+          • <strong>Restricting Discounts in High-Return Regions:</strong> Spanish export accounts (11% returns) are excluded from promotional discounts until packaging and transit friction are resolved.
+        </p>
+      </div>
+
+      <div class="takeaway-strip">
+        <div class="takeaway-tag">CHAPTER 05 TAKEAWAY</div>
+        <div class="takeaway-body">
+          Deploying 5 return-safe bundles adds £2,948 in retail net profit and up to £24,528 for wholesale case-packs, while protecting the catalog from high-return transit losses.
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      style="padding: 48px 0; text-align: center; color: var(--ink-muted); font-size: 0.85rem; border-top: var(--hairline); margin-top: 40px;">
+      <p style="margin-bottom: 12px;">Prepared by <strong>John Amores</strong> | Merchandising &amp; Basket Profitability Case Study</p>
+      <p>
+        <a href="cockpit.html" style="color: var(--ink-black); font-weight: 700; margin: 0 12px;">Open Bundle Planner -&gt;</a>
+        |
+        <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/market-basket-analysis" target="_blank"
+          rel="noopener noreferrer" style="color: var(--ink-black); margin: 0 12px;">GitHub Repository</a>
+        |
+        <a href="https://www.linkedin.com/in/john-amores/" target="_blank" rel="noopener noreferrer"
+          style="color: var(--ink-black); margin: 0 12px;">LinkedIn</a>
       </p>
-      <a href="cockpit.html" class="cta-btn-nav" style="font-size: 1rem; padding: 0.75rem 1.75rem; background: var(--emerald-500);">
-        <span>Launch Interactive Merchandising Cockpit</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div>Online Retail Merchandising Engine • Phase 2 Production Delivery</div>
-      <div>Standard: Christine Jiang Decision-Driven Design & DASH Framework</div>
     </footer>
 
   </div>
 
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightboxImg"
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E"
+      alt="Enlarged Chart View">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </body>
+
 </html>
