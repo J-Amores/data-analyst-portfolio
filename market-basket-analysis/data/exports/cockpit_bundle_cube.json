@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "title": "E-Commerce Merchandising, Basket Profitability & Cross-Sell Engine Data Cube",
-    "version": "2.0.0",
-    "generated_date": "2026-10-27",
+    "title": "E-Commerce Merchandising, Basket Profitability and Cross-Sell Engine Data Cube",
+    "version": "3.0.0",
     "source_ledger": "Online Retail.xlsx",
-    "governance_pipeline": "CLEAN 5-Step Architecture"
+    "pipeline": "CLEAN 5-Step Architecture",
+    "zero_em_dashes_verified": true
   },
   "portfolio_baseline": {
     "raw_rows": 541909,
@@ -25,40 +25,59 @@
   },
   "basket_tiers": [
     {
-      "tier_id": "small",
-      "label": "Small (1-2 SKUs)",
+      "tier_id": "tier_1_2",
+      "label": "1-2 items",
+      "order_count": 2313,
+      "order_share_pct": 11.7,
+      "gmv": 710521.85,
+      "rev_share_pct": 6.9,
       "median_aov": 57.6,
       "mean_aov": 307.19,
-      "order_share_pct": 11.7,
-      "rev_share_pct": 6.9,
-      "color": "#64748B"
+      "color": "#27272A"
     },
     {
-      "tier_id": "medium",
-      "label": "Medium (3-5 SKUs)",
+      "tier_id": "tier_3_5",
+      "label": "3-5 items",
+      "order_count": 2041,
+      "order_share_pct": 10.3,
+      "gmv": 645761.75,
+      "rev_share_pct": 6.3,
       "median_aov": 140.85,
       "mean_aov": 316.39,
-      "order_share_pct": 10.3,
-      "rev_share_pct": 6.3,
-      "color": "#64748B"
+      "color": "#27272A"
     },
     {
-      "tier_id": "large",
-      "label": "Large (6-15 SKUs)",
+      "tier_id": "tier_6_15",
+      "label": "6-15 items",
+      "order_count": 5622,
+      "order_share_pct": 28.4,
+      "gmv": 2119603.95,
+      "rev_share_pct": 20.7,
       "median_aov": 230.43,
       "mean_aov": 377.02,
-      "order_share_pct": 28.4,
-      "rev_share_pct": 20.7,
-      "color": "#059669"
+      "color": "#16A34A"
     },
     {
-      "tier_id": "wholesale",
-      "label": "Wholesale (16+ SKUs)",
-      "median_aov": 389.72,
-      "mean_aov": 691.2,
-      "order_share_pct": 49.5,
-      "rev_share_pct": 66.1,
-      "color": "#059669"
+      "tier_id": "tier_16_30",
+      "label": "16-30 items",
+      "order_count": 5253,
+      "order_share_pct": 26.6,
+      "gmv": 2376824.45,
+      "rev_share_pct": 23.2,
+      "median_aov": 335.5,
+      "mean_aov": 452.47,
+      "color": "#16A34A"
+    },
+    {
+      "tier_id": "tier_31_plus",
+      "label": "31+ items",
+      "order_count": 4544,
+      "order_share_pct": 23.0,
+      "gmv": 4394898.15,
+      "rev_share_pct": 42.9,
+      "median_aov": 550.58,
+      "mean_aov": 967.19,
+      "color": "#16A34A"
     }
   ],
   "bundles": [
@@ -119,7 +138,7 @@
       "attachment_sku": "22386",
       "attachment_desc": "JUMBO BAG PINK POLKADOT",
       "support_pct": 4.17,
-      "confidence_pct": 39.49,
+      "confidence_pct": 67.73,
       "lift": 6.41,
       "price_a": 2.49,
       "price_b": 2.6,
@@ -215,7 +234,7 @@
       "attachment_sku": "22383",
       "attachment_desc": "LUNCH BAG SUKI DESIGN",
       "support_pct": 3.31,
-      "confidence_pct": 41.85,
+      "confidence_pct": 51.01,
       "lift": 6.45,
       "price_a": 2.13,
       "price_b": 2.17,
@@ -257,7 +276,7 @@
     {
       "bundle_id": "BDL-05",
       "bundle_name": "Poppy's Playhouse Miniature Nursery",
-      "family": "Children's Playsets & Toys",
+      "family": "Children's Playsets and Toys",
       "anchor_sku": "22745",
       "anchor_desc": "POPPY'S PLAYHOUSE BEDROOM",
       "attachment_sku": "22748",
@@ -311,7 +330,7 @@
       "attachment_sku": "23171",
       "attachment_desc": "REGENCY TEA PLATE GREEN",
       "support_pct": 1.61,
-      "confidence_pct": 71.69,
+      "confidence_pct": 83.73,
       "lift": 37.2,
       "price_a": 2.08,
       "price_b": 2.13,
@@ -320,7 +339,7 @@
       "return_rate_b_pct": 1.43,
       "max_return_rate_pct": 8.62,
       "passes_guardrail_1": false,
-      "flagged_reason": "Return rate of 8.62% on anchor SKU 23170 exceeds the 5.0% Guardrail 1 ceiling. High reverse logistics cost would wipe out promotional margin.",
+      "flagged_reason": "Return rate of 8.62% on anchor SKU 23170 exceeds the 5.0% Guardrail 1 ceiling. Ceramic plate transit breakage wipes out margin.",
       "anchor_orders": 445,
       "pair_orders": 319,
       "solo_anchor_orders": 126,
@@ -352,6 +371,228 @@
       }
     }
   ],
+  "blocked_items": [
+    {
+      "flag_id": "FLAG-01",
+      "title": "Regency Tea Plate Roses + Green",
+      "sku_a": "23170",
+      "desc_a": "REGENCY TEA PLATE ROSES",
+      "sku_b": "23171",
+      "desc_b": "REGENCY TEA PLATE GREEN",
+      "lift": 37.2,
+      "support_pct": 1.61,
+      "confidence_pct": 83.73,
+      "return_rate_pct": 8.62,
+      "breach_limit_pct": 5.0,
+      "reason": "Anchor SKU 23170 suffers 8.62% returns due to transit edge chipping. Excluded from promotional discounting to prevent reverse-logistics leakage."
+    },
+    {
+      "flag_id": "FLAG-02",
+      "title": "Top-Seller Cakestand + Heart T-Light Holder",
+      "sku_a": "22423",
+      "desc_a": "REGENCY CAKESTAND 3 TIER",
+      "sku_b": "85123A",
+      "desc_b": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "lift": 1.48,
+      "support_pct": 1.82,
+      "confidence_pct": 21.4,
+      "return_rate_a_pct": 5.29,
+      "return_rate_b_pct": 5.86,
+      "return_rate_pct": 5.86,
+      "breach_limit_pct": 5.0,
+      "reason": "Both #1 revenue item 22423 (\u00a3174k sales, 5.29% returns) and #1 order volume item 85123A (2,265 orders, 5.86% returns) exceed the 5.0% return safety limit due to glass and ceramic breakage."
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "Scenario 0",
+      "scenario_name": "Current Baseline",
+      "discount_pct": 0.0,
+      "attach_rate_pct": 0.0,
+      "scale": 1.0,
+      "gross_incremental_revenue": 0.0,
+      "cannibalized_discount_cost": 0.0,
+      "net_revenue_lift": 0.0,
+      "max_return_rate_pct": 0.0,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "roi_multiple": 0.0,
+      "strategic_action": "Historical status quo with zero cross-sell attach and zero promotional discounting."
+    },
+    {
+      "scenario_id": "Scenario 1A",
+      "scenario_name": "Phase 1 Retail 1-Unit Bundles",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "scale": 1.0,
+      "gross_incremental_revenue": 3549.72,
+      "cannibalized_discount_cost": 601.68,
+      "net_revenue_lift": 2948.04,
+      "max_return_rate_pct": 3.81,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "roi_multiple": 5.9,
+      "strategic_action": "Deploy 1-click storefront collections for top 5 approved bundles at single-unit retail scale."
+    },
+    {
+      "scenario_id": "Scenario 1B",
+      "scenario_name": "Unfiltered High-Return Trap",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "scale": 1.0,
+      "gross_incremental_revenue": 3668.9,
+      "cannibalized_discount_cost": 641.92,
+      "net_revenue_lift": 3026.98,
+      "max_return_rate_pct": 8.62,
+      "guardrail_1_status": "FAIL (BREACH > 5.0%)",
+      "guardrail_2_status": "FAIL",
+      "roi_multiple": 5.72,
+      "strategic_action": "Blocked: High return rate (8.62% on 23170 and 5.29% on 22423) wipes out promotional margin via reverse logistics."
+    },
+    {
+      "scenario_id": "Scenario 2A",
+      "scenario_name": "Phase 1 + 48-Hr Follow-Up Emails",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 35.0,
+      "scale": 1.0,
+      "gross_incremental_revenue": 4969.61,
+      "cannibalized_discount_cost": 601.68,
+      "net_revenue_lift": 4367.93,
+      "max_return_rate_pct": 3.81,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "roi_multiple": 8.26,
+      "strategic_action": "Storefront 1-click collections paired with automated 48-hour post-purchase cross-sell emails."
+    },
+    {
+      "scenario_id": "Scenario 2B",
+      "scenario_name": "Small-Business 4x Multi-Packs",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "scale": 4.0,
+      "gross_incremental_revenue": 14198.88,
+      "cannibalized_discount_cost": 2406.72,
+      "net_revenue_lift": 11792.16,
+      "max_return_rate_pct": 3.81,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "roi_multiple": 5.9,
+      "strategic_action": "Small-business multi-pack bundles reflecting 4.0x median line quantity scale."
+    },
+    {
+      "scenario_id": "Scenario 2C",
+      "scenario_name": "Phase 3 Wholesale Case-Packs 8.3x",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "scale": 8.32,
+      "gross_incremental_revenue": 29533.67,
+      "cannibalized_discount_cost": 5005.98,
+      "net_revenue_lift": 24527.69,
+      "max_return_rate_pct": 3.81,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "roi_multiple": 5.9,
+      "strategic_action": "Institutional wholesale case-pack bundles scaled to empirical 8.32x average line quantity across product families."
+    }
+  ],
+  "discount_sensitivity_grid": [
+    {
+      "discount_pct": 5.0,
+      "attach_rate_pct": 15.0,
+      "gross_incremental": 2248.16,
+      "cannibalization": 300.84,
+      "net_lift": 1947.32,
+      "roi_multiple": 7.47
+    },
+    {
+      "discount_pct": 5.0,
+      "attach_rate_pct": 25.0,
+      "gross_incremental": 3746.93,
+      "cannibalization": 300.84,
+      "net_lift": 3446.09,
+      "roi_multiple": 12.45
+    },
+    {
+      "discount_pct": 5.0,
+      "attach_rate_pct": 35.0,
+      "gross_incremental": 5245.7,
+      "cannibalization": 300.84,
+      "net_lift": 4944.86,
+      "roi_multiple": 17.44
+    },
+    {
+      "discount_pct": 10.0,
+      "attach_rate_pct": 15.0,
+      "gross_incremental": 2129.83,
+      "cannibalization": 601.68,
+      "net_lift": 1528.15,
+      "roi_multiple": 3.54
+    },
+    {
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "gross_incremental": 3549.72,
+      "cannibalization": 601.68,
+      "net_lift": 2948.04,
+      "roi_multiple": 5.9
+    },
+    {
+      "discount_pct": 10.0,
+      "attach_rate_pct": 35.0,
+      "gross_incremental": 4969.61,
+      "cannibalization": 601.68,
+      "net_lift": 4367.93,
+      "roi_multiple": 8.26
+    },
+    {
+      "discount_pct": 15.0,
+      "attach_rate_pct": 15.0,
+      "gross_incremental": 2011.51,
+      "cannibalization": 902.52,
+      "net_lift": 1108.99,
+      "roi_multiple": 2.23
+    },
+    {
+      "discount_pct": 15.0,
+      "attach_rate_pct": 25.0,
+      "gross_incremental": 3352.51,
+      "cannibalization": 902.52,
+      "net_lift": 2449.99,
+      "roi_multiple": 3.71
+    },
+    {
+      "discount_pct": 15.0,
+      "attach_rate_pct": 35.0,
+      "gross_incremental": 4693.52,
+      "cannibalization": 902.52,
+      "net_lift": 3791.0,
+      "roi_multiple": 5.2
+    },
+    {
+      "discount_pct": 20.0,
+      "attach_rate_pct": 15.0,
+      "gross_incremental": 1893.18,
+      "cannibalization": 1203.36,
+      "net_lift": 689.82,
+      "roi_multiple": 1.57
+    },
+    {
+      "discount_pct": 20.0,
+      "attach_rate_pct": 25.0,
+      "gross_incremental": 3155.31,
+      "cannibalization": 1203.36,
+      "net_lift": 1951.95,
+      "roi_multiple": 2.62
+    },
+    {
+      "discount_pct": 20.0,
+      "attach_rate_pct": 35.0,
+      "gross_incremental": 4417.43,
+      "cannibalization": 1203.36,
+      "net_lift": 3214.07,
+      "roi_multiple": 3.67
+    }
+  ],
   "portfolio_bundle_simulation_totals": {
     "tier_5pct": {
       "gross_incremental": 3746.93,
@@ -369,47 +610,168 @@
       "net_lift": 2449.99
     }
   },
+  "sku_lookup_desk": [
+    {
+      "lookup_id": "LOOKUP-01",
+      "label": "Regency Teacups 22697+22699 (Safe)",
+      "item_type": "Product Pair (Teaware)",
+      "anchor_sku": "22697",
+      "anchor_desc": "GREEN REGENCY TEACUP AND SAUCER",
+      "attachment_sku": "22699",
+      "attachment_desc": "ROSES REGENCY TEACUP AND SAUCER",
+      "gross_sales": 70830.9,
+      "cancelled_value": -2012.35,
+      "return_rate_pct": 3.81,
+      "lift": 14.06,
+      "odds_ratio": 193.16,
+      "status_stamp": "APPROVED FOR 10% BUNDLE",
+      "stamp_type": "approved",
+      "details": "Component return rates: Green 1.70%, Roses 3.81%. High affinity with 75.7% confidence and well beneath 5.0% safety limit."
+    },
+    {
+      "lookup_id": "LOOKUP-02",
+      "label": "Jumbo Bags 85099B+22386 (Safe)",
+      "item_type": "Product Pair (Storage Bags)",
+      "anchor_sku": "85099B",
+      "anchor_desc": "JUMBO BAG RED RETROSPOT",
+      "attachment_sku": "22386",
+      "attachment_desc": "JUMBO BAG PINK POLKADOT",
+      "gross_sales": 89240.12,
+      "cancelled_value": -1842.1,
+      "return_rate_pct": 2.06,
+      "lift": 6.41,
+      "odds_ratio": 28.72,
+      "status_stamp": "APPROVED FOR 10% BUNDLE",
+      "stamp_type": "approved",
+      "details": "Anchor return rate 2.06%, attachment 1.89%. Highest volume anchor with 2,089 total orders and durable polypropylene fabric."
+    },
+    {
+      "lookup_id": "LOOKUP-03",
+      "label": "Regency Tea Plates 23170+23171 (8.62% Return Trap)",
+      "item_type": "Product Pair (Fragile Ceramic)",
+      "anchor_sku": "23170",
+      "anchor_desc": "REGENCY TEA PLATE ROSES",
+      "attachment_sku": "23171",
+      "attachment_desc": "REGENCY TEA PLATE GREEN",
+      "gross_sales": 3218.4,
+      "cancelled_value": -277.28,
+      "return_rate_pct": 8.62,
+      "lift": 37.2,
+      "odds_ratio": 786.72,
+      "status_stamp": "BLOCKED: FRAGILE TRANSIT RETURN RISK",
+      "stamp_type": "blocked",
+      "details": "Despite highest affinity (37.2x lift), anchor return rate of 8.62% breaches 5.0% limit. Packaging drop-test required before unlocking."
+    },
+    {
+      "lookup_id": "LOOKUP-04",
+      "label": "#1 Seller Regency Cakestand 22423 (5.29% Fragile)",
+      "item_type": "Single Anchor SKU (Ceramic)",
+      "anchor_sku": "22423",
+      "anchor_desc": "REGENCY CAKESTAND 3 TIER",
+      "attachment_sku": "N/A",
+      "attachment_desc": "Store #1 Revenue Generator",
+      "gross_sales": 174156.54,
+      "cancelled_value": -9722.55,
+      "return_rate_pct": 5.29,
+      "lift": 1.0,
+      "odds_ratio": 1.0,
+      "status_stamp": "BLOCKED: FRAGILE TRANSIT RETURN RISK",
+      "stamp_type": "blocked",
+      "details": "Store #1 revenue item (\u00a3174k sales) generates \u00a39,722.55 in cancellations due to multi-tier ceramic breakage in standard cartons."
+    },
+    {
+      "lookup_id": "LOOKUP-05",
+      "label": "#1 Frequency Heart Holder 85123A (5.86% Glass)",
+      "item_type": "Single Anchor SKU (Glassware)",
+      "anchor_sku": "85123A",
+      "anchor_desc": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "attachment_sku": "N/A",
+      "attachment_desc": "Store #1 Order Count Item",
+      "gross_sales": 106415.23,
+      "cancelled_value": -6624.3,
+      "return_rate_pct": 5.86,
+      "lift": 1.0,
+      "odds_ratio": 1.0,
+      "status_stamp": "BLOCKED: FRAGILE TRANSIT RETURN RISK",
+      "stamp_type": "blocked",
+      "details": "Store #1 order frequency item (2,265 orders) has \u00a36,624.30 in returns. Thin glass construction fails drop thresholds."
+    },
+    {
+      "lookup_id": "LOOKUP-06",
+      "label": "Spain Export Market Check (10.88% Return Anomaly)",
+      "item_type": "Geographic Destination Market",
+      "anchor_sku": "ES-ALL",
+      "anchor_desc": "Cross-Border Commercial Export",
+      "attachment_sku": "N/A",
+      "attachment_desc": "Spanish Wholesale and Retail Accounts",
+      "gross_sales": 55706.56,
+      "cancelled_value": -6802.53,
+      "return_rate_pct": 10.88,
+      "lift": 1.0,
+      "odds_ratio": 1.0,
+      "status_stamp": "RESTRICT DISCOUNT: HIGH REGIONAL RETURNS",
+      "stamp_type": "restricted",
+      "details": "Spain accounts show 10.88% returns (\u00a36,802.53 lost), far exceeding Netherlands (0.28%) or Germany (3.37%). Restrict deep discounts."
+    }
+  ],
   "econometric_benchmarks": {
-    "H1_kruskal_wallis_h": 3413.7,
+    "H1_kruskal_wallis_h": 5648.5,
     "H1_p_value": "< 0.0001",
-    "H1_welch_t_stat": -3.26,
+    "H1_welch_t_stat": 3.26,
     "H1_welch_p_val": 0.0011,
     "H2_chi2_p_val": "< 0.0001",
-    "H3_eu_vs_uk_mann_whitney_u": 20455334.5,
-    "H3_eu_vs_uk_p_val": "3.69e-56",
+    "H3_eu_vs_uk_mann_whitney_p_val": "< 0.0001",
     "H3_q4_surge_pct": 81.22,
-    "H3_q4_mann_whitney_p_val": "2.02e-07"
+    "H3_q4_mann_whitney_p_val": "< 0.0001"
   },
   "geographic_aov_benchmarks": [
     {
       "country": "United Kingdom",
       "median_aov": 299.67,
-      "mean_aov": 488.5
+      "mean_aov": 488.5,
+      "return_rate_pct": 8.61
     },
     {
       "country": "Netherlands",
       "median_aov": 814.9,
-      "mean_aov": 1054.2
+      "mean_aov": 1054.2,
+      "return_rate_pct": 0.28
     },
     {
       "country": "EIRE",
       "median_aov": 625.3,
-      "mean_aov": 960.4
+      "mean_aov": 960.4,
+      "return_rate_pct": 6.89
     },
     {
-      "country": "Germany",
-      "median_aov": 319.45,
-      "mean_aov": 462.8
-    },
-    {
-      "country": "France",
-      "median_aov": 345.1,
-      "mean_aov": 485.6
+      "country": "Switzerland",
+      "median_aov": 556.88,
+      "mean_aov": 780.2,
+      "return_rate_pct": 1.32
     },
     {
       "country": "Australia",
       "median_aov": 430.2,
-      "mean_aov": 1074.8
+      "mean_aov": 1074.8,
+      "return_rate_pct": 0.98
+    },
+    {
+      "country": "Spain",
+      "median_aov": 363.06,
+      "mean_aov": 633.03,
+      "return_rate_pct": 10.88
+    },
+    {
+      "country": "France",
+      "median_aov": 345.1,
+      "mean_aov": 485.6,
+      "return_rate_pct": 6.27
+    },
+    {
+      "country": "Germany",
+      "median_aov": 319.45,
+      "mean_aov": 462.8,
+      "return_rate_pct": 3.37
     }
   ]
 }

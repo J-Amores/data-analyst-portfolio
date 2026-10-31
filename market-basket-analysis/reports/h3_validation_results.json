@@ -1,0 +1,320 @@
+{
+  "hypothesis_id": "H3",
+  "name": "Cross-Border Wholesale, Intraday B2B Window, and Merchandising Policy Simulation",
+  "status": "SUPPORTED",
+  "geographic_regimes": {
+    "uk_orders_count": 17901,
+    "uk_order_share_pct": 90.53,
+    "uk_gmv": 8724834.5,
+    "uk_gmv_share_pct": 85.14,
+    "uk_median_aov": 299.67,
+    "uk_mean_aov": 487.39,
+    "uk_return_rate_pct": 8.55,
+    "intl_orders_count": 1872,
+    "intl_order_share_pct": 9.47,
+    "intl_gmv": 1522775.65,
+    "intl_gmv_share_pct": 14.86,
+    "intl_median_aov": 385.28,
+    "intl_mean_aov": 813.45,
+    "intl_return_rate_pct": 5.08,
+    "mann_whitney_u_aov": 20455334.5,
+    "mann_whitney_p_aov": 3.6940059458494577e-56,
+    "ks_statistic_aov": 0.1807,
+    "ks_p_value_aov": 6.749111205836529e-49,
+    "mann_whitney_p_skus": 3.473351617836779e-07,
+    "continental_benchmarks": [
+      {
+        "country": "Netherlands",
+        "order_count": 93,
+        "order_share_pct": 0.47,
+        "gmv": 283889.34,
+        "median_aov": 814.62,
+        "mean_aov": 3052.57,
+        "median_skus": 13.0,
+        "mean_skus": 24.97,
+        "cancelled_revenue": 784.8,
+        "return_rate_pct": 0.28
+      },
+      {
+        "country": "EIRE",
+        "order_count": 282,
+        "order_share_pct": 1.43,
+        "gmv": 270850.86,
+        "median_aov": 624.71,
+        "mean_aov": 960.46,
+        "median_skus": 22.5,
+        "mean_skus": 27.54,
+        "cancelled_revenue": 20177.14,
+        "return_rate_pct": 6.93
+      },
+      {
+        "country": "Switzerland",
+        "order_count": 50,
+        "order_share_pct": 0.25,
+        "gmv": 53065.6,
+        "median_aov": 557.18,
+        "mean_aov": 1061.31,
+        "median_skus": 25.0,
+        "mean_skus": 38.28,
+        "cancelled_revenue": 704.55,
+        "return_rate_pct": 1.31
+      },
+      {
+        "country": "Germany",
+        "order_count": 443,
+        "order_share_pct": 2.24,
+        "gmv": 205381.15,
+        "median_aov": 318.85,
+        "mean_aov": 463.61,
+        "median_skus": 14.0,
+        "mean_skus": 19.49,
+        "cancelled_revenue": 7168.93,
+        "return_rate_pct": 3.37
+      },
+      {
+        "country": "France",
+        "order_count": 382,
+        "order_share_pct": 1.93,
+        "gmv": 184493.0,
+        "median_aov": 344.57,
+        "mean_aov": 482.97,
+        "median_skus": 17.0,
+        "mean_skus": 21.11,
+        "cancelled_revenue": 12311.21,
+        "return_rate_pct": 6.26
+      },
+      {
+        "country": "Spain",
+        "order_count": 88,
+        "order_share_pct": 0.45,
+        "gmv": 55706.56,
+        "median_aov": 363.06,
+        "mean_aov": 633.03,
+        "median_skus": 21.0,
+        "mean_skus": 27.28,
+        "cancelled_revenue": 6802.53,
+        "return_rate_pct": 10.88
+      },
+      {
+        "country": "Australia",
+        "order_count": 56,
+        "order_share_pct": 0.28,
+        "gmv": 138103.81,
+        "median_aov": 430.45,
+        "mean_aov": 2466.14,
+        "median_skus": 10.0,
+        "mean_skus": 21.05,
+        "cancelled_revenue": 1444.04,
+        "return_rate_pct": 1.03
+      }
+    ],
+    "spain_anomaly": {
+      "return_rate_pct": 10.88,
+      "note": "Spain exhibits highest cross-border return rate (10.88% vs. Netherlands 0.28% and Germany 3.37%)."
+    }
+  },
+  "temporal_and_intraday": {
+    "q4_monthly_avg_gmv": 1194593.04,
+    "baseline_monthly_avg_gmv": 659202.52,
+    "q4_revenue_surge_pct": 81.22,
+    "mann_whitney_p_q4": 2.0168589455816711e-07,
+    "b2b_window_orders": 15375,
+    "b2b_window_order_share_pct": 77.76,
+    "b2b_window_gmv": 7625667.43,
+    "b2b_window_gmv_share_pct": 74.41,
+    "sunday_orders_count": 2203,
+    "sunday_median_aov": 262.42,
+    "sunday_mean_aov": 362.37,
+    "mann_whitney_p_intraday": 1.562816018956173e-07
+  },
+  "policy_simulation_scenarios": [
+    {
+      "scenario_id": "Scenario 0",
+      "scenario_name": "Historical Unbundled Baseline",
+      "discount_pct": 0.0,
+      "attach_rate_pct": 0.0,
+      "quantity_multiplier": 1.0,
+      "solo_anchor_orders": 2831,
+      "gross_incremental_revenue": 0.0,
+      "cannibalized_discount_cost": 0.0,
+      "net_revenue_lift": 0.0,
+      "max_return_rate_pct": 0.0,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "strategic_action": "Historical status quo with zero cross-sell attach and zero promotional discounting."
+    },
+    {
+      "scenario_id": "Scenario 1A",
+      "scenario_name": "Phase 1 Retail Single-Unit Bundle Rollout",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "quantity_multiplier": 1.0,
+      "solo_anchor_orders": 2831,
+      "gross_incremental_revenue": 3549.72,
+      "cannibalized_discount_cost": 601.68,
+      "net_revenue_lift": 2948.04,
+      "max_return_rate_pct": 3.81,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "strategic_action": "Deploy 1-click storefront collections for top 5 approved bundles at single-unit retail scale."
+    },
+    {
+      "scenario_id": "Scenario 1B",
+      "scenario_name": "Unfiltered High-Return Policy Trap",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "quantity_multiplier": 1.0,
+      "solo_anchor_orders": 2957,
+      "gross_incremental_revenue": 3668.9,
+      "cannibalized_discount_cost": 641.92,
+      "net_revenue_lift": 3026.98,
+      "max_return_rate_pct": 8.62,
+      "guardrail_1_status": "FAIL (BREACH > 5.0%)",
+      "guardrail_2_status": "FAIL",
+      "strategic_action": "Blocked: High return rate (8.62% on 23170 and 5.29% on 22423) wipes out promotional margin via reverse logistics."
+    },
+    {
+      "scenario_id": "Scenario 2A",
+      "scenario_name": "Phase 1 + Phase 2 Post-Purchase Email Trigger",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 35.0,
+      "quantity_multiplier": 1.0,
+      "solo_anchor_orders": 2831,
+      "gross_incremental_revenue": 4969.61,
+      "cannibalized_discount_cost": 601.68,
+      "net_revenue_lift": 4367.93,
+      "max_return_rate_pct": 3.81,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "strategic_action": "Omnichannel combination of storefront 1-click collections and automated 48-hour post-purchase cross-sell emails."
+    },
+    {
+      "scenario_id": "Scenario 2B",
+      "scenario_name": "Moderate Multi-Unit Pack Scale",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "quantity_multiplier": 4.0,
+      "solo_anchor_orders": 2831,
+      "gross_incremental_revenue": 14198.88,
+      "cannibalized_discount_cost": 2406.72,
+      "net_revenue_lift": 11792.16,
+      "max_return_rate_pct": 3.81,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "strategic_action": "Small-business multi-pack bundles reflecting 4.0x median line quantity scale."
+    },
+    {
+      "scenario_id": "Scenario 2C",
+      "scenario_name": "Phase 3 Full Wholesale Case-Pack Rollout",
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "quantity_multiplier": 8.32,
+      "solo_anchor_orders": 2831,
+      "gross_incremental_revenue": 29533.67,
+      "cannibalized_discount_cost": 5005.98,
+      "net_revenue_lift": 24527.69,
+      "max_return_rate_pct": 3.81,
+      "guardrail_1_status": "PASS",
+      "guardrail_2_status": "PASS",
+      "strategic_action": "Institutional wholesale case-pack bundles scaled to empirical 8.32x average line quantity across product families."
+    }
+  ],
+  "discount_sensitivity_grid": [
+    {
+      "discount_pct": 5.0,
+      "attach_rate_pct": 15.0,
+      "gross_incremental_revenue": 2248.16,
+      "cannibalized_discount_cost": 300.84,
+      "net_revenue_lift": 1947.32,
+      "roi_multiple": 7.47
+    },
+    {
+      "discount_pct": 5.0,
+      "attach_rate_pct": 25.0,
+      "gross_incremental_revenue": 3746.93,
+      "cannibalized_discount_cost": 300.84,
+      "net_revenue_lift": 3446.09,
+      "roi_multiple": 12.45
+    },
+    {
+      "discount_pct": 5.0,
+      "attach_rate_pct": 35.0,
+      "gross_incremental_revenue": 5245.7,
+      "cannibalized_discount_cost": 300.84,
+      "net_revenue_lift": 4944.86,
+      "roi_multiple": 17.44
+    },
+    {
+      "discount_pct": 10.0,
+      "attach_rate_pct": 15.0,
+      "gross_incremental_revenue": 2129.83,
+      "cannibalized_discount_cost": 601.68,
+      "net_revenue_lift": 1528.15,
+      "roi_multiple": 3.54
+    },
+    {
+      "discount_pct": 10.0,
+      "attach_rate_pct": 25.0,
+      "gross_incremental_revenue": 3549.72,
+      "cannibalized_discount_cost": 601.68,
+      "net_revenue_lift": 2948.04,
+      "roi_multiple": 5.9
+    },
+    {
+      "discount_pct": 10.0,
+      "attach_rate_pct": 35.0,
+      "gross_incremental_revenue": 4969.61,
+      "cannibalized_discount_cost": 601.68,
+      "net_revenue_lift": 4367.93,
+      "roi_multiple": 8.26
+    },
+    {
+      "discount_pct": 15.0,
+      "attach_rate_pct": 15.0,
+      "gross_incremental_revenue": 2011.51,
+      "cannibalized_discount_cost": 902.52,
+      "net_revenue_lift": 1108.99,
+      "roi_multiple": 2.23
+    },
+    {
+      "discount_pct": 15.0,
+      "attach_rate_pct": 25.0,
+      "gross_incremental_revenue": 3352.51,
+      "cannibalized_discount_cost": 902.52,
+      "net_revenue_lift": 2449.99,
+      "roi_multiple": 3.71
+    },
+    {
+      "discount_pct": 15.0,
+      "attach_rate_pct": 35.0,
+      "gross_incremental_revenue": 4693.52,
+      "cannibalized_discount_cost": 902.52,
+      "net_revenue_lift": 3791.0,
+      "roi_multiple": 5.2
+    },
+    {
+      "discount_pct": 20.0,
+      "attach_rate_pct": 15.0,
+      "gross_incremental_revenue": 1893.18,
+      "cannibalized_discount_cost": 1203.36,
+      "net_revenue_lift": 689.82,
+      "roi_multiple": 1.57
+    },
+    {
+      "discount_pct": 20.0,
+      "attach_rate_pct": 25.0,
+      "gross_incremental_revenue": 3155.31,
+      "cannibalized_discount_cost": 1203.36,
+      "net_revenue_lift": 1951.95,
+      "roi_multiple": 2.62
+    },
+    {
+      "discount_pct": 20.0,
+      "attach_rate_pct": 35.0,
+      "gross_incremental_revenue": 4417.43,
+      "cannibalized_discount_cost": 1203.36,
+      "net_revenue_lift": 3214.07,
+      "roi_multiple": 3.67
+    }
+  ]
+}

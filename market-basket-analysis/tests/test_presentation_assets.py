@@ -1,7 +1,7 @@
 """
 tests/test_presentation_assets.py
 Automated Quality Assurance for Presentation Assets, Data Cubes, and Reports.
-Validates file sizes, zero em dashes, empirical metric precision, and schema integrity.
+Validates file sizes, zero em and en dashes, zero academic/DS jargon, whole-number metric precision, and schema integrity.
 """
 from pathlib import Path
 import json
@@ -25,12 +25,47 @@ TEXT_FILES = [
     ROOT_DIR / "README.md",
 ]
 
-KEY_EMPIRICAL_STRINGS = [
+PROSE_REPORTS = [
+    ROOT_DIR / "index.html",
+    ROOT_DIR / "cockpit.html",
+    ROOT_DIR / "README.md",
+]
+
+STAKEHOLDER_PAGES = [
+    ROOT_DIR / "index.html",
+    ROOT_DIR / "cockpit.html",
+]
+
+KEY_METRIC_STRINGS = [
     "19,773",
-    "10,247,610.15",
-    "8.05%",
-    "14.74%",
-    "2,948.04",
+    "522,544",
+    "87%",
+    "£2,948",
+    "£24,528",
+]
+
+BANNED_JARGON_WORDS = [
+    "kruskal-wallis",
+    "mann-whitney",
+    "cannibalization",
+    "monetization polarization",
+    "empirical",
+]
+
+BANNED_AI_WORDS = [
+    "underscores",
+    "testament",
+    "delve",
+    "tapestry",
+    "monetization polarization",
+    "pivotal",
+    "landscape",
+    "unlocks",
+    "showcasing",
+    "highlighting",
+    "exposing",
+    "bifurcating",
+    "synergistic",
 ]
 
 
@@ -43,26 +78,46 @@ def test_visual_figures_exist_and_non_empty():
 
 
 def test_zero_em_dashes_in_artifacts():
-    """Verify that zero em dashes exist in generated JSON, HTML, and Markdown files."""
-    em_dash = "\u2014"  # Em dash character
+    """Verify that zero em dashes and zero en dashes exist in generated JSON, HTML, and Markdown files."""
+    em_dash = "\u2014"
+    en_dash = "\u2013"
     for doc_path in TEXT_FILES:
         assert doc_path.exists(), f"Document missing: {doc_path}"
         content = doc_path.read_text(encoding="utf-8")
         assert em_dash not in content, f"Em dash found in {doc_path}!"
+        assert en_dash not in content, f"En dash found in {doc_path}!"
+
+
+def test_zero_ai_jargon_and_legacy_labels():
+    """Verify that zero banned AI words or P0/P1/P2 labels appear in HTML and Markdown reports."""
+    for doc_path in PROSE_REPORTS:
+        assert doc_path.exists(), f"Document missing: {doc_path}"
+        content = doc_path.read_text(encoding="utf-8").lower()
+        assert "p0" not in content, f"Legacy priority label 'P0' found in {doc_path}!"
+        for word in BANNED_AI_WORDS:
+            assert word not in content, f"Banned AI jargon '{word}' found in {doc_path}!"
+
+
+def test_zero_banned_jargon_in_stakeholder_pages():
+    """Verify that zero banned academic/DS jargon words appear in index.html or cockpit.html."""
+    for doc_path in STAKEHOLDER_PAGES:
+        assert doc_path.exists(), f"Document missing: {doc_path}"
+        content = doc_path.read_text(encoding="utf-8").lower()
+        for word in BANNED_JARGON_WORDS:
+            assert word not in content, f"Banned academic/DS jargon '{word}' found in {doc_path}!"
 
 
 def test_key_empirical_metrics_in_reports():
-    """Verify that exact empirical figures are present in both index.html and README.md."""
-    for filename in ["index.html", "README.md"]:
-        doc_path = ROOT_DIR / filename
+    """Verify that key clean whole-number metrics are present in index.html and cockpit.html."""
+    for doc_path in STAKEHOLDER_PAGES:
         assert doc_path.exists(), f"Document missing: {doc_path}"
         content = doc_path.read_text(encoding="utf-8")
-        for metric_str in KEY_EMPIRICAL_STRINGS:
-            assert metric_str in content, f"Metric '{metric_str}' missing from {filename}!"
+        for metric_str in KEY_METRIC_STRINGS:
+            assert metric_str in content, f"Metric '{metric_str}' missing from {doc_path.name}!"
 
 
 def test_cockpit_bundle_cube_schema_and_values():
-    """Verify that cockpit_bundle_cube.json contains valid baseline metrics and bundles."""
+    """Verify that cockpit_bundle_cube.json contains valid baseline metrics, approved bundles, and blocked items."""
     cube_path = EXPORTS_DIR / "cockpit_bundle_cube.json"
     assert cube_path.exists(), f"Cockpit cube missing: {cube_path}"
 
@@ -70,7 +125,17 @@ def test_cockpit_bundle_cube_schema_and_values():
         cube = json.load(f)
 
     # Check top-level keys
-    required_keys = ["metadata", "portfolio_baseline", "basket_tiers", "bundles", "portfolio_bundle_simulation_totals"]
+    required_keys = [
+        "metadata",
+        "portfolio_baseline",
+        "basket_tiers",
+        "bundles",
+        "blocked_items",
+        "scenarios",
+        "discount_sensitivity_grid",
+        "portfolio_bundle_simulation_totals",
+        "sku_lookup_desk"
+    ]
     for k in required_keys:
         assert k in cube, f"Missing key '{k}' in cockpit cube."
 
@@ -93,7 +158,68 @@ def test_cockpit_bundle_cube_schema_and_values():
     assert "BDL-05" in bundle_ids
     assert "FLAG-01" in bundle_ids
 
-    flagged = next(b for b in bundles if b["bundle_id"] == "FLAG-01")
+    # Check exact approved bundle return rates
+    bundle_dict = {b["bundle_id"]: b for b in bundles}
+    assert bundle_dict["BDL-01"]["return_rate_a_pct"] == 1.70
+    assert bundle_dict["BDL-01"]["return_rate_b_pct"] == 3.81
+    assert bundle_dict["BDL-02"]["return_rate_a_pct"] == 2.06
+    assert bundle_dict["BDL-02"]["return_rate_b_pct"] == 1.89
+    assert bundle_dict["BDL-03"]["return_rate_a_pct"] == 0.58
+    assert bundle_dict["BDL-03"]["return_rate_b_pct"] == 0.90
+    assert bundle_dict["BDL-04"]["return_rate_a_pct"] == 2.33
+    assert bundle_dict["BDL-04"]["return_rate_b_pct"] == 0.99
+    assert bundle_dict["BDL-05"]["return_rate_a_pct"] == 0.58
+    assert bundle_dict["BDL-05"]["return_rate_b_pct"] == 0.73
+
+    # Check flagged items
+    flagged = bundle_dict["FLAG-01"]
     assert flagged["passes_guardrail_1"] is False
     assert flagged["return_rate_a_pct"] == 8.62
     assert flagged["lift"] == 37.20
+
+    # Check blocked items list
+    blocked = {b["flag_id"]: b for b in cube["blocked_items"]}
+    assert "FLAG-01" in blocked
+    assert "FLAG-02" in blocked
+    assert blocked["FLAG-02"]["return_rate_a_pct"] == 5.29
+    assert blocked["FLAG-02"]["return_rate_b_pct"] == 5.86
+
+    # Check 6 pre-computed scenarios
+    assert len(cube["scenarios"]) == 6
+    scenarios = {s["scenario_id"]: s for s in cube["scenarios"]}
+    assert scenarios["Scenario 0"]["net_revenue_lift"] == 0.00
+    assert scenarios["Scenario 1A"]["net_revenue_lift"] == 2948.04
+    assert scenarios["Scenario 2C"]["net_revenue_lift"] == 24527.69
+
+    # Check 12-row sensitivity grid
+    assert len(cube["discount_sensitivity_grid"]) == 12
+
+
+def test_zero_broken_local_links_in_reports():
+    """Verify that all local href and src links in index.html, cockpit.html, and README.md point to valid files."""
+    import re
+
+    files_to_check = [
+        ROOT_DIR / "index.html",
+        ROOT_DIR / "cockpit.html",
+        ROOT_DIR / "README.md",
+    ]
+
+    for file_path in files_to_check:
+        assert file_path.exists(), f"Report file missing: {file_path}"
+        content = file_path.read_text(encoding="utf-8")
+
+        # Extract href and src in HTML
+        links = re.findall(r'(?:href|src)=["\']([^"\']+)["\']', content)
+        # Extract markdown links and images
+        links += re.findall(r'\[.*?\]\(([^)]+)\)', content)
+        links += re.findall(r'!\[.*?\]\(([^)]+)\)', content)
+
+        for link in links:
+            if link.startswith(("http", "#", "data:", "mailto:")):
+                continue
+            clean_link = link.split("#")[0].split("?")[0].strip()
+            if clean_link:
+                target_path = Path(clean_link)
+                assert target_path.exists(), f"Broken local link '{link}' found in {file_path.name}!"
+
