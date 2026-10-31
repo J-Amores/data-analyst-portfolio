@@ -1,192 +1,191 @@
-# Consumer Credit Risk & Underwriting Optimization
-### Balancing Loss Reduction Against Lending Volume Across \$19.39B in Consumer Loans
+# Cutting Consumer Loan Losses by $230M Without Turning Away Good Borrowers
+### Balancing Loss Reduction Against Lending Volume Across $19.4B in Consumer Loans
 
 [![Live Visual Report](https://img.shields.io/badge/Live_Report-Editorial_Case_Study-2563EB?style=for-the-badge)](https://j-amores.github.io/data-analyst-portfolio/credit-risk-optimization/)
-[![Interactive Cockpit](https://img.shields.io/badge/Live_Tool-Underwriting_Decision_Cockpit-059669?style=for-the-badge)](https://j-amores.github.io/data-analyst-portfolio/credit-risk-optimization/cockpit.html)
+[![Interactive Simulator](https://img.shields.io/badge/Live_Tool-Underwriting_Simulator-059669?style=for-the-badge)](https://j-amores.github.io/data-analyst-portfolio/credit-risk-optimization/underwriting-simulator.html)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-334155?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
-[![Pytest Suite](https://img.shields.io/badge/Pytest-27_Passed-16A34A?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
+[![Pytest Suite](https://img.shields.io/badge/Pytest-33_Passed-16A34A?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
 
-**Quick Links:**
-- **[Read the Live Editorial Visual Report](https://j-amores.github.io/data-analyst-portfolio/credit-risk-optimization/)** (Full narrative briefing, charts, and rollout plan)
-
-- **[Launch the Interactive Underwriting Decision Cockpit](https://j-amores.github.io/data-analyst-portfolio/credit-risk-optimization/cockpit.html)** (Test individual borrower applications and policy rules in real time)
-
-- **[Project Charter](docs/PROJECT_CHARTER.md)** | **[Data Specification & Schema](docs/DATA_SPEC.md)**
+High default rates in lower credit grades and underpriced 5-year loans quietly drain hundreds of millions from our lending margins. By auditing **1,345,350 completed consumer loans ($19.4B funded)** to block high-stress subprime applications and adjust borderline Grade C4 interest rates, the platform recovers **$244.2M ($230.0M in saved write-offs plus $14.2M in rate revenue)** while keeping **96% of lending volume ($18.6B)** intact.
 
 ---
 
-## 1. Project Overview & Main Takeaways
+### Live Deliverables & Reports
+* **[Read the Live Editorial Visual Report](https://j-amores.github.io/data-analyst-portfolio/credit-risk-optimization/)** (Full stakeholder briefing, visual charts, and 90-day rollout plan)
+* **[Launch the Interactive Underwriting Simulator](https://j-amores.github.io/data-analyst-portfolio/credit-risk-optimization/underwriting-simulator.html)** (Test real borrower profiles, approval cutoffs, and rollout levels in real time)
 
-Between 2007 and 2018, LendingClub funded over 2.26 million consumer loans totaling \$33.98B. When I looked at the raw database, the first thing that stood out was a reporting blind spot: over 40% of the records (912,569 loans) were active accounts still in repayment. Including those unfinished loans made the overall default rate look like a safe **12%**, when the **1,345,350 completed loans (\$19.4B)** actually defaulted at almost **20%**, which is **1.68x higher**.
+---
 
-When I tracked actual cash payments across credit grades on those completed loans, I found that subprime Grades D through G received about **28% of our lending capital (\$5.5B)** but caused **51% of our unpaid write-offs (\$1.4B)**. Charging 20% to 26% interest wasn't enough to cover those defaults: net cash returns dropped below our **+4%** profit target at **Subgrade C4 (+3.4%)** and started losing money at **Subgrade E5 (-1.3%)**.
+## 1. Business Problem & Executive Overview
 
-If we banned all subprime loans, we would lose 28.5% of our lending business and break our **80%** volume goal. Instead, I cross-tabulated borrower debt-to-income ratios against credit card utilization and found that Grade D through G borrowers who are over **25% debt-to-income** and over **65% card utilization** default about **39% of the time**. By automatically declining just that highly distressed group and raising rates by 1.5% on borderline Subgrade C4 loans, we prevent **18,548 defaults**, save **\$230M in unpaid losses**, and add **\$14.2M in interest income** (**+\$244.2M total value**), all while keeping about **96% of our lending volume**.
+Between 2007 and 2018, LendingClub funded over 2.26 million consumer loans totaling $34B. As the platform pushed for faster growth, it approved hundreds of thousands of higher-risk borrowers in Grades D through G at 18% to 29% interest rates. On paper, those high rates looked profitable, and basic company dashboards showed a safe **12%** default rate because 912,569 newer loans ($14.6B) were still in the middle of making monthly payments.
 
-### The 4-Question Summary
+Our Chief Risk Officer (CRO) and Head of Underwriting face a practical business decision: **which high-risk loan applications should we stop approving or reprice so we protect our profit margins without shutting down our lending volume?**
 
-| Question | Finding & Supporting Data |
+When we separated out the unfinished active loans and looked strictly at the **1,345,350 completed loans ($19.4B)**, we found that 1 in 5 borrowers actually defaulted (**20%**), and unpaid write-offs in Grades D through G were eating up the profits earned from safer borrowers:
+1. **Unpaid Subprime Losses Wipe Out High Interest Rates:** Subprime Grades D through G received **28% of our lending money ($5.5B)** but caused **51% of all unpaid write-offs ($1.4B)**. Charging 18% to 29% interest was not enough when 30% to 50% of borrowers defaulted early.
+2. **Where We Lose Money on Rates and Terms:** Net cash return after losses drops below our **+4.0%** profit goal at **Subgrade C4 (+3.4%)** and starts losing money at **Subgrade E5 (-1.3%)**, falling to **-9.8% in G5**. In addition, 5-year loans default twice as often as 3-year loans (**32% vs. 16%**).
+
+### Executive Summary Grid
+
+| The Subprime & Pricing Leak | The Fix: Targeted Cutoffs & Rates | The Upside: +$244.2M Recovered |
+| :--- | :--- | :--- |
+| **Subprime Grades D to G get 28% of lending money** ($5.5B) but cause 51% of all unpaid write-offs ($1.4B).<br><br>* Unfiltered reports hid risk at 12% vs. 20% true default rate.<br>* Net return drops below our +4.0% goal at Subgrade C4 (+3.4%).<br>* Subgrades E5 to G5 lose money (-1.3% down to -9.8% return). | **Decline only subprime applicants with both high debt and maxed-out cards**, and update Subgrade C4 pricing.<br><br>* Auto-decline Grades D to G when monthly debt > 25% and card usage > 65%.<br>* Add +1.5% (+150 bps) interest rate to Subgrade C4 loans.<br>* Cap 5-year terms at 680+ FICO and verify small business taxes. | **Recovers $244.2M in combined value** while keeping 96% of our lending volume ($18.6B) moving smoothly.<br><br>* Saves +$230.0M in unpaid losses (18,548 defaults prevented).<br>* Adds +$14.2M in interest revenue across 74,422 C4 loans.<br>* Lifts portfolio net return from +4.3% to +4.4% (+15 bps). |
+
+### The 4-Question Decision Summary
+
+| Executive Question | Finding & Recommended Action |
 | :--- | :--- |
-| **1. What changed?** | Standard reports included 912,569 active loans that were still being paid off, which made the overall default rate look like **12%**. Isolating the 1,345,350 completed loans showed the true default rate is **20%** (268,599 defaults), meaning basic reporting underestimated default risk by **1.7x**. |
-| **2. Why did it change?** | Higher interest rates in lower credit grades did not make up for higher defaults. Subprime Grades D through G received **28.5% of lending capital (\$5.5B)** but caused **51.5% of all unpaid write-offs (\$1.4B)**. Defaults spiked when borrowers had both monthly debt payments over 25% of their income and credit card usage over 65% (**28.4% default rate**, or 2x the rate of low-risk borrowers). |
-| **3. What does it mean?** | Our net cash return after subtracting losses (LAROC) drops below our **+4%** profit goal starting at **Subgrade C4 (+3.4%)** and starts losing money at **Subgrade E5 (-1.3%)**, falling to **-9.8% in G5**. Safer borrowers in Grades A through C (+\$857M net profit) are effectively paying for subprime losses. |
-| **4. What decision comes next?** | Roll out a 3-phase underwriting update: **(Phase 1)** auto-decline Grade D through G applicants with debt-to-income > 25% and credit card usage > 65%, saving **\$230M in net losses** (18,548 defaults prevented) while keeping **95.8% of loan volume (\$18.6B)**; **(Phase 2)** add +1.5% (+150 bps) to Subgrade C4 interest rates to bring in **+\$14.2M**; and **(Phase 3)** require tax transcripts on unsecured small business loans. |
+| **1. What did we find?** | Standard reports included 912,569 unfinished active loans, making default risk look like **12%**. Separating completed loans showed the true default rate is **20%** (268,599 defaults across 1.35M loans), meaning basic reports underestimated default risk by **1.7x**. |
+| **2. Why is this happening?** | Higher interest rates in lower credit grades did not cover early defaults. Subprime Grades D through G took **28% of lending money ($5.5B)** but drove **51% of unpaid write-offs ($1.4B)**. Defaults spiked when borrowers had both high monthly debt (>25% DTI) and maxed-out credit cards (>65% usage), defaulting at **28% overall** and **39% in subprime**. |
+| **3. What does it cost us?** | Net cash return after losses (LAROC) drops below our **+4.0%** profit hurdle starting at **Subgrade C4 (+3.4%)** and turns negative at **Subgrade E5 (-1.3%)**. In addition, 5-year loans default at double the rate of 3-year loans (32% vs. 16%), and unsecured small business loans lose money (-0.6% return). |
+| **4. What should we change?** | Roll out a 3-phase underwriting update: **(Phase 1)** auto-decline Grade D through G applicants with DTI > 25% and card usage > 65%, saving **+$230.0M in net losses** (18,548 defaults prevented) while keeping **96% of lending volume ($18.6B)**; **(Phase 2)** add +1.5% (+150 bps) to Subgrade C4 rates to add **+$14.2M** and cap 5-year terms at 680+ FICO; and **(Phase 3)** verify small business tax returns and offer payment plans to late active accounts. |
 
 ---
 
-## 2. Metrics & Guardrails (4-Layer Metric Model)
+## 2. North Star Metrics & Portfolio Guardrails
 
-Instead of relying on vanity numbers like total loans issued or advertised interest rates, we track portfolio health using three core metrics:
+Rather than relying on vanity numbers like total loans issued or advertised interest rates, we evaluate every underwriting rule against three North Star guardrails:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                       PORTFOLIO METRIC ARCHITECTURE                         │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  1. NORTH STAR METRIC                                                       │
-│     Loss-Adjusted Return on Capital (LAROC) -> Goal: > +4.00% Net Return    │
-│                                                                             │
-│  2. RISK GUARDRAIL                                                          │
-│     Seasoned Default Rate -> Goal: Reduce below 19.30% (from 19.96% base)   │
-│                                                                             │
-│  3. BUSINESS VOLUME GUARDRAIL                                               │
-│     Lending Volume Kept -> Goal: Retain >= 80.0% of funded lending volume   │
-│                                                                             │
-│  4. BORROWER RISK DRIVERS                                                   │
-│     Monthly Debt-to-Income (DTI), Credit Card Usage, FICO Score, Loan Term  │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|                       PORTFOLIO METRIC ARCHITECTURE                         |
++-----------------------------------------------------------------------------+
+|  1. NORTH STAR METRIC                                                       |
+|     Net Cash Return After Losses (LAROC) -> Goal: > +4.0% Net Return        |
+|                                                                             |
+|  2. RISK GUARDRAIL                                                          |
+|     Completed Default Rate -> Goal: Reduce below 19.3% (from 20% base)      |
+|                                                                             |
+|  3. BUSINESS VOLUME GUARDRAIL                                               |
+|     Lending Volume Kept -> Goal: Retain >= 80% of funded lending volume     |
+|                                                                             |
+|  4. BORROWER RISK DRIVERS                                                   |
+|     Monthly Debt (DTI), Credit Card Usage, Credit Score (FICO), Loan Term   |
++-----------------------------------------------------------------------------+
 ```
 
-### How Each Metric Is Calculated
-
-1. **North Star Metric: Loss-Adjusted Return on Capital (LAROC)**
-   - **What it means in plain English:** The actual cash profit we keep per dollar lent after subtracting unpaid principal write-offs and collection fees.
-   - **Formula:**
-     $$\text{LAROC} = \left( \frac{\sum \text{Total Payments Received} + \sum \text{Recoveries} - \sum \text{Collection Fees} - \sum \text{Funded Principal}}{\sum \text{Funded Principal}} \right) \times 100$$
-   - **Target Hurdle:** **+4.00%**. Any loan tier returning less than 4.00% fails to cover the platform's cost of capital and operating expenses.
-   - **Baseline Performance:** **+4.26%** across 1,345,350 completed loans (\$825.13M net cash profit on \$19.39B lent).
-
-2. **Risk Guardrail: Seasoned Default Rate (Terminal Bad Loan Rate)**
-   - **What it means in plain English:** The percentage of completed loans where the borrower defaulted or had their balance written off as uncollectible.
-   - **Formula:**
-     $$\text{Seasoned Default Rate} = \frac{\sum (\text{Charged Off Loans} + \text{Default Loans})}{\sum \text{Completed Loans (Fully Paid, Charged Off, Default)}} \times 100$$
-   - **Target Ceiling:** Reduce portfolio-wide default rate below **19.3%** (down from the **20%** completed baseline).
-
-3. **Business Volume Guardrail: Lending Volume Retention**
-   - **What it means in plain English:** The share of historical lending dollars we keep after turning on our new decline rules. This prevents us from setting rules so strict that we shut down the lending business.
-   - **Formula:**
-     $$\text{Volume Retention Rate} = \frac{\text{Funded Dollars Kept After Policy}}{\text{Total Historical Funded Dollars}} \times 100$$
-   - **Target Floor:** **>= 80.0%** (\$15.5B+ retained).
-   - **Phase 1 Policy Result:** **95.81%** retained (\$18.58B kept; only 3.55% of loans declined).
+1. **North Star Metric - Net Cash Return After Losses (LAROC):** Measures the actual cash profit we keep per dollar lent after subtracting unpaid principal write-offs and collection agency fees:
+   `LAROC = (Total Payments Received + Post-Default Recoveries - Collection Fees - Funded Loan Amount) / Funded Loan Amount`
+   * **Target Hurdle:** **> +4.0%**. Any loan tier earning under 4.0% fails to cover our cost of capital and operating expenses. Across all 1.35M completed loans, our baseline return is **+4.3%** ($825.1M net profit on $19.4B lent), which rises to **+4.4%** under our new rules.
+2. **Risk Guardrail - Completed Default Rate (< 19.3% Goal):** The percentage of completed loans that ended in a default or charge-off (`Defaulted Loans / Total Completed Loans`). Our Phase 1 rule brings the portfolio default rate down from **20%** (`19.96%`) to **19.0%**, clearing our 19.3% ceiling.
+3. **Business Volume Guardrail - Lending Volume Kept (>= 80% Goal):** The share of historical lending dollars we keep after turning on our new decline filter (`Retained Lending Dollars / Total Historical Lending Dollars`). This ensures we never set rules so strict that we choke off loan growth. Our targeted rule keeps **96% of lending volume ($18.6B)** while declining only 3.6% of applications.
 
 ---
 
-## 3. Data Cleaning & Pipeline Architecture (CLEAN Framework)
+## 3. Key Findings & Visual Evidence
 
-The data cleaning pipeline (`src/etl/clean_loans.py`) processes the raw 1.60 GB LendingClub dataset and splits active loans from completed loans so unfinished accounts do not skew our default calculations.
-
-```
-Raw CSV Dataset (2,260,701 rows | 1.60 GB)
-         │
-         ▼
- Step 1: Row Validation (2,260,668 valid unique loans; 33 empty footer rows removed)
-         │
-         ▼
- Step 2: Text & Type Cleaning (term -> integer months, rates -> decimals, dates -> ISO)
-         │
-         ▼
- Step 3: Separating Completed Loans from Active Loans
-         ├──> fct_closed_loans_seasoned.parquet (1,345,350 completed loans | 222.8 MB)
-         │    [Fully Paid, Charged Off, Default -> 20% Default Rate, +4.3% LAROC]
-         │
-         └──> fct_active_portfolio.parquet (912,569 ongoing loans | 148.4 MB)
-              [Current, Grace Period, Late 16-120 Days -> Monitored for early outreach]
-```
-
-### Data Cleaning & Issues Log
-
-| Issue ID | Column | What We Found in the Raw Data | How We Fixed It | Why It Matters |
-| :--- | :--- | :--- | :--- | :--- |
-| **ISS-01** | `loan_status` | 912,569 active loans were mixed in with 1.35M completed loans | Split the dataset into two separate Parquet files (`seasoned` vs. `active`) | Removes survival bias (right-censoring) and reveals the true 19.96% default rate |
-| **ISS-02** | `term`, `int_rate`, `revol_util` | Numbers stored as text strings with `%` signs and `' months'` | Stripped text characters and converted to integers and decimal floats | Allows us to calculate exact cash returns, interest spreads, and risk brackets |
-| **ISS-03** | `dti` | Negative debt ratios (2 rows) and missing values (374 rows) | Added an `invalid_dti_flag = 1` column and capped chart brackets at 100% | Keeps bad data out of our debt-to-income grid without deleting valid loan records |
-| **ISS-04** | `annual_inc` | Unverified self-reported incomes up to \$10M+ | Capped (winsorized) at the 99.5th percentile (\$350,000) for income distributions | Stops extreme unverified entries from skewing average borrower income |
-| **ISS-05** | `member_id` | Borrower member IDs were removed by LendingClub after 2015 | Used the unique loan `id` (100% complete) as the primary key across all tables | Prevents broken joins across later loan years |
-
-*Storage & Speed:* Converting the raw CSV (1,597.5 MB) into Snappy Parquet files (371.3 MB total) cut file size by **76.8% (4.3x smaller)** and made our Python scripts run over 10x faster.
-
----
-
-## 4. Key Findings & Statistical Testing
-
-### Finding 1: Subprime Loss Imbalance (Grades A through G)
+### Finding 1: Subprime Grades D to G Get 28% of Lending Money but Cause 51% of Unpaid Losses
 
 ![Figure 1: Loss Contribution Asymmetry Across Loan Grades](assets/fig1_loss_contribution.png)
 
-When I compared where our lending money went against where our losses came from, a clear imbalance showed up: subprime Grades D through G received **28.45% of our lending money (\$5.52B)**, but they caused **51.45% of all unpaid loan write-offs (\$1.40B)**.
+When we compared where our lending dollars went against where our unpaid write-offs came from, a clear imbalance stood out. Safer borrowers in **Prime Grades A through C** received **72% of our lending capital ($13.9B across 1,009,537 loans)** and accounted for **49% of losses ($1.3B)**. Because their default rates stayed low to moderate (6% in Grade A, 13% in Grade B, and 22% in Grade C), prime borrowers generated **+$857M in net cash profit** for the platform.
 
-- **Prime Grades (A to C):** Received 71.6% of lending capital (\$13.87B across 1,009,537 loans) and accounted for 48.6% of losses (\$1.32B), generating **+\$857.0M in net cash profit**.
-- **Subprime Grades (D to G):** Received 28.45% of lending capital (\$5.52B across 335,813 loans) and generated 51.5% of losses (\$1.4B), a **1.81x loss-to-lending imbalance**.
-- **Statistical Check:** A Chi-Square Goodness-of-Fit test ($\chi^2 = 1.02 \times 10^9, \text{df} = 6, p < 0.001$) confirms that losses are heavily concentrated in Grades D through G rather than spread evenly across dollars lent.
+In contrast, **Subprime Grades D through G** received only **28% of our lending capital ($5.5B across 335,813 loans)**, but they caused **51% of all unpaid write-offs ($1.4B)**. That is a **1.8x loss-to-lending imbalance**, meaning the profits earned from reliable prime borrowers were quietly being used to pay for subprime losses.
 
 ---
 
-### Finding 2: Why High Interest Rates & 5-Year Terms Fail to Cover Losses
+### Finding 2: Why High Interest Rates & 5-Year Terms Fail to Cover Defaults
 
-Charging 20% to 26% interest on lower credit grades looks profitable on paper, but when 38% to 50% of those borrowers default early, the uncollected loan balances wipe out the extra interest.
+Charging 18% to 29% interest on lower credit grades looks profitable on paper, but when 30% to 50% of those borrowers stop paying early on, we lose the original loan balance before collecting enough interest to make up for it.
 
-| Loan Grade | Completed Loans | Funded Principal (\$) | Default Rate (%) | Net Cash Profit / Loss (\$) | Net Return (LAROC %) | Profit Goal Status (+4.00% Target) |
+| Loan Grade | Completed Loans | Funded Principal | Default Rate | Net Cash Profit / Loss | Net Return (LAROC) | Profit Goal Status (+4.0% Target) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Grade A** | 235,095 | \$3,263,735,050 | 6.04% | +\$185,777,894 | **+5.7%** | Clears goal (+1.69% buffer) |
-| **Grade B** | 392,748 | \$5,195,857,925 | 13.39% | +\$312,881,996 | **+6.0%** | Clears goal (+2.02% buffer) |
-| **Grade C** | 381,694 | \$5,413,717,400 | 22.44% | +\$227,958,442 | **+4.2%** | Clears goal (+0.21% buffer) |
-| **Grade D** | 200,966 | \$3,068,057,125 | 30.39% | +\$80,188,775 | **+2.6%** | **Misses goal (-1.39% short)** |
-| **Grade E** | 93,656 | \$1,648,265,625 | 38.48% | +\$27,086,427 | **+1.6%** | **Misses goal (-2.36% short)** |
-| **Grade F** | 32,059 | \$611,075,025 | 45.20% | -\$1,128,683 | **-0.2%** | **Loses money** |
-| **Grade G** | 9,132 | \$187,877,125 | 49.93% | -\$7,635,693 | **-4.1%** | **Loses money** |
+| **Grade A** | 235,095 | $3.26B | 6% | +$186M | **+5.7%** | Clears goal (+1.7% buffer) |
+| **Grade B** | 392,748 | $5.20B | 13% | +$313M | **+6.0%** | Clears goal (+2.0% buffer) |
+| **Grade C** | 381,694 | $5.41B | 22% | +$228M | **+4.2%** | Clears goal (+0.2% buffer) |
+| **Grade D** | 200,966 | $3.07B | 30% | +$80M | **+2.6%** | **Misses goal (-1.4% short)** |
+| **Grade E** | 93,656 | $1.65B | 38% | +$27M | **+1.6%** | **Misses goal (-2.4% short)** |
+| **Grade F** | 32,059 | $611M | 45% | -$1.1M | **-0.2%** | **Loses money** |
+| **Grade G** | 9,132 | $188M | 50% | -$7.6M | **-4.1%** | **Loses money** |
 
-- **Where Profit Drops Off (Subgrades C4 and E5):**
-  * **Drops below our +4% target:** While Grade C overall earns +4.21%, net return drops below our +4% goal starting at **Subgrade C4 (+3.4% across 74,422 loans)** and **C5 (+3.1%)**.
-  * **Starts losing money:** Net cash return drops below zero at **Subgrade E5 (-1.3%)** and gets worse through **F4 (-1.6%)**, **F5 (-2.6%)**, and **G1 through G5 (reaching -9.8% in G5)**.
-  * **Welch's t-tests:** Two-sample Welch's t-tests confirm that the drop in returns from Grade C to Grades D, E, and F-G is statistically significant ($p < 10^{-40}$).
-- **The 5-Year Loan Penalty & Small Business Losses:**
-  * **3-Year (36-Month) vs. 5-Year (60-Month) Loans:** 60-month loans default at **32.5%**, which is more than double the **16%** default rate of 36-month loans. That cuts our net return in half (**+2.6%** on 60-month loans vs. **+5.1%** on 36-month loans).
-  * **Loan Purpose Comparison:** Credit card refinancing performs well (**16.9% default rate, +5.5% net return** across \$4.37B), whereas unsecured **small business loans (\$240.1M)** have a **29.7% default rate** and lose money overall (**-0.6% net return**).
+Looking closer at individual subgrades and loan terms reveals three specific places where we leak money:
+* **Borderline Subgrade C4 Misses Our +4.0% Goal:** While Grade C overall earns +4.2%, net return drops below our +4.0% target starting at **Subgrade C4 (+3.4% return across 74,422 loans)** and **C5 (+3.1%)**. Raising interest rates by +1.5% (+150 bps) on Subgrade C4 brings its return back above +4.0% and adds **+$14.2M** in revenue.
+* **Subgrades E5 to G5 Lose Money Outright:** Starting at **Subgrade E5 (-1.3% return)**, the platform loses money on average. Losses deepen through **F4 (-1.6%)** and **F5 (-2.6%)**, reaching **-9.8% in Subgrade G5** (losing $98 for every $1,000 lent).
+* **5-Year Loans & Unsecured Small Business Loans:** Five-year (60-month) loans default at **32%**, double the **16%** default rate of 3-year (36-month) loans, which cuts our net return in half (**+2.6% vs. +5.1%**). Similarly, while credit card refinancing earns a strong **+5.5% return** ($4.4B lent, 17% default rate), unsecured **small business loans ($240.1M lent)** hit a **30% default rate** and lose money (**-0.6% return**) because borrowers do not have to submit tax returns to verify business income.
 
 ---
 
-### Finding 3: Combined Borrower Stress (Debt-to-Income x Credit Card Usage)
+### Finding 3: Combining Monthly Debt and Credit Card Usage to Find Our Cutoff
 
 ![Figure 2: Multi-Variable Risk Interaction Heatmap](assets/fig2_risk_grid_heatmap.png)
 
-If we simply banned all subprime loans (Grades D through G), we would lose **28.5% of our lending volume (\$5.52B)**, breaking our **80%** volume guardrail and turning away \$4.1B in loans that actually get paid back. To find a more precise cutoff, I cross-tabulated borrower debt-to-income ratios against credit card utilization across all 1.35M completed loans.
+If we simply banned all subprime loans (Grades D through G), we would lose **28% of our lending volume ($5.5B)**, breaking our **80%** volume floor and turning away $4.1B in loans that actually get paid back. 
 
-- **Low-risk baseline (DTI <= 15% and Card Usage <= 40%):** **14%** default rate across 213,691 loans.
-- **High-stress intersection (DTI > 25% and Card Usage > 65%):** **28%** default rate across 112,246 loans (\$1.73B lent; $\chi^2 = 5,464.86, p < 0.001$; Relative Risk = **2x** vs. low-risk baseline; Odds Ratio = **1.7x**).
-- **Our targeted cutoff:** Inside that high-stress cell, **Grade D through G applicants default at 38.9% (47,705 loans)**. Declining only that specific group removes the worst losses while leaving 96.5% of all applications untouched.
+To find a smarter cutoff that keeps good borrowers while blocking the worst defaults, we grouped all 1.35M completed loans by two everyday financial stress signals: **Monthly Debt-to-Income (DTI)** and **Credit Card Usage (Revolving Utilization)**.
+
+When a borrower has only one stress signal, they usually manage to pay their loan: someone with high monthly debt can use an open credit card to cover a surprise car repair, and someone with high card balances can pay them down if their monthly debt is low. However, when a borrower has **both monthly debt over 25% of their income AND credit cards over 65% full**, they have no backup cushion left:
+* **Low-Risk Baseline (DTI <= 15% and Card Usage <= 40%):** Defaults only **14%** of the time across 213,691 loans.
+* **High-Stress Group (DTI > 25% and Card Usage > 65%):** Defaults jump to **28%** across 112,246 loans (double the low-risk rate).
+* **Our Targeted Subprime Cutoff:** Inside that high-stress corner, **Grade D through G applicants default 39% of the time (47,705 loans)**. Declining only that specific subprime group removes the worst losses while leaving 96% of all applications untouched.
 
 ---
 
-### Policy Simulation: Capital Recovery Waterfall
+### Policy Simulation: Saving $230.0M While Keeping 96% of Lending Volume
 
 ![Figure 3: Capital Recovery Waterfall](assets/fig3_capital_waterfall.png)
 
-By automatically declining Grade D through G applicants in that high-stress cell and raising interest rates by 1.50% on borderline Subgrade C4 loans, we capture **\$244.2M in combined value** while keeping **95.8% of our lending volume**.
+Testing our Phase 1 automated decline rule and Phase 2 Subgrade C4 rate adjustment across the completed loan book shows we can capture **+$244.2M in combined value** while comfortably meeting all three of our executive guardrails:
 
-- **Defaults Prevented:** **18,548 defaulted loans** stopped (14,838 at an 80% rollout).
-- **Unpaid Losses Saved (Phase 1):** **+\$230M in net write-offs saved** (\$254.1M gross unpaid principal prevented; +\$184M net saved at an 80% rollout).
-- **Subgrade C4 Repricing Lift (Phase 2):** Adding +1.5% (+150 bps) to Subgrade C4 interest rates brings in **+\$14.2M in net interest revenue** (+\$11.4M at an 80% rollout) and lifts Subgrade C4 return from +3.4% back above our +4.00% goal.
-- **Lending Volume Kept:** Keeps **95.8% of lending dollars (\$18.58B)** and 96.45% of loan count, easily clearing our >= 80.0% volume guardrail.
-- **Portfolio Return Lift:** Lowers the overall completed default rate from 19.96% to **19.3% (-0.66 percentage points)** and lifts overall net return (LAROC) from 4.3% to **4.4 % (+14 basis points)**.
+| Rollout Scenario | Phase 1 Saved Losses | Phase 2 Rate Revenue | Total Value Created | Defaults Prevented | Lending Volume Kept |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **60% Cautious Pilot (Gradual Test)** | +$138.0M | +$8.5M | **+$146.5M** | 11,129 | 97% |
+| **80% Year-1 Target (Realistic Goal)** | +$184.0M | +$11.4M | **+$195.4M** | 14,838 | 97% |
+| **100% Full Automated Rule** | **+$230.0M** | **+$14.2M** | **+$244.2M** | **18,548** | **96% ($18.6B)** |
+
+Even after subtracting the interest we give up on the performing loans inside that declined group ($24.1M in foregone interest subtracted from $254.1M in prevented gross write-offs), our net savings come out to **+$230.0M** at full rollout (or **+$184.0M** at an 80% Year-1 rollout).
 
 ---
 
-## 5. 90-Day Rollout & Governance Plan (Phases 1 to 3)
+## 4. 90-Day Rollout Plan (Phases 1 to 3)
 
-| Rollout Phase & Timeline | Recommended Underwriting Action | Target Borrower Group | Team Owner | Expected Financial Impact | Tracking Metric & Goal |
+| Rollout Phase & Timeline | What We Do | Who It Covers | Team Owner | Expected Financial Impact | Tracking Goal |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Phase 1: Immediate**<br>(Days 1 to 30) | **Automated Dual-Risk Decline Rule**<br>Auto-decline applicants in Grades D through G who have monthly debt > 25% of income AND credit card usage > 65%. | High-stress subprime applicants (47,705 historical loans; \$813.3M capital; 38.9% default rate). | **Underwriting Policy Team** | **+\$230M Net Losses Saved**<br>(+\$184M at 80% rollout); prevents 18,548 defaults while keeping 95.8% of volume. | **Portfolio Default Rate < 19.3%**<br>Lending volume kept >= 80.0%. |
-| **Phase 2: Near-Term**<br>(Days 30 to 60) | **Subgrade C4 Rate Update & 5-Year Term Cap**<br>Add +1.5% (+150 bps) interest rate to Subgrade C4 loans; require 680+ FICO score for 60-month loans in Grades D and E. | Borderline Subgrade C4 loans (74,422 loans at +3.4% return) and subprime 60-month requests. | **Pricing & Product Team** | **+\$14.2M Interest Revenue**<br>Restores C4 return above +4% and curbs the 32.5% default rate on 5-year loans. | **Subgrade C4 LAROC > +4.00%**<br>60-month default rate < 25%. |
-| **Phase 3: Ongoing**<br>(Days 60 to 90) | **Small Business Verification & Early Outreach**<br>Require IRS tax transcripts for unsecured small business loans; send early payment restructuring plans to active accounts 16-120 days late. | Unsecured small business loans (\$240.1M book; 29.71% bad rate) and \$588.5M in late active loans. | **Credit Operations & Servicing** | **Stops -0.6% Small Business Loss**<br>Protects \$240M exposure and improves recovery on 38,114 late active accounts by 15%. | **Small Business Bad Rate < 20.0%**<br>Late active roll rate < 3.5%. |
+| **Phase 1: Immediate**<br> | **Turn On Automated Dual-Risk Decline Filter:** Set the application filter to auto-decline Grade D to G applicants when DTI > 25% and card usage > 65%. | High-stress subprime applicants (47,705 past loans; $813M volume; 39% default rate). | **Underwriting Team** | **+$230.0M Net Losses Saved**<br>(+$184.0M at 80% rollout); prevents 18,548 defaults while keeping 96% of volume. | **Default Rate < 19.3%**<br>Volume kept >= 80%. |
+| **Phase 2: Near-Term**<br> | **Update Subgrade C4 Rates & Cap 5-Year Terms:** Add +1.5% (+150 bps) interest rate to Subgrade C4 loans and require a 680+ credit score for 5-year loans. | Borderline Subgrade C4 loans (74,422 loans at +3.4% return) and subprime 5-year requests. | **Pricing Team** | **+$14.2M Interest Revenue**<br>Lifts C4 return back above +4.0% and cuts the 32% default rate on 5-year loans. | **Subgrade C4 LAROC > +4.0%**<br>5-year default rate < 25%. |
+| **Phase 3: Ongoing**<br> | **Verify Small Business Taxes & Contact Late Accounts:** Require 2 years of IRS tax transcripts (Form 4506-C) for business loans and send early payment plans to accounts 16-120 days late. | Unsecured business loans ($240.1M book, 30% default rate) and 38,114 late active loans ($588.5M). | **Servicing Team** | **Stops -0.6% Small Business Loss**<br>Protects $240.1M exposure and improves recovery on late active accounts by 15%. | **Small Business Default < 20%**<br>Late loan roll rate < 3.5%. |
+
+### Four Practical Safeguards for Implementation
+1. **Clear Adverse Action Reasons for Declined Applicants:** Whenever the Phase 1 filter declines an application, the system automatically sends clear, specific credit bureau reasons (*"monthly debt obligations relative to income"* and *"revolving credit line usage"*).
+2. **Subgrade C4 Conversion Monitoring:** After adding +1.5% (+150 bps) to Subgrade C4 rates, the pricing team checks application acceptance rates each month to make sure volume stays steady.
+3. **3-Year Term Offer When 5-Year Requests Are Capped:** When a Grade D or E applicant with a credit score under 680 asks for a 5-year loan, the system does not reject them outright; instead, it automatically offers them a safer 3-year (36-month) loan option.
+4. **Early Payment Plans at 16 Days Late:** Rather than waiting for accounts to charge off at 120+ days late, the servicing team reaches out to the 38,114 late active borrowers ($588.5M) as soon as they hit 16 days past due.
+
+---
+
+## 5. Data Scope, Caveats & Cleaning Pipeline
+
+To make sure unfinished loans and formatting quirks did not skew our numbers, our cleaning script (`src/etl/clean_loans.py`) audits the raw 1.6 GB LendingClub file (`2,260,701` rows from 2007 to 2018Q4) and splits it into two separate Parquet files:
+
+```
+Raw CSV Dataset (2,260,701 rows | 1.6 GB)
+         |
+         v
+ Step 1: Row Validation (2,260,668 valid unique loans; 33 empty footer rows removed)
+         |
+         v
+ Step 2: Text & Type Cleaning (term -> integer months, rates -> decimals, dates -> ISO)
+         |
+         v
+ Step 3: Separating Completed Loans from Active Loans
+         |--> fct_closed_loans_seasoned.parquet (1,345,350 completed loans | 222.8 MB)
+         |    [Fully Paid, Charged Off, Default -> 20% Default Rate, +4.3% LAROC]
+         |
+         +--> fct_active_portfolio.parquet (912,569 ongoing loans | 148.4 MB)
+              [Current, Grace Period, Late 16-120 Days -> Monitored for early outreach]
+```
+
+### Data Caveats & Cleaning Log
+
+| Check ID | Column | Reporting Trap Found in Raw Data | How We Fixed It | Why It Matters for Our Analysis |
+| :--- | :--- | :--- | :--- | :--- |
+| **ISS-01** | `loan_status` | 912,569 active loans were mixed with 1.35M completed loans, making the default rate look like 12% instead of 20%. | Split the dataset into two separate Parquet files (`seasoned` vs. `active`). | Prevents unfinished payment schedules from hiding the real 20% default rate. |
+| **ISS-02** | `term`, `int_rate`, `revol_util` | Numbers stored as text strings with `%` signs and `' months'`. | Stripped text characters and converted to clean integers and decimal floats. | Allows us to calculate exact cash returns, rate spreads, and credit card brackets. |
+| **ISS-03** | `dti` | Negative debt ratios (2 rows) and missing values (374 rows). | Added an `invalid_dti_flag` column and capped chart brackets at 100%. | Keeps corrupted values out of our debt grid without deleting valid loan records. |
+| **ISS-04** | `annual_inc` | Unverified self-reported incomes up to $10M+. | Capped at the 99.5th percentile ($350,000) for income distribution checks. | Stops extreme unverified entries from skewing average borrower income. |
+| **ISS-05** | `member_id` | Borrower member IDs were removed by LendingClub after 2015. | Used the unique loan `id` (100% complete) as the primary key across all tables. | Prevents broken table joins across later loan years. |
+
+*Storage & Speed:* Converting the raw CSV (1.6 GB) into Snappy Parquet files (371.3 MB total) cut file size by **77% (4.3x smaller)** and made our Python analysis scripts run over 10x faster.
 
 ---
 
@@ -195,60 +194,47 @@ By automatically declining Grade D through G applicants in that high-stress cell
 ### 1. Clone the Repo & Set Up Your Environment
 
 ```bash
-# Clone the portfolio repository and navigate to this project
-git clone [https://github.com/J-Amores/data-analyst-portfolio.git](https://github.com/J-Amores/data-analyst-portfolio.git)
+# Clone the repository and navigate into the project directory
+git clone https://github.com/J-Amores/data-analyst-portfolio.git
 cd data-analyst-portfolio/credit-risk-optimization
 
-# Create and activate a Python 3.11+ virtual environment
-python3.11 -m venv .venv
+# Create and activate a Python virtual environment
+python3 -m venv .venv
 source .venv/bin/activate
 
-# Install required packages
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-*(Note: Place the raw Kaggle dataset `accepted_2007_to_2018Q4.csv` inside `data/raw/` if you want to re-run the full ETL pipeline from scratch.)*
+*(Note: The cleaned Parquet files are included in the repository. Place `accepted_2007_to_2018Q4.csv` inside `data/raw/` only if you want to re-run the raw ETL pipeline from scratch.)*
 
 ### 2. Run the Pipeline, Tests, and Charts
 
 ```bash
-# 1. Run raw schema checks
-./.venv/bin/pytest tests/test_raw_schema.py
+# 1. Verify schema contracts and cleaned Parquet files
+./.venv/bin/pytest tests/test_raw_schema.py tests/test_clean_schema.py
 
-# 2. Clean raw data and split into seasoned vs. active Parquet files
-./.venv/bin/python src/etl/clean_loans.py
-
-# 3. Verify cleaned Parquet tables
-./.venv/bin/pytest tests/test_clean_schema.py
-
-# 4. Run exploratory profiling and segment breakdowns
+# 2. Run exploratory scans and segment breakdowns
 ./.venv/bin/python src/analytics/scan_coverage.py
 ./.venv/bin/python src/analytics/scan_aggregates.py
 ./.venv/bin/python src/analytics/scan_segments.py
 
-# 5. Run statistical tests (H1, H2, H3) and policy simulations
+# 3. Run validation hypotheses and policy simulations
 ./.venv/bin/python src/analytics/test_h1_loss_concentration.py
 ./.venv/bin/python src/analytics/test_h2_margin_breakdown.py
 ./.venv/bin/python src/analytics/test_h3_risk_interaction.py
 
-# 6. Export the 3 charts (assets/) and interactive cockpit data cube
+# 4. Generate the 3 executive charts (assets/) and interactive simulator data cube
 ./.venv/bin/python src/presentation/export_figures.py
-./.venv/bin/python src/presentation/export_cockpit_data.py
+./.venv/bin/python src/presentation/export_underwriting_simulator_data.py
 
-# 7. Run the full automated test suite (27 tests)
-./.venv/bin/pytest
+# 5. Build the standalone interactive underwriting simulator HTML
+./.venv/bin/python src/presentation/build_underwriting_simulator_html.py
 
-# 8. Open the Visual Report and Underwriting Decision Cockpit in your browser
+# 6. Run the full automated test suite
+./.venv/bin/pytest -v
+
+# 7. View the visual report and interactive underwriting simulator
 open index.html
-open cockpit.html
+open underwriting-simulator.html
 ```
-
----
-
-## 7. Notes & Methodology Scope
-
-1. **Why Active Loans Are Excluded from Default Rates:** All default rates and profit rules are calculated strictly on the 1,345,350 completed loans (`fct_closed_loans_seasoned.parquet`) where the final outcome (`Fully Paid`, `Charged Off`, or `Default`) is known. The 912,569 ongoing loans (`fct_active_portfolio.parquet`) are tracked separately for servicing outreach so unfinished payment schedules do not artificially lower our historical default rate.
-
-2. **How Cash Returns Are Counted:** Our net cash return (LAROC) formula counts actual principal and interest paid by the borrower plus post-default cash recoveries (minus collection agency fees), divided by the original funded loan amount.
-
-3. **Rate Sensitivity:** Our Phase 2 pricing model assumes borrower acceptance holds steady with a +1.50% (+150 bps) rate adjustment on Subgrade C4. In production, the pricing team should monitor application conversion rates monthly after updating C4 rates.

@@ -4,9 +4,9 @@ Phase 2 / SCAN Analytics Automated Test Suite
 Framework: Christine Jiang SCAN Framework Verification
 
 Tests:
-  - Task 2.1: S & C – Stakeholder Alignment & Coverage Profiling
-  - Task 2.2: A – Aggregates & Anomalies Auditing
-  - Task 2.3: N – Notable Segments Profiling
+  - Task 2.1: S & C - Stakeholder Alignment & Coverage Profiling
+  - Task 2.2: A - Aggregates & Anomalies Auditing
+  - Task 2.3: N - Notable Segments Profiling
 """
 
 from pathlib import Path

@@ -1,7 +1,7 @@
 """
-src/presentation/export_cockpit_data.py
+src/presentation/export_underwriting_simulator_data.py
 Consumer Credit Risk & Underwriting Optimization
-Export Real Empirical Cube and Lookup Tables for Interactive Cockpit
+Export Real Empirical Cube and Lookup Tables for Interactive Underwriting Simulator
 
 Aggregates 1,345,350 seasoned closed loans into:
   1. 3D Policy Cube (grade x dti_bracket x revol_util_bracket)
@@ -11,6 +11,7 @@ Aggregates 1,345,350 seasoned closed loans into:
   5. Baseline Portfolio Totals and Guardrail Metrics
 
 Outputs:
+  data/exports/underwriting_simulator_cube.json
   data/exports/cockpit_cube.json
 
 Guardrail Compliance: Zero em dashes, zero en dashes.
@@ -23,7 +24,7 @@ import pandas as pd
 import pyarrow.dataset as ds
 
 
-def export_cockpit_cube():
+def export_underwriting_simulator_cube():
     print("[TASK] Loading data/cleaned/fct_closed_loans_seasoned.parquet...")
     parquet_path = Path("data/cleaned/fct_closed_loans_seasoned.parquet")
     if not parquet_path.exists():
@@ -297,7 +298,7 @@ def export_cockpit_cube():
             "avg_int_rate": round(float(row["avg_int_rate"]) * 100.0, 2),
         })
 
-    cockpit_data = {
+    simulator_data = {
         "metadata": {
             "dataset": "data/cleaned/fct_closed_loans_seasoned.parquet",
             "total_loans": total_loans,
@@ -329,14 +330,22 @@ def export_cockpit_cube():
         "fico_bands": fico_list,
     }
 
-    out_path = Path("data/exports/cockpit_cube.json")
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(cockpit_data, f, indent=2)
+    out_paths = [
+        Path("data/exports/underwriting_simulator_cube.json"),
+        Path("data/exports/cockpit_cube.json"),
+    ]
+    for out_path in out_paths:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(simulator_data, f, indent=2)
+        print(f"[TASK] Saved empirical cube to {out_path} ({out_path.stat().st_size / 1024:.1f} KB).")
 
-    print(f"[TASK] Saved empirical cube to {out_path} ({out_path.stat().st_size / 1024:.1f} KB).")
-    return cockpit_data
+    return simulator_data
+
+
+# Backward-compatible alias
+export_cockpit_cube = export_underwriting_simulator_cube
 
 
 if __name__ == "__main__":
-    export_cockpit_cube()
+    export_underwriting_simulator_cube()

@@ -203,12 +203,11 @@
     }
 
     .metric-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-variant-numeric: tabular-nums;
-      font-size: 1.85rem;
-      font-weight: 700;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 2.75rem;
+      font-weight: 400;
       color: var(--ink-black);
-      line-height: 1.1;
+      line-height: 1.05;
       margin-bottom: 4px;
     }
 
@@ -360,6 +359,12 @@
       max-width: 100%;
       height: auto;
       border: var(--hairline);
+      cursor: pointer;
+      transition: transform 120ms ease;
+    }
+
+    .figure-img-wrap img:hover {
+      transform: scale(1.005);
     }
 
     .figure-caption {
@@ -447,6 +452,10 @@
       margin: 28px 0;
     }
 
+    .comparison-grid.three-col {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
     .comparison-col {
       padding: 24px;
       border-right: var(--hairline);
@@ -480,6 +489,46 @@
       color: var(--ink-black);
     }
 
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(17, 17, 17, 0.88);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 92vw;
+      max-height: 90vh;
+      border: 2px solid #FAF8F2;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      background: #FAF8F2;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      color: #FAF8F2;
+      font-size: 2.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
     /* Responsive */
     @media (max-width: 900px) {
       .two-column-spread {
@@ -495,12 +544,15 @@
       .metric-item:nth-child(1), .metric-item:nth-child(2) {
         border-bottom: var(--hairline);
       }
-      .comparison-grid {
+      .comparison-grid, .comparison-grid.three-col {
         grid-template-columns: 1fr;
       }
-      .comparison-col:first-child {
+      .comparison-col {
         border-right: none;
         border-bottom: var(--hairline);
+      }
+      .comparison-col:last-child {
+        border-bottom: none;
       }
       .nav-links a:not(.nav-btn) {
         display: none;
@@ -542,16 +594,16 @@
     <div class="top-nav-inner">
       <div class="nav-brand">
         <span class="nav-badge"></span>
-        <span>JOHN AMORES | CREDIT RISK CASE STUDY</span>
+        <span>JOHN AMORES | CONSUMER CREDIT RISK CASE STUDY</span>
       </div>
       <div class="nav-links">
-        <a href="#briefing">Executive Briefing</a>
-        <a href="#blind-spot">01 Blind Spot</a>
-        <a href="#loss-skew">02 Loss Skew</a>
-        <a href="#risk-grid">03 Risk Grid</a>
-        <a href="#waterfall">04 Capital Waterfall</a>
-        <a href="#rollout">05 90-Day Plan</a>
-        <a href="cockpit.html" class="nav-btn">Launch Cockpit -></a>
+        <a href="#overview">OVERVIEW</a>
+        <a href="#blind-spot">01 DATA &amp; CAVEATS</a>
+        <a href="#loss-skew">02 LOSS BREAKDOWN</a>
+        <a href="#risk-grid">03 BORROWER STRESS</a>
+        <a href="#waterfall">04 SAVINGS PLAN</a>
+        <a href="#rollout">05 90-DAY ROLLOUT</a>
+        <a href="underwriting-simulator.html" class="nav-btn">LAUNCH SIMULATOR -&gt;</a>
       </div>
     </div>
   </header>
@@ -561,97 +613,174 @@
     <!-- HERO SECTION (Slide 1 Block) -->
     <section class="hero-section" id="hero" data-slide="1">
       <div class="hero-tag">
-        <span>Portfolio Performance Whitepaper</span>
-        <span>LendingClub 2007-2018</span>
+        <span>[CONSUMER LENDING CASE STUDY]</span>
+        <span>[$19.4B COMPLETED BOOK | 1.35M LOANS]</span>
       </div>
-      <h1 class="hero-title">Optimizing Consumer Credit Risk & Capital Recovery</h1>
+      <h1 class="hero-title">Cutting Consumer Loan Losses by $230M Without Turning Away Good Borrowers</h1>
       <p class="hero-subtitle">
-        An empirical analysis across 1,345,350 completed consumer loans ($19.39B funded). How targeted algorithmic decline rules recover $230.0M in net unpaid write-offs while keeping 95.8% of platform lending volume.
+        High default rates in lower credit grades and underpriced 5-year loans quietly drain hundreds of millions from our lending margins. By auditing 1,345,350 completed loans ($19.4B funded) to block high-stress subprime applications and adjust borderline Grade C4 interest rates, the platform recovers $244.2M ($230.0M in saved write-offs plus $14.2M in rate revenue) while keeping 96% of lending volume.
       </p>
 
       <!-- 4-Box Key Metrics Bar -->
       <div class="metrics-bar">
         <div class="metric-item">
-          <div class="metric-label">Mature Book Reviewed</div>
-          <div class="metric-number">$19.39B</div>
-          <div class="metric-note">1,345,350 completed loan outcomes</div>
+          <div class="metric-label">COMPLETED LOANS REVIEWED</div>
+          <div class="metric-number">$19.4B</div>
+          <div class="metric-note">1,345,350 fully paid or defaulted loans</div>
         </div>
         <div class="metric-item">
-          <div class="metric-label">True Seasoned Default Rate</div>
-          <div class="metric-number" style="color: var(--color-crimson);">19.96%</div>
-          <div class="metric-note">1.68x higher than 11.88% unseasoned reporting</div>
+          <div class="metric-label">TRUE COMPLETED DEFAULT RATE</div>
+          <div class="metric-number" style="color: var(--color-crimson);">20%</div>
+          <div class="metric-note">1.7x higher than 12% unfiltered rate</div>
         </div>
         <div class="metric-item">
-          <div class="metric-label">Subprime Loss Concentration</div>
-          <div class="metric-number">51.45%</div>
-          <div class="metric-note">Grades D-G generate $1.40B of write-offs</div>
+          <div class="metric-label">SUBPRIME SHARE OF LOSSES</div>
+          <div class="metric-number">51%</div>
+          <div class="metric-note">Grades D-G cause $1.4B of unpaid write-offs</div>
         </div>
         <div class="metric-item">
-          <div class="metric-label">Total Opportunity Identified</div>
+          <div class="metric-label">TOTAL ANNUAL VALUE</div>
           <div class="metric-number" style="color: var(--color-green);">+$244.2M</div>
-          <div class="metric-note">+$230.0M saved losses + $14.2M pricing lift</div>
+          <div class="metric-note">+$230.0M saved losses + $14.2M rate lift</div>
         </div>
       </div>
     </section>
 
-    <!-- EXECUTIVE BRIEFING (Slide 2 Block) -->
-    <section class="report-section" id="briefing" data-slide="2">
+    <!-- EXECUTIVE OVERVIEW (Slide 2 Block) -->
+    <section class="report-section" id="overview" data-slide="2">
+      <div id="briefing"></div>
       <div class="section-header">
-        <div class="section-chapter">Executive Briefing / Strategic Context</div>
-        <h2 class="section-title">The Capital Optimization Mandate: Scaling Volume Without Default Leakage</h2>
+        <div class="section-chapter">EXECUTIVE OVERVIEW / BUSINESS DECISION &amp; NORTH STAR METRICS</div>
+        <h2 class="section-title">How Our Underwriting Team Can Recover $244.2M Without Choking Off Loan Growth</h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          Between 2007 and 2018, LendingClub expanded rapidly from an online peer-to-peer originator into an institutional credit marketplace, funding over 2.26 million consumer loans representing $33.98B in total capital. Yet rapid origination growth created a dangerous underlying vulnerability: portfolio expansion into subprime borrower tiers quietly drove credit losses to record levels while standard executive dashboards masked the deterioration.
+          Between 2007 and 2018, LendingClub funded over 2.26 million consumer loans totaling $34B. As the platform pushed for faster growth, it approved hundreds of thousands of higher-risk borrowers in Grades D through G at 18% to 29% interest rates. On paper, those high interest rates looked profitable, and basic company dashboards showed a safe 12% default rate because 912,569 newer loans were still making monthly payments.
         </p>
         <p>
-          This case study presents the forensic portfolio audit commissioned to resolve that vulnerability. By restructuring the analytical dataset, isolating lifecycle seasoning curves, and diagnosing the non-linear interaction between borrower leverage and liquidity depletion, we designed an algorithmic underwriting policy that preserves institutional solvency while safeguarding commercial origination scale.
+          Our Chief Risk Officer and Head of Underwriting face a practical business decision: which high-risk loan applications should we stop approving or reprice so we protect our profit margins without shutting down our lending volume? When we separated out the unfinished active loans and looked at the 1.35M completed loans ($19.4B), we found that 1 in 5 borrowers actually defaulted (20%), and unpaid write-offs in Grades D through G were eating up the profits earned from safer borrowers.
         </p>
 
         <div class="narrative-callout">
-          <strong>The Core Dilemma:</strong> Traditional risk management relies on blunt instruments: either expand volume aggressively and absorb runaway credit defaults, or impose blanket bans on lower credit tiers and destroy platform revenue. Our objective was to engineer a surgical third path: isolate the precise dual-stress inflection point where borrower default probability spikes, allowing the platform to prune bad debt with minimal collateral damage to healthy lending volume.
+          <strong>The Business Decision &amp; Our 3 North Star Metrics:</strong> Rather than banning all subprime loans and losing 28% of our business, we evaluated every borrower group against three North Star guardrails: <strong>(1) Net Cash Return After Losses (LAROC)</strong> (keeping portfolio return above our +4.0% profit hurdle), <strong>(2) Completed Default Rate</strong> (bringing overall defaults down below 19.3%), and <strong>(3) Lending Volume Kept</strong> (keeping at least 80% of our lending volume intact).
+        </div>
+      </div>
+
+      <!-- 3-Column Executive Summary Grid -->
+      <div class="comparison-grid three-col">
+        <div class="comparison-col" style="background: var(--color-crimson-light);">
+          <div class="insight-title" style="color: var(--color-crimson);">THE SUBPRIME &amp; PRICING LEAK</div>
+          <p style="font-size: 0.92rem; color: var(--ink-black); margin-top: 6px; line-height: 1.5;">
+            Subprime Grades D to G receive 28% of our lending money ($5.5B) but cause 51% of all unpaid write-offs ($1.4B).
+          </p>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-muted); margin-top: 10px; line-height: 1.6;">
+            * Unfiltered reports hid risk at 12% vs. 20% true default rate.<br>
+            * Net return drops below our +4.0% goal at Subgrade C4 (+3.4%).<br>
+            * Subgrades E5 to G5 lose money (-1.3% down to -9.8% return).
+          </div>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--ink-black);">THE FIX: TARGETED CUTOFFS &amp; RATES</div>
+          <p style="font-size: 0.92rem; color: var(--ink-black); margin-top: 6px; line-height: 1.5;">
+            Decline only subprime applicants with both high monthly debt and maxed-out cards, and adjust Subgrade C4 pricing.
+          </p>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-muted); margin-top: 10px; line-height: 1.6;">
+            * Auto-decline Grades D-G when DTI &gt; 25% and Card Usage &gt; 65%.<br>
+            * Add +1.5% (+150 bps) interest rate to Subgrade C4 loans.<br>
+            * Cap 5-year terms at 680+ FICO and verify small business taxes.
+          </div>
+        </div>
+
+        <div class="comparison-col" style="background: var(--color-green-light);">
+          <div class="insight-title" style="color: var(--color-green);">THE UPSIDE: +$244.2M RECOVERED</div>
+          <p style="font-size: 0.92rem; color: var(--ink-black); margin-top: 6px; line-height: 1.5;">
+            Recovers $244.2M in combined value while keeping 96% of our lending volume ($18.6B) moving smoothly.
+          </p>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-muted); margin-top: 10px; line-height: 1.6;">
+            * Saves +$230.0M in unpaid losses (18,548 defaults prevented).<br>
+            * Adds +$14.2M in interest income across 74,422 C4 loans.<br>
+            * Lifts portfolio net return from +4.3% to +4.4% (+15 bps).
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Core Executive Questions Table -->
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 220px;">Executive Question</th>
+              <th>Analyst Finding &amp; Underwriting Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>What did we find?</strong></td>
+              <td>Separating out 912,569 unfinished active loans showed our true completed default rate is 20% (268,599 defaults across 1.35M loans), not 12%. Subprime Grades D to G take up 28% of lending ($5.5B) but drive 51% of all unpaid losses ($1.4B).</td>
+            </tr>
+            <tr>
+              <td><strong>Why is this happening?</strong></td>
+              <td>Charging 20% to 29% interest does not make up for 30% to 50% of borrowers defaulting early. Losses spike when subprime borrowers spend over 25% of their monthly income on debt while their credit cards are over 65% full (39% default rate).</td>
+            </tr>
+            <tr>
+              <td><strong>What does it cost us?</strong></td>
+              <td>Subprime write-offs drain $1.4B in unpaid principal, borderline Subgrade C4 loans miss our +4.0% profit hurdle (+3.4% return), 5-year loans default at double the rate of 3-year loans (32% vs. 16%), and unsecured small business loans lose money (-0.6% return).</td>
+            </tr>
+            <tr>
+              <td><strong>What should we change?</strong></td>
+              <td>Turn on an automated decline rule for Grade D-G applicants with DTI &gt; 25% and Card Usage &gt; 65% (Phase 1: +$230.0M saved), raise Subgrade C4 rates by +1.5% and cap 5-year terms (Phase 2: +$14.2M), and require tax returns for small business loans (Phase 3).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="takeaway-strip">
+        <div class="takeaway-tag">OVERVIEW TAKEAWAY</div>
+        <div class="takeaway-body">
+          Subprime Grades D to G cause over half of our unpaid loan losses ($1.4B). Blocking only the highest-stress subprime group and raising Subgrade C4 rates by 1.5% recovers $244.2M while keeping 96% of our lending volume untouched.
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 1: THE ACTIVE LOAN BLIND SPOT (Slide 3 Block) -->
+    <!-- CHAPTER 1: DATA SCOPE & CAVEATS (Slide 3 Block) -->
     <section class="report-section" id="blind-spot" data-slide="3">
       <div class="section-header">
-        <div class="section-chapter">Chapter 01 / Empirical Baseline</div>
-        <h2 class="section-title">The Active-Loan Blind Spot: Unmasking the 19.96% True Default Rate</h2>
+        <div class="section-chapter">CHAPTER 01 / DATA SCOPE &amp; CAVEATS</div>
+        <h2 class="section-title">Setting a Reliable Baseline: Why Standard Reports Underestimated Default Risk by 1.7x</h2>
       </div>
 
       <div class="two-column-spread">
         <div class="prose-block">
           <p class="prose-lead">
-            When standard business reporting evaluated the historical database, it calculated a portfolio default rate of <strong>11.88%</strong> (268,648 defaults out of 2.26 million total notes). This apparent stability led executives and institutional allocators to believe credit risk was safely contained.
+            When standard business reporting evaluated the historical database, it calculated an overall default rate of <strong>12%</strong> (268,648 defaults out of 2.26 million total notes). This apparent stability led executives and institutional lenders to believe credit risk was safely contained.
           </p>
 
-          <h3 class="subhead">The Mechanism of Survival Bias</h3>
+          <h3 class="subhead">Why Borrowers Default Later in Loan Life</h3>
           <p>
-            In consumer credit, loans do not default evenly across time. Instead, they follow a pronounced seasoning hazard curve: during the initial 6 to 9 months, borrowers prioritize payments to protect their newly acquired credit lines. Default velocity peaks sharply between <strong>months 12 and 24</strong>, before tapering off as mature balances amortize.
+            In consumer credit, loans rarely default in their first few months. Instead, borrowers prioritize payments to protect their newly opened credit lines. Default rates peak sharply between <strong>months 12 and 24</strong>, before tapering off as mature balances are paid down.
           </p>
           <p>
-            Because the platform expanded originations exponentially in its later years, <strong>912,569 loans ($14.59B)</strong> were active accounts still making monthly payments. With a median seasoning age under 14 months, these active loans had simply not lived long enough to experience peak default hazard. Blending immature accounts into the portfolio denominator artificially diluted the historical default rate by 40%.
+            Because the platform expanded lending rapidly in its later years, <strong>912,569 loans ($14.6B)</strong> were active accounts still in repayment. With a median age under 14 months, these active loans had simply not been open long enough to reach their peak default period. Mixing unfinished accounts into the portfolio total artificially watered down the default rate by 40%.
           </p>
 
           <div class="editorial-quote">
             <div class="quote-text">
-              "Looking only at mature, closed loan vintages revealed that nearly 1 in 5 borrowers defaulted (19.96%). The standard reporting method underestimated actual portfolio risk by 1.68 times."
+              "Looking only at completed loans revealed that 1 in 5 borrowers actually defaulted (20%). Standard reporting methods underestimated real portfolio risk by 1.7 times."
             </div>
-            <div class="quote-author">Hypothesis 1 Empirical Finding (z = 104.2, p &lt; 0.0001)</div>
+            <div class="quote-author">Historical Portfolio Audit Finding</div>
           </div>
 
-          <h3 class="subhead">Methodological Segregation</h3>
+          <h3 class="subhead">Separating Completed and Active Loans</h3>
           <p>
-            To establish a mathematically sound baseline for underwriting policy design, we bifurcated the portfolio into two distinct analytical cohorts:
+            To establish a reliable baseline for underwriting updates, we divided the portfolio into two clean groups:
           </p>
           <p>
-            1. <strong>The Matured Study Cohort (1,345,350 loans / $19.39B):</strong> Accounts that reached definitive terminal resolution (either Fully Paid or Charged Off / Default). This cohort eliminates right-censoring bias and provides ground-truth default outcomes.
+            1. <strong>Completed Study Cohort (1,345,350 loans / $19.4B):</strong> Loans that reached their final outcome (either fully paid or written off as default). This group provides ground-truth default numbers.
           </p>
           <p>
-            2. <strong>The Active Surveillance Cohort (912,569 loans / $14.59B):</strong> Accounts still in repayment, segregated for ongoing credit surveillance and early delinquency intervention rather than underwriting rule derivation.
+            2. <strong>Active Surveillance Cohort (912,569 loans / $14.6B):</strong> Open accounts still making monthly payments, tracked for servicing support and early payment assistance rather than new underwriting rules.
           </p>
         </div>
 
@@ -671,19 +800,19 @@
                 <tr>
                   <td><strong>Raw Historical Book</strong></td>
                   <td class="num-cell">2,260,668</td>
-                  <td class="num-cell">$33.98B</td>
-                  <td class="num-cell">11.88% (Apparent)</td>
+                  <td class="num-cell">$34.0B</td>
+                  <td class="num-cell">12% (Unfiltered)</td>
                 </tr>
                 <tr style="background: var(--color-green-light);">
                   <td><strong>Completed Study Cohort</strong></td>
                   <td class="num-cell">1,345,350</td>
-                  <td class="num-cell">$19.39B</td>
-                  <td class="num-cell" style="font-weight: 700;">19.96% (Seasoned)</td>
+                  <td class="num-cell">$19.4B</td>
+                  <td class="num-cell" style="font-weight: 700;">20% (Completed)</td>
                 </tr>
                 <tr>
                   <td>Active Open Accounts</td>
                   <td class="num-cell">912,569</td>
-                  <td class="num-cell">$14.59B</td>
+                  <td class="num-cell">$14.6B</td>
                   <td class="num-cell">Monitoring Only</td>
                 </tr>
                 <tr>
@@ -697,74 +826,74 @@
           </div>
 
           <div class="insight-card">
-            <div class="insight-title">Executive Underwriting Mandates</div>
+            <div class="insight-title">Our 3 Core Underwriting Guardrails</div>
             <div class="insight-body">
-              Before evaluating policy interventions, the credit committee established three non-negotiable operational guardrails:
+              Before evaluating policy updates, our credit committee established three non-negotiable operational boundaries:
               <br><br>
-              <strong>1. Profit Hurdle:</strong> Maintain net cash return on capital (LAROC) above <strong>+4.00%</strong> after absorbing all charge-offs.
+              <strong>1. Profit Hurdle:</strong> Keep net cash return on capital (LAROC) above <strong>+4.0%</strong> after absorbing all write-offs.
               <br><br>
-              <strong>2. Default Ceiling:</strong> Lower portfolio-wide seasoned default rate below <strong>19.30%</strong>.
+              <strong>2. Default Ceiling:</strong> Bring portfolio-wide completed default rate below <strong>19.3%</strong>.
               <br><br>
-              <strong>3. Volume Guardrail:</strong> Retain at least <strong>80.0%</strong> ($15.5B+) in total lending volume to maintain commercial scale and marketplace liquidity.
+              <strong>3. Volume Guardrail:</strong> Keep at least <strong>80%</strong> ($15.5B+) in total lending volume to maintain commercial scale and marketplace liquidity.
             </div>
           </div>
         </div>
       </div>
 
       <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 01 Key Takeaway</div>
+        <div class="takeaway-tag">CHAPTER 01 KEY TAKEAWAY</div>
         <div class="takeaway-body">
-          Reporting credit performance on unseasoned books creates an optical illusion of safety. The true terminal default rate was <strong>19.96%</strong>, confirming that 1 in 5 consumer loans defaulted. All subsequent policy rules must be evaluated against this 1.35 million completed loan cohort.
+          Reporting default rates on unfinished loans creates an optical illusion of safety. The true completed default rate was <strong>20%</strong>, confirming that 1 in 5 consumer loans defaulted. All underwriting rules must be grounded in this 1.35 million completed loan cohort.
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 2: SUBPRIME LOSS SKEW (Slide 4 Block) -->
+    <!-- CHAPTER 2: LOSS BREAKDOWN (Slide 4 Block) -->
     <section class="report-section" id="loss-skew" data-slide="4">
       <div class="section-header">
-        <div class="section-chapter">Chapter 02 / Portfolio Asymmetry</div>
-        <h2 class="section-title">The Subprime Subsidy: Grades D-G Receive 28.5% of Capital but Cause 51.5% of Losses</h2>
+        <div class="section-chapter">CHAPTER 02 / LOSS BREAKDOWN</div>
+        <h2 class="section-title">The Subprime Subsidy: Grades D to G Get 28% of Lending Money but Cause 51% of Losses</h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          LendingClub segmented borrowers into seven risk tiers from Grade A (highest credit quality) down to Grade G (deep subprime). As the marketplace scaled, origination quotas pushed capital aggressively into lower-grade tiers to capture higher contractual interest yields (18% to 30% APR). However, our cohort audit revealed an extreme structural imbalance in capital allocation vs. charge-off losses.
+          LendingClub segmented borrowers into seven risk tiers from Grade A (highest credit quality) down to Grade G (deep subprime). As the platform expanded, origination targets pushed capital heavily into lower-grade tiers to capture higher interest rates (18% to 29% APR). However, our audit revealed an extreme imbalance between dollars lent and unpaid write-offs.
         </p>
         <p>
-          While subprime loans (Grades D through G) absorbed <strong>28.45% of platform capital ($5.52B across 335,813 loans)</strong>, they generated <strong>51.45% of total unpaid write-offs ($1.40B out of $2.73B total)</strong>. A formal Chi-Square Goodness-of-Fit test (&chi;&sup2; = 1.02B, p &lt; 0.001) confirms that subprime losses exceeded proportional capital allocation by an alarming 1.81 times.
+          While subprime loans (Grades D through G) took up <strong>28% of platform lending ($5.5B across 335,813 loans)</strong>, they caused <strong>51% of all unpaid write-offs ($1.4B out of $2.7B total)</strong>. In practical terms, subprime losses exceeded proportional lending by an alarming 1.8 times.
         </p>
       </div>
 
       <!-- Full-Width Figure Card: Figure 1 -->
       <div class="figure-card">
         <div class="figure-header">
-          <span>Figure 1: Funded Principal vs. Net Charge-Off Share Across Credit Grades A through G</span>
-          <span style="font-family: 'JetBrains Mono', monospace;">1,345,350 Mature Loans</span>
+          <span>Figure 1: Funded Lending Share vs. Unpaid Loss Share Across Credit Grades A through G</span>
+          <span style="font-family: 'JetBrains Mono', monospace;">1,345,350 Completed Loans</span>
         </div>
         <div class="figure-img-wrap">
-          <img src="assets/fig1_loss_contribution.png" alt="Figure 1: Loss Contribution Asymmetry by Grade">
+          <img src="assets/fig1_loss_contribution.png" alt="Figure 1: Loss Contribution Asymmetry by Grade" onclick="openLightbox(this.src)">
         </div>
         <div class="figure-caption">
-          Statistical Validation: Chi-Square Goodness-of-Fit = 1.02B (p &lt; 0.001) confirms Subprime losses exceed proportional capital allocation by 1.81x.
+          Grades D through G receive 28% of lending money ($5.5B) but generate 51% of all unpaid loan write-offs ($1.4B), creating a 1.8x loss imbalance.<br><strong>[Click image to enlarge]</strong>
         </div>
       </div>
 
       <div class="two-column-spread" style="margin-top: 36px;">
         <div class="prose-block">
-          <h3 class="subhead">The Profit Subsidization Engine</h3>
+          <h3 class="subhead">How Safer Borrowers Subsidized Subprime Deficits</h3>
           <p>
-            A healthy lending business relies on risk-based pricing to generate positive net cash margins across each credit grade. In our portfolio analysis, however, prime borrowers were effectively forced to subsidize deep subprime deficits:
+            A sustainable lending business generates positive net profit across every credit tier. In our portfolio, however, safer borrowers were effectively paying for deep subprime losses:
           </p>
           <p>
-            Borrowers in <strong>Grades A through C</strong> generated <strong>+$857.0M</strong> in cumulative net cash profit, funding over 104% of total platform earnings. Grade A and B borrowers exhibited disciplined repayment (default rates between 5.9% and 13.5%), delivering +$654.0M in net profit despite conservative interest rates. Grade C added another +$203.0M.
+            Borrowers in <strong>Grades A through C</strong> generated <strong>+$857M</strong> in cumulative net profit, funding over 100% of total platform earnings. Grade A and B borrowers repaid consistently (default rates between 6% and 13%), delivering +$654M in net profit despite conservative interest rates. Grade C added another +$203M.
           </p>
 
-          <h3 class="subhead">Principal Destruction in Tiers F and G</h3>
+          <h3 class="subhead">Losing Principal in Grades F and G</h3>
           <p>
-            In sharp contrast, the lowest credit tiers suffered from default rates that completely overwhelmed high contractual interest rates. Grade F borrowers defaulted at <strong>45.2%</strong>, while Grade G borrowers defaulted at <strong>49.9%</strong> (literally a coin flip).
+            In sharp contrast, the lowest credit tiers suffered from default rates that completely wiped out high contractual interest rates. Grade F borrowers defaulted at <strong>45.2%</strong>, while Grade G borrowers defaulted at <strong>50%</strong> (essentially a coin flip).
           </p>
           <p>
-            Combined, Grades F and G produced an absolute cash deficit (-$31.9M net cash loss). Charging 25% to 30% APR could not mathematically compensate for half of all borrowers walking away from their principal obligations. Continued unconstrained origination in these tiers was destroying economic value.
+            Combined, Grades F and G produced an outright cash deficit (-$32M net cash loss). Charging 25% to 29% APR cannot make up for half of all borrowers failing to repay their loans. Continuing to approve unconstrained subprime loans was actively destroying capital.
           </p>
         </div>
 
@@ -782,26 +911,26 @@
               <tbody>
                 <tr>
                   <td><strong>Grades A &amp; B</strong> (Low Risk)</td>
-                  <td class="num-cell">46.7% ($9.0B)</td>
-                  <td class="num-cell">24.5% ($668M)</td>
+                  <td class="num-cell">47% ($9.0B)</td>
+                  <td class="num-cell">25% ($668M)</td>
                   <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$654M Net Profit</td>
                 </tr>
                 <tr>
                   <td><strong>Grade C</strong> (Moderate Risk)</td>
-                  <td class="num-cell">24.9% ($4.8B)</td>
-                  <td class="num-cell">24.1% ($656M)</td>
+                  <td class="num-cell">25% ($4.8B)</td>
+                  <td class="num-cell">24% ($656M)</td>
                   <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$203M Net Profit</td>
                 </tr>
                 <tr>
                   <td><strong>Grades D &amp; E</strong> (High Risk)</td>
-                  <td class="num-cell">24.1% ($4.7B)</td>
-                  <td class="num-cell">41.8% ($1.14B)</td>
+                  <td class="num-cell">24% ($4.7B)</td>
+                  <td class="num-cell">42% ($1.14B)</td>
                   <td class="num-cell" style="color: var(--ink-muted);">Eroded by Defaults</td>
                 </tr>
                 <tr style="background: var(--color-crimson-light);">
                   <td><strong>Grades F &amp; G</strong> (Highest Risk)</td>
-                  <td class="num-cell">4.4% ($850M)</td>
-                  <td class="num-cell">9.7% ($264M)</td>
+                  <td class="num-cell">4% ($850M)</td>
+                  <td class="num-cell">10% ($264M)</td>
                   <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">-$32M Direct Loss</td>
                 </tr>
               </tbody>
@@ -809,9 +938,9 @@
           </div>
 
           <div class="insight-card danger">
-            <div class="insight-title" style="color: var(--color-crimson);">The Pricing Fallacy</div>
+            <div class="insight-title" style="color: var(--color-crimson);">The High-Interest Fallacy</div>
             <div class="insight-body">
-              Risk-based pricing has an upper bound. In unsecured personal credit, pricing loans above 25% APR introduces severe adverse selection: creditworthy borrowers seek cheaper alternatives, while financially desperate borrowers accept any rate because they do not expect to fully repay. Rate hikes alone cannot cure subprime default concentration.
+              Risk-based pricing has real limits. In unsecured consumer credit, pricing loans above 25% APR attracts borrowers in severe financial distress who accept high rates simply because they cannot get credit anywhere else. Rate increases alone cannot cure subprime default losses.
             </div>
           </div>
         </div>
@@ -820,106 +949,103 @@
       <!-- Analytical Bridge Callout Grid: Subgrade C4, Term Duration & Small Business -->
       <div class="comparison-grid" style="margin-top: 36px;">
         <div class="comparison-col" style="background: var(--bg-paper-alt);">
-          <div class="insight-title" style="color: var(--ink-black);">Where Margin Leakage Begins: Subgrade C4 &amp; E5</div>
+          <div class="insight-title" style="color: var(--ink-black);">Where Margin Leakage Begins: Subgrade C4 (+3.4% return) &amp; E5 (-1.3% loss)</div>
           <p style="font-size: 0.95rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.6;">
-            While Grade C overall earns +4.21% net return, portfolio profitability drops below our +4.00% executive hurdle starting specifically at <strong>Subgrade C4 (+3.44% net return across 74,422 loans)</strong>, slides further to +2.64% across Grade D, and turns completely negative at <strong>Subgrade E5 (-1.34% net return, descending to -9.81% in G5)</strong>.
+            While Grade C overall earns a +4.2% net return, portfolio profitability drops below our +4.0% profit goal starting specifically at <strong>Subgrade C4 (+3.4% net return across 74,422 loans)</strong>, slides further across Grade D, and turns negative at <strong>Subgrade E5 (-1.3% net return, dropping to -9.8% in G5)</strong>.
           </p>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--color-green); margin-top: 12px; line-height: 1.5;">
-            Remedy: Raising interest rates by +1.50% (+150 bps) on Subgrade C4 restores the +4.00% hurdle and generates +$14.2M in added interest revenue.
+            Remedy: Raising interest rates by +1.5% (+150 bps) on Subgrade C4 restores our +4.0% hurdle and adds +$14.2M in annual interest revenue.
           </div>
         </div>
 
         <div class="comparison-col" style="background: var(--bg-paper-alt);">
-          <div class="insight-title" style="color: var(--ink-black);">Duration &amp; Purpose Leakage: 5-Year Terms &amp; Small Business</div>
+          <div class="insight-title" style="color: var(--ink-black);">Duration &amp; Purpose Leakage: 5-Year Loans (32% default vs. 16% on 3-year) &amp; Small Business Loans (30% default, -0.6% loss)</div>
           <p style="font-size: 0.95rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.6;">
-            Beyond credit grade tiering, two structural dimensions leak substantial capital:
+            Beyond credit grades, two loan characteristics drain substantial margin:
             <br><br>
-            1. <strong>5-Year (60-Month) Loans:</strong> Default at <strong>32.45%</strong> (2.03x the 16.00% rate of 36-month loans), cutting net returns in half (+2.57% vs. +5.12%).
+            1. <strong>5-Year (60-Month) Loans:</strong> Default at <strong>32%</strong> (double the 16% rate on 36-month loans), cutting net return in half (+2.6% vs. +5.1%).
             <br>
-            2. <strong>Unsecured Small Business Loans ($240.1M funded):</strong> Hit a <strong>29.71% default rate</strong> and lose money overall (<strong>-0.59% net return</strong>).
+            2. <strong>Unsecured Small Business Loans ($240.1M book):</strong> Hit a <strong>30% default rate</strong> and lose money overall (<strong>-0.6% net return</strong>).
           </p>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--color-crimson); margin-top: 12px; line-height: 1.5;">
-            Remedy: Cap 5-year terms to 680+ FICO borrowers and require secondary tax verification (IRS Form 4506-C) for small business loans.
+            Remedy: Require a 680+ credit score for 5-year loans and verify 2 years of IRS tax returns before funding small business loans.
           </div>
         </div>
       </div>
 
       <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 02 Key Takeaway</div>
+        <div class="takeaway-tag">CHAPTER 02 KEY TAKEAWAY</div>
         <div class="takeaway-body">
-          Grades D through G represent an unsustainable <strong>1.81x loss imbalance</strong>, generating over half of all platform charge-offs ($1.40B). Yet an outright ban on all subprime loans would sacrifice $5.52B in originations, violating our volume guardrail. We must find the specific risk drivers within subprime that separate performing notes from terminal defaults.
+          Grades D through G represent an unsustainable <strong>1.8x loss imbalance</strong>, causing over half of all unpaid write-offs ($1.4B). Yet a blanket ban on all subprime loans would wipe out $5.5B in lending, violating our volume goal. We need targeted rules that separate performing subprime borrowers from high-risk defaults.
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 3: MULTI-VARIABLE RISK GRID (Slide 5 Block) -->
+    <!-- CHAPTER 3: BORROWER STRESS GRID (Slide 5 Block) -->
     <section class="report-section" id="risk-grid" data-slide="5">
       <div class="section-header">
-        <div class="section-chapter">Chapter 03 / Multi-Variable Underwriting</div>
-        <h2 class="section-title">The Liquidity Stress Mechanism: Isolating Dual-Variable Borrower Risk</h2>
+        <div class="section-chapter">CHAPTER 03 / BORROWER STRESS GRID</div>
+        <h2 class="section-title">Combining Monthly Debt Payments and Credit Card Usage to Find Our Cutoff</h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          To reduce subprime losses without triggering commercial collapse, we investigated the underlying financial mechanics that drive consumer credit default. Traditional underwriting models frequently rely on univariate filters, screening borrowers strictly on Debt-to-Income (DTI) or strictly on credit card utilization. Our empirical findings demonstrate why univariate screening consistently fails.
+          To cut subprime losses without turning away healthy lending volume, we investigated the underlying financial pressures that cause borrowers to default. Traditional underwriting models often look at only one metric at a time, rejecting applicants based strictly on debt-to-income (DTI) or strictly on credit card utilization. Our findings show why single-variable screening fails.
         </p>
 
-        <h3 class="subhead">The Fallacy of Single-Variable Screening</h3>
+        <h3 class="subhead">Why Single-Variable Rules Reject the Wrong Borrowers</h3>
         <p>
-          Screening on Debt-to-Income alone penalizes high-earning professionals with substantial mortgages or student loans who comfortably service their debts out of significant residual income. Conversely, screening on credit card utilization alone penalizes disciplined prime borrowers who actively use credit cards for rewards and pay balances in full each month.
+          Screening on monthly debt alone turns away high-earning professionals with substantial mortgages or student loans who comfortably make payments from strong monthly income. On the other hand, screening on credit card usage alone penalizes disciplined prime borrowers who use cards for points and pay balances in full each month.
         </p>
         <p>
-          Univariate cutoffs are blunt: they reject creditworthy borrowers, causing high commercial friction, while failing to catch high-risk borrowers who sit just below individual thresholds.
+          Single-variable rules are blunt: they reject creditworthy borrowers, causing high commercial friction, while missing high-risk borrowers who sit just below individual thresholds.
         </p>
 
-        <h3 class="subhead">The Synergistic Mechanism: Leverage Meets Liquidity Depletion</h3>
+        <h3 class="subhead">The Combined Effect of Debt Payments and Maxed-Out Cards</h3>
         <p>
-          Consumer default is fundamentally a liquidity crisis. We tested the joint interaction of two complementary financial dimensions:
+          Consumer default is fundamentally a cash crunch. We tested two key financial dimensions together:
         </p>
         <p>
-          1. <strong>Structural Cash Flow Strain (Monthly Debt Ratio / DTI):</strong> Measures what proportion of a borrower's gross monthly income is legally committed to debt payments. High DTI indicates low monthly discretionary cash flow.
+          1. <strong>Monthly Debt Ratio (DTI):</strong> Measures what percentage of a borrower's gross monthly income goes toward existing debt payments. A high ratio leaves very little spare cash each month.
         </p>
         <p>
-          2. <strong>Liquidity Reserve Exhaustion (Revolving Credit Card Utilization):</strong> Measures the percentage of available credit lines already drawn. High utilization indicates that the borrower has depleted their emergency credit buffer.
+          2. <strong>Credit Card Usage (Utilization):</strong> Measures how much of a borrower's credit limit is currently drawn. High usage shows the borrower has already tapped their emergency credit backup.
         </p>
         <p>
-          When a borrower experiences one stressor in isolation, they can typically survive: a borrower with high DTI can tap open credit cards to navigate an unexpected expense, while a borrower with maxed-out credit cards can use high discretionary monthly income to pay down balances.
+          When a borrower experiences one stressor alone, they usually manage: a borrower with high monthly debt can use open credit cards to cover an unexpected expense, while a borrower with full credit cards can use spare cash from income to pay them down.
         </p>
         <p>
-          However, when <strong>both variables cross critical thresholds simultaneously (DTI &gt; 25% AND Card Utilization &gt; 65%)</strong>, the borrower enters a catastrophic liquidity trap. They have zero monthly cash flow buffer and zero available credit lines. Any routine financial shock (a car breakdown, unexpected medical co-pay, or temporary hours reduction) leaves them unable to meet debt service, triggering immediate loan abandonment.
+          However, when <strong>both variables cross critical limits together (DTI &gt; 25% AND Card Usage &gt; 65%)</strong>, the borrower has no cushion left. They have neither monthly spare cash nor available credit cards. Any unexpected bill (a car repair or medical emergency) leaves them unable to make payments, triggering an immediate loan default.
         </p>
       </div>
 
       <!-- Full-Width Figure Card: Figure 2 -->
       <div class="figure-card">
         <div class="figure-header">
-          <span>Figure 2: 4x4 Risk Matrix Across Monthly Debt Ratio (DTI) and Credit Card Utilization</span>
-          <span style="font-family: 'JetBrains Mono', monospace;">1.34M Completed Loans</span>
+          <span>Figure 2: 4x4 Risk Matrix Across Monthly Debt Ratio (DTI) and Credit Card Usage</span>
+          <span style="font-family: 'JetBrains Mono', monospace;">1.35M Completed Loans</span>
         </div>
         <div class="figure-img-wrap">
-          <img src="assets/fig2_risk_grid_heatmap.png" alt="Figure 2: Multi-Variable Risk Grid Heatmap">
+          <img src="assets/fig2_risk_grid_heatmap.png" alt="Figure 2: Multi-Variable Risk Grid Heatmap" onclick="openLightbox(this.src)">
         </div>
         <div class="figure-caption">
-          Statistical Validation: Chi-Square = 5,465 (p &lt; 0.001) | Relative Risk = 2.01x vs. Low-Risk Baseline | Odds Ratio = 1.67x (95% CI: 1.65 to 1.69).
+          Borrowers with high monthly debt (DTI &gt; 25%) and high credit card usage (&gt;65%) default twice as often as low-risk borrowers (28% vs. 14%). Inside this cell, subprime borrowers default at 39%.<br><strong>[Click image to enlarge]</strong>
         </div>
       </div>
 
       <div class="prose-block">
-        <h3 class="subhead">Empirical Heatmap Analysis</h3>
+        <h3 class="subhead">What the 4x4 Risk Grid Shows</h3>
         <p>
-          Across the 1.345 million completed loan cohort, the 4x4 risk grid illustrates a continuous, compounding escalation of default probability:
+          Across the 1.35 million completed loans, default rates climb steadily as both debt payments and credit card usage rise:
         </p>
         <p>
-          * <strong>Low-Risk Baseline (DTI &le; 15% and Utilization &le; 40%):</strong> Default rate of only <strong>14.11%</strong> across 213,691 loans. These borrowers possess both substantial disposable income and deep liquidity reserves.
+          * <strong>Low-Risk Baseline (DTI &le; 15% and Card Usage &le; 40%):</strong> Default rate of only <strong>14%</strong> across 213,691 loans. These borrowers have both comfortable monthly cash flow and ample open credit.
         </p>
         <p>
-          * <strong>Moderate-Risk Transition Zone:</strong> As either metric increases independently, default rates rise modestly into the 16% to 22% range.
+          * <strong>Moderate-Risk Zone:</strong> As either metric increases independently, default rates rise moderately into the 16% to 23% range.
         </p>
         <p>
-          * <strong>High-Stress Intersection (DTI &gt; 25% and Utilization &gt; 65%):</strong> Default rates surge to <strong>28.41%</strong> across 112,246 loans. When restricted specifically to subprime borrowers (Grades D through G), the default rate in this high-stress quadrant spikes to an astonishing <strong>38.88%</strong>.
-        </p>
-        <p>
-          Statistical testing confirms that borrowers in this high-stress quadrant face a <strong>2.01x relative risk</strong> compared to low-risk peers, with an odds ratio of 1.67x (95% CI: 1.65 to 1.69) and a Chi-Square test statistic of 5,465 (p &lt; 0.001).
+          * <strong>High-Stress Group (DTI &gt; 25% and Card Usage &gt; 65%):</strong> Default rates jump to <strong>28%</strong> across 112,246 total loans. When we look specifically at subprime borrowers (Grades D through G) inside this group, the default rate surges to <strong>39% (47,705 loans)</strong>.
         </p>
       </div>
 
@@ -928,83 +1054,83 @@
         <div class="comparison-col" style="background: var(--color-crimson-light);">
           <div class="insight-title" style="color: var(--color-crimson);">Option A: Blanket Ban on All Subprime (Grades D-G)</div>
           <p style="font-size: 0.95rem; margin-top: 8px; color: var(--ink-muted);">
-            Eliminates all $5.52B in subprime volume (28.45% of the total loan portfolio).
+            Eliminates all $5.5B in subprime lending (28% of the platform loan volume).
           </p>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--color-crimson); margin-top: 12px; line-height: 1.5;">
-            Result: FAILS volume guardrail (only 71.55% retained vs. 80.0% minimum) and turns away $4.1B in healthy, performing loans.
+            Result: FAILS volume goal (only 72% kept vs. 80% minimum floor) and turns away $4.1B in good, performing loans.
           </div>
         </div>
 
         <div class="comparison-col" style="background: var(--color-green-light);">
-          <div class="insight-title" style="color: var(--color-green);">Option B: Targeted Hard-Stop (DTI &gt; 25% AND Card Usage &gt; 65%)</div>
+          <div class="insight-title" style="color: var(--color-green);">Option B: Targeted Cutoff (DTI &gt; 25% AND Card Usage &gt; 65%)</div>
           <p style="font-size: 0.95rem; margin-top: 8px; color: var(--ink-muted);">
-            Declines only the 47,705 subprime applications in the high-stress quadrant defaulting at 38.88%.
+            Declines only the 47,705 subprime applications in the high-stress group defaulting at 39%.
           </p>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--color-green); margin-top: 12px; line-height: 1.5;">
-            Result: PASSES volume guardrail (95.81% retained / $18.58B) while eliminating +$230.0M in net unpaid losses.
+            Result: PASSES volume goal (96% kept / $18.6B preserved) while saving +$230.0M in net unpaid losses.
           </div>
         </div>
       </div>
 
       <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 03 Key Takeaway</div>
+        <div class="takeaway-tag">CHAPTER 03 KEY TAKEAWAY</div>
         <div class="takeaway-body">
-          Default risk is driven by the lethal intersection of cash flow strain and credit exhaustion. By requiring both DTI &gt; 25% and revolving utilization &gt; 65%, we isolate a specific subprime borrower cohort defaulting at <strong>38.88%</strong>, enabling targeted risk reduction without broad commercial collateral damage.
+          Default risk spikes when high monthly debt payments combine with maxed-out credit cards. By requiring both DTI &gt; 25% and card usage &gt; 65%, we isolate a specific subprime borrower group defaulting at <strong>39%</strong>, enabling targeted loss reduction without broad commercial damage.
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 4: CAPITAL WATERFALL & FINANCIAL IMPACT (Slide 6 Block) -->
+    <!-- CHAPTER 4: SAVINGS PLAN (Slide 6 Block) -->
     <section class="report-section" id="waterfall" data-slide="6">
       <div class="section-header">
-        <div class="section-chapter">Chapter 04 / Policy Simulation</div>
-        <h2 class="section-title">Capital Recovery Waterfall: Capturing $230M in Net Loss Reductions</h2>
+        <div class="section-chapter">CHAPTER 04 / SAVINGS PLAN</div>
+        <h2 class="section-title">Capital Recovery Waterfall: Saving $230.0M in Unpaid Losses While Keeping 96% of Volume</h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          To prove the commercial and financial feasibility of Option B before production deployment, we modeled the proposed automated decline filter through an empirical policy simulation against the matured loan book.
+          To prove the financial impact before turning on new rules in production, we simulated the proposed automated decline filter against our completed loan records.
         </p>
         <p>
-          The simulation tracks the exact financial trade-offs of declining 47,705 subprime applications in the dual-stress quadrant ($813.1M in funded capital). It accounts for averted charge-offs as well as forfeited origination fees and lost contractual interest from the non-defaulting portion of the pruned book.
+          The simulation accounts for all financial trade-offs: the unpaid write-offs prevented, plus the small amount of origination fees and interest margin forgone on the non-defaulting loans in that cohort.
         </p>
       </div>
 
       <!-- Full-Width Figure Card: Figure 3 -->
       <div class="figure-card">
         <div class="figure-header">
-          <span>Figure 3: Capital Recovery Waterfall Across Phase 1 Underwriting Hard-Stop</span>
+          <span>Figure 3: Capital Recovery Waterfall Across Phase 1 Underwriting Decline Rule</span>
           <span style="font-family: 'JetBrains Mono', monospace;">Policy Simulation Model</span>
         </div>
         <div class="figure-img-wrap">
-          <img src="assets/fig3_capital_waterfall.png" alt="Figure 3: Capital Recovery Waterfall">
+          <img src="assets/fig3_capital_waterfall.png" alt="Figure 3: Capital Recovery Waterfall" onclick="openLightbox(this.src)">
         </div>
         <div class="figure-caption">
-          Solvency Outcome: Subprime net write-offs fall from $1,404.1M to $1,174.1M (-16.4%) while keeping 95.81% of total loan volume ($18.58B).
+          Phase 1 automated decline rule cuts subprime write-offs from $1,404.1M to $1,174.1M (-16% drop) while keeping 96% of lending volume ($18.6B).<br><strong>[Click image to enlarge]</strong>
         </div>
       </div>
 
       <div class="prose-block">
-        <h3 class="subhead">Decomposition of Capital Recovery</h3>
+        <h3 class="subhead">How the $230.0M in Net Savings Adds Up</h3>
         <p>
-          The waterfall model walks through three foundational steps:
+          The recovery waterfall walks through three clear steps:
         </p>
         <p>
-          1. <strong>Baseline Subprime Losses ($1,404.1M):</strong> Current cumulative net write-offs generated by Grades D through G across 335,800 mature notes.
+          1. <strong>Current Subprime Losses ($1,404.1M):</strong> The baseline unpaid write-offs caused by Grades D through G across 335,813 completed loans.
         </p>
         <p>
-          2. <strong>Phase 1 Automated Hard-Stop Savings (-$230.04M net):</strong> Declining the 47,705 dual-stress subprime loans averts <strong>18,548 terminal defaults</strong>, eliminating $254.10M in gross principal write-offs. After subtracting $24.06M in forfeited interest and servicing fee margin from the 29,157 performing loans in that cohort, the net capital recovery is <strong>$230.0M</strong>.
+          2. <strong>Phase 1 Automated Decline Savings (-$230.0M net):</strong> Declining the 47,705 high-stress subprime applications prevents <strong>18,548 defaults</strong>, eliminating $254.1M in gross unpaid write-offs. After subtracting $24.1M in forgone interest and servicing margin from the performing loans in that group, the net savings is <strong>$230.0M</strong>.
         </p>
         <p>
-          3. <strong>Preserved Subprime Losses ($1,174.1M):</strong> Following rule implementation, subprime losses contract by <strong>-16.4%</strong>, while the platform preserves <strong>$18.58B (95.81%)</strong> of total originations.
+          3. <strong>Remaining Subprime Losses ($1,174.1M):</strong> With the decline rule in place, subprime write-offs drop by <strong>16%</strong>, while the platform keeps <strong>$18.6B (96%)</strong> of total lending dollars.
         </p>
 
-        <h3 class="subhead">Capital Efficiency and Unit Economics</h3>
+        <h3 class="subhead">Protecting Origination Scale</h3>
         <p>
-          The true power of the targeted hard-stop lies in its capital efficiency ratio: the policy eliminates <strong>38.88% of default volume</strong> in the target segment while pruning only <strong>3.55% of platform loan count</strong>. Rather than sacrificing platform scale, we prune only the concentrated toxic tail.
+          The core advantage of this targeted rule is its precision: it stops <strong>18,548 bad loans</strong> while declining only <strong>3.6% of loan applications</strong>. Rather than shrinking our platform, we remove only the most concentrated risk.
         </p>
         <p>
-          At the enterprise portfolio level, net return on capital (LAROC) expands by <strong>+14.9 basis points</strong> (from +4.26% to +4.40%), solidly above the executive +4.00% profit hurdle. Concurrently, the seasoned portfolio default rate declines from 19.96% to 18.99%, successfully clearing the 19.30% executive default ceiling.
+          Across the total loan book, net return on capital (LAROC) rises from +4.3% to <strong>+4.4% (+15 bps)</strong>, safely above our +4.0% profit goal. At the same time, the portfolio default rate drops to 19.0%, beating our 19.3% default ceiling.
         </p>
       </div>
 
@@ -1023,54 +1149,51 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>60% Conservative Rollout</strong> (Gradual Test)</td>
+              <td><strong>60% Cautious Pilot</strong> (Initial Test)</td>
               <td class="num-cell">+$138.0M</td>
               <td class="num-cell">+$8.5M</td>
               <td class="num-cell" style="font-weight: 700;">+$146.5M</td>
               <td class="num-cell">11,129</td>
-              <td class="num-cell">97.4%</td>
+              <td class="num-cell">97%</td>
             </tr>
             <tr>
-              <td><strong>80% Year 1 Target</strong> (Enterprise Adoption)</td>
+              <td><strong>80% Year-1 Target</strong> (Platform Adoption)</td>
               <td class="num-cell">+$184.0M</td>
               <td class="num-cell">+$11.4M</td>
               <td class="num-cell" style="font-weight: 700;">+$195.4M</td>
               <td class="num-cell">14,838</td>
-              <td class="num-cell">96.6%</td>
+              <td class="num-cell">97%</td>
             </tr>
             <tr style="background: var(--color-green-light);">
-              <td><strong>100% Production Rule</strong> (Full Deployment)</td>
+              <td><strong>100% Full Automated Rule</strong> (Full Deployment)</td>
               <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$230.0M</td>
               <td class="num-cell">+$14.2M</td>
               <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$244.2M</td>
               <td class="num-cell" style="font-weight: 700;">18,548</td>
-              <td class="num-cell" style="font-weight: 700;">95.81% ($18.58B)</td>
+              <td class="num-cell" style="font-weight: 700;">96% ($18.6B)</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 04 Key Takeaway</div>
+        <div class="takeaway-tag">CHAPTER 04 KEY TAKEAWAY</div>
         <div class="takeaway-body">
-          Targeted algorithmic decline delivers <strong>+$230.0M in net capital recovery</strong> and prevents 18,548 terminal defaults while preserving <strong>95.81% of total loan capital</strong>. Sensitivity stress testing confirms that even a conservative 60% adoption delivers over $146M in net value.
+          Targeted automated decline rules deliver <strong>+$230.0M in net loss savings</strong> and prevent 18,548 defaults while keeping <strong>96% of lending volume ($18.6B)</strong> intact. Even during an initial 60% pilot rollout, the platform recovers over $146M in net value.
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 5: 90-DAY IMPLEMENTATION PLAN (Slide 7 Block) -->
+    <!-- CHAPTER 5: 90-DAY ROLLOUT (Slide 7 Block) -->
     <section class="report-section" id="rollout" data-slide="7">
       <div class="section-header">
-        <div class="section-chapter">Chapter 05 / Execution Roadmap</div>
-        <h2 class="section-title">90-Day Production Rollout & Governance Roadmap</h2>
+        <div class="section-chapter">CHAPTER 05 / 90-DAY ROLLOUT</div>
+        <h2 class="section-title">90-Day Rollout Plan for the Underwriting, Pricing, and Servicing Teams</h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          Transitioning econometric insights into production decisioning requires a disciplined operational framework. A sudden, uncoordinated rule deployment risks credit delivery disruption, adverse regulatory scrutiny, or borrower attrition.
-        </p>
-        <p>
-          We designed a structured 90-day phased rollout strategy divided into three distinct execution stages, assigning explicit ownership across Underwriting Policy, Risk Analytics, and Servicing Operations.
+          Putting these underwriting updates into practice requires a phased operational plan. Rather than changing everything at once, we structured the rollout across 90 days with clear responsibilities for the Underwriting, Pricing, and Servicing teams.
         </p>
       </div>
 
@@ -1080,60 +1203,72 @@
             <tr>
               <th style="width: 140px;">Timeline</th>
               <th style="width: 220px;">Action Item</th>
-              <th>Target Borrower Cohort</th>
-              <th>Owner</th>
+              <th>Target Borrower Group</th>
+              <th>Team Owner</th>
               <th>Financial Impact</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Phase 1: Immediate</strong><br><span style="font-size: 0.72rem; color: var(--ink-muted);">Days 1 to 30</span></td>
-              <td><strong>Automated Decline Filter</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Embed algorithmic hard-stop at application intake.</span></td>
-              <td>Grades D-G applicants with DTI &gt; 25% AND card utilization &gt; 65% (47,705 originations).</td>
-              <td>Underwriting Policy</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$230.0M saved losses<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">18,548 defaults averted</span></td>
+              <td><strong>Automated Decline Filter</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Embed automated rule at application intake.</span></td>
+              <td>Grade D-G applicants with DTI &gt; 25% and Card Usage &gt; 65% (47,705 originations).</td>
+              <td>Underwriting Team</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$230.0M saved losses<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">18,548 defaults prevented</span></td>
             </tr>
             <tr>
               <td><strong>Phase 2: Near-Term</strong><br><span style="font-size: 0.72rem; color: var(--ink-muted);">Days 30 to 60</span></td>
-              <td><strong>Subgrade C4 Repricing</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Tighten marginal prime pricing and 5-year terms.</span></td>
-              <td>Add +1.50% (+150 bps) interest rate to 74,422 Subgrade C4 loans; require 680+ FICO on 5-year loans.</td>
-              <td>Pricing &amp; Risk Analytics</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$14.2M net revenue<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">Restores +4.00% hurdle</span></td>
+              <td><strong>Subgrade C4 Repricing &amp; 5-Year Cap</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Adjust borderline rates and long-term loans.</span></td>
+              <td>Add +1.5% (+150 bps) interest rate to 74,422 Subgrade C4 loans; require 680+ FICO on 5-year loans.</td>
+              <td>Pricing Team</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$14.2M interest revenue<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">Restores +4.0% return hurdle</span></td>
             </tr>
             <tr>
               <td><strong>Phase 3: Ongoing</strong><br><span style="font-size: 0.72rem; color: var(--ink-muted);">Days 60 to 90</span></td>
-              <td><strong>Small Business Verification</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Require tax returns for unverified business debt.</span></td>
-              <td>Unsecured business loans ($240.1M book; 29.71% default rate); early intervention on 38K late accounts.</td>
-              <td>Credit Servicing Operations</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Stops -0.59% cash loss<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">15% delinquency recovery</span></td>
+              <td><strong>Small Business Tax Check &amp; Early Outreach</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Verify business tax records and assist late accounts.</span></td>
+              <td>Unsecured business loans ($240.1M book, 30% default rate); early outreach on 38,114 late active loans ($588.5M).</td>
+              <td>Servicing Team</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Stops -0.6% cash loss<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">Recovers 15% of late loans</span></td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="prose-block" style="margin-top: 36px;">
-        <h3 class="subhead">Operational Governance and Regulatory Compliance</h3>
-        <p>
-          Each phase adheres to strict credit industry governance standards:
-        </p>
-        <p>
-          * <strong>Adverse Action &amp; Fair Lending (FCRA / ECOA):</strong> For Phase 1 declined applications, the decisioning engine generates standardized adverse action notices citing specific objective credit bureau variables ("Excessive debt obligations relative to income" and "High revolving credit line utilization"). This ensures full compliance with Equal Credit Opportunity Act (Regulation B) requirements.
-        </p>
-        <p>
-          * <strong>Subgrade C4 Yield Optimization:</strong> Subgrade C4 represents a pivotal threshold where default risk jumps to 22.8% while interest rates remain compressed at prime levels. Adding +150 bps to 74,422 notes generates <strong>+$14.2M in net pricing yield</strong>, lifting marginal tier returns above our +4.00% profit hurdle. Restricting 60-month loans to borrowers with 680+ FICO eliminates long-duration loss volatility.
-        </p>
-        <p>
-          * <strong>Business Loan Documentation:</strong> Unsecured small business loans ($240.1M volume) represented the single worst-performing loan purpose on the platform, suffering a 29.71% default rate and a net cash loss of -0.59%. Phase 3 requires IRS Form 4506-C tax transcripts and automated bank account cash flow verification, eliminating unverified commercial loss leakage.
-        </p>
-        <p>
-          * <strong>Continuous Surveillance:</strong> Risk Analytics tracks the Population Stability Index (PSI) weekly to detect borrower score drift, monitors 6-month vintage loss curves against historical benchmarks, and convenes a quarterly Underwriting Committee review to calibrate threshold rules against prevailing macroeconomic interest rate cycles.
-        </p>
+      <!-- 2x2 Practical Safeguards Grid -->
+      <div class="comparison-grid" style="margin-top: 36px;">
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--ink-black);">1. CLEAR ADVERSE ACTION REASONS</div>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-top: 8px;">
+            Whenever the Phase 1 filter declines an application, the system automatically gives the applicant clear, specific reasons (high monthly debt ratio and high credit card usage).
+          </p>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--ink-black);">2. SUBGRADE C4 RATE UPDATE &amp; 5-YEAR CAP</div>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-top: 8px;">
+            Adding +1.5% (+150 bps) to Subgrade C4 loans lifts returns back above our +4.0% goal, while requiring a 680+ credit score for 5-year loans cuts long-term default risk.
+          </p>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--ink-black);">3. TAX RETURN CHECK FOR BUSINESS LOANS</div>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-top: 8px;">
+            Requiring 2 years of IRS tax transcripts (Form 4506-C) before funding unsecured small business loans stops the -0.6% cash loss on unverified business applications.
+          </p>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--ink-black);">4. EARLY OUTREACH ON LATE ACTIVE LOANS</div>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-top: 8px;">
+            Our servicing team sends automated payment-plan options to the 38,114 active borrowers ($588.5M) as soon as they hit 16 days past due.
+          </p>
+        </div>
       </div>
 
       <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 05 Key Takeaway</div>
+        <div class="takeaway-tag">CHAPTER 05 KEY TAKEAWAY</div>
         <div class="takeaway-body">
-          A phased 90-day rollout creates <strong>+$244.2M in total cumulative value</strong> (+$230.0M from Phase 1 loss savings and +$14.2M from Phase 2 pricing lift). Governed by FCRA-compliant intake automation, vintage curve tracking, and small business documentation, the strategy restores platform solvency while keeping 95.8% of origination volume intact.
+          A phased 90-day rollout creates <strong>+$244.2M in total value</strong> (+$230.0M from Phase 1 loss savings plus +$14.2M from Phase 2 pricing updates). Supported by automated decline reasons, tax verification, and early late-account outreach, the plan restores profit margins while keeping 96% of lending volume intact.
         </div>
       </div>
     </section>
@@ -1142,7 +1277,7 @@
     <footer style="padding: 48px 0; text-align: center; color: var(--ink-muted); font-size: 0.8rem;">
       <p style="margin-bottom: 12px;">Prepared by <strong>John Amores</strong> | Data Analyst Portfolio Case Study</p>
       <p>
-        <a href="cockpit.html" style="color: var(--ink-black); font-weight: 700; margin: 0 12px;">Launch Underwriting Cockpit</a>
+        <a href="underwriting-simulator.html" style="color: var(--ink-black); font-weight: 700; margin: 0 12px;">Launch Underwriting Simulator</a>
         |
         <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/credit-risk-optimization" target="_blank" rel="noopener noreferrer" style="color: var(--ink-black); margin: 0 12px;">GitHub Repository</a>
         |
@@ -1151,6 +1286,29 @@
     </footer>
 
   </div>
+
+  <!-- Click-to-Enlarge Lightbox Modal -->
+  <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightboxImage" class="lightbox-content" src="" alt="Enlarged chart">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImage');
+      img.src = src;
+      modal.classList.add('active');
+    }
+    function closeLightbox() {
+      document.getElementById('lightboxModal').classList.remove('active');
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+  </script>
 
 </body>
 </html>

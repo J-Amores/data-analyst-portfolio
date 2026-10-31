@@ -9,7 +9,7 @@ crisp 1px solid #111111 lines) into assets/:
   2. assets/fig2_risk_grid_heatmap.png: 2D Heatmap across Monthly Debt Ratio (DTI) vs. Credit Card Usage with bounding callout.
   3. assets/fig3_capital_waterfall.png: Financial impact waterfall illustrating Phase 1 capital recovery.
 
-Guardrail Compliance: Zero em dashes, zero en dashes, zero priority code or Act labels in code, comments, and figure annotations.
+Guardrail Compliance: Zero em dashes, zero en dashes, zero statistical test jargon, whole-number rounding.
 """
 
 import os
@@ -63,7 +63,7 @@ def generate_fig1_loss_contribution(assets_dir: Path):
     """
     Figure 1: Paired bar chart across Loan Grades A through G.
     Compares Lending Share (%) vs. Unpaid Loss Share (%).
-    Highlights Subprime loss skew (28.5% Lending vs. 51.5% Losses).
+    Highlights Subprime loss skew (28% Lending vs. 51% Losses).
     """
     print("[TASK] Generating Figure 1: Loss Contribution Asymmetry...")
     csv_path = Path("data/exports/h1_loss_contribution_by_grade.csv")
@@ -103,9 +103,9 @@ def generate_fig1_loss_contribution(assets_dir: Path):
         zorder=3,
     )
 
-    # Headline and subtitle
+    # Headline and subtitle in plain workplace English
     plt.suptitle(
-        "Subprime Tiers Receive 28.5% of Lending but Cause 51.5% of Unpaid Losses",
+        "Subprime Grades D to G Get 28% of Lending Money but Cause 51% of Unpaid Losses",
         fontsize=13.5,
         fontweight="bold",
         fontfamily="Georgia",
@@ -115,7 +115,7 @@ def generate_fig1_loss_contribution(assets_dir: Path):
         ha="left",
     )
     ax.set_title(
-        "Comparison of Funded Principal vs. Net Charge-Off Dollars Across Credit Grades A to G (1.35M Completed Loans)",
+        "Share of dollars lent vs. share of unpaid write-offs across 1.35M completed loans ($19.4B book)",
         fontsize=9.8,
         fontfamily="DejaVu Sans",
         color=COLOR_INK_MUTED,
@@ -123,11 +123,11 @@ def generate_fig1_loss_contribution(assets_dir: Path):
         loc="left",
     )
 
-    # Bar value labels
+    # Bar value labels rounded to whole percentages
     for rect in rects1:
         h = rect.get_height()
         ax.annotate(
-            f"{h:.1f}%",
+            f"{round(h):.0f}%",
             xy=(rect.get_x() + rect.get_width() / 2, h),
             xytext=(0, 4),
             textcoords="offset points",
@@ -141,7 +141,7 @@ def generate_fig1_loss_contribution(assets_dir: Path):
     for rect in rects2:
         h = rect.get_height()
         ax.annotate(
-            f"{h:.1f}%",
+            f"{round(h):.0f}%",
             xy=(rect.get_x() + rect.get_width() / 2, h),
             xytext=(0, 4),
             textcoords="offset points",
@@ -153,15 +153,15 @@ def generate_fig1_loss_contribution(assets_dir: Path):
         )
 
     # Subprime callout bracket across Grades D, E, F, G (indices 3, 4, 5, 6)
-    x_subprime_start = x[3] - bar_width - 0.1
-    x_subprime_end = x[6] + bar_width + 0.1
-    y_bracket = 35.0
+    x_subprime_start = x[3] - bar_width - 0.08
+    x_subprime_end = x[6] + bar_width + 0.08
+    y_bracket = 34.0
 
     # Shaded lavender highlight for Subprime Grades D to G
     subprime_patch = patches.Rectangle(
         (x_subprime_start, 0),
         x_subprime_end - x_subprime_start,
-        38.5,
+        38.0,
         linewidth=1.0,
         edgecolor=COLOR_INK_BLACK,
         facecolor=COLOR_CALLOUT_LAVENDER,
@@ -171,9 +171,9 @@ def generate_fig1_loss_contribution(assets_dir: Path):
     )
     ax.add_patch(subprime_patch)
 
-    # Annotated badge for Subprime loss skew (matching specification)
+    # Annotated badge for Subprime loss skew (plain English, no academic jargon)
     ax.annotate(
-        "Subprime (Grades D-G): 28.5% of Lending vs. 51.5% of Losses\n1.81x Imbalance | Chi-Square = 1.02B (p < 0.001) | $1.40B Unpaid Losses",
+        "Subprime (Grades D-G): 28% of Lending vs. 51% of Losses\n(1.8x Loss Imbalance | $1.4B Lost)",
         xy=((x_subprime_start + x_subprime_end) / 2, y_bracket),
         xytext=(0, 0),
         textcoords="offset points",
@@ -186,11 +186,11 @@ def generate_fig1_loss_contribution(assets_dir: Path):
         zorder=5,
     )
 
-    # Axes configuration
+    # Axes configuration: ylim 0 to 42 for plenty of whitespace above Grade C bars
     ax.set_xticks(x)
     ax.set_xticklabels([f"Grade {g}" for g in grades], fontsize=10.5, fontweight="bold")
     ax.set_ylabel("Share of Portfolio (%)", fontsize=10.5, fontweight="bold", labelpad=8)
-    ax.set_ylim(0, 45.0)
+    ax.set_ylim(0, 42.0)
 
     # Exposed 1px solid #111111 hairlines
     ax.spines["top"].set_visible(False)
@@ -211,7 +211,19 @@ def generate_fig1_loss_contribution(assets_dir: Path):
         fontsize=9.0,
     )
 
-    plt.tight_layout(rect=[0.02, 0.03, 0.98, 0.93])
+    # Bottom Strip (Plain English)
+    fig.text(
+        0.08,
+        0.025,
+        "Safer borrowers in Grades A to C bring in +$857M in net profit, which is currently eaten up by $1.4B in subprime write-offs.",
+        fontsize=8.8,
+        fontfamily="DejaVu Sans",
+        fontstyle="italic",
+        color=COLOR_INK_MUTED,
+        ha="left",
+    )
+
+    plt.tight_layout(rect=[0.02, 0.05, 0.98, 0.93])
     out_file = assets_dir / "fig1_loss_contribution.png"
     plt.savefig(out_file, dpi=300, facecolor=COLOR_BG_PAPER)
     plt.close()
@@ -222,7 +234,7 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
     """
     Figure 2: 2D Risk Grid Heatmap across Monthly Debt Ratio (DTI) and Credit Card Usage.
     Displays Terminal Default Rate (%) and loan counts in each cell.
-    Highlights high-risk intersection (DTI > 25% and Card Usage > 65% at 28.41% default rate).
+    Highlights high-risk intersection (DTI > 25% and Card Usage > 65% at 28% default rate).
     """
     print("[TASK] Generating Figure 2: Multi-Variable Risk Grid Heatmap...")
     csv_path = Path("data/exports/segment_risk_grid.csv")
@@ -231,7 +243,7 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
 
     df = pd.read_csv(csv_path)
 
-    # Display labels for brackets
+    # Concise display labels for brackets so text never touches
     dti_display_labels = [
         "Low (<=15%)",
         "Moderate (15-25%)",
@@ -276,9 +288,9 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
         vmax=34.0,
     )
 
-    # Headline and subtitle
+    # Headline and subtitle in plain English
     plt.suptitle(
-        "Combined Borrower Stress: High Debt and Card Usage Double Default Rates to 28.4%",
+        "High Monthly Debt (>25%) and High Card Usage (>65%) Double Default Rates to 28%",
         fontsize=13.5,
         fontweight="bold",
         fontfamily="Georgia",
@@ -288,7 +300,7 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
         ha="left",
     )
     ax.set_title(
-        "Terminal Default Rate (%) and Loan Count Across 4x4 Risk Matrix (1.34M Completed Loans)",
+        "Default rate (%) and loan count across 4x4 borrower debt and credit card usage grid (1.35M completed loans)",
         fontsize=9.8,
         fontfamily="DejaVu Sans",
         color=COLOR_INK_MUTED,
@@ -318,11 +330,11 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
             ax.text(
                 j,
                 i - 0.12,
-                f"{val:.2f}%",
+                f"{round(val):.0f}%",
                 ha="center",
                 va="center",
                 color=text_color,
-                fontsize=11.5,
+                fontsize=12.0,
                 fontweight="bold",
                 zorder=5,
             )
@@ -352,14 +364,14 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
     )
     ax.add_patch(high_risk_rect)
 
-    # High-risk annotation badge placed cleanly above the quadrant in the margin
+    # High-risk annotation banner placed cleanly above the quadrant
     ax.annotate(
-        "High-Risk Intersection (DTI > 25% & Card Usage > 65%)\n112,246 Loans | 28.41% Default Rate (2.01x Baseline, p < 0.001)",
+        "High-Stress Group (DTI > 25% & Card Usage > 65%):\n112K Total Loans at 28% Default | 47,705 Subprime Loans at 39% Default",
         xy=(2.5, 1.5),
-        xytext=(2.5, -0.82),
+        xytext=(2.5, -0.80),
         ha="center",
         va="center",
-        fontsize=8.2,
+        fontsize=8.0,
         fontweight="bold",
         color=COLOR_INK_BLACK,
         bbox=dict(boxstyle="square,pad=0.35", facecolor=COLOR_BG_CARD, edgecolor=COLOR_INK_BLACK, linewidth=1.0),
@@ -367,14 +379,14 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
         zorder=12,
     )
 
-    # Benchmark callout on top left cell
+    # Benchmark callout on top left cell (clean whole-number percentage)
     ax.annotate(
-        "Low-Risk Baseline: 14.11%",
+        "Low-Risk Baseline: 14% Default",
         xy=(0.0, 0.40),
         xytext=(0.0, 0.40),
         ha="center",
         va="center",
-        fontsize=8.2,
+        fontsize=8.0,
         fontweight="bold",
         color=COLOR_INK_BLACK,
         bbox=dict(boxstyle="square,pad=0.25", facecolor=COLOR_BG_CARD, edgecolor=COLOR_INK_BLACK, linewidth=1.0),
@@ -398,12 +410,24 @@ def generate_fig2_risk_grid_heatmap(assets_dir: Path):
     ax.grid(False)
 
     cbar = plt.colorbar(cax, ax=ax, fraction=0.035, pad=0.04)
-    cbar.set_label("Terminal Default Rate (%)", fontsize=9.5, fontweight="bold", labelpad=8, color=COLOR_INK_BLACK)
+    cbar.set_label("Completed Default Rate (%)", fontsize=9.5, fontweight="bold", labelpad=8, color=COLOR_INK_BLACK)
     cbar.outline.set_edgecolor(COLOR_INK_BLACK)
     cbar.outline.set_linewidth(1.0)
     cbar.ax.tick_params(color=COLOR_INK_BLACK, labelcolor=COLOR_INK_BLACK)
 
-    plt.tight_layout(rect=[0.02, 0.03, 0.98, 0.93])
+    # Bottom Strip (Plain English)
+    fig.text(
+        0.08,
+        0.025,
+        "Borrowers with both high monthly debt payments and maxed-out credit cards default twice as often as low-risk borrowers (28% vs. 14%).",
+        fontsize=8.8,
+        fontfamily="DejaVu Sans",
+        fontstyle="italic",
+        color=COLOR_INK_MUTED,
+        ha="left",
+    )
+
+    plt.tight_layout(rect=[0.02, 0.05, 0.98, 0.93])
     out_file = assets_dir / "fig2_risk_grid_heatmap.png"
     plt.savefig(out_file, dpi=300, facecolor=COLOR_BG_PAPER)
     plt.close()
@@ -416,7 +440,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     Step 1: Current Subprime Losses ($1,404.1M in Warm Crimson)
     Step 2: Phase 1 Decline Rule Savings (-$230.0M in Kelly Green)
     Step 3: Remaining Subprime Losses ($1,174.1M in Deep Charcoal)
-    Badge: 95.81% of Lending Volume Kept ($18.58B Preserved)
+    Badge: 96% of Lending Volume Kept ($18.6B Preserved)
     """
     print("[TASK] Generating Figure 3: Capital Recovery Waterfall...")
     json_path = Path("reports/h3_validation_results.json")
@@ -434,7 +458,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     retained_pct = sim["retained_capital_retention_rate_pct"]            # 95.81%
     retained_funded_b = sim["retained_funded_dollars"] / 1e9             # $18.58B
     defaults_eliminated = sim["avoided_defaults_count"]                  # 18,548
-    laroc_bps = sim["post_policy_laroc_delta_bps"]                       # +14.9 bps
+    gross_saved = sim["gross_charge_off_dollars_eliminated"] / 1e6       # $254.10M
 
     fig, ax = plt.subplots(figsize=(9.8, 7.6), dpi=300)
 
@@ -499,9 +523,9 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
         zorder=2,
     )
 
-    # Headline and subtitle
+    # Headline and subtitle in plain workplace English
     plt.suptitle(
-        "Automated Decline Rules Save $230M in Net Losses While Keeping 95.8% of Lending Volume",
+        "Automated Decline Rules Save $230.0M in Unpaid Losses While Keeping 96% of Volume",
         fontsize=13.5,
         fontweight="bold",
         fontfamily="Georgia",
@@ -511,7 +535,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
         ha="left",
     )
     ax.set_title(
-        "Financial Impact of Targeted Decline Rule (Grades D-G with DTI > 25% and Card Usage > 65%) on Subprime Write-Offs",
+        "Impact of Phase 1 decline rule (blocking Grades D-G with DTI > 25% and Card Usage > 65%) on subprime write-offs",
         fontsize=9.8,
         fontfamily="DejaVu Sans",
         color=COLOR_INK_MUTED,
@@ -532,7 +556,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
         color=COLOR_INK_BLACK,
     )
     ax.annotate(
-        "Baseline 51.5% Loss Share\n(335.8K loans)",
+        "Current Losses\n(336K loans)",
         xy=(x[0], base_subprime_losses / 2),
         ha="center",
         va="center",
@@ -576,7 +600,7 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
         color=COLOR_INK_BLACK,
     )
     ax.annotate(
-        "-16.4% Unpaid Losses\n(Preserved Book)",
+        "Preserved Book\n(-16% write-offs)",
         xy=(x[2], post_policy_losses / 2),
         ha="center",
         va="center",
@@ -586,17 +610,15 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
         zorder=4,
     )
 
-    # Bordered callout note matching specification
+    # Bordered callout note matching exact specification with zero LaTeX collisions
     card_x = 1.18
     card_y = 1800
-    gross_saved = sim["gross_charge_off_dollars_eliminated"] / 1e6
     badge_text = (
-        f"95.81% of Lending Volume Kept (\\${retained_funded_b:.2f}B Preserved)\n"
-        f"* Avoided Defaults: {defaults_eliminated:,} terminal bad loans\n"
-        f"* Saved Net Losses: \\${hard_stop_savings:.2f}M (\\${gross_saved:.2f}M gross)\n"
-        f"* Pruned Loan Volume: 3.55% (47,705 originations)\n"
-        f"* Platform Return Lift: +{laroc_bps:.1f} bps (+4.26% to +4.40%)\n"
-        f"* Solvency Guardrail: Preserved (>= 80.0% threshold)"
+        "96% of Lending Volume Kept ($18.6B Preserved)\n"
+        f"- Defaults Prevented: {defaults_eliminated:,} bad loans stopped\n"
+        f"- Net Losses Saved: ${hard_stop_savings:,.1f}M (${gross_saved:,.1f}M gross)\n"
+        "- Loans Declined: Only 3.6% of book (47,705 loans)\n"
+        "- Portfolio Net Return: Lifted from +4.3% to +4.4%"
     )
 
     ax.annotate(
@@ -606,9 +628,9 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
         textcoords="offset points",
         ha="left",
         va="top",
-        fontsize=8.2,
+        fontsize=8.3,
         fontweight="bold",
-        linespacing=1.4,
+        linespacing=1.45,
         color=COLOR_INK_BLACK,
         parse_math=False,
         bbox=dict(
@@ -633,7 +655,19 @@ def generate_fig3_capital_waterfall(assets_dir: Path):
     ax.spines["bottom"].set_linewidth(1.0)
     ax.grid(False)
 
-    plt.tight_layout(rect=[0.02, 0.03, 0.98, 0.93])
+    # Bottom Strip (Plain English)
+    fig.text(
+        0.08,
+        0.025,
+        "Subprime unpaid write-offs drop by 16% (from $1,404.1M to $1,174.1M) while keeping 96% of total lending volume ($18.6B).",
+        fontsize=8.8,
+        fontfamily="DejaVu Sans",
+        fontstyle="italic",
+        color=COLOR_INK_MUTED,
+        ha="left",
+    )
+
+    plt.tight_layout(rect=[0.02, 0.05, 0.98, 0.93])
     out_file = assets_dir / "fig3_capital_waterfall.png"
     plt.savefig(out_file, dpi=300, facecolor=COLOR_BG_PAPER)
     plt.close()
@@ -661,3 +695,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

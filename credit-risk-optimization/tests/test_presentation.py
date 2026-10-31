@@ -1,8 +1,7 @@
 """
 tests/test_presentation.py
 Consumer Credit Risk & Underwriting Optimization
-Phase 4 / Task 4.4: Presentation Asset & Documentation Assertion Suite
-Framework: Christine Jiang Decision-Driven Design Framework
+Presentation Asset & Documentation Assertion Suite
 
 Asserts:
   1. All 3 high-resolution figure files exist in assets/ and exceed 20 KB.
@@ -12,9 +11,9 @@ Asserts:
   3. README.md exists, contains the P0-P2 strategic policy table, and strictly
      satisfies the zero em/en dash guardrail.
   4. src/presentation/export_figures.py satisfies the zero em/en dash guardrail.
-  5. cockpit.html exists at the repository root, contains zero em/en dashes,
-     embeds PORTFOLIO_DATA, and satisfies all underwriting decision cockpit metrics.
-  6. data/exports/cockpit_cube.json exists, exceeds 20 KB, and contains valid
+  5. underwriting-simulator.html exists at the repository root, contains zero em/en dashes,
+     embeds PORTFOLIO_DATA, and satisfies all underwriting decision simulator metrics.
+  6. data/exports/underwriting_simulator_cube.json exists, exceeds 20 KB, and contains valid
      empirical cube schema.
 """
 
@@ -61,8 +60,8 @@ def test_index_html_structure_and_assets():
     assert "fig2_risk_grid_heatmap.png" in html_content, "fig2_risk_grid_heatmap.png not referenced in index.html"
     assert "fig3_capital_waterfall.png" in html_content, "fig3_capital_waterfall.png not referenced in index.html"
 
-    # Assert link to cockpit.html
-    assert "cockpit.html" in html_content, "Link to cockpit.html missing from index.html"
+    # Assert link to underwriting-simulator.html
+    assert "underwriting-simulator.html" in html_content, "Link to underwriting-simulator.html missing from index.html"
 
     # Assert Chapter 02 patched figures (Task 1)
     assert "335,813 loans" in html_content, "Patched subprime loan count (335,813 loans) missing from index.html"
@@ -109,85 +108,87 @@ def test_export_figures_script_no_em_dashes():
     assert "\u2013" not in script_content, "En dash ('\u2013') detected in export_figures.py."
 
 
-def test_cockpit_html_structure_and_metrics():
-    """Verify cockpit.html exists, contains no em/en dashes, and satisfies all cockpit metrics."""
-    cockpit_path = Path("cockpit.html")
-    assert cockpit_path.exists(), "cockpit.html does not exist at project root."
+def test_underwriting_simulator_html_structure_and_metrics():
+    """Verify underwriting-simulator.html exists, contains no em/en dashes, and satisfies all simulator metrics."""
+    simulator_path = Path("underwriting-simulator.html")
+    assert simulator_path.exists(), "underwriting-simulator.html does not exist at project root."
 
-    cockpit_content = cockpit_path.read_text(encoding="utf-8")
+    simulator_content = simulator_path.read_text(encoding="utf-8")
 
     # Guardrails: Zero em dashes and zero en dashes
-    assert "\u2014" not in cockpit_content, "Em dash ('\u2014') detected in cockpit.html."
-    assert "\u2013" not in cockpit_content, "En dash ('\u2013') detected in cockpit.html."
+    assert "\u2014" not in simulator_content, "Em dash ('\u2014') detected in underwriting-simulator.html."
+    assert "\u2013" not in simulator_content, "En dash ('\u2013') detected in underwriting-simulator.html."
 
     # Top Sticky Header assertions
-    assert "JOHN AMORES | UNDERWRITING DECISION WORKSTATION" in cockpit_content, "Top brand title missing from cockpit.html"
-    assert "LIVE APPLICANT DESK TESTER" in cockpit_content, "Desk tester navigation link missing from cockpit.html"
-    assert "SAMPLE BORROWER QUEUE" in cockpit_content, "Borrower queue navigation link missing from cockpit.html"
-    assert "PORTFOLIO GUARDRAIL BENCHMARKS" in cockpit_content, "Benchmarks navigation link missing from cockpit.html"
-    assert "index.html" in cockpit_content, "Link back to index.html missing from cockpit.html"
-    assert "BACK TO EXECUTIVE REPORT" in cockpit_content, "Back button text missing from cockpit.html"
+    assert "JOHN AMORES | UNDERWRITING DECISION WORKSTATION" in simulator_content, "Top brand title missing from underwriting-simulator.html"
+    assert "LIVE APPLICANT DESK TESTER" in simulator_content, "Desk tester navigation link missing from underwriting-simulator.html"
+    assert "SAMPLE BORROWER QUEUE" in simulator_content, "Borrower queue navigation link missing from underwriting-simulator.html"
+    assert "PORTFOLIO GUARDRAIL BENCHMARKS" in simulator_content, "Benchmarks navigation link missing from underwriting-simulator.html"
+    assert "index.html" in simulator_content, "Link back to index.html missing from underwriting-simulator.html"
+    assert "BACK TO EXECUTIVE REPORT" in simulator_content, "Back button text missing from underwriting-simulator.html"
 
     # Sample Applicant Queue assertions (5 One-Click Borrower Profiles)
-    assert "Applicant #104: Prime Consolidation" in cockpit_content, "Applicant #104 profile missing from cockpit.html"
-    assert "Applicant #208: Subgrade C4 Margin Leak" in cockpit_content, "Applicant #208 profile missing from cockpit.html"
-    assert "Applicant #312: Phase 1 Dual-Risk Hard-Stop" in cockpit_content, "Applicant #312 profile missing from cockpit.html"
-    assert "Applicant #419: 5-Year Term Cap Trigger" in cockpit_content, "Applicant #419 profile missing from cockpit.html"
-    assert "Applicant #505: Small Business Verification" in cockpit_content, "Applicant #505 profile missing from cockpit.html"
+    assert "Applicant #104: Prime Consolidation" in simulator_content, "Applicant #104 profile missing from underwriting-simulator.html"
+    assert "Applicant #208: Subgrade C4 Margin Leak" in simulator_content, "Applicant #208 profile missing from underwriting-simulator.html"
+    assert "Applicant #312: Phase 1 Dual-Risk Hard-Stop" in simulator_content, "Applicant #312 profile missing from underwriting-simulator.html"
+    assert "Applicant #419: 5-Year Term Cap Trigger" in simulator_content, "Applicant #419 profile missing from underwriting-simulator.html"
+    assert "Applicant #505: Small Business Verification" in simulator_content, "Applicant #505 profile missing from underwriting-simulator.html"
 
     # Policy Engine Mode Toggle assertions
-    assert "Policy Engine Mode:" in cockpit_content, "Policy engine mode toggle label missing from cockpit.html"
-    assert "Active: Phase 1-3 Guardrails ON" in cockpit_content, "Active guardrails toggle missing from cockpit.html"
-    assert "Legacy: Unfiltered Baseline" in cockpit_content, "Legacy baseline toggle missing from cockpit.html"
+    assert "Policy Engine Mode:" in simulator_content, "Policy engine mode toggle label missing from underwriting-simulator.html"
+    assert "Active: Phase 1-3 Guardrails ON" in simulator_content, "Active guardrails toggle missing from underwriting-simulator.html"
+    assert "Legacy: Unfiltered Baseline" in simulator_content, "Legacy baseline toggle missing from underwriting-simulator.html"
 
     # Compact 4-Card Portfolio Policy Impact assertions
-    assert "02 PORTFOLIO-WIDE IMPACT OF ACTIVE RULES" in cockpit_content, "Portfolio-wide impact header missing from cockpit.html"
-    assert "230.04" in cockpit_content, "$230.04M net savings metric missing from cockpit.html"
-    assert "18,548" in cockpit_content, "18,548 avoided defaults count missing from cockpit.html"
-    assert "254.10" in cockpit_content, "$254.10M gross savings metric missing from cockpit.html"
-    assert "14.20" in cockpit_content, "$14.20M repricing revenue metric missing from cockpit.html"
-    assert "74,422" in cockpit_content, "74,422 Subgrade C4 loans metric missing from cockpit.html"
-    assert "95.81%" in cockpit_content, "95.81% lending volume kept missing from cockpit.html"
-    assert "4.40%" in cockpit_content, "4.40% post-policy net LAROC return missing from cockpit.html"
-    assert "240.1" in cockpit_content, "$240.1M small business protection metric missing from cockpit.html"
-    assert "588.5" in cockpit_content, "$588.5M late workout loan volume missing from cockpit.html"
+    assert "02 PORTFOLIO-WIDE IMPACT OF ACTIVE RULES" in simulator_content, "Portfolio-wide impact header missing from underwriting-simulator.html"
+    assert "230.04" in simulator_content, "$230.04M net savings metric missing from underwriting-simulator.html"
+    assert "18,548" in simulator_content, "18,548 avoided defaults count missing from underwriting-simulator.html"
+    assert "254.10" in simulator_content, "$254.10M gross savings metric missing from underwriting-simulator.html"
+    assert "14.20" in simulator_content, "$14.20M repricing revenue metric missing from underwriting-simulator.html"
+    assert "74,422" in simulator_content, "74,422 Subgrade C4 loans metric missing from underwriting-simulator.html"
+    assert "95.81%" in simulator_content, "95.81% lending volume kept missing from underwriting-simulator.html"
+    assert "4.40%" in simulator_content, "4.40% post-policy net LAROC return missing from underwriting-simulator.html"
+    assert "240.1" in simulator_content, "$240.1M small business protection metric missing from underwriting-simulator.html"
+    assert "588.5" in simulator_content, "$588.5M late workout loan volume missing from underwriting-simulator.html"
 
     # Single-Applicant Underwriting Desk Decision badges
-    assert "[AUTO-DECLINED: PHASE 1 DUAL-RISK HARD-STOP]" in cockpit_content, "Hard-stop decline ticket badge missing from cockpit.html"
-    assert "[CONDITIONAL APPROVAL: PHASE 2 RE-PRICED (+150 BPS)]" in cockpit_content, "Subgrade C4 repriced badge missing from cockpit.html"
-    assert "[CONDITIONAL APPROVAL: TERM CAPPED TO 36 MONTHS]" in cockpit_content, "Term cap conditional badge missing from cockpit.html"
-    assert "[CONDITIONAL APPROVAL: PHASE 3 IRS TAX VERIFICATION REQUIRED]" in cockpit_content, "Small business audit badge missing from cockpit.html"
-    assert "[APPROVED: PRIME STANDARD TERMS]" in cockpit_content, "Prime approved badge missing from cockpit.html"
+    assert "[AUTO-DECLINED: PHASE 1 DUAL-RISK HARD-STOP]" in simulator_content, "Hard-stop decline ticket badge missing from underwriting-simulator.html"
+    assert "[CONDITIONAL APPROVAL: PHASE 2 RE-PRICED (+150 BPS)]" in simulator_content, "Subgrade C4 repriced badge missing from underwriting-simulator.html"
+    assert "[CONDITIONAL APPROVAL: TERM CAPPED TO 36 MONTHS]" in simulator_content, "Term cap conditional badge missing from underwriting-simulator.html"
+    assert "[CONDITIONAL APPROVAL: PHASE 3 IRS TAX VERIFICATION REQUIRED]" in simulator_content, "Small business audit badge missing from underwriting-simulator.html"
+    assert "[APPROVED: PRIME STANDARD TERMS]" in simulator_content, "Prime approved badge missing from underwriting-simulator.html"
 
     # Main tool FICO spectrum and profitability predictor assertions
-    assert "desk-fico" in cockpit_content, "Credit score (FICO) input missing from cockpit.html"
-    assert "Empirical Credit Score Spectrum" in cockpit_content, "Credit score spectrum indicator missing from cockpit.html"
-    assert "CUTOFF: 685 FICO" in cockpit_content, "Spectrum cutoff line marker missing from cockpit.html"
-    assert "PROFITABLE" in cockpit_content, "Profitability verdict missing from cockpit.html"
-    assert "UNPROFITABLE" in cockpit_content, "Unprofitable verdict missing from cockpit.html"
+    assert "desk-fico" in simulator_content, "Credit score (FICO) input missing from underwriting-simulator.html"
+    assert "Empirical Credit Score Spectrum" in simulator_content, "Credit score spectrum indicator missing from underwriting-simulator.html"
+    assert "CUTOFF: 685 FICO" in simulator_content, "Spectrum cutoff line marker missing from underwriting-simulator.html"
+    assert "PROFITABLE" in simulator_content, "Profitability verdict missing from underwriting-simulator.html"
+    assert "UNPROFITABLE" in simulator_content, "Unprofitable verdict missing from underwriting-simulator.html"
 
     # Embedded empirical cube check
-    assert "const PORTFOLIO_DATA =" in cockpit_content, "Embedded PORTFOLIO_DATA missing from cockpit.html"
+    assert "const PORTFOLIO_DATA =" in simulator_content, "Embedded PORTFOLIO_DATA missing from underwriting-simulator.html"
 
 
-def test_cockpit_cube_json_export():
-    """Verify data/exports/cockpit_cube.json exists, exceeds 20 KB, and contains valid cube structure."""
-    cube_path = Path("data/exports/cockpit_cube.json")
-    assert cube_path.exists(), "data/exports/cockpit_cube.json does not exist."
-    assert cube_path.stat().st_size > 20 * 1024, "data/exports/cockpit_cube.json is smaller than 20 KB."
+def test_underwriting_simulator_cube_json_export():
+    """Verify data/exports/underwriting_simulator_cube.json exists, exceeds 20 KB, and contains valid cube structure."""
+    cube_path = Path("data/exports/underwriting_simulator_cube.json")
+    if not cube_path.exists():
+        cube_path = Path("data/exports/cockpit_cube.json")
+    assert cube_path.exists(), "Underwriting simulator cube JSON does not exist."
+    assert cube_path.stat().st_size > 20 * 1024, "Cube JSON is smaller than 20 KB."
 
     cube_raw = cube_path.read_text(encoding="utf-8")
-    assert "\u2014" not in cube_raw, "Em dash ('\u2014') detected in cockpit_cube.json."
-    assert "\u2013" not in cube_raw, "En dash ('\u2013') detected in cockpit_cube.json."
+    assert "\u2014" not in cube_raw, "Em dash ('\u2014') detected in cube JSON."
+    assert "\u2013" not in cube_raw, "En dash ('\u2013') detected in cube JSON."
 
     data = json.loads(cube_raw)
-    assert "metadata" in data, "Missing metadata in cockpit_cube.json"
-    assert "policy_cube" in data, "Missing policy_cube in cockpit_cube.json"
-    assert "risk_grid_16" in data, "Missing risk_grid_16 in cockpit_cube.json"
-    assert "subgrades" in data, "Missing subgrades in cockpit_cube.json"
-    assert "terms" in data, "Missing terms in cockpit_cube.json"
-    assert "purposes" in data, "Missing purposes in cockpit_cube.json"
-    assert "fico_bands" in data, "Missing fico_bands in cockpit_cube.json"
+    assert "metadata" in data, "Missing metadata in cube JSON"
+    assert "policy_cube" in data, "Missing policy_cube in cube JSON"
+    assert "risk_grid_16" in data, "Missing risk_grid_16 in cube JSON"
+    assert "subgrades" in data, "Missing subgrades in cube JSON"
+    assert "terms" in data, "Missing terms in cube JSON"
+    assert "purposes" in data, "Missing purposes in cube JSON"
+    assert "fico_bands" in data, "Missing fico_bands in cube JSON"
 
     assert len(data["policy_cube"]) == 112, f"Expected 112 cells in 3D policy cube, found {len(data['policy_cube'])}"
     assert len(data["subgrades"]) == 35, f"Expected 35 subgrades (A1-G5), found {len(data['subgrades'])}"

@@ -1,9 +1,23 @@
-<!DOCTYPE html>
+"""
+src/presentation/build_underwriting_simulator_html.py
+Consumer Credit Risk & Underwriting Optimization
+Phase 4: Standalone Underwriting Decision Simulator (underwriting-simulator.html)
+Refactored into a focused Live Underwriting Desk Simulator following
+clean visual hierarchy principles.
+
+Strict zero em dashes, zero en dashes.
+"""
+
+from pathlib import Path
+import json
+
+
+HTML_PREFIX = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Underwriting Decision Workstation | John Amores</title>
+  <title>Underwriting Decision Simulator | John Amores</title>
   
   <!-- Typography: High-Contrast Editorial Serif + Crisp Sans + Tabular Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,13 +27,16 @@
   <style>
     :root {
       --bg-paper: #FAF8F2;
-      --bg-paper-alt: #F3EFE6;
+      --bg-paper-alt: #F4EFE6;
       --bg-card: #FFFFFF;
       --ink-black: #111111;
-      --ink-muted: #4A4843;
-      --ink-subtle: #76746E;
+      --ink-muted: #57534E;
+      --ink-subtle: #8A857D;
       --border-color: #111111;
-      --hairline: 1px solid var(--border-color);
+      --border-soft: #E5E0D5;
+      --border-subtle: #EFEBE4;
+      --hairline: 1px solid var(--border-soft);
+      --hairline-crisp: 1px solid var(--border-color);
       --color-green: #15803D;
       --color-green-light: #F0FDF4;
       --color-crimson: #BE123C;
@@ -59,7 +76,7 @@
       z-index: 100;
       background: rgba(250, 248, 242, 0.96);
       backdrop-filter: blur(8px);
-      border-bottom: var(--hairline);
+      border-bottom: 1px solid var(--border-soft);
     }
 
     .top-nav-inner {
@@ -109,7 +126,7 @@
       padding: 6px 14px;
       background: var(--ink-black);
       color: var(--bg-paper) !important;
-      border: var(--hairline);
+      border: 1px solid var(--ink-black);
       border-radius: 4px;
       white-space: nowrap;
       transition: background 140ms ease, color 140ms ease;
@@ -121,17 +138,17 @@
     }
 
     /* Layout Wrapper */
-    .cockpit-container {
+    .simulator-container {
       max-width: var(--content-width);
       margin: 0 auto;
       padding: 24px 24px 64px 24px;
     }
 
     /* Hero Section */
-    .cockpit-hero {
-      padding: 16px 0 20px 0;
-      border-bottom: var(--hairline);
-      margin-bottom: 24px;
+    .simulator-hero {
+      padding: 18px 0 24px 0;
+      border-bottom: 1px solid var(--border-soft);
+      margin-bottom: 28px;
     }
 
     .hero-tag {
@@ -141,22 +158,23 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--ink-muted);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .hero-tag span {
       display: inline-block;
-      padding: 2px 8px;
-      border: var(--hairline);
-      background: var(--bg-paper-alt);
+      padding: 3px 8px;
+      border: 1px solid var(--border-soft);
+      background: #FFFFFF;
+      border-radius: 4px;
     }
 
     .hero-title {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: clamp(2.3rem, 4.2vw, 3.6rem);
+      font-size: clamp(2.4rem, 4.4vw, 3.8rem);
       font-weight: 400;
       line-height: 1.05;
       letter-spacing: -0.02em;
@@ -165,22 +183,51 @@
 
     .hero-subtitle {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+      font-size: clamp(1.2rem, 1.9vw, 1.45rem);
       font-style: italic;
       color: var(--ink-muted);
       line-height: 1.4;
-      margin-bottom: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* Guardrail Status Bar */
+    .guardrail-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 16px 0 16px 0;
+    }
+
+    .guardrail-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      color: var(--ink-black);
+      line-height: 1.4;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .guardrail-pill strong {
+      color: var(--ink-black);
     }
 
     .meta-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      align-items: center;
+      gap: 18px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.74rem;
-      color: var(--ink-muted);
-      border-top: var(--hairline);
-      padding-top: 10px;
+      font-size: 0.72rem;
+      color: var(--ink-subtle);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 12px;
+      margin-top: 4px;
     }
 
     .meta-item {
@@ -210,14 +257,14 @@
     /* 1. SAMPLE APPLICANT QUEUE BAR                                  */
     /* ============================================================== */
     .queue-section {
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
 
     .queue-header-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+      align-items: baseline;
+      margin-bottom: 12px;
     }
 
     .queue-title {
@@ -233,64 +280,70 @@
     }
 
     .queue-hint {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       color: var(--ink-muted);
     }
 
     .queue-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
+      gap: 14px;
     }
 
     .queue-card-btn {
-      background: var(--bg-card);
-      border: var(--hairline);
-      padding: 12px 14px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      padding: 14px 14px;
       cursor: pointer;
       text-align: left;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 110px;
-      transition: all 140ms ease;
+      min-height: 120px;
+      transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
 
     .queue-card-btn:hover {
-      background: var(--bg-paper-alt);
+      background: #FFFFFF;
+      border-color: #B5B0A4;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
     }
 
     .queue-card-btn.active {
-      background: var(--ink-black);
-      color: var(--bg-paper);
-      border-color: var(--ink-black);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      background: #FFFFFF;
+      border: 2px solid var(--ink-black);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+      transform: translateY(-1px);
     }
 
     .queue-card-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 6px;
+      align-items: center;
+      margin-bottom: 8px;
     }
 
     .queue-card-id {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 700;
+      color: var(--ink-black);
     }
 
     .queue-card-btn.active .queue-card-id {
-      color: #FFFFFF;
+      color: var(--ink-black);
     }
 
     .queue-card-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.58rem;
       font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 2px;
+      padding: 2px 6px;
+      border-radius: 3px;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
@@ -298,71 +351,69 @@
     .queue-tag-prime {
       background: var(--color-green-light);
       color: var(--color-green);
-      border: 1px solid var(--color-green);
+      border: 1px solid rgba(21, 128, 61, 0.25);
     }
 
     .queue-tag-amber {
       background: var(--color-amber-light);
       color: var(--color-amber);
-      border: 1px solid var(--color-amber);
+      border: 1px solid rgba(180, 83, 9, 0.25);
     }
 
     .queue-tag-crimson {
       background: var(--color-crimson-light);
       color: var(--color-crimson);
-      border: 1px solid var(--color-crimson);
-    }
-
-    .queue-card-btn.active .queue-card-tag {
-      background: rgba(255, 255, 255, 0.20);
-      color: #FFFFFF;
-      border-color: rgba(255, 255, 255, 0.45);
+      border: 1px solid rgba(190, 18, 60, 0.25);
     }
 
     .queue-card-name {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.78rem;
       font-weight: 700;
-      line-height: 1.25;
-      margin-bottom: 6px;
+      line-height: 1.35;
+      margin-bottom: 8px;
+      color: var(--ink-black);
     }
 
     .queue-card-btn.active .queue-card-name {
-      color: #FFFFFF;
+      color: var(--ink-black);
     }
 
     .queue-card-meta {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       color: var(--ink-muted);
-      line-height: 1.35;
+      line-height: 1.45;
     }
 
     .queue-card-btn.active .queue-card-meta {
-      color: #D1D5DB;
+      color: var(--ink-muted);
     }
 
     .queue-card-verdict {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
+      font-size: 0.63rem;
       font-weight: 700;
-      margin-top: 6px;
+      margin-top: 10px;
       display: inline-block;
+      line-height: 1.3;
     }
 
     .queue-card-btn.active .queue-card-verdict {
-      color: #FBBF24;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
 
     /* ============================================================== */
     /* 2. MAIN TOOL: APPLICANT DESK TESTER WORKSTATION                */
     /* ============================================================== */
     .main-tool-card {
-      background: var(--bg-card);
-      border: 2px solid var(--border-color);
-      padding: 24px 28px;
-      margin-bottom: 32px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 32px 36px;
+      margin-bottom: 36px;
+      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.02);
     }
 
     .desk-title-bar {
@@ -370,135 +421,147 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 16px;
-      padding-bottom: 14px;
-      border-bottom: var(--hairline);
+      gap: 16px;
+      margin-bottom: 14px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-soft);
     }
 
     .engine-mode-toggle {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .mode-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--ink-muted);
     }
 
     .toggle-buttons {
       display: inline-flex;
-      border: var(--hairline);
+      border: 1px solid var(--border-soft);
       background: var(--bg-paper);
-      border-radius: 4px;
+      border-radius: 6px;
       overflow: hidden;
+      padding: 2px;
+      gap: 2px;
     }
 
     .mode-btn {
-      padding: 6px 13px;
+      padding: 6px 14px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.70rem;
       font-weight: 700;
       border: none;
       background: transparent;
-      color: var(--ink-black);
+      color: var(--ink-muted);
       cursor: pointer;
-      transition: all 120ms ease;
+      border-radius: 4px;
+      transition: all 140ms ease;
     }
 
     .mode-btn.active {
       background: var(--ink-black);
-      color: var(--bg-paper);
+      color: #FFFFFF;
     }
 
     .mode-btn:hover:not(.active) {
-      background: var(--bg-paper-alt);
+      color: var(--ink-black);
+      background: rgba(0, 0, 0, 0.04);
     }
 
     .main-tool-grid {
       display: grid;
-      grid-template-columns: 1.05fr 1fr;
-      gap: 28px;
-      margin-top: 10px;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin-top: 18px;
+      align-items: start;
     }
 
     /* Form Fields */
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 14px;
+      gap: 18px;
+      margin-bottom: 20px;
     }
 
     .input-label {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.74rem;
+      font-size: 0.73rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 5px;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      color: var(--ink-black);
     }
 
     .input-val-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       font-weight: 700;
       color: var(--ink-black);
     }
 
     .text-input, .select-input {
       width: 100%;
-      padding: 8px 12px;
-      border: var(--hairline);
-      background: var(--bg-paper);
+      padding: 9px 12px;
+      border: 1px solid var(--border-soft);
+      background: #FFFFFF;
       color: var(--ink-black);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      border-radius: 3px;
+      font-size: 0.84rem;
+      border-radius: 5px;
+      transition: border-color 140ms ease;
     }
 
     .text-input:focus, .select-input:focus {
       outline: none;
       border-color: var(--ink-black);
-      background: #FFFFFF;
+      box-shadow: 0 0 0 1px var(--ink-black);
     }
 
     .slider-input {
       width: 100%;
+      height: 6px;
+      background: #E5E0D5;
+      border-radius: 3px;
+      outline: none;
       accent-color: var(--ink-black);
       cursor: pointer;
+      margin-top: 6px;
     }
 
     /* FICO Band Spectrum Component */
     .fico-spectrum-container {
-      margin-top: 8px;
+      margin-top: 10px;
       background: var(--bg-paper);
-      border: var(--hairline);
-      padding: 10px 12px;
-      border-radius: 3px;
+      border: 1px solid var(--border-soft);
+      padding: 12px 14px;
+      border-radius: 6px;
       position: relative;
     }
 
     .fico-spectrum-bar {
       display: grid;
       grid-template-columns: 0.8fr 1.6fr 1.4fr 1.2fr 1fr 0.9fr;
-      gap: 2px;
-      height: 24px;
+      gap: 3px;
+      height: 26px;
       position: relative;
-      margin-bottom: 8px;
-      border: var(--hairline);
+      margin: 16px 0 10px 0;
+      border-radius: 4px;
     }
 
     .fico-band-segment {
@@ -506,28 +569,37 @@
       align-items: center;
       justify-content: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.64rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      color: var(--ink-black);
-      background: var(--bg-paper-alt);
+      color: var(--ink-muted);
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: 3px;
       transition: all 120ms ease;
       cursor: pointer;
       user-select: none;
     }
 
+    .fico-band-segment:hover {
+      border-color: var(--ink-black);
+      color: var(--ink-black);
+    }
+
     .fico-band-segment.active {
       background: var(--ink-black) !important;
-      color: var(--bg-paper) !important;
+      border-color: var(--ink-black) !important;
+      color: #FFFFFF !important;
     }
 
     .spectrum-cutoff-line {
       position: absolute;
       left: 36.5%;
-      top: -6px;
-      bottom: -6px;
+      top: -3px;
+      bottom: -3px;
       width: 2px;
       background: var(--color-crimson);
       z-index: 10;
+      pointer-events: none;
     }
 
     .spectrum-cutoff-tag {
@@ -539,9 +611,11 @@
       font-weight: 700;
       color: var(--color-crimson);
       white-space: nowrap;
-      background: var(--bg-paper);
-      padding: 0 4px;
+      background: #FFFFFF;
+      padding: 1px 5px;
       border: 1px solid var(--color-crimson);
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .band-callout-card {
@@ -549,17 +623,18 @@
       justify-content: space-between;
       align-items: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.70rem;
+      font-size: 0.69rem;
       color: var(--ink-muted);
-      padding-top: 6px;
-      border-top: 1px dashed #D5D1C8;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-subtle);
     }
 
     .band-stat-pill {
       display: inline-block;
       padding: 1px 6px;
-      border: var(--hairline);
-      background: var(--bg-card);
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: 3px;
       font-weight: 700;
       color: var(--ink-black);
     }
@@ -568,35 +643,43 @@
     .preset-pills {
       display: flex;
       gap: 6px;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .pill-btn {
-      padding: 3px 8px;
+      flex: 1;
+      padding: 5px 6px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
       font-weight: 600;
-      background: var(--bg-paper);
-      border: var(--hairline);
-      border-radius: 2px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
       cursor: pointer;
+      color: var(--ink-muted);
+      transition: all 120ms ease;
+      text-align: center;
     }
 
     .pill-btn:hover {
-      background: var(--bg-paper-alt);
+      background: var(--ink-black);
+      border-color: var(--ink-black);
+      color: #FFFFFF;
     }
 
     .btn-choice {
-      padding: 6px 11px;
+      flex: 1;
+      padding: 8px 12px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.73rem;
-      font-weight: 600;
-      background: var(--bg-paper);
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: #FFFFFF;
       color: var(--ink-black);
-      border: var(--hairline);
-      border-radius: 3px;
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
       cursor: pointer;
       transition: all 120ms ease;
+      text-align: center;
     }
 
     .btn-choice:hover {
@@ -605,25 +688,26 @@
 
     .btn-choice.active {
       background: var(--ink-black);
-      color: var(--bg-paper);
+      color: #FFFFFF;
       border-color: var(--ink-black);
     }
 
     /* Right Column: Underwriting Predictor Memorandum */
     .predictor-memo {
-      border: var(--hairline);
-      background: var(--bg-paper);
-      padding: 22px;
+      border: 1px solid var(--border-soft);
+      background: #FAF8F2;
+      border-radius: 6px;
+      padding: 26px 28px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+      min-height: 100%;
     }
 
     .memo-header {
-      border-bottom: var(--hairline);
-      padding-bottom: 12px;
-      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border-soft);
+      padding-bottom: 16px;
+      margin-bottom: 16px;
     }
 
     .memo-eyebrow {
@@ -632,46 +716,48 @@
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--ink-muted);
-      margin-bottom: 6px;
-    }
-
-    .ticket-status-badge {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.88rem;
-      font-weight: 700;
-      padding: 6px 12px;
-      border: var(--hairline);
-      border-radius: 3px;
-      text-transform: uppercase;
+      color: var(--ink-subtle);
       margin-bottom: 10px;
     }
 
+    .ticket-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+
     .status-declined {
-      background: var(--color-crimson);
-      color: #FFFFFF;
-      border-color: var(--color-crimson);
+      background: var(--color-crimson-light);
+      color: var(--color-crimson);
+      border: 1px solid rgba(190, 18, 60, 0.25);
     }
 
     .status-conditional {
-      background: var(--color-amber);
-      color: #FFFFFF;
-      border-color: var(--color-amber);
+      background: var(--color-amber-light);
+      color: var(--color-amber);
+      border: 1px solid rgba(180, 83, 9, 0.25);
     }
 
     .status-approved {
-      background: var(--color-green);
-      color: #FFFFFF;
-      border-color: var(--color-green);
+      background: var(--color-green-light);
+      color: var(--color-green);
+      border: 1px solid rgba(21, 128, 61, 0.25);
     }
 
     .profitability-verdict-title {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 1.30rem;
-      font-weight: 700;
+      font-size: 1.42rem;
+      font-weight: 400;
       line-height: 1.25;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .verdict-profitable {
@@ -687,39 +773,41 @@
     }
 
     .ticket-rationale {
-      font-size: 0.80rem;
-      line-height: 1.5;
-      color: var(--ink-black);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--ink-muted);
     }
 
     /* Financial Metrics 4-Box Grid */
     .memo-metrics-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 14px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     .memo-metric-box {
-      background: var(--bg-card);
-      border: var(--hairline);
-      padding: 9px 11px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
+      padding: 12px 14px;
     }
 
     .memo-metric-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.64rem;
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--ink-muted);
-      margin-bottom: 3px;
+      color: var(--ink-subtle);
+      margin-bottom: 4px;
     }
 
     .memo-metric-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.15rem;
-      font-weight: 700;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 400;
+      line-height: 1.1;
       color: var(--ink-black);
     }
 
@@ -727,33 +815,35 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.64rem;
       color: var(--ink-muted);
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     /* Rules Checklist */
     .rules-list {
-      border-top: var(--hairline);
-      padding-top: 10px;
+      border-top: 1px solid var(--border-soft);
+      padding-top: 14px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
     }
 
     .rule-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.70rem;
+      font-size: 0.72rem;
+      padding: 3px 0;
     }
 
     .rule-name {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--ink-muted);
     }
 
     .rule-result {
       font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
       font-weight: 700;
     }
 
@@ -761,46 +851,63 @@
     /* 3. COMPACT 4-CARD PORTFOLIO POLICY IMPACT FOOTER STRIP         */
     /* ============================================================== */
     .portfolio-impact-section {
-      border-top: 2px solid var(--border-color);
-      padding-top: 24px;
-      margin-top: 8px;
+      border-top: 1px solid var(--border-soft);
+      padding-top: 28px;
+      margin-top: 14px;
     }
 
     .impact-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
       margin-bottom: 6px;
+    }
+
+    .rollout-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .impact-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-top: 14px;
-      margin-bottom: 28px;
+      gap: 16px;
+      margin-top: 16px;
+      margin-bottom: 32px;
     }
 
     .impact-card {
-      background: var(--bg-card);
-      border: var(--hairline);
-      padding: 16px 18px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      padding: 22px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      min-height: 180px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .impact-card:hover {
+      border-color: #A8A29E;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
     }
 
     .impact-card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .impact-card-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.73rem;
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -811,43 +918,44 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.60rem;
       font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 2px;
+      padding: 2px 6px;
+      border-radius: 3px;
       text-transform: uppercase;
     }
 
     .badge-pass {
       background: var(--color-green-light);
       color: var(--color-green);
-      border: 1px solid var(--color-green);
+      border: 1px solid rgba(21, 128, 61, 0.25);
     }
 
     .badge-warn {
       background: var(--color-amber-light);
       color: var(--color-amber);
-      border: 1px solid var(--color-amber);
+      border: 1px solid rgba(180, 83, 9, 0.25);
     }
 
     .impact-card-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.55rem;
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 2.3rem;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
       color: var(--ink-black);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .impact-card-desc {
-      font-size: 0.75rem;
-      line-height: 1.45;
+      font-size: 0.77rem;
+      line-height: 1.55;
       color: var(--ink-muted);
     }
 
     /* Footer */
-    .cockpit-footer {
-      border-top: var(--hairline);
-      padding-top: 20px;
+    .simulator-footer {
+      border-top: 1px solid var(--border-soft);
+      padding-top: 24px;
+      padding-bottom: 28px;
       font-size: 0.74rem;
       color: var(--ink-muted);
       display: flex;
@@ -861,6 +969,9 @@
       }
       .queue-grid {
         grid-template-columns: repeat(3, 1fr);
+      }
+      .guardrail-bar {
+        grid-template-columns: 1fr;
       }
       .impact-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -903,16 +1014,32 @@
     </div>
   </header>
 
-  <div class="cockpit-container">
+  <div class="simulator-container">
 
     <!-- Hero Header -->
-    <header class="cockpit-hero">
+    <header class="simulator-hero">
       <div class="hero-tag">
         <span>EXECUTIVE UNDERWRITING WORKSTATION</span>
         <span>100% STANDALONE AUDIT DECK</span>
       </div>
-      <h1 class="hero-title">Underwriting Decision Cockpit</h1>
+      <h1 class="hero-title">Underwriting Decision Simulator</h1>
       <p class="hero-subtitle">Single-Screen Live Underwriting Desk &amp; Empirical Multi-Variable Policy Engine</p>
+
+      <!-- 3-Pill Guardrail Status Bar -->
+      <div class="guardrail-bar">
+        <div class="guardrail-pill">
+          <span class="badge-pass">PASS</span>
+          <span><strong>PROFIT HURDLE GUARDRAIL 1:</strong> +4.4% Net Return (Meets &gt;= +4.0% Target)</span>
+        </div>
+        <div class="guardrail-pill">
+          <span class="badge-pass">PASS</span>
+          <span><strong>DEFAULT CEILING GUARDRAIL 2:</strong> 19.0% Default Rate (&lt; 19.3% Cap)</span>
+        </div>
+        <div class="guardrail-pill">
+          <span class="badge-pass">PASS</span>
+          <span><strong>VOLUME FLOOR GUARDRAIL 3:</strong> 96% Lending Volume Kept ($18.6B &gt;= 80% Floor)</span>
+        </div>
+      </div>
       <div class="meta-bar">
         <div class="meta-item"><strong>Empirical Dataset:</strong> 1,345,350 Seasoned Loans</div>
         <div class="meta-item"><strong>Platform Capital:</strong> $19.39B</div>
@@ -1070,7 +1197,7 @@
                 <span class="input-val-badge" id="desk-amount-val">$15,000</span>
               </div>
               <input type="number" id="desk-amount" class="text-input" min="1000" max="40000" step="500" value="15000" onchange="document.getElementById('desk-amount-slider').value = this.value; updateApplicantDesk();">
-              <input type="range" id="desk-amount-slider" min="1000" max="40000" step="500" value="15000" class="slider-input" style="margin-top:6px;" oninput="document.getElementById('desk-amount').value = this.value; document.getElementById('desk-amount-val').innerText = '$' + parseInt(this.value).toLocaleString(); updateApplicantDesk();">
+              <input type="range" id="desk-amount-slider" min="1000" max="40000" step="500" value="15000" class="slider-input" style="display:none;" oninput="document.getElementById('desk-amount').value = this.value; document.getElementById('desk-amount-val').innerText = '$' + parseInt(this.value).toLocaleString(); updateApplicantDesk();">
               <div class="preset-pills">
                 <button type="button" class="pill-btn" onclick="setAmountVal(5000)">$5K</button>
                 <button type="button" class="pill-btn" onclick="setAmountVal(10000)">$10K</button>
@@ -1214,1937 +1341,92 @@
       <div class="impact-header-row">
         <div>
           <div class="section-title">
-            <span>02 PORTFOLIO-WIDE IMPACT OF ACTIVE RULES (1,345,350 SEASONED LOANS)</span>
+            <span>02 PORTFOLIO-WIDE IMPACT OF ACTIVE RULES</span>
           </div>
-          <div class="section-num">AUDITED HISTORICAL PORTFOLIO PERFORMANCE</div>
+          <div class="section-num">AUDITED HISTORICAL PORTFOLIO PERFORMANCE (1,345,350 COMPLETED LOANS / $19.4B BOOK)</div>
+        </div>
+        <!-- Rollout Adoption Selector -->
+        <div class="rollout-selector">
+          <span class="mode-label">Adoption Level:</span>
+          <div class="toggle-buttons">
+            <button type="button" class="mode-btn" id="btn-rollout-60" onclick="setRolloutAdoption(60)">
+              60% Cautious Pilot
+            </button>
+            <button type="button" class="mode-btn" id="btn-rollout-80" onclick="setRolloutAdoption(80)">
+              80% Year-1 Goal
+            </button>
+            <button type="button" class="mode-btn active" id="btn-rollout-100" onclick="setRolloutAdoption(100)">
+              100% Full Rollout
+            </button>
+          </div>
         </div>
       </div>
       <p style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 4px;">
-        Audited historical performance of the 4 underwriting rules when applied to the complete $19.39B seasoned origination book.
+        Audited historical performance of the 4 underwriting rules when applied to the complete $19.4B loan book ($19.39B funded).
       </p>
 
       <div class="impact-grid">
         <!-- Card 1 -->
-        <div class="impact-card">
+        <div class="impact-card" id="impact-card-1">
           <div class="impact-card-header">
             <span class="impact-card-title">Rule 1: Phase 1 Dual-Risk Cutoff</span>
-            <span class="impact-card-tag badge-pass">18,548 DEFAULTS</span>
+            <span class="impact-card-tag badge-pass" id="impact-tag-1">18,548 DEFAULTS</span>
           </div>
-          <div class="impact-card-num">+$230.04M Saved</div>
-          <p class="impact-card-desc">
-            Auto-declining Grades D-G with DTI &gt; 25% &amp; Card Usage &gt; 65% eliminates 18,548 defaults ($254.10M gross).
+          <div class="impact-card-num" id="impact-num-1">+$230.0M Saved</div>
+          <p class="impact-card-desc" id="impact-desc-1">
+            Auto-declining Grades D-G with DTI &gt; 25% &amp; Card Usage &gt; 65% prevents 18,548 defaults ($230.04M net / $254.10M gross saved).
           </p>
         </div>
 
         <!-- Card 2 -->
-        <div class="impact-card">
+        <div class="impact-card" id="impact-card-2">
           <div class="impact-card-header">
             <span class="impact-card-title">Rule 2: Phase 2 Subgrade C4 Repricing</span>
-            <span class="impact-card-tag badge-pass">74,422 LOANS</span>
+            <span class="impact-card-tag badge-pass" id="impact-tag-2">74,422 LOANS</span>
           </div>
-          <div class="impact-card-num">+$14.20M Revenue</div>
-          <p class="impact-card-desc">
-            Adding +150 bps (+1.50% APR) across 74,422 Subgrade C4 loans restores the +4.00% profit hurdle.
+          <div class="impact-card-num" id="impact-num-2">+$14.2M Revenue</div>
+          <p class="impact-card-desc" id="impact-desc-2">
+            Adding +1.5% (+150 bps) across 74,422 Subgrade C4 loans adds +$14.20M in interest income and restores +4.00% profit hurdle.
           </p>
         </div>
 
         <!-- Card 3 -->
-        <div class="impact-card">
+        <div class="impact-card" id="impact-card-3">
           <div class="impact-card-header">
             <span class="impact-card-title">Rule 3 &amp; 4: Volume &amp; Return Guardrails</span>
-            <span class="impact-card-tag badge-pass">GUARDRAILS MET</span>
+            <span class="impact-card-tag badge-pass" id="impact-tag-3">GUARDRAILS MET</span>
           </div>
-          <div class="impact-card-num">95.81% Volume Kept</div>
-          <p class="impact-card-desc">
-            Preserves $18.58B in lending (well above &gt;= 80.0% floor) and lifts portfolio LAROC to 4.40% (+14.9 bps).
+          <div class="impact-card-num" id="impact-num-3">96% Volume Kept</div>
+          <p class="impact-card-desc" id="impact-desc-3">
+            Preserves 95.81% ($18.58B) of lending volume (+$244.2M total value) and lifts portfolio LAROC to 4.40% (+14.9 bps).
           </p>
         </div>
 
         <!-- Card 4 -->
-        <div class="impact-card">
+        <div class="impact-card" id="impact-card-4">
           <div class="impact-card-header">
             <span class="impact-card-title">Phase 3: Small Business &amp; Late Workout</span>
-            <span class="impact-card-tag badge-warn">REVENUE AUDIT</span>
+            <span class="impact-card-tag badge-warn" id="impact-tag-4">REVENUE AUDIT</span>
           </div>
-          <div class="impact-card-num">$240.1M Protected</div>
-          <p class="impact-card-desc">
-            Requires IRS tax transcripts on small business loans (29.71% bad rate) and targets $588.5M in late active loans.
+          <div class="impact-card-num" id="impact-num-4">$240.1M Protected</div>
+          <p class="impact-card-desc" id="impact-desc-4">
+            Protects $240.1M in small business loans (15,416 notes at 30% default) and targets $588.5M in late workout loans.
           </p>
         </div>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer class="cockpit-footer">
+    <footer class="simulator-footer">
       <div>JOHN AMORES | CONSUMER CREDIT RISK &amp; UNDERWRITING OPTIMIZATION</div>
-      <div>Christine Jiang Decision-Driven Design Framework | Standalone GitHub Pages Artifact</div>
+      <div>Consumer Credit Risk &amp; Underwriting Optimization Case Study | Verified LendingClub Analytical Base (1.35M completed loans / $19.4B book) &bull; <a href="index.html" style="color: var(--ink-black); font-weight: 700; margin-left: 8px;">&lt;- BACK TO CASE STUDY REPORT</a></div>
     </footer>
 
   </div>
 
-  <!-- Embedded Empirical Portfolio Data Cube -->
-  <script>
-    const PORTFOLIO_DATA = {
-  "metadata": {
-    "dataset": "data/cleaned/fct_closed_loans_seasoned.parquet",
-    "total_loans": 1345350,
-    "total_funded_dollars": 19388585275.0,
-    "total_bad_loans": 268599,
-    "baseline_bad_rate_pct": 19.965,
-    "baseline_net_cash_flow": 825129158.3,
-    "baseline_net_laroc_pct": 4.2557,
-    "baseline_gross_loss_dollars": 2999967360.24,
-    "baseline_net_loss_dollars": 2729278503.98,
-    "subprime_loan_count": 335813,
-    "subprime_funded_dollars": 5515274900.0,
-    "subprime_net_loss_dollars": 1404103499.46,
-    "c4_loan_count": 74422,
-    "c4_funded_dollars": 1105582825.0,
-    "c4_bad_rate_pct": 24.9214,
-    "c4_net_laroc_pct": 3.4424,
-    "c4_avg_int_rate": 14.71,
-    "recommended_declined_loans": 47705,
-    "recommended_avoided_defaults": 18548,
-    "recommended_net_saved_dollars": 230040819.5,
-    "recommended_gross_saved_dollars": 254100745.55
-  },
-  "policy_cube": [
-    {
-      "grade": "A",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 71792,
-      "bad_loan_count": 3494,
-      "funded_amnt_sum": 919165575.0,
-      "net_cash_flow_sum": 44238115.83,
-      "gross_loss_sum": 30302638.23,
-      "net_loss_sum": 28065261.29
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 31122,
-      "bad_loan_count": 1657,
-      "funded_amnt_sum": 465670975.0,
-      "net_cash_flow_sum": 31624812.8,
-      "gross_loss_sum": 13016737.4,
-      "net_loss_sum": 11912344.05
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 11419,
-      "bad_loan_count": 669,
-      "funded_amnt_sum": 180072325.0,
-      "net_cash_flow_sum": 12714527.5,
-      "gross_loss_sum": 5581358.31,
-      "net_loss_sum": 5103158.55
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 3569,
-      "bad_loan_count": 197,
-      "funded_amnt_sum": 54692550.0,
-      "net_cash_flow_sum": 3719044.82,
-      "gross_loss_sum": 1746831.25,
-      "net_loss_sum": 1625499.55
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 43923,
-      "bad_loan_count": 2669,
-      "funded_amnt_sum": 562869475.0,
-      "net_cash_flow_sum": 28497361.32,
-      "gross_loss_sum": 20158529.36,
-      "net_loss_sum": 18487678.84
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 28903,
-      "bad_loan_count": 2007,
-      "funded_amnt_sum": 439313525.0,
-      "net_cash_flow_sum": 28157783.15,
-      "gross_loss_sum": 16011192.43,
-      "net_loss_sum": 14562613.71
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 12081,
-      "bad_loan_count": 808,
-      "funded_amnt_sum": 191144725.0,
-      "net_cash_flow_sum": 13616249.53,
-      "gross_loss_sum": 6428288.05,
-      "net_loss_sum": 5810963.9
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 3500,
-      "bad_loan_count": 252,
-      "funded_amnt_sum": 55591500.0,
-      "net_cash_flow_sum": 3639299.31,
-      "gross_loss_sum": 2318986.05,
-      "net_loss_sum": 2099333.05
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 13002,
-      "bad_loan_count": 1069,
-      "funded_amnt_sum": 160541275.0,
-      "net_cash_flow_sum": 6808746.11,
-      "gross_loss_sum": 7762564.52,
-      "net_loss_sum": 7124599.12
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 9151,
-      "bad_loan_count": 821,
-      "funded_amnt_sum": 133962175.0,
-      "net_cash_flow_sum": 7673411.83,
-      "gross_loss_sum": 6374199.09,
-      "net_loss_sum": 5742374.29
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 3972,
-      "bad_loan_count": 337,
-      "funded_amnt_sum": 60663175.0,
-      "net_cash_flow_sum": 3672154.84,
-      "gross_loss_sum": 2965226.07,
-      "net_loss_sum": 2686006.69
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 1133,
-      "bad_loan_count": 94,
-      "funded_amnt_sum": 16870925.0,
-      "net_cash_flow_sum": 1118743.57,
-      "gross_loss_sum": 789156.15,
-      "net_loss_sum": 699593.6
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 798,
-      "bad_loan_count": 68,
-      "funded_amnt_sum": 11141900.0,
-      "net_cash_flow_sum": -122366.06,
-      "gross_loss_sum": 824137.69,
-      "net_loss_sum": 803881.08
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 414,
-      "bad_loan_count": 40,
-      "funded_amnt_sum": 6794375.0,
-      "net_cash_flow_sum": 216417.53,
-      "gross_loss_sum": 384893.01,
-      "net_loss_sum": 357686.7
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 155,
-      "bad_loan_count": 13,
-      "funded_amnt_sum": 2702725.0,
-      "net_cash_flow_sum": 63840.15,
-      "gross_loss_sum": 175919.03,
-      "net_loss_sum": 166522.66
-    },
-    {
-      "grade": "A",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 47,
-      "bad_loan_count": 5,
-      "funded_amnt_sum": 806650.0,
-      "net_cash_flow_sum": 29252.67,
-      "gross_loss_sum": 39512.43,
-      "net_loss_sum": 36671.4
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 64721,
-      "bad_loan_count": 7711,
-      "funded_amnt_sum": 807104625.0,
-      "net_cash_flow_sum": 31025913.7,
-      "gross_loss_sum": 73913617.23,
-      "net_loss_sum": 68380594.87
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 56151,
-      "bad_loan_count": 6478,
-      "funded_amnt_sum": 741911150.0,
-      "net_cash_flow_sum": 55383685.34,
-      "gross_loss_sum": 53718794.44,
-      "net_loss_sum": 48882435.32
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 31050,
-      "bad_loan_count": 3549,
-      "funded_amnt_sum": 428934175.0,
-      "net_cash_flow_sum": 35499999.45,
-      "gross_loss_sum": 29665130.74,
-      "net_loss_sum": 26984688.51
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 12159,
-      "bad_loan_count": 1447,
-      "funded_amnt_sum": 162993125.0,
-      "net_cash_flow_sum": 12380005.62,
-      "gross_loss_sum": 12541085.55,
-      "net_loss_sum": 11419849.57
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 48118,
-      "bad_loan_count": 6786,
-      "funded_amnt_sum": 598565600.0,
-      "net_cash_flow_sum": 24289192.94,
-      "gross_loss_sum": 58310037.44,
-      "net_loss_sum": 53504268.14
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 59122,
-      "bad_loan_count": 8293,
-      "funded_amnt_sum": 810613775.0,
-      "net_cash_flow_sum": 54065570.42,
-      "gross_loss_sum": 70196765.42,
-      "net_loss_sum": 63905374.75
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 36406,
-      "bad_loan_count": 4957,
-      "funded_amnt_sum": 513834600.0,
-      "net_cash_flow_sum": 39692522.01,
-      "gross_loss_sum": 41649535.22,
-      "net_loss_sum": 37825030.45
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 13602,
-      "bad_loan_count": 1837,
-      "funded_amnt_sum": 188297925.0,
-      "net_cash_flow_sum": 14149212.52,
-      "gross_loss_sum": 16143715.01,
-      "net_loss_sum": 14571467.9
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 19559,
-      "bad_loan_count": 3119,
-      "funded_amnt_sum": 236866325.0,
-      "net_cash_flow_sum": 7654112.94,
-      "gross_loss_sum": 25995502.63,
-      "net_loss_sum": 23780193.63
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 24998,
-      "bad_loan_count": 4184,
-      "funded_amnt_sum": 336649775.0,
-      "net_cash_flow_sum": 17697029.08,
-      "gross_loss_sum": 35375012.77,
-      "net_loss_sum": 32131701.92
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 15341,
-      "bad_loan_count": 2459,
-      "funded_amnt_sum": 213625300.0,
-      "net_cash_flow_sum": 13644227.39,
-      "gross_loss_sum": 21328005.27,
-      "net_loss_sum": 19339396.27
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 5792,
-      "bad_loan_count": 915,
-      "funded_amnt_sum": 77954450.0,
-      "net_cash_flow_sum": 4722347.8,
-      "gross_loss_sum": 8094936.47,
-      "net_loss_sum": 7345266.32
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 1922,
-      "bad_loan_count": 294,
-      "funded_amnt_sum": 24189225.0,
-      "net_cash_flow_sum": 253250.83,
-      "gross_loss_sum": 2607948.17,
-      "net_loss_sum": 2423733.44
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 1995,
-      "bad_loan_count": 285,
-      "funded_amnt_sum": 28535125.0,
-      "net_cash_flow_sum": 1233536.43,
-      "gross_loss_sum": 2619756.45,
-      "net_loss_sum": 2418661.78
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 1130,
-      "bad_loan_count": 190,
-      "funded_amnt_sum": 16698200.0,
-      "net_cash_flow_sum": 535671.85,
-      "gross_loss_sum": 1865814.88,
-      "net_loss_sum": 1705420.41
-    },
-    {
-      "grade": "B",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 418,
-      "bad_loan_count": 49,
-      "funded_amnt_sum": 5648825.0,
-      "net_cash_flow_sum": 463102.76,
-      "gross_loss_sum": 355460.72,
-      "net_loss_sum": 316091.13
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 45642,
-      "bad_loan_count": 9309,
-      "funded_amnt_sum": 607744400.0,
-      "net_cash_flow_sum": 5364240.17,
-      "gross_loss_sum": 102722052.59,
-      "net_loss_sum": 94225395.56
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 46380,
-      "bad_loan_count": 9145,
-      "funded_amnt_sum": 657069300.0,
-      "net_cash_flow_sum": 38076853.28,
-      "gross_loss_sum": 94180955.74,
-      "net_loss_sum": 85676636.95
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 29501,
-      "bad_loan_count": 5554,
-      "funded_amnt_sum": 435651425.0,
-      "net_cash_flow_sum": 34078746.03,
-      "gross_loss_sum": 58142730.49,
-      "net_loss_sum": 52873255.09
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 14014,
-      "bad_loan_count": 2607,
-      "funded_amnt_sum": 197828150.0,
-      "net_cash_flow_sum": 15756609.92,
-      "gross_loss_sum": 25635153.07,
-      "net_loss_sum": 23274847.34
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 37557,
-      "bad_loan_count": 8768,
-      "funded_amnt_sum": 497824800.0,
-      "net_cash_flow_sum": 3389883.01,
-      "gross_loss_sum": 89644278.37,
-      "net_loss_sum": 82119226.16
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 56582,
-      "bad_loan_count": 13095,
-      "funded_amnt_sum": 830684775.0,
-      "net_cash_flow_sum": 39115209.06,
-      "gross_loss_sum": 135593483.41,
-      "net_loss_sum": 123449922.62
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 40519,
-      "bad_loan_count": 9053,
-      "funded_amnt_sum": 625688675.0,
-      "net_cash_flow_sum": 42612257.48,
-      "gross_loss_sum": 95172374.05,
-      "net_loss_sum": 86391953.31
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 18877,
-      "bad_loan_count": 4096,
-      "funded_amnt_sum": 278979325.0,
-      "net_cash_flow_sum": 19989337.75,
-      "gross_loss_sum": 41786648.05,
-      "net_loss_sum": 37915421.81
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 18395,
-      "bad_loan_count": 4767,
-      "funded_amnt_sum": 231733725.0,
-      "net_cash_flow_sum": -1415243.85,
-      "gross_loss_sum": 45775719.05,
-      "net_loss_sum": 41905515.12
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 30638,
-      "bad_loan_count": 8185,
-      "funded_amnt_sum": 431313800.0,
-      "net_cash_flow_sum": 10927862.98,
-      "gross_loss_sum": 81602278.16,
-      "net_loss_sum": 74224072.08
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 22767,
-      "bad_loan_count": 5823,
-      "funded_amnt_sum": 331961450.0,
-      "net_cash_flow_sum": 14372570.92,
-      "gross_loss_sum": 59278640.31,
-      "net_loss_sum": 53890171.32
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 9705,
-      "bad_loan_count": 2426,
-      "funded_amnt_sum": 136032525.0,
-      "net_cash_flow_sum": 6076337.91,
-      "gross_loss_sum": 24487124.46,
-      "net_loss_sum": 22226380.37
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 2534,
-      "bad_loan_count": 659,
-      "funded_amnt_sum": 32116400.0,
-      "net_cash_flow_sum": -1249917.79,
-      "gross_loss_sum": 6834098.88,
-      "net_loss_sum": 6299050.14
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 4102,
-      "bad_loan_count": 1060,
-      "funded_amnt_sum": 56250575.0,
-      "net_cash_flow_sum": 546616.11,
-      "gross_loss_sum": 10470356.91,
-      "net_loss_sum": 9541428.79
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 2849,
-      "bad_loan_count": 721,
-      "funded_amnt_sum": 40990050.0,
-      "net_cash_flow_sum": 485608.48,
-      "gross_loss_sum": 7490651.32,
-      "net_loss_sum": 6875062.53
-    },
-    {
-      "grade": "C",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 1232,
-      "bad_loan_count": 309,
-      "funded_amnt_sum": 16555925.0,
-      "net_cash_flow_sum": -12430.48,
-      "gross_loss_sum": 3222125.67,
-      "net_loss_sum": 2987122.48
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 19516,
-      "bad_loan_count": 5251,
-      "funded_amnt_sum": 274057025.0,
-      "net_cash_flow_sum": -1639989.29,
-      "gross_loss_sum": 63136646.2,
-      "net_loss_sum": 57895337.88
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 20765,
-      "bad_loan_count": 5654,
-      "funded_amnt_sum": 313345500.0,
-      "net_cash_flow_sum": 13228452.96,
-      "gross_loss_sum": 65786563.69,
-      "net_loss_sum": 60054178.76
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 14600,
-      "bad_loan_count": 3724,
-      "funded_amnt_sum": 233164000.0,
-      "net_cash_flow_sum": 17761799.8,
-      "gross_loss_sum": 45167354.32,
-      "net_loss_sum": 40968068.36
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 8200,
-      "bad_loan_count": 2028,
-      "funded_amnt_sum": 121359300.0,
-      "net_cash_flow_sum": 9292856.91,
-      "gross_loss_sum": 23369194.99,
-      "net_loss_sum": 21222854.56
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 16692,
-      "bad_loan_count": 5209,
-      "funded_amnt_sum": 233587575.0,
-      "net_cash_flow_sum": -4685850.58,
-      "gross_loss_sum": 59812007.76,
-      "net_loss_sum": 54716465.24
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 27197,
-      "bad_loan_count": 8578,
-      "funded_amnt_sum": 427723550.0,
-      "net_cash_flow_sum": 10921095.01,
-      "gross_loss_sum": 102287977.45,
-      "net_loss_sum": 92859146.9
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 22260,
-      "bad_loan_count": 6516,
-      "funded_amnt_sum": 373546725.0,
-      "net_cash_flow_sum": 22612971.69,
-      "gross_loss_sum": 81358678.3,
-      "net_loss_sum": 73693874.81
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 11640,
-      "bad_loan_count": 3307,
-      "funded_amnt_sum": 186971275.0,
-      "net_cash_flow_sum": 12456235.06,
-      "gross_loss_sum": 40179328.68,
-      "net_loss_sum": 36416814.3
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 9628,
-      "bad_loan_count": 3342,
-      "funded_amnt_sum": 131287525.0,
-      "net_cash_flow_sum": -5921398.16,
-      "gross_loss_sum": 37330646.19,
-      "net_loss_sum": 34194584.45
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 18269,
-      "bad_loan_count": 6531,
-      "funded_amnt_sum": 277406450.0,
-      "net_cash_flow_sum": -1078155.53,
-      "gross_loss_sum": 75433398.88,
-      "net_loss_sum": 68625654.56
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 15151,
-      "bad_loan_count": 5201,
-      "funded_amnt_sum": 242893975.0,
-      "net_cash_flow_sum": 6725124.55,
-      "gross_loss_sum": 62432954.86,
-      "net_loss_sum": 56641424.38
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 7209,
-      "bad_loan_count": 2327,
-      "funded_amnt_sum": 113698400.0,
-      "net_cash_flow_sum": 4154211.82,
-      "gross_loss_sum": 28486543.38,
-      "net_loss_sum": 25832421.81
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 1816,
-      "bad_loan_count": 631,
-      "funded_amnt_sum": 23330900.0,
-      "net_cash_flow_sum": -1216258.49,
-      "gross_loss_sum": 6582414.04,
-      "net_loss_sum": 6013675.22
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 3493,
-      "bad_loan_count": 1256,
-      "funded_amnt_sum": 49118125.0,
-      "net_cash_flow_sum": -1103201.71,
-      "gross_loss_sum": 13625742.96,
-      "net_loss_sum": 12453557.25
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 2901,
-      "bad_loan_count": 997,
-      "funded_amnt_sum": 43131675.0,
-      "net_cash_flow_sum": -403226.29,
-      "gross_loss_sum": 11508574.1,
-      "net_loss_sum": 10513285.97
-    },
-    {
-      "grade": "D",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 1360,
-      "bad_loan_count": 441,
-      "funded_amnt_sum": 19897250.0,
-      "net_cash_flow_sum": 49487.97,
-      "gross_loss_sum": 5274419.34,
-      "net_loss_sum": 4789604.19
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 8464,
-      "bad_loan_count": 2903,
-      "funded_amnt_sum": 136744700.0,
-      "net_cash_flow_sum": -3196302.76,
-      "gross_loss_sum": 40800986.78,
-      "net_loss_sum": 37229518.42
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 8557,
-      "bad_loan_count": 2794,
-      "funded_amnt_sum": 149549025.0,
-      "net_cash_flow_sum": 8234206.05,
-      "gross_loss_sum": 38594720.28,
-      "net_loss_sum": 35137386.47
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 6122,
-      "bad_loan_count": 1989,
-      "funded_amnt_sum": 111756750.0,
-      "net_cash_flow_sum": 9041479.68,
-      "gross_loss_sum": 28562726.3,
-      "net_loss_sum": 25856833.77
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 3834,
-      "bad_loan_count": 1197,
-      "funded_amnt_sum": 66488075.0,
-      "net_cash_flow_sum": 6302903.01,
-      "gross_loss_sum": 16806997.71,
-      "net_loss_sum": 15146810.41
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 7410,
-      "bad_loan_count": 2898,
-      "funded_amnt_sum": 118754075.0,
-      "net_cash_flow_sum": -5306089.08,
-      "gross_loss_sum": 39852167.1,
-      "net_loss_sum": 36138174.79
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 12095,
-      "bad_loan_count": 4699,
-      "funded_amnt_sum": 218754950.0,
-      "net_cash_flow_sum": 3944639.92,
-      "gross_loss_sum": 67519065.65,
-      "net_loss_sum": 60908025.55
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 10815,
-      "bad_loan_count": 4016,
-      "funded_amnt_sum": 210123250.0,
-      "net_cash_flow_sum": 13328431.89,
-      "gross_loss_sum": 60412756.15,
-      "net_loss_sum": 54406297.68
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 6126,
-      "bad_loan_count": 2170,
-      "funded_amnt_sum": 116715550.0,
-      "net_cash_flow_sum": 9961044.17,
-      "gross_loss_sum": 32230634.96,
-      "net_loss_sum": 29026315.12
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 4386,
-      "bad_loan_count": 1991,
-      "funded_amnt_sum": 67092350.0,
-      "net_cash_flow_sum": -6414343.11,
-      "gross_loss_sum": 26115475.21,
-      "net_loss_sum": 23775109.04
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 8544,
-      "bad_loan_count": 3851,
-      "funded_amnt_sum": 146672550.0,
-      "net_cash_flow_sum": -5819535.23,
-      "gross_loss_sum": 53537412.21,
-      "net_loss_sum": 48695243.46
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 7656,
-      "bad_loan_count": 3381,
-      "funded_amnt_sum": 141638775.0,
-      "net_cash_flow_sum": -153264.85,
-      "gross_loss_sum": 49509230.47,
-      "net_loss_sum": 44826401.68
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 4112,
-      "bad_loan_count": 1665,
-      "funded_amnt_sum": 75779800.0,
-      "net_cash_flow_sum": 2758140.51,
-      "gross_loss_sum": 24477310.31,
-      "net_loss_sum": 22034751.78
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 881,
-      "bad_loan_count": 376,
-      "funded_amnt_sum": 12657475.0,
-      "net_cash_flow_sum": -1024570.43,
-      "gross_loss_sum": 4685897.66,
-      "net_loss_sum": 4282592.91
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 1945,
-      "bad_loan_count": 945,
-      "funded_amnt_sum": 30170475.0,
-      "net_cash_flow_sum": -2622908.31,
-      "gross_loss_sum": 11874190.21,
-      "net_loss_sum": 10800727.17
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 1682,
-      "bad_loan_count": 742,
-      "funded_amnt_sum": 28750325.0,
-      "net_cash_flow_sum": -1328853.55,
-      "gross_loss_sum": 10435930.04,
-      "net_loss_sum": 9498023.67
-    },
-    {
-      "grade": "E",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 910,
-      "bad_loan_count": 388,
-      "funded_amnt_sum": 15127075.0,
-      "net_cash_flow_sum": -250781.63,
-      "gross_loss_sum": 5293831.18,
-      "net_loss_sum": 4786408.34
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 2689,
-      "bad_loan_count": 1085,
-      "funded_amnt_sum": 47207925.0,
-      "net_cash_flow_sum": -1379285.06,
-      "gross_loss_sum": 16744625.1,
-      "net_loss_sum": 15194661.81
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 2665,
-      "bad_loan_count": 1090,
-      "funded_amnt_sum": 50120275.0,
-      "net_cash_flow_sum": 904291.78,
-      "gross_loss_sum": 17548293.95,
-      "net_loss_sum": 15808415.64
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 2055,
-      "bad_loan_count": 755,
-      "funded_amnt_sum": 40800975.0,
-      "net_cash_flow_sum": 3811463.78,
-      "gross_loss_sum": 12397139.18,
-      "net_loss_sum": 11143702.09
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 1421,
-      "bad_loan_count": 508,
-      "funded_amnt_sum": 26518150.0,
-      "net_cash_flow_sum": 3171617.17,
-      "gross_loss_sum": 7837543.8,
-      "net_loss_sum": 7002564.67
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 2591,
-      "bad_loan_count": 1184,
-      "funded_amnt_sum": 47007350.0,
-      "net_cash_flow_sum": -2919847.47,
-      "gross_loss_sum": 18961527.06,
-      "net_loss_sum": 17134783.8
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 4081,
-      "bad_loan_count": 1882,
-      "funded_amnt_sum": 79645525.0,
-      "net_cash_flow_sum": -1624195.38,
-      "gross_loss_sum": 30873299.9,
-      "net_loss_sum": 27997589.42
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 3622,
-      "bad_loan_count": 1544,
-      "funded_amnt_sum": 74771900.0,
-      "net_cash_flow_sum": 4090951.08,
-      "gross_loss_sum": 26232584.7,
-      "net_loss_sum": 23608686.44
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 2412,
-      "bad_loan_count": 976,
-      "funded_amnt_sum": 49509525.0,
-      "net_cash_flow_sum": 4856572.03,
-      "gross_loss_sum": 16370601.77,
-      "net_loss_sum": 14696270.27
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 1428,
-      "bad_loan_count": 756,
-      "funded_amnt_sum": 24483725.0,
-      "net_cash_flow_sum": -3333374.94,
-      "gross_loss_sum": 11521992.35,
-      "net_loss_sum": 10504150.25
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 2920,
-      "bad_loan_count": 1550,
-      "funded_amnt_sum": 53702750.0,
-      "net_cash_flow_sum": -3880010.88,
-      "gross_loss_sum": 24221611.76,
-      "net_loss_sum": 21963906.56
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 2712,
-      "bad_loan_count": 1393,
-      "funded_amnt_sum": 53177800.0,
-      "net_cash_flow_sum": -1619788.3,
-      "gross_loss_sum": 22791849.39,
-      "net_loss_sum": 20523029.65
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 1637,
-      "bad_loan_count": 764,
-      "funded_amnt_sum": 32359825.0,
-      "net_cash_flow_sum": 876453.48,
-      "gross_loss_sum": 12534260.75,
-      "net_loss_sum": 11312559.78
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 295,
-      "bad_loan_count": 166,
-      "funded_amnt_sum": 4783850.0,
-      "net_cash_flow_sum": -979771.93,
-      "gross_loss_sum": 2613812.09,
-      "net_loss_sum": 2369649.94
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 598,
-      "bad_loan_count": 354,
-      "funded_amnt_sum": 10095875.0,
-      "net_cash_flow_sum": -1485221.38,
-      "gross_loss_sum": 5181250.53,
-      "net_loss_sum": 4655869.28
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 627,
-      "bad_loan_count": 328,
-      "funded_amnt_sum": 11655775.0,
-      "net_cash_flow_sum": -1155096.36,
-      "gross_loss_sum": 5296122.53,
-      "net_loss_sum": 4805292.92
-    },
-    {
-      "grade": "F",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 261,
-      "bad_loan_count": 137,
-      "funded_amnt_sum": 4552225.0,
-      "net_cash_flow_sum": -395190.22,
-      "gross_loss_sum": 2133162.28,
-      "net_loss_sum": 1870870.92
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 867,
-      "bad_loan_count": 389,
-      "funded_amnt_sum": 17489800.0,
-      "net_cash_flow_sum": -1044076.99,
-      "gross_loss_sum": 6936964.58,
-      "net_loss_sum": 6349729.53
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 712,
-      "bad_loan_count": 322,
-      "funded_amnt_sum": 14410650.0,
-      "net_cash_flow_sum": -70762.38,
-      "gross_loss_sum": 5423061.46,
-      "net_loss_sum": 4913319.62
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 518,
-      "bad_loan_count": 228,
-      "funded_amnt_sum": 11078400.0,
-      "net_cash_flow_sum": 567264.72,
-      "gross_loss_sum": 4078352.11,
-      "net_loss_sum": 3607665.56
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 369,
-      "bad_loan_count": 156,
-      "funded_amnt_sum": 7623075.0,
-      "net_cash_flow_sum": 759790.61,
-      "gross_loss_sum": 2557417.37,
-      "net_loss_sum": 2316194.93
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 755,
-      "bad_loan_count": 391,
-      "funded_amnt_sum": 14685350.0,
-      "net_cash_flow_sum": -1786228.91,
-      "gross_loss_sum": 6722605.4,
-      "net_loss_sum": 6101202.16
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 1100,
-      "bad_loan_count": 571,
-      "funded_amnt_sum": 23133400.0,
-      "net_cash_flow_sum": -1354381.34,
-      "gross_loss_sum": 10216028.66,
-      "net_loss_sum": 9176360.38
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 1023,
-      "bad_loan_count": 497,
-      "funded_amnt_sum": 22545350.0,
-      "net_cash_flow_sum": 233274.84,
-      "gross_loss_sum": 9066076.18,
-      "net_loss_sum": 8171215.21
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 684,
-      "bad_loan_count": 282,
-      "funded_amnt_sum": 15479275.0,
-      "net_cash_flow_sum": 1486397.55,
-      "gross_loss_sum": 5296689.48,
-      "net_loss_sum": 4764215.43
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 443,
-      "bad_loan_count": 247,
-      "funded_amnt_sum": 8124000.0,
-      "net_cash_flow_sum": -1483207.9,
-      "gross_loss_sum": 4179013.62,
-      "net_loss_sum": 3801261.46
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 876,
-      "bad_loan_count": 500,
-      "funded_amnt_sum": 17263675.0,
-      "net_cash_flow_sum": -2392184.99,
-      "gross_loss_sum": 8582604.87,
-      "net_loss_sum": 7825843.26
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 801,
-      "bad_loan_count": 429,
-      "funded_amnt_sum": 16793925.0,
-      "net_cash_flow_sum": -1350005.12,
-      "gross_loss_sum": 7738091.38,
-      "net_loss_sum": 6984527.16
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 430,
-      "bad_loan_count": 221,
-      "funded_amnt_sum": 8833950.0,
-      "net_cash_flow_sum": -355267.53,
-      "gross_loss_sum": 3912857.91,
-      "net_loss_sum": 3514595.77
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 78,
-      "bad_loan_count": 51,
-      "funded_amnt_sum": 1380300.0,
-      "net_cash_flow_sum": -437368.29,
-      "gross_loss_sum": 846940.08,
-      "net_loss_sum": 786536.58
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 197,
-      "bad_loan_count": 130,
-      "funded_amnt_sum": 3495950.0,
-      "net_cash_flow_sum": -874204.09,
-      "gross_loss_sum": 2132575.93,
-      "net_loss_sum": 1965588.43
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 182,
-      "bad_loan_count": 96,
-      "funded_amnt_sum": 3565775.0,
-      "net_cash_flow_sum": -425968.9,
-      "gross_loss_sum": 1632785.76,
-      "net_loss_sum": 1504171.82
-    },
-    {
-      "grade": "G",
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 74,
-      "bad_loan_count": 38,
-      "funded_amnt_sum": 1458800.0,
-      "net_cash_flow_sum": -181713.51,
-      "gross_loss_sum": 642821.87,
-      "net_loss_sum": 603449.66
-    }
-  ],
-  "risk_grid_16": [
-    {
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 213691,
-      "bad_loan_count": 30142,
-      "bad_rate_pct": 14.11,
-      "funded_amnt_sum": 2809514050.0,
-      "net_cash_flow_sum": 73368615.61,
-      "net_laroc_pct": 2.61,
-      "gross_loss_sum": 334557530.71,
-      "net_loss_sum": 307340499.36
-    },
-    {
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 166352,
-      "bad_loan_count": 27140,
-      "bad_rate_pct": 16.31,
-      "funded_amnt_sum": 2392076875.0,
-      "net_cash_flow_sum": 147381539.83,
-      "net_laroc_pct": 6.16,
-      "gross_loss_sum": 288269126.96,
-      "net_loss_sum": 262384716.81
-    },
-    {
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 95265,
-      "bad_loan_count": 16468,
-      "bad_rate_pct": 17.29,
-      "funded_amnt_sum": 1441458050.0,
-      "net_cash_flow_sum": 113475280.96,
-      "net_laroc_pct": 7.87,
-      "gross_loss_sum": 183594791.45,
-      "net_loss_sum": 166537371.92
-    },
-    {
-      "dti_bracket": "1. Low (<=15%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 43566,
-      "bad_loan_count": 8140,
-      "bad_rate_pct": 18.68,
-      "funded_amnt_sum": 637502425.0,
-      "net_cash_flow_sum": 51382828.06,
-      "net_laroc_pct": 8.06,
-      "gross_loss_sum": 90494223.74,
-      "net_loss_sum": 82008621.03
-    },
-    {
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 157046,
-      "bad_loan_count": 27905,
-      "bad_rate_pct": 17.77,
-      "funded_amnt_sum": 2073294225.0,
-      "net_cash_flow_sum": 41478421.21,
-      "net_laroc_pct": 2.0,
-      "gross_loss_sum": 293461152.49,
-      "net_loss_sum": 268201799.13
-    },
-    {
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 189080,
-      "bad_loan_count": 39125,
-      "bad_rate_pct": 20.69,
-      "funded_amnt_sum": 2829869500.0,
-      "net_cash_flow_sum": 133225720.84,
-      "net_laroc_pct": 4.71,
-      "gross_loss_sum": 432697812.92,
-      "net_loss_sum": 392859033.33
-    },
-    {
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 126726,
-      "bad_loan_count": 27391,
-      "bad_rate_pct": 21.61,
-      "funded_amnt_sum": 2011655225.0,
-      "net_cash_flow_sum": 136186658.52,
-      "net_laroc_pct": 6.77,
-      "gross_loss_sum": 320320292.65,
-      "net_loss_sum": 289908021.79
-    },
-    {
-      "dti_bracket": "2. Moderate (15-25%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 56841,
-      "bad_loan_count": 12920,
-      "bad_rate_pct": 22.73,
-      "funded_amnt_sum": 891544375.0,
-      "net_cash_flow_sum": 66538098.39,
-      "net_laroc_pct": 7.46,
-      "gross_loss_sum": 154326604.0,
-      "net_loss_sum": 139489837.88
-    },
-    {
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 66841,
-      "bad_loan_count": 15291,
-      "bad_rate_pct": 22.88,
-      "funded_amnt_sum": 860128925.0,
-      "net_cash_flow_sum": -4104708.91,
-      "net_laroc_pct": -0.48,
-      "gross_loss_sum": 158680913.57,
-      "net_loss_sum": 145085413.07
-    },
-    {
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 95396,
-      "bad_loan_count": 25622,
-      "bad_rate_pct": 26.86,
-      "funded_amnt_sum": 1396971175.0,
-      "net_cash_flow_sum": 23128417.26,
-      "net_laroc_pct": 1.66,
-      "gross_loss_sum": 285126517.74,
-      "net_loss_sum": 259208796.14
-    },
-    {
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 68400,
-      "bad_loan_count": 19023,
-      "bad_rate_pct": 27.81,
-      "funded_amnt_sum": 1060754400.0,
-      "net_cash_flow_sum": 35291019.43,
-      "net_laroc_pct": 3.33,
-      "gross_loss_sum": 226043997.75,
-      "net_loss_sum": 204890957.15
-    },
-    {
-      "dti_bracket": "3. High (25-35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 30018,
-      "bad_loan_count": 8412,
-      "bad_rate_pct": 28.02,
-      "funded_amnt_sum": 461529875.0,
-      "net_cash_flow_sum": 19350967.56,
-      "net_laroc_pct": 4.19,
-      "gross_loss_sum": 102782189.43,
-      "net_loss_sum": 92965569.41
-    },
-    {
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "1. Conservative (<=40%)",
-      "loan_count": 8324,
-      "bad_loan_count": 2245,
-      "bad_rate_pct": 26.97,
-      "funded_amnt_sum": 109600050.0,
-      "net_cash_flow_sum": -4777002.16,
-      "net_laroc_pct": -4.36,
-      "gross_loss_sum": 24995248.61,
-      "net_loss_sum": 22979119.32
-    },
-    {
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "2. Moderate (40-65%)",
-      "loan_count": 12744,
-      "bad_loan_count": 4070,
-      "bad_rate_pct": 31.94,
-      "funded_amnt_sum": 184460500.0,
-      "net_cash_flow_sum": -4088965.41,
-      "net_laroc_pct": -2.22,
-      "gross_loss_sum": 46288766.0,
-      "net_loss_sum": 42193519.41
-    },
-    {
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "3. High (65-85%)",
-      "loan_count": 9526,
-      "bad_loan_count": 3087,
-      "bad_rate_pct": 32.41,
-      "funded_amnt_sum": 147494525.0,
-      "net_cash_flow_sum": -2228024.62,
-      "net_laroc_pct": -1.51,
-      "gross_loss_sum": 38405797.66,
-      "net_loss_sum": 35067779.99
-    },
-    {
-      "dti_bracket": "4. Severe (>35%)",
-      "revol_util_bracket": "4. Maxed (>85%)",
-      "loan_count": 4302,
-      "bad_loan_count": 1367,
-      "bad_rate_pct": 31.78,
-      "funded_amnt_sum": 64046750.0,
-      "net_cash_flow_sum": -298272.43,
-      "net_laroc_pct": -0.47,
-      "gross_loss_sum": 16961333.49,
-      "net_loss_sum": 15390218.12
-    }
-  ],
-  "subgrades": [
-    {
-      "sub_grade": "A1",
-      "loan_count": 43679,
-      "funded_amnt_sum": 612489525.0,
-      "avg_int_rate": 5.54,
-      "bad_rate_pct": 3.23,
-      "net_laroc_pct": 5.0
-    },
-    {
-      "sub_grade": "A2",
-      "loan_count": 37178,
-      "funded_amnt_sum": 497284000.0,
-      "avg_int_rate": 6.52,
-      "bad_rate_pct": 4.66,
-      "net_laroc_pct": 5.4
-    },
-    {
-      "sub_grade": "A3",
-      "loan_count": 37997,
-      "funded_amnt_sum": 516719475.0,
-      "avg_int_rate": 7.12,
-      "bad_rate_pct": 5.51,
-      "net_laroc_pct": 5.72
-    },
-    {
-      "sub_grade": "A4",
-      "loan_count": 52236,
-      "funded_amnt_sum": 733191250.0,
-      "avg_int_rate": 7.51,
-      "bad_rate_pct": 6.87,
-      "net_laroc_pct": 5.77
-    },
-    {
-      "sub_grade": "A5",
-      "loan_count": 64005,
-      "funded_amnt_sum": 904050800.0,
-      "avg_int_rate": 8.2,
-      "bad_rate_pct": 8.41,
-      "net_laroc_pct": 6.24
-    },
-    {
-      "sub_grade": "B1",
-      "loan_count": 71154,
-      "funded_amnt_sum": 940350150.0,
-      "avg_int_rate": 8.9,
-      "bad_rate_pct": 10.42,
-      "net_laroc_pct": 5.28
-    },
-    {
-      "sub_grade": "B2",
-      "loan_count": 74025,
-      "funded_amnt_sum": 985143750.0,
-      "avg_int_rate": 9.91,
-      "bad_rate_pct": 11.36,
-      "net_laroc_pct": 6.36
-    },
-    {
-      "sub_grade": "B3",
-      "loan_count": 81828,
-      "funded_amnt_sum": 1102463925.0,
-      "avg_int_rate": 10.75,
-      "bad_rate_pct": 12.98,
-      "net_laroc_pct": 6.69
-    },
-    {
-      "sub_grade": "B4",
-      "loan_count": 83200,
-      "funded_amnt_sum": 1103930025.0,
-      "avg_int_rate": 11.49,
-      "bad_rate_pct": 14.83,
-      "net_laroc_pct": 6.6
-    },
-    {
-      "sub_grade": "B5",
-      "loan_count": 82541,
-      "funded_amnt_sum": 1063970075.0,
-      "avg_int_rate": 12.01,
-      "bad_rate_pct": 16.7,
-      "net_laroc_pct": 5.08
-    },
-    {
-      "sub_grade": "C1",
-      "loan_count": 85496,
-      "funded_amnt_sum": 1147548475.0,
-      "avg_int_rate": 12.76,
-      "bad_rate_pct": 18.99,
-      "net_laroc_pct": 4.76
-    },
-    {
-      "sub_grade": "C2",
-      "loan_count": 79215,
-      "funded_amnt_sum": 1082660275.0,
-      "avg_int_rate": 13.44,
-      "bad_rate_pct": 20.72,
-      "net_laroc_pct": 5.02
-    },
-    {
-      "sub_grade": "C3",
-      "loan_count": 75000,
-      "funded_amnt_sum": 1075043525.0,
-      "avg_int_rate": 14.02,
-      "bad_rate_pct": 22.53,
-      "net_laroc_pct": 4.64
-    },
-    {
-      "sub_grade": "C4",
-      "loan_count": 74422,
-      "funded_amnt_sum": 1105582825.0,
-      "avg_int_rate": 14.71,
-      "bad_rate_pct": 24.92,
-      "net_laroc_pct": 3.44
-    },
-    {
-      "sub_grade": "C5",
-      "loan_count": 67561,
-      "funded_amnt_sum": 1002882300.0,
-      "avg_int_rate": 15.55,
-      "bad_rate_pct": 26.01,
-      "net_laroc_pct": 3.1
-    },
-    {
-      "sub_grade": "D1",
-      "loan_count": 51323,
-      "funded_amnt_sum": 752555300.0,
-      "avg_int_rate": 16.38,
-      "bad_rate_pct": 27.81,
-      "net_laroc_pct": 3.41
-    },
-    {
-      "sub_grade": "D2",
-      "loan_count": 44851,
-      "funded_amnt_sum": 663380075.0,
-      "avg_int_rate": 17.27,
-      "bad_rate_pct": 29.59,
-      "net_laroc_pct": 2.27
-    },
-    {
-      "sub_grade": "D3",
-      "loan_count": 39322,
-      "funded_amnt_sum": 597286250.0,
-      "avg_int_rate": 17.95,
-      "bad_rate_pct": 30.55,
-      "net_laroc_pct": 2.05
-    },
-    {
-      "sub_grade": "D4",
-      "loan_count": 35568,
-      "funded_amnt_sum": 564736500.0,
-      "avg_int_rate": 18.58,
-      "bad_rate_pct": 32.37,
-      "net_laroc_pct": 2.92
-    },
-    {
-      "sub_grade": "D5",
-      "loan_count": 29902,
-      "funded_amnt_sum": 490099000.0,
-      "avg_int_rate": 19.38,
-      "bad_rate_pct": 33.43,
-      "net_laroc_pct": 2.36
-    },
-    {
-      "sub_grade": "E1",
-      "loan_count": 23749,
-      "funded_amnt_sum": 402340025.0,
-      "avg_int_rate": 19.8,
-      "bad_rate_pct": 36.06,
-      "net_laroc_pct": 2.86
-    },
-    {
-      "sub_grade": "E2",
-      "loan_count": 21378,
-      "funded_amnt_sum": 368750500.0,
-      "avg_int_rate": 20.47,
-      "bad_rate_pct": 37.55,
-      "net_laroc_pct": 2.46
-    },
-    {
-      "sub_grade": "E3",
-      "loan_count": 18387,
-      "funded_amnt_sum": 323704725.0,
-      "avg_int_rate": 21.2,
-      "bad_rate_pct": 38.71,
-      "net_laroc_pct": 2.1
-    },
-    {
-      "sub_grade": "E4",
-      "loan_count": 15723,
-      "funded_amnt_sum": 288431700.0,
-      "avg_int_rate": 22.09,
-      "bad_rate_pct": 40.11,
-      "net_laroc_pct": 1.24
-    },
-    {
-      "sub_grade": "E5",
-      "loan_count": 14419,
-      "funded_amnt_sum": 265038675.0,
-      "avg_int_rate": 23.22,
-      "bad_rate_pct": 41.78,
-      "net_laroc_pct": -1.34
-    },
-    {
-      "sub_grade": "F1",
-      "loan_count": 9970,
-      "funded_amnt_sum": 185035725.0,
-      "avg_int_rate": 23.92,
-      "bad_rate_pct": 42.3,
-      "net_laroc_pct": 0.45
-    },
-    {
-      "sub_grade": "F2",
-      "loan_count": 7198,
-      "funded_amnt_sum": 137709825.0,
-      "avg_int_rate": 24.5,
-      "bad_rate_pct": 45.35,
-      "net_laroc_pct": 0.87
-    },
-    {
-      "sub_grade": "F3",
-      "loan_count": 6088,
-      "funded_amnt_sum": 114667025.0,
-      "avg_int_rate": 25.28,
-      "bad_rate_pct": 45.07,
-      "net_laroc_pct": 0.3
-    },
-    {
-      "sub_grade": "F4",
-      "loan_count": 4859,
-      "funded_amnt_sum": 94021700.0,
-      "avg_int_rate": 25.89,
-      "bad_rate_pct": 47.89,
-      "net_laroc_pct": -1.56
-    },
-    {
-      "sub_grade": "F5",
-      "loan_count": 3944,
-      "funded_amnt_sum": 79640750.0,
-      "avg_int_rate": 26.58,
-      "bad_rate_pct": 49.19,
-      "net_laroc_pct": -2.55
-    },
-    {
-      "sub_grade": "G1",
-      "loan_count": 2997,
-      "funded_amnt_sum": 60821675.0,
-      "avg_int_rate": 27.28,
-      "bad_rate_pct": 47.85,
-      "net_laroc_pct": -3.02
-    },
-    {
-      "sub_grade": "G2",
-      "loan_count": 2131,
-      "funded_amnt_sum": 42556950.0,
-      "avg_int_rate": 27.35,
-      "bad_rate_pct": 49.13,
-      "net_laroc_pct": -3.16
-    },
-    {
-      "sub_grade": "G3",
-      "loan_count": 1614,
-      "funded_amnt_sum": 33959575.0,
-      "avg_int_rate": 27.82,
-      "bad_rate_pct": 51.36,
-      "net_laroc_pct": -3.76
-    },
-    {
-      "sub_grade": "G4",
-      "loan_count": 1280,
-      "funded_amnt_sum": 27000825.0,
-      "avg_int_rate": 28.4,
-      "bad_rate_pct": 51.17,
-      "net_laroc_pct": -7.34
-    },
-    {
-      "sub_grade": "G5",
-      "loan_count": 1110,
-      "funded_amnt_sum": 23538100.0,
-      "avg_int_rate": 28.75,
-      "bad_rate_pct": 53.6,
-      "net_laroc_pct": -9.81
-    }
-  ],
-  "terms": {
-    "36": {
-      "term_months": 36,
-      "loan_count": 1020768,
-      "funded_amnt_sum": 12804486175.0,
-      "avg_int_rate": 12.12,
-      "bad_rate_pct": 16.0,
-      "net_laroc_pct": 5.12
-    },
-    "60": {
-      "term_months": 60,
-      "loan_count": 324582,
-      "funded_amnt_sum": 6584099100.0,
-      "avg_int_rate": 16.77,
-      "bad_rate_pct": 32.45,
-      "net_laroc_pct": 2.57
-    }
-  },
-  "purposes": {
-    "credit_card": {
-      "purpose": "credit_card",
-      "loan_count": 295285,
-      "funded_amnt_sum": 4372026350.0,
-      "avg_int_rate": 11.79,
-      "bad_rate_pct": 16.93,
-      "net_laroc_pct": 5.51
-    },
-    "debt_consolidation": {
-      "purpose": "debt_consolidation",
-      "loan_count": 780342,
-      "funded_amnt_sum": 11880395625.0,
-      "avg_int_rate": 13.62,
-      "bad_rate_pct": 21.15,
-      "net_laroc_pct": 4.37
-    },
-    "home_improvement": {
-      "purpose": "home_improvement",
-      "loan_count": 87507,
-      "funded_amnt_sum": 1236808100.0,
-      "avg_int_rate": 12.79,
-      "bad_rate_pct": 17.72,
-      "net_laroc_pct": 3.57
-    },
-    "major_purchase": {
-      "purpose": "major_purchase",
-      "loan_count": 29427,
-      "funded_amnt_sum": 347952700.0,
-      "avg_int_rate": 12.74,
-      "bad_rate_pct": 18.61,
-      "net_laroc_pct": -0.46
-    },
-    "other": {
-      "purpose": "other",
-      "loan_count": 77877,
-      "funded_amnt_sum": 764771775.0,
-      "avg_int_rate": 14.59,
-      "bad_rate_pct": 21.04,
-      "net_laroc_pct": 1.8
-    },
-    "small_business": {
-      "purpose": "small_business",
-      "loan_count": 15416,
-      "funded_amnt_sum": 240101250.0,
-      "avg_int_rate": 15.94,
-      "bad_rate_pct": 29.71,
-      "net_laroc_pct": -0.59
-    }
-  },
-  "fico_bands": [
-    {
-      "band": "< 660",
-      "loan_count": 2,
-      "pct_of_portfolio": 0.0,
-      "funded_amnt_sum": 4200.0,
-      "bad_rate_pct": 0.0,
-      "net_laroc_pct": 20.96,
-      "avg_int_rate": 15.33
-    },
-    {
-      "band": "660-679",
-      "loan_count": 459490,
-      "pct_of_portfolio": 34.15,
-      "funded_amnt_sum": 5975783425.0,
-      "bad_rate_pct": 25.29,
-      "net_laroc_pct": 3.09,
-      "avg_int_rate": 15.08
-    },
-    {
-      "band": "680-699",
-      "loan_count": 361335,
-      "pct_of_portfolio": 26.86,
-      "funded_amnt_sum": 5257036600.0,
-      "bad_rate_pct": 21.44,
-      "net_laroc_pct": 4.47,
-      "avg_int_rate": 13.89
-    },
-    {
-      "band": "700-719",
-      "loan_count": 246211,
-      "pct_of_portfolio": 18.3,
-      "funded_amnt_sum": 3822122200.0,
-      "bad_rate_pct": 17.29,
-      "net_laroc_pct": 5.39,
-      "avg_int_rate": 12.46
-    },
-    {
-      "band": "720-749",
-      "loan_count": 171706,
-      "pct_of_portfolio": 12.76,
-      "funded_amnt_sum": 2718020300.0,
-      "bad_rate_pct": 13.34,
-      "net_laroc_pct": 5.08,
-      "avg_int_rate": 10.75
-    },
-    {
-      "band": "750+",
-      "loan_count": 106606,
-      "pct_of_portfolio": 7.92,
-      "funded_amnt_sum": 1615618550.0,
-      "bad_rate_pct": 8.89,
-      "net_laroc_pct": 3.8,
-      "avg_int_rate": 8.89
-    }
-  ]
-};
+"""
 
-    // State
+HTML_SUFFIX = """
     const state = {
       policyMode: 'active', // 'active' (Phase 1-3 ON) or 'legacy' (Unfiltered Baseline)
       activeProfileId: '208',
@@ -3803,6 +2085,81 @@
       paymentSubEl.innerText = 'Monthly Installment: $' + pmt.toFixed(2);
     }
 
+    // Interactive Rollout Adoption Selector (60% Pilot | 80% Year-1 Goal | 100% Full Rollout)
+    function setRolloutAdoption(pct) {
+      ['60', '80', '100'].forEach(p => {
+        const btn = document.getElementById('btn-rollout-' + p);
+        if (btn) btn.classList.toggle('active', p === String(pct));
+      });
+
+      const tag1 = document.getElementById('impact-tag-1');
+      const num1 = document.getElementById('impact-num-1');
+      const desc1 = document.getElementById('impact-desc-1');
+
+      const tag2 = document.getElementById('impact-tag-2');
+      const num2 = document.getElementById('impact-num-2');
+      const desc2 = document.getElementById('impact-desc-2');
+
+      const tag3 = document.getElementById('impact-tag-3');
+      const num3 = document.getElementById('impact-num-3');
+      const desc3 = document.getElementById('impact-desc-3');
+
+      const tag4 = document.getElementById('impact-tag-4');
+      const num4 = document.getElementById('impact-num-4');
+      const desc4 = document.getElementById('impact-desc-4');
+
+      if (pct === 60) {
+        if (tag1) tag1.innerText = '11,129 DEFAULTS';
+        if (num1) num1.innerText = '+$138.0M Saved';
+        if (desc1) desc1.innerText = 'During a 60% pilot, targeted rules prevent 11,129 defaults, saving +$138.0M in net losses ($152.5M gross).';
+
+        if (tag2) tag2.innerText = '44,653 LOANS';
+        if (num2) num2.innerText = '+$8.5M Revenue';
+        if (desc2) desc2.innerText = 'Repricing 60% of Subgrade C4 loans adds +$8.5M in interest revenue.';
+
+        if (tag3) tag3.innerText = 'GUARDRAILS MET';
+        if (num3) num3.innerText = '97% Volume Kept';
+        if (desc3) desc3.innerText = 'Preserves 97% of lending volume, delivering +$146.5M in total value.';
+
+        if (tag4) tag4.innerText = 'REVENUE AUDIT';
+        if (num4) num4.innerText = '$240.1M Protected';
+        if (desc4) desc4.innerText = 'Protects $240.1M in small business loans (15,416 notes) and targets $588.5M in late loans.';
+      } else if (pct === 80) {
+        if (tag1) tag1.innerText = '14,838 DEFAULTS';
+        if (num1) num1.innerText = '+$184.0M Saved';
+        if (desc1) desc1.innerText = 'At 80% Year-1 adoption, auto-declines prevent 14,838 defaults, saving +$184.0M in net losses ($203.3M gross).';
+
+        if (tag2) tag2.innerText = '59,538 LOANS';
+        if (num2) num2.innerText = '+$11.4M Revenue';
+        if (desc2) desc2.innerText = 'Repricing 80% of Subgrade C4 volume generates +$11.4M in added interest revenue.';
+
+        if (tag3) tag3.innerText = 'GUARDRAILS MET';
+        if (num3) num3.innerText = '97% Volume Kept';
+        if (desc3) desc3.innerText = 'Preserves 97% of lending volume, delivering +$195.4M in total value.';
+
+        if (tag4) tag4.innerText = 'REVENUE AUDIT';
+        if (num4) num4.innerText = '$240.1M Protected';
+        if (desc4) desc4.innerText = 'Protects $240.1M in small business loans (15,416 notes) and targets $588.5M in late loans.';
+      } else {
+        // 100% Full Rollout
+        if (tag1) tag1.innerText = '18,548 DEFAULTS';
+        if (num1) num1.innerText = '+$230.0M Saved';
+        if (desc1) desc1.innerText = 'Auto-declining Grades D-G with DTI > 25% & Card Usage > 65% prevents 18,548 defaults ($230.04M net / $254.10M gross saved).';
+
+        if (tag2) tag2.innerText = '74,422 LOANS';
+        if (num2) num2.innerText = '+$14.2M Revenue';
+        if (desc2) desc2.innerText = 'Adding +1.5% (+150 bps) across 74,422 Subgrade C4 loans adds +$14.20M in interest income and restores +4.00% profit hurdle.';
+
+        if (tag3) tag3.innerText = 'GUARDRAILS MET';
+        if (num3) num3.innerText = '96% Volume Kept';
+        if (desc3) desc3.innerText = 'Preserves 95.81% ($18.58B) of lending volume (+$244.2M total value) and lifts portfolio net return to 4.40% (+15 bps).';
+
+        if (tag4) tag4.innerText = 'REVENUE AUDIT';
+        if (num4) num4.innerText = '$240.1M Protected';
+        if (desc4) desc4.innerText = 'Protects $240.1M in small business loans (15,416 notes at 30% default) and targets $588.5M in late workout loans.';
+      }
+    }
+
     // Populate subgrade dropdown
     function populateSubgradeDropdown() {
       const select = document.getElementById('desk-subgrade');
@@ -3825,3 +2182,38 @@
   </script>
 </body>
 </html>
+"""
+
+
+def build_underwriting_simulator_html():
+    cube_path = Path("data/exports/underwriting_simulator_cube.json")
+    if not cube_path.exists():
+        cube_path = Path("data/exports/cockpit_cube.json")
+    if not cube_path.exists():
+        raise FileNotFoundError(f"Missing cube data: {cube_path}")
+
+    with open(cube_path, "r", encoding="utf-8") as f:
+        cube_json_str = f.read().strip()
+
+    middle_marker = (
+        "  <!-- Embedded Empirical Portfolio Data Cube -->\n"
+        "  <script>\n"
+        "    const PORTFOLIO_DATA = "
+    )
+    post_marker = ";\n\n    // State"
+    html_content = HTML_PREFIX + middle_marker + cube_json_str + post_marker + HTML_SUFFIX
+
+    out_file = Path("underwriting-simulator.html")
+    with open(out_file, "w", encoding="utf-8") as f:
+        f.write(html_content)
+
+    print(f"[TASK] Built standalone workstation: {out_file} ({out_file.stat().st_size / 1024:.1f} KB)")
+    return out_file
+
+
+# Backward-compatible alias
+build_cockpit_html = build_underwriting_simulator_html
+
+
+if __name__ == "__main__":
+    build_underwriting_simulator_html()

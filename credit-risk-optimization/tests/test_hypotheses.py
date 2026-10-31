@@ -52,7 +52,7 @@ def test_hypothesis_reports_and_exports_exist():
 
 
 # -------------------------------------------------------------------------
-# Test Task 3.1: Hypothesis 1 – Subprime Loss Contribution Analysis
+# Test Task 3.1: Hypothesis 1 - Subprime Loss Contribution Analysis
 # -------------------------------------------------------------------------
 def test_h1_loss_concentration_significance():
     """
@@ -90,7 +90,7 @@ def test_h1_loss_concentration_significance():
 
 
 # -------------------------------------------------------------------------
-# Test Task 3.2: Hypothesis 2 – Subprime Margin Breakdown & LAROC
+# Test Task 3.2: Hypothesis 2 - Subprime Margin Breakdown & LAROC
 # -------------------------------------------------------------------------
 def test_h2_margin_breakdown_and_welch_tests():
     """
@@ -132,7 +132,7 @@ def test_h2_margin_breakdown_and_welch_tests():
 
 
 # -------------------------------------------------------------------------
-# Test Task 3.3: Hypothesis 3 – Risk Interaction & Contingency Table
+# Test Task 3.3: Hypothesis 3 - Risk Interaction & Contingency Table
 # -------------------------------------------------------------------------
 def test_h3_risk_interaction_relative_risk():
     """
