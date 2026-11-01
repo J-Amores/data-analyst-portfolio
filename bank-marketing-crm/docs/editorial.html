@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consumer Credit Risk & Underwriting Optimization Report | John Amores</title>
-  
+  <title>Cutting Wasted Repeat Calls to Add Up to 3,242 Term Deposit Sign-Ups | John Amores</title>
+
   <!-- Typography: High-Contrast Editorial Serif + Crisp Sans + Tabular Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <style>
     :root {
@@ -20,7 +23,7 @@
       --ink-subtle: #76746E;
       --border-color: #111111;
       --hairline: 1px solid var(--border-color);
-      --color-green: #15803D;
+      --color-green: #166534;
       --color-green-light: #F0FDF4;
       --color-crimson: #BE123C;
       --color-crimson-light: #FFF1F2;
@@ -52,6 +55,12 @@
       overflow-x: hidden;
     }
 
+    a {
+      color: var(--ink-black);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
     /* Fixed Editorial Navigation Header */
     .top-nav {
       position: sticky;
@@ -69,16 +78,16 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.08em;
-      text-transform: uppercase;
     }
 
     .nav-brand {
       display: flex;
       align-items: center;
       gap: 12px;
+      text-transform: uppercase;
     }
 
     .nav-badge {
@@ -98,6 +107,7 @@
     .nav-links a {
       color: var(--ink-black);
       text-decoration: none;
+      text-transform: uppercase;
       transition: opacity 140ms ease;
     }
 
@@ -106,21 +116,22 @@
     }
 
     .nav-btn {
-      padding: 6px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: var(--ink-black);
       color: var(--bg-paper) !important;
-      border: var(--hairline);
-      border-radius: 4px;
-      white-space: nowrap;
-      transition: background 140ms ease, color 140ms ease;
+      padding: 6px 14px;
+      text-decoration: none !important;
+      transition: transform 120ms ease, opacity 140ms ease;
     }
 
     .nav-btn:hover {
-      background: #27272A;
-      opacity: 1 !important;
+      opacity: 0.85;
+      transform: translateY(-1px);
     }
 
-    /* Layout Wrapper */
+    /* Outer Container */
     .report-container {
       max-width: var(--content-width);
       margin: 0 auto;
@@ -134,57 +145,52 @@
     }
 
     .hero-tag {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 16px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
       text-transform: uppercase;
+      letter-spacing: 0.1em;
       color: var(--ink-muted);
       margin-bottom: 20px;
     }
 
     .hero-tag span {
-      display: inline-block;
-      padding: 2px 8px;
-      border: var(--hairline);
-      background: var(--bg-paper-alt);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .hero-title {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+      font-size: clamp(2.8rem, 5.5vw, 4.4rem);
+      line-height: 1.05;
       font-weight: 400;
-      line-height: 1.02;
-      letter-spacing: -0.025em;
-      color: var(--ink-black);
-      width: 100%;
+      letter-spacing: -0.02em;
       margin-bottom: 24px;
+      width: 100%;
     }
 
     .hero-subtitle {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: clamp(1.2rem, 2vw, 1.55rem);
-      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.55;
       color: var(--ink-muted);
       width: 100%;
-      line-height: 1.45;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
 
-    /* Key Findings Grid Strip */
+    /* Key Numbers Bar */
     .metrics-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       border: var(--hairline);
-      background: var(--bg-paper-alt);
-      margin-bottom: 32px;
+      background: var(--bg-card);
+      margin-top: 32px;
     }
 
     .metric-item {
-      padding: 20px 24px;
+      padding: 24px;
       border-right: var(--hairline);
     }
 
@@ -193,29 +199,26 @@
     }
 
     .metric-label {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
       text-transform: uppercase;
-      color: var(--ink-muted);
-      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+      color: var(--ink-subtle);
+      margin-bottom: 8px;
     }
 
     .metric-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-variant-numeric: tabular-nums;
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--ink-black);
-      line-height: 1.1;
-      margin-bottom: 4px;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 2.75rem;
+      line-height: 1.0;
+      font-weight: 400;
+      margin-bottom: 6px;
     }
 
     .metric-note {
-      font-size: 0.74rem;
+      font-size: 0.82rem;
       color: var(--ink-muted);
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
     /* Section Styling */
@@ -230,40 +233,29 @@
 
     .section-chapter {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.74rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      font-size: 0.72rem;
       text-transform: uppercase;
+      letter-spacing: 0.12em;
       color: var(--color-crimson);
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .section-title {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-size: clamp(2.0rem, 3.8vw, 3.0rem);
+      line-height: 1.15;
       font-weight: 400;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--ink-black);
+      letter-spacing: -0.01em;
       width: 100%;
     }
 
-    .subhead {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 1.75rem;
-      font-weight: 400;
-      line-height: 1.2;
-      letter-spacing: -0.015em;
-      color: var(--ink-black);
-      margin: 36px 0 16px 0;
-    }
-
-    /* Content Layouts */
+    /* Two-Column Prose and Exhibit Spread */
     .two-column-spread {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 40px;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
       align-items: start;
+      margin-top: 32px;
     }
 
     .prose-block {
@@ -271,46 +263,240 @@
     }
 
     .prose-lead {
-      font-size: 1.12rem;
-      line-height: 1.75;
+      font-size: 1.1rem;
+      line-height: 1.6;
       color: var(--ink-black);
-      margin-bottom: 24px;
-      font-weight: 500;
-    }
-
-    .prose-block p {
       margin-bottom: 20px;
-      color: var(--ink-muted);
-      font-size: 1.02rem;
-      line-height: 1.7;
     }
 
-    .prose-block p strong {
+    p {
+      margin-bottom: 16px;
+      color: var(--ink-muted);
+    }
+
+    p strong {
+      color: var(--ink-black);
+      font-weight: 700;
+    }
+
+    h3.subhead {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 400;
+      line-height: 1.25;
+      margin: 28px 0 12px 0;
       color: var(--ink-black);
     }
 
+    /* Editorial Pull Quote */
     .editorial-quote {
       border: var(--hairline);
-      border-left: 3px solid var(--border-color);
-      padding: 20px 24px;
-      background: var(--bg-paper-alt);
+      padding: 24px;
       margin: 28px 0;
+      background: var(--bg-paper-alt);
     }
 
     .quote-text {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 1.3rem;
-      line-height: 1.4;
+      font-size: 1.35rem;
+      line-height: 1.35;
+      font-style: italic;
       color: var(--ink-black);
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .quote-author {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
       text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-subtle);
+    }
+
+    /* Figure Card */
+    .figure-card {
+      border: var(--hairline);
+      background: var(--bg-card);
+      margin: 36px 0;
+    }
+
+    .figure-header {
+      padding: 14px 20px;
+      border-bottom: var(--hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background: var(--bg-paper-alt);
+    }
+
+    .figure-title {
+      font-weight: 700;
+      color: var(--ink-black);
+    }
+
+    .figure-meta {
+      color: var(--ink-subtle);
+    }
+
+    .figure-body {
+      padding: 20px;
+      background: #FFFFFF;
+      text-align: center;
+      cursor: zoom-in;
+    }
+
+    .figure-body img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .figure-footer {
+      padding: 12px 20px;
+      border-top: var(--hairline);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      color: var(--ink-muted);
+      background: var(--bg-paper-alt);
+      line-height: 1.5;
+    }
+
+    /* Data Tables */
+    .data-table-wrap {
+      border: var(--hairline);
+      background: var(--bg-card);
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      text-align: left;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 11px 14px;
+      border-bottom: var(--hairline);
+      vertical-align: middle;
+    }
+
+    .data-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.70rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--bg-paper-alt);
+      color: var(--ink-black);
+      border-bottom: var(--hairline);
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table .num-cell {
+      font-family: 'JetBrains Mono', monospace;
+      text-align: right;
+    }
+
+    .status-pass {
+      display: inline-block;
+      padding: 2px 7px;
+      border: 1px solid var(--color-green);
+      color: var(--color-green);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .status-fail {
+      display: inline-block;
+      padding: 2px 7px;
+      border: 1px solid var(--color-crimson);
+      color: var(--color-crimson);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    /* Insight Card */
+    .insight-card {
+      border: var(--hairline);
+      background: var(--bg-paper-alt);
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .insight-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-black);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .insight-body {
+      font-size: 0.90rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+    }
+
+    /* Comparison Split Container */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: var(--hairline);
+      margin: 24px 0;
+    }
+
+    .comparison-grid.three-col {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .comparison-col {
+      padding: 20px;
+      border-right: var(--hairline);
+    }
+
+    .comparison-col:last-child {
+      border-right: none;
+    }
+
+    /* Chapter Takeaway Banner */
+    .takeaway-strip {
+      border: var(--hairline);
+      background: var(--bg-paper-alt);
+      padding: 20px 24px;
+      margin-top: 40px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .takeaway-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.70rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-black);
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+
+    .takeaway-body {
+      font-size: 0.94rem;
+      line-height: 1.55;
       color: var(--ink-muted);
     }
 
@@ -319,239 +505,136 @@
       padding: 14px 20px;
       margin: 24px 0;
       background: var(--bg-paper-alt);
-      font-size: 0.96rem;
-      line-height: 1.6;
+      font-size: 0.98rem;
       color: var(--ink-muted);
+      line-height: 1.6;
+      width: 100%;
     }
 
     .narrative-callout strong {
       color: var(--ink-black);
     }
 
-    /* Visual Figure Display Card */
-    .figure-card {
-      border: var(--hairline);
-      background: var(--bg-paper);
-      margin: 32px 0;
-    }
-
-    .figure-header {
-      padding: 12px 18px;
-      border-bottom: var(--hairline);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--bg-paper-alt);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .figure-img-wrap {
-      padding: 20px;
-      display: flex;
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(17, 17, 17, 0.92);
+      z-index: 1000;
       justify-content: center;
       align-items: center;
-      background: #FAF8F2;
-    }
-
-    .figure-img-wrap img {
-      max-width: 100%;
-      height: auto;
-      border: var(--hairline);
-    }
-
-    .figure-caption {
-      padding: 12px 18px;
-      border-top: var(--hairline);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--ink-muted);
-      background: var(--bg-paper-alt);
-      line-height: 1.5;
-    }
-
-    /* Structured Data Table */
-    .data-table-wrap {
-      border: var(--hairline);
-      overflow-x: auto;
-      background: var(--bg-card);
-      margin: 24px 0;
-    }
-
-    table.data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      text-align: left;
-    }
-
-    table.data-table th,
-    table.data-table td {
-      padding: 12px 16px;
-      border-bottom: var(--hairline);
-      border-right: var(--hairline);
-    }
-
-    table.data-table th:last-child,
-    table.data-table td:last-child {
-      border-right: none;
-    }
-
-    table.data-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    table.data-table th {
-      background: var(--bg-paper-alt);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ink-muted);
-    }
-
-    .num-cell {
-      font-family: 'JetBrains Mono', monospace;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* Highlight Banner */
-    .insight-card {
-      border: var(--hairline);
-      padding: 20px 24px;
-      background: var(--bg-paper-alt);
-      margin: 20px 0;
-    }
-
-    .insight-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .insight-body {
-      font-size: 0.92rem;
-      color: var(--ink-muted);
-      line-height: 1.6;
-    }
-
-    /* Comparison Split Container */
-    .comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: var(--hairline);
-      margin: 28px 0;
-    }
-
-    .comparison-col {
       padding: 24px;
-      border-right: var(--hairline);
+      cursor: zoom-out;
     }
 
-    .comparison-col:last-child {
-      border-right: none;
+    .lightbox-modal img {
+      max-width: 95vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border: 1px solid #FFFFFF;
+      background: #FFFFFF;
     }
 
-    /* Key Takeaway Strip */
-    .takeaway-strip {
-      border: var(--hairline);
-      background: var(--bg-paper-alt);
-      padding: 24px 28px;
-      margin: 32px 0 16px 0;
-    }
-
-    .takeaway-tag {
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      color: #FFFFFF;
+      font-size: 2.2rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink-muted);
-      margin-bottom: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
     }
 
-    .takeaway-body {
-      font-size: 0.98rem;
-      line-height: 1.65;
-      color: var(--ink-black);
-    }
-
-    /* Responsive */
+    /* Responsive Breakpoints */
     @media (max-width: 900px) {
       .two-column-spread {
         grid-template-columns: 1fr;
         gap: 28px;
       }
+
       .metrics-bar {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .metric-item:nth-child(2) {
         border-right: none;
       }
-      .metric-item:nth-child(1), .metric-item:nth-child(2) {
+
+      .metric-item:nth-child(1),
+      .metric-item:nth-child(2) {
         border-bottom: var(--hairline);
       }
-      .comparison-grid {
+
+      .comparison-grid,
+      .comparison-grid.three-col {
         grid-template-columns: 1fr;
       }
-      .comparison-col:first-child {
+
+      .comparison-grid .comparison-col,
+      .comparison-grid.three-col .comparison-col {
         border-right: none;
         border-bottom: var(--hairline);
       }
+
+      .comparison-grid .comparison-col:last-child,
+      .comparison-grid.three-col .comparison-col:last-child {
+        border-bottom: none;
+      }
+
       .nav-links a:not(.nav-btn) {
         display: none;
       }
+
       .nav-brand {
         font-size: 0.75rem;
       }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 580px) {
       .metrics-bar {
         grid-template-columns: 1fr;
       }
+
       .metric-item {
         border-right: none;
         border-bottom: var(--hairline);
       }
+
       .metric-item:last-child {
         border-bottom: none;
       }
-      .top-nav-inner {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .hero-section {
-        padding: 40px 0 32px 0;
-      }
-      .report-container {
-        padding: 0 16px 60px 16px;
+
+      .takeaway-strip {
+        flex-direction: column;
+        gap: 8px;
       }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Top Sticky Navigation -->
+  <!-- FIXED NAVIGATION BAR -->
   <header class="top-nav">
     <div class="top-nav-inner">
       <div class="nav-brand">
         <span class="nav-badge"></span>
-        <span>JOHN AMORES | CREDIT RISK CASE STUDY</span>
+        <span>JOHN AMORES | OUTBOUND ACQUISITION CASE STUDY</span>
       </div>
       <div class="nav-links">
-        <a href="#briefing">Executive Briefing</a>
-        <a href="#blind-spot">01 Blind Spot</a>
-        <a href="#loss-skew">02 Loss Skew</a>
-        <a href="#risk-grid">03 Risk Grid</a>
-        <a href="#waterfall">04 Capital Waterfall</a>
-        <a href="#rollout">05 90-Day Plan</a>
-        <a href="cockpit.html" class="nav-btn">Launch Cockpit -></a>
+        <a href="#briefing">OVERVIEW</a>
+        <a href="#setup">01 DATA CLEANUP</a>
+        <a href="#fatigue">02 CALL LIMITS</a>
+        <a href="#channel">03 PHONE &amp; TIMING</a>
+        <a href="#demographics">04 WHO CONVERTS</a>
+        <a href="#rollout">05 ROLLOUT PLAN</a>
+        <a href="lead-qualifier.html" class="nav-btn">LEAD QUALIFIER -&gt;</a>
       </div>
     </div>
   </header>
@@ -561,35 +644,36 @@
     <!-- HERO SECTION (Slide 1 Block) -->
     <section class="hero-section" id="hero" data-slide="1">
       <div class="hero-tag">
-        <span>Portfolio Performance Whitepaper</span>
-        <span>LendingClub 2007-2018</span>
+        <span>[OUTBOUND CALL CENTER CASE STUDY]</span>
+        <span>[41,188 PROSPECTS | 105,754 CALLS]</span>
       </div>
-      <h1 class="hero-title">Optimizing Consumer Credit Risk & Capital Recovery</h1>
+      <h1 class="hero-title">Cutting Wasted Repeat Calls to Add Up to 3,242 Term Deposit Sign-Ups</h1>
       <p class="hero-subtitle">
-        An empirical analysis across 1,345,350 completed consumer loans ($19.39B funded). How targeted algorithmic decline rules recover $230.0M in net unpaid write-offs while keeping 95.8% of platform lending volume.
+        A review of 41,188 customer records and 105,754 outbound phone calls from May 2008 to November 2010, showing how
+        capping repeat calls at 3 attempts saves 475 hours of phone time and adds up to 3,242 extra deposits.
       </p>
 
       <!-- 4-Box Key Metrics Bar -->
       <div class="metrics-bar">
         <div class="metric-item">
-          <div class="metric-label">Mature Book Reviewed</div>
-          <div class="metric-number">$19.39B</div>
-          <div class="metric-note">1,345,350 completed loan outcomes</div>
+          <div class="metric-label">PROSPECTS REVIEWED</div>
+          <div class="metric-number">41,188</div>
+          <div class="metric-note">105,754 calls dialed | 2,955 talk hours</div>
         </div>
         <div class="metric-item">
-          <div class="metric-label">True Seasoned Default Rate</div>
-          <div class="metric-number" style="color: var(--color-crimson);">19.96%</div>
-          <div class="metric-note">1.68x higher than 11.88% unseasoned reporting</div>
+          <div class="metric-label">CURRENT CONVERSION RATE</div>
+          <div class="metric-number">11%</div>
+          <div class="metric-note">4,640 sign-ups | 4 per 100 calls</div>
         </div>
         <div class="metric-item">
-          <div class="metric-label">Subprime Loss Concentration</div>
-          <div class="metric-number">51.45%</div>
-          <div class="metric-note">Grades D-G generate $1.40B of write-offs</div>
+          <div class="metric-label">CALLS SPENT ON 4+ ATTEMPTS</div>
+          <div class="metric-number" style="color: var(--color-crimson);">48%</div>
+          <div class="metric-note">50,949 calls for just 12% of sign-ups</div>
         </div>
         <div class="metric-item">
-          <div class="metric-label">Total Opportunity Identified</div>
-          <div class="metric-number" style="color: var(--color-green);">+$244.2M</div>
-          <div class="metric-note">+$230.0M saved losses + $14.2M pricing lift</div>
+          <div class="metric-label">PROJECTED SIGN-UP GAIN</div>
+          <div class="metric-number" style="color: var(--color-green);">+3,242</div>
+          <div class="metric-note">+70% more sign-ups with current staff</div>
         </div>
       </div>
     </section>
@@ -597,560 +681,1037 @@
     <!-- EXECUTIVE BRIEFING (Slide 2 Block) -->
     <section class="report-section" id="briefing" data-slide="2">
       <div class="section-header">
-        <div class="section-chapter">Executive Briefing / Strategic Context</div>
-        <h2 class="section-title">The Capital Optimization Mandate: Scaling Volume Without Default Leakage</h2>
+        <div class="section-chapter">EXECUTIVE OVERVIEW / THE CALL CENTER PROBLEM</div>
+        <h2 class="section-title">Why Calling the Same Person Over and Over Drains Our Sales Team</h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          Between 2007 and 2018, LendingClub expanded rapidly from an online peer-to-peer originator into an institutional credit marketplace, funding over 2.26 million consumer loans representing $33.98B in total capital. Yet rapid origination growth created a dangerous underlying vulnerability: portfolio expansion into subprime borrower tiers quietly drove credit losses to record levels while standard executive dashboards masked the deterioration.
+          Between May 2008 and November 2010, our bank's call center made 105,754 outbound phone calls to 41,188
+          prospects to sell term deposits. In total, 4,640 people signed up. That works out to an 11% conversion rate
+          per person, or about 4 sign-ups for every 100 phone calls.
         </p>
         <p>
-          This case study presents the forensic portfolio audit commissioned to resolve that vulnerability. By restructuring the analytical dataset, isolating lifecycle seasoning curves, and diagnosing the non-linear interaction between borrower leverage and liquidity depletion, we designed an algorithmic underwriting policy that preserves institutional solvency while safeguarding commercial origination scale.
+          When we looked at how those calls were spread out, two big problems stood out. First, our dialer had no limit
+          on repeat calls, so agents kept calling unresponsive people up to 56 times in a single campaign. Second, more
+          than half of our calls went to working-age adults between 31 and 45, who signed up at the lowest rate of any
+          group (9%).
         </p>
 
         <div class="narrative-callout">
-          <strong>The Core Dilemma:</strong> Traditional risk management relies on blunt instruments: either expand volume aggressively and absorb runaway credit defaults, or impose blanket bans on lower credit tiers and destroy platform revenue. Our objective was to engineer a surgical third path: isolate the precise dual-stress inflection point where borrower default probability spikes, allowing the platform to prune bad debt with minimal collateral damage to healthy lending volume.
+          <strong>The Core Trade-Off:</strong> If we just cut call center hours across the board, we lose deposits the
+          bank needs. Instead, if we stop calling prospects after 3 unsuccessful tries and redirect those freed-up calls
+          to mobile phones, past buyers, and higher-converting age groups, we keep 88% of our baseline sign-ups from the
+          cap alone and add 1,535 to 3,242 extra deposits.
+        </div>
+      </div>
+
+      <!-- 3-Pillar Executive Summary Comparison Grid -->
+      <div class="comparison-grid three-col" style="margin: 32px 0 28px 0;">
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--color-crimson);">THE REPEAT CALL PROBLEM</div>
+          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
+            Agents dialed prospects up to 56 times with no cutoff rule in place.
+          </p>
+          <div
+            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--color-crimson); margin-top: 12px; line-height: 1.5;">
+            * 48% of all calls (50,949 dials) went to attempts 4 and up.<br>
+            * Those extra calls brought in just 1 sign-up per 100 calls.<br>
+            * Used up 475 hours of agent talk time.
+          </div>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--ink-black);">THE FIX: 3-CALL LIMIT</div>
+          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
+            Stop calling a prospect for the rest of the campaign if they do not sign up by call 3.
+          </p>
+          <div
+            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--ink-black); margin-top: 12px; line-height: 1.5;">
+            * Keeps 4,085 sign-ups (88% of our current total).<br>
+            * Frees up 28,044 to 50,949 phone calls.<br>
+            * Beats leadership's 85% volume goal.
+          </div>
+        </div>
+
+        <div class="comparison-col" style="background: var(--bg-paper-alt);">
+          <div class="insight-title" style="color: var(--color-green);">THE UPSIDE: BETTER TARGETING</div>
+          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
+            Put those saved calls toward mobile phones, past buyers, seniors, and students.
+          </p>
+          <div
+            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--color-green); margin-top: 12px; line-height: 1.5;">
+            * Adds 1,535 to 3,242 net new sign-ups (+33% to +70%).<br>
+            * Lifts overall conversion from 11% to 18%.<br>
+            * Cuts talk time per sign-up from 38 minutes to 22 minutes.
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Core Executive Questions Table -->
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Executive Question</th>
+              <th>Findings and Recommended Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>What did we find?</strong></td>
+              <td>Calls 1 to 3 bring in 88% of sign-ups (4,085 deposits). Calls 4 to 56 take up 48% of all phone calls
+                (50,949 dials) but bring in only 12% of sign-ups.</td>
+            </tr>
+            <tr>
+              <td><strong>Why is this happening?</strong></td>
+              <td>The dialer has no limit on repeat calls, and 53% of calls go to 31-45 year olds (9% conversion) or
+                landline phones (5% conversion) instead of mobile phones (15%), seniors (45%), and past buyers (65%).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>What does it cost us?</strong></td>
+              <td>Agents spend 475 hours of talk time on 4+ call attempts. Winning a sign-up on calls 4 and up takes 51
+                minutes of phone time compared to 36 minutes on calls 1 to 3 (41% more agent time).</td>
+            </tr>
+            <tr>
+              <td><strong>What should we change?</strong></td>
+              <td>Stop calling after 3 attempts (Phase 1), call mobile numbers first and follow up with warm leads
+                within 7 days (Phase 2), and focus call lists on seniors, students, and low interest rate periods (Phase
+                3).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="takeaway-strip">
+        <div class="takeaway-tag">OVERVIEW TAKEAWAY</div>
+        <div class="takeaway-body">
+          Nearly half of our phone calls (48%) are spent chasing people 4 or more times for just 12% of our sign-ups.
+          Capping outreach at 3 calls keeps 88% of our deposits and frees up 475 hours of phone time.
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 1: THE ACTIVE LOAN BLIND SPOT (Slide 3 Block) -->
-    <section class="report-section" id="blind-spot" data-slide="3">
+    <!-- CHAPTER 1: DATA SETUP & INTEGRITY (Slide 3 Block) -->
+    <section class="report-section" id="setup" data-slide="3">
       <div class="section-header">
-        <div class="section-chapter">Chapter 01 / Empirical Baseline</div>
-        <h2 class="section-title">The Active-Loan Blind Spot: Unmasking the 19.96% True Default Rate</h2>
+        <div class="section-chapter">CHAPTER 01 / DATA SETUP</div>
+        <h2 class="section-title">Cleaning Up the Data: Four Reporting Traps We Fixed First</h2>
       </div>
 
       <div class="two-column-spread">
         <div class="prose-block">
           <p class="prose-lead">
-            When standard business reporting evaluated the historical database, it calculated a portfolio default rate of <strong>11.88%</strong> (268,648 defaults out of 2.26 million total notes). This apparent stability led executives and institutional allocators to believe credit risk was safely contained.
+            Before testing new call center rules, we checked the raw campaign files for common data traps that could
+            skew our numbers. We fixed four specific issues so our recommendations reflect what agents actually know
+            before they pick up the phone.
           </p>
 
-          <h3 class="subhead">The Mechanism of Survival Bias</h3>
+          <h3 class="subhead">Why We Left Call Length Out of Our Targeting Rules</h3>
           <p>
-            In consumer credit, loans do not default evenly across time. Instead, they follow a pronounced seasoning hazard curve: during the initial 6 to 9 months, borrowers prioritize payments to protect their newly acquired credit lines. Default velocity peaks sharply between <strong>months 12 and 24</strong>, before tapering off as mature balances amortize.
-          </p>
-          <p>
-            Because the platform expanded originations exponentially in its later years, <strong>912,569 loans ($14.59B)</strong> were active accounts still making monthly payments. With a median seasoning age under 14 months, these active loans had simply not lived long enough to experience peak default hazard. Blending immature accounts into the portfolio denominator artificially diluted the historical default rate by 40%.
+            The raw data tracks how many seconds each phone call lasted. It is tempting to say "longer calls lead to
+            more sales," because calls that end in a sign-up average 9 minutes while "no" calls average 4 minutes.
+            However, an agent cannot know how long a call will last before dialing. We removed call length from our
+            targeting rules and used it only to add up how many hours agents spent on the phone.
           </p>
 
           <div class="editorial-quote">
             <div class="quote-text">
-              "Looking only at mature, closed loan vintages revealed that nearly 1 in 5 borrowers defaulted (19.96%). The standard reporting method underestimated actual portfolio risk by 1.68 times."
+              "An agent does not know how long a phone call will last before dialing. We used call length only to
+              measure agent work hours, and built our targeting rules strictly around facts known before the phone
+              rings."
             </div>
-            <div class="quote-author">Hypothesis 1 Empirical Finding (z = 104.2, p &lt; 0.0001)</div>
+            <div class="quote-author">DATA SETUP CHECK | 41,188 PROSPECT RECORDS</div>
           </div>
 
-          <h3 class="subhead">Methodological Segregation</h3>
+          <h3 class="subhead">Separating New Leads from Past Contacts &amp; Incomplete Profiles</h3>
           <p>
-            To establish a mathematically sound baseline for underwriting policy design, we bifurcated the portfolio into two distinct analytical cohorts:
+            In the raw file, 39,673 people (96%) had the number "999" entered for days since last contact. That code
+            simply means they had never been called in an earlier campaign. Instead of letting that 999 number throw off
+            our averages, we split customers into two clear groups: people never called before (9% conversion) and
+            people contacted in an earlier campaign (64% conversion).
           </p>
           <p>
-            1. <strong>The Matured Study Cohort (1,345,350 loans / $19.39B):</strong> Accounts that reached definitive terminal resolution (either Fully Paid or Charged Off / Default). This cohort eliminates right-censoring bias and provides ground-truth default outcomes.
-          </p>
-          <p>
-            2. <strong>The Active Surveillance Cohort (912,569 loans / $14.59B):</strong> Accounts still in repayment, segregated for ongoing credit surveillance and early delinquency intervention rather than underwriting rule derivation.
+            We also kept the 10,700 records that had "unknown" listed for credit history, housing loans, or job type
+            rather than deleting them. Tracking them as their own group showed that people with incomplete records
+            convert at just 7%, compared to 13% for customers with complete profiles.
           </p>
         </div>
 
         <div>
-          <!-- Data Segregation Breakdown Table -->
+          <!-- Data Preparation Safeguards Table -->
           <div class="data-table-wrap">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Population Segment</th>
-                  <th>Loans</th>
-                  <th>Capital</th>
-                  <th>Default Rate</th>
+                  <th>WHAT WE CHECKED</th>
+                  <th>HOW WE HANDLED IT</th>
+                  <th>WHAT WE FOUND</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>Raw Historical Book</strong></td>
-                  <td class="num-cell">2,260,668</td>
-                  <td class="num-cell">$33.98B</td>
-                  <td class="num-cell">11.88% (Apparent)</td>
+                  <td><strong>Call Length (Duration)</strong></td>
+                  <td>Kept out of targeting rules; used only to count agent work hours.</td>
+                  <td class="num-cell">2,955 total talk hours (38 min per sign-up).</td>
                 </tr>
                 <tr style="background: var(--color-green-light);">
-                  <td><strong>Completed Study Cohort</strong></td>
-                  <td class="num-cell">1,345,350</td>
-                  <td class="num-cell">$19.39B</td>
-                  <td class="num-cell" style="font-weight: 700;">19.96% (Seasoned)</td>
+                  <td><strong>Code 999 (Days Since Last Call)</strong></td>
+                  <td>Separated into 39,673 new leads vs. 1,515 previously called leads.</td>
+                  <td class="num-cell" style="font-weight: 700;">64% conversion on past contacts vs. 9% on new leads.
+                  </td>
                 </tr>
                 <tr>
-                  <td>Active Open Accounts</td>
-                  <td class="num-cell">912,569</td>
-                  <td class="num-cell">$14.59B</td>
-                  <td class="num-cell">Monitoring Only</td>
+                  <td><strong>Missing Profile Info ('Unknown')</strong></td>
+                  <td>Tracked 10,700 incomplete profiles without guessing missing values.</td>
+                  <td class="num-cell">7% conversion on incomplete profiles vs. 13% when complete.</td>
                 </tr>
                 <tr>
-                  <td>Late Active (16-120 days)</td>
-                  <td class="num-cell">38,114</td>
-                  <td class="num-cell">$588.5M</td>
-                  <td class="num-cell">Workout Target</td>
+                  <td><strong>Bank Balance Check</strong></td>
+                  <td>Checked the 45,211-row companion file containing yearly account balances.</td>
+                  <td class="num-cell">Customers above the 448 EUR median balance convert at 14% vs. 9%.</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <div class="insight-card">
-            <div class="insight-title">Executive Underwriting Mandates</div>
+            <div class="insight-title">THREE GOALS OUR PLAN MUST MEET</div>
             <div class="insight-body">
-              Before evaluating policy interventions, the credit committee established three non-negotiable operational guardrails:
+              <strong>1. Minimum Conversion Rule (8% Goal):</strong> Every call group we dial must convert at 8% or
+              higher so agents are not wasting time.
               <br><br>
-              <strong>1. Profit Hurdle:</strong> Maintain net cash return on capital (LAROC) above <strong>+4.00%</strong> after absorbing all charge-offs.
+              <strong>2. Deposit Volume Rule (85% Goal):</strong> Any call limit we put in place must keep at least 85%
+              of our baseline term deposit sign-ups.
               <br><br>
-              <strong>2. Default Ceiling:</strong> Lower portfolio-wide seasoned default rate below <strong>19.30%</strong>.
-              <br><br>
-              <strong>3. Volume Guardrail:</strong> Retain at least <strong>80.0%</strong> ($15.5B+) in total lending volume to maintain commercial scale and marketplace liquidity.
+              <strong>3. Fair Targeting Rule:</strong> All call routing rules must use only customer and market facts
+              known before dialing.
+            </div>
+          </div>
+
+          <div class="takeaway-strip" style="margin-top: 20px; padding: 16px 20px; flex-direction: column; gap: 8px;">
+            <div class="takeaway-tag" style="color: var(--ink-black);">CHAPTER 01 TAKEAWAY</div>
+            <div class="takeaway-body" style="font-size: 0.88rem;">
+              Separating call length from targeting rules, fixing the "999" code for new leads, and tracking incomplete
+              profiles gave us a clean 41,188-person baseline we can trust.
             </div>
           </div>
         </div>
       </div>
-
-      <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 01 Key Takeaway</div>
-        <div class="takeaway-body">
-          Reporting credit performance on unseasoned books creates an optical illusion of safety. The true terminal default rate was <strong>19.96%</strong>, confirming that 1 in 5 consumer loans defaulted. All subsequent policy rules must be evaluated against this 1.35 million completed loan cohort.
-        </div>
-      </div>
     </section>
 
-    <!-- CHAPTER 2: SUBPRIME LOSS SKEW (Slide 4 Block) -->
-    <section class="report-section" id="loss-skew" data-slide="4">
+    <!-- CHAPTER 2: CONTACT FATIGUE CLIFF (Slide 4 Block) -->
+    <section class="report-section" id="fatigue" data-slide="4">
       <div class="section-header">
-        <div class="section-chapter">Chapter 02 / Portfolio Asymmetry</div>
-        <h2 class="section-title">The Subprime Subsidy: Grades D-G Receive 28.5% of Capital but Cause 51.5% of Losses</h2>
+        <div class="section-chapter">CHAPTER 02 / WHERE TIME IS WASTED</div>
+        <h2 class="section-title">The 3-Call Limit: Why Attempts 4 and Up Take 48% of Our Calls for Just 12% of Sign-Ups
+        </h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          LendingClub segmented borrowers into seven risk tiers from Grade A (highest credit quality) down to Grade G (deep subprime). As the marketplace scaled, origination quotas pushed capital aggressively into lower-grade tiers to capture higher contractual interest yields (18% to 30% APR). However, our cohort audit revealed an extreme structural imbalance in capital allocation vs. charge-off losses.
+          Looking at conversion rates by call attempt shows why agents are stretched so thin. While the first 3 calls
+          bring in 88% of all deposits (4,085 sign-ups), agents keep dialing unresponsive prospects up to 56 times.
+          Attempts 4 through 56 use up 48% of all phone calls (50,949 dials) but bring in only 555 sign-ups.
         </p>
         <p>
-          While subprime loans (Grades D through G) absorbed <strong>28.45% of platform capital ($5.52B across 335,813 loans)</strong>, they generated <strong>51.45% of total unpaid write-offs ($1.40B out of $2.73B total)</strong>. A formal Chi-Square Goodness-of-Fit test (&chi;&sup2; = 1.02B, p &lt; 0.001) confirms that subprime losses exceeded proportional capital allocation by an alarming 1.81 times.
+          There are two practical ways to count the calls we save by setting a 3-call limit:
+        </p>
+        <p>
+          1. <strong>Stopping after attempt 3 on current lists (Truncated view):</strong> If agents still make 3 calls
+          to those 7,635 stubborn prospects before stopping, the call center cuts 28,044 extra calls (27% of all dials).
+        </p>
+        <p>
+          2. <strong>Filtering out low-odds prospects upfront (Upfront view):</strong> If we also use our pre-call
+          checklist to skip those 7,635 low-odds prospects before they get stuck in repeat callbacks, we save all 50,949
+          calls (48% of all dials) and 475 hours of talk time.
         </p>
       </div>
 
-      <!-- Full-Width Figure Card: Figure 1 -->
+      <!-- FIGURE 1 EXHIBIT -->
       <div class="figure-card">
         <div class="figure-header">
-          <span>Figure 1: Funded Principal vs. Net Charge-Off Share Across Credit Grades A through G</span>
-          <span style="font-family: 'JetBrains Mono', monospace;">1,345,350 Mature Loans</span>
+          <span class="figure-title">Figure 1: Contact Attempt Fatigue Cliff and Diminishing Returns Across 41,188
+            Prospects</span>
+          <span class="figure-meta">41,188 Prospects | 105,754 Calls</span>
         </div>
-        <div class="figure-img-wrap">
-          <img src="assets/fig1_loss_contribution.png" alt="Figure 1: Loss Contribution Asymmetry by Grade">
+        <div class="figure-body" onclick="openLightbox('assets/fig1_contact_fatigue_cliff.png')">
+          <img src="assets/fig1_contact_fatigue_cliff.png"
+            alt="Figure 1: Contact Attempt Fatigue Cliff and Diminishing Returns">
         </div>
-        <div class="figure-caption">
-          Statistical Validation: Chi-Square Goodness-of-Fit = 1.02B (p &lt; 0.001) confirms Subprime losses exceed proportional capital allocation by 1.81x.
+        <div class="figure-footer">
+          Calls 1 to 3 bring in 88% of sign-ups at 36 minutes of talk time per deposit, compared to 51 minutes on calls
+          4 and up.
+          <br>
+          <strong>[Click image to enlarge]</strong>
         </div>
       </div>
 
-      <div class="two-column-spread" style="margin-top: 36px;">
+      <div class="two-column-spread">
         <div class="prose-block">
-          <h3 class="subhead">The Profit Subsidization Engine</h3>
+          <h3 class="subhead">How Conversion Drops with Every Extra Call</h3>
           <p>
-            A healthy lending business relies on risk-based pricing to generate positive net cash margins across each credit grade. In our portfolio analysis, however, prime borrowers were effectively forced to subsidize deep subprime deficits:
+            A customer's chance of signing up drops steadily with each repeat call. On the 1st call, 13% of people sign
+            up. That drops to 11% on the 2nd call and 11% on the 3rd call. Once agents pass the 3rd attempt, the yield
+            per phone call drops from 7% on calls 1 to 3 down to just 1% on calls 4 and up.
           </p>
           <p>
-            Borrowers in <strong>Grades A through C</strong> generated <strong>+$857.0M</strong> in cumulative net cash profit, funding over 104% of total platform earnings. Grade A and B borrowers exhibited disciplined repayment (default rates between 5.9% and 13.5%), delivering +$654.0M in net profit despite conservative interest rates. Grade C added another +$203.0M.
+            At the same time, agent phone time per deposit climbs sharply. Winning a single sign-up on attempts 4 and up
+            takes 51 minutes of total talk time (counting all the unsuccessful calls along the way), compared to 36
+            minutes during the first 3 attempts. That is 41% more staff time per deposit.
           </p>
 
-          <h3 class="subhead">Principal Destruction in Tiers F and G</h3>
-          <p>
-            In sharp contrast, the lowest credit tiers suffered from default rates that completely overwhelmed high contractual interest rates. Grade F borrowers defaulted at <strong>45.2%</strong>, while Grade G borrowers defaulted at <strong>49.9%</strong> (literally a coin flip).
-          </p>
-          <p>
-            Combined, Grades F and G produced an absolute cash deficit (-$31.9M net cash loss). Charging 25% to 30% APR could not mathematically compensate for half of all borrowers walking away from their principal obligations. Continued unconstrained origination in these tiers was destroying economic value.
-          </p>
+          <div class="editorial-quote">
+            <div class="quote-text">
+              "Calling people more than 3 times drops our conversion rate to 7%, below our 8% target. Stopping at 3
+              calls saves up to 50,949 dials and 475 hours of talk time while keeping 88% of our deposits."
+            </div>
+            <div class="quote-author">KEY METRIC SUMMARY</div>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-title">AGENT TALK TIME PER SIGN-UP WON</div>
+            <div class="insight-body">
+              * <strong>Calls 1 to 3 (Recommended):</strong> 36 minutes per sign-up (7% yield per call).
+              <br><br>
+              * <strong>Call 4 (Warning Zone):</strong> 43 minutes per sign-up (+17% extra time; 2% yield per call).
+              <br><br>
+              * <strong>Calls 5 to 7 (Below 8% Goal):</strong> 49 minutes per sign-up (+34% extra time; conversion drops
+              below 8%).
+              <br><br>
+              * <strong>Calls 8 to 56 (Exhausted Leads):</strong> 56 minutes per sign-up (+53% extra time; less than 1%
+              yield per call).
+              <br><br>
+              <em>Winning a sign-up on calls 4 and up averages 51 minutes of phone time vs. 36 minutes on calls 1 to
+                3.</em>
+            </div>
+          </div>
         </div>
 
         <div>
+          <!-- Detailed Attempt Tier Table -->
           <div class="data-table-wrap">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Credit Tier</th>
-                  <th>Lending Share</th>
-                  <th>Loss Share</th>
-                  <th>Net Cash Return</th>
+                  <th>ATTEMPT</th>
+                  <th>LEADS</th>
+                  <th>CALLS DIALED</th>
+                  <th>SIGN-UPS</th>
+                  <th>CONV. RATE</th>
+                  <th>YIELD / CALL</th>
+                  <th>MEETS 8% GOAL?</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>Grades A &amp; B</strong> (Low Risk)</td>
-                  <td class="num-cell">46.7% ($9.0B)</td>
-                  <td class="num-cell">24.5% ($668M)</td>
-                  <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$654M Net Profit</td>
+                  <td><strong>Attempt 1</strong></td>
+                  <td class="num-cell">17,642</td>
+                  <td class="num-cell">17,642</td>
+                  <td class="num-cell">2,300</td>
+                  <td class="num-cell">13%</td>
+                  <td class="num-cell">13%</td>
+                  <td><span class="status-pass">PASS</span></td>
                 </tr>
                 <tr>
-                  <td><strong>Grade C</strong> (Moderate Risk)</td>
-                  <td class="num-cell">24.9% ($4.8B)</td>
-                  <td class="num-cell">24.1% ($656M)</td>
-                  <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$203M Net Profit</td>
+                  <td><strong>Attempt 2</strong></td>
+                  <td class="num-cell">10,570</td>
+                  <td class="num-cell">21,140</td>
+                  <td class="num-cell">1,211</td>
+                  <td class="num-cell">11%</td>
+                  <td class="num-cell">6%</td>
+                  <td><span class="status-pass">PASS</span></td>
                 </tr>
                 <tr>
-                  <td><strong>Grades D &amp; E</strong> (High Risk)</td>
-                  <td class="num-cell">24.1% ($4.7B)</td>
-                  <td class="num-cell">41.8% ($1.14B)</td>
-                  <td class="num-cell" style="color: var(--ink-muted);">Eroded by Defaults</td>
+                  <td><strong>Attempt 3</strong></td>
+                  <td class="num-cell">5,341</td>
+                  <td class="num-cell">16,023</td>
+                  <td class="num-cell">574</td>
+                  <td class="num-cell">11%</td>
+                  <td class="num-cell">4%</td>
+                  <td><span class="status-pass">PASS</span></td>
                 </tr>
-                <tr style="background: var(--color-crimson-light);">
-                  <td><strong>Grades F &amp; G</strong> (Highest Risk)</td>
-                  <td class="num-cell">4.4% ($850M)</td>
-                  <td class="num-cell">9.7% ($264M)</td>
-                  <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">-$32M Direct Loss</td>
+                <tr>
+                  <td><strong>Attempt 4</strong></td>
+                  <td class="num-cell">2,651</td>
+                  <td class="num-cell">10,604</td>
+                  <td class="num-cell">249</td>
+                  <td class="num-cell">9%</td>
+                  <td class="num-cell">2%</td>
+                  <td><span class="status-pass">PASS</span></td>
+                </tr>
+                <tr style="background-color: #FFF1F2;">
+                  <td><strong>Attempt 5</strong></td>
+                  <td class="num-cell">1,599</td>
+                  <td class="num-cell">7,995</td>
+                  <td class="num-cell">120</td>
+                  <td class="num-cell">8%</td>
+                  <td class="num-cell">2%</td>
+                  <td><span class="status-fail">FAIL (&lt; 8%)</span></td>
+                </tr>
+                <tr style="background-color: #FFF1F2;">
+                  <td><strong>Attempt 6</strong></td>
+                  <td class="num-cell">979</td>
+                  <td class="num-cell">5,874</td>
+                  <td class="num-cell">75</td>
+                  <td class="num-cell">8%</td>
+                  <td class="num-cell">1%</td>
+                  <td><span class="status-fail">FAIL (&lt; 8%)</span></td>
+                </tr>
+                <tr style="background-color: #FFF1F2;">
+                  <td><strong>Attempt 7</strong></td>
+                  <td class="num-cell">629</td>
+                  <td class="num-cell">4,403</td>
+                  <td class="num-cell">38</td>
+                  <td class="num-cell">6%</td>
+                  <td class="num-cell">1%</td>
+                  <td><span class="status-fail">FAIL (&lt; 8%)</span></td>
+                </tr>
+                <tr style="background-color: #FFF1F2;">
+                  <td><strong>Attempts 8 to 10</strong></td>
+                  <td class="num-cell">908</td>
+                  <td class="num-cell">7,997</td>
+                  <td class="num-cell">46</td>
+                  <td class="num-cell">5%</td>
+                  <td class="num-cell">1%</td>
+                  <td><span class="status-fail">FAIL (&lt; 8%)</span></td>
+                </tr>
+                <tr style="background-color: #FFF1F2;">
+                  <td><strong>Attempts 11 to 56</strong></td>
+                  <td class="num-cell">869</td>
+                  <td class="num-cell">14,076</td>
+                  <td class="num-cell">27</td>
+                  <td class="num-cell">3%</td>
+                  <td class="num-cell">0%</td>
+                  <td><span class="status-fail">FAIL (&lt; 8%)</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <div class="insight-card danger">
-            <div class="insight-title" style="color: var(--color-crimson);">The Pricing Fallacy</div>
-            <div class="insight-body">
-              Risk-based pricing has an upper bound. In unsecured personal credit, pricing loans above 25% APR introduces severe adverse selection: creditworthy borrowers seek cheaper alternatives, while financially desperate borrowers accept any rate because they do not expect to fully repay. Rate hikes alone cannot cure subprime default concentration.
+          <!-- Policy Options Comparison Container Inside Right Column -->
+          <div class="comparison-grid" style="margin-top: 20px;">
+            <div class="comparison-col" style="background: var(--bg-paper-alt); padding: 18px;">
+              <div class="insight-title" style="color: var(--ink-black); font-size: 0.72rem;">WAY 1: STOP AFTER CALL 3
+              </div>
+              <p style="font-size: 0.85rem; margin-top: 6px; color: var(--ink-muted); line-height: 1.5;">
+                Agents dial up to 3 times on active lists and stop if there is no sale.
+              </p>
+              <div
+                style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 700; color: var(--color-green); margin-top: 10px; line-height: 1.4;">
+                Frees up 28,044 excess calls (27% of all dials) and keeps 88% of sign-ups (4,085 deposits).
+              </div>
+            </div>
+
+            <div class="comparison-col" style="background: var(--bg-paper-alt); padding: 18px;">
+              <div class="insight-title" style="color: var(--ink-black); font-size: 0.72rem;">WAY 2: SKIP LOW-ODDS LEADS
+                UPFRONT</div>
+              <p style="font-size: 0.85rem; margin-top: 6px; color: var(--ink-muted); line-height: 1.5;">
+                Pre-call checklist filters out low-odds leads before they enter the repeat loop.
+              </p>
+              <div
+                style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 700; color: var(--color-green); margin-top: 10px; line-height: 1.4;">
+                Frees up all 50,949 calls (48% of all dials) and 475 talk hours for better leads.
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Analytical Bridge Callout Grid: Subgrade C4, Term Duration & Small Business -->
-      <div class="comparison-grid" style="margin-top: 36px;">
-        <div class="comparison-col" style="background: var(--bg-paper-alt);">
-          <div class="insight-title" style="color: var(--ink-black);">Where Margin Leakage Begins: Subgrade C4 &amp; E5</div>
-          <p style="font-size: 0.95rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.6;">
-            While Grade C overall earns +4.21% net return, portfolio profitability drops below our +4.00% executive hurdle starting specifically at <strong>Subgrade C4 (+3.44% net return across 74,422 loans)</strong>, slides further to +2.64% across Grade D, and turns completely negative at <strong>Subgrade E5 (-1.34% net return, descending to -9.81% in G5)</strong>.
+      <div class="takeaway-strip">
+        <div class="takeaway-tag">CHAPTER 02 TAKEAWAY</div>
+        <div class="takeaway-body">
+          Calls 1 through 3 bring in 88% of all term deposit sign-ups. Capping repeat calls at 3 attempts meets our 85%
+          volume goal while freeing up nearly half of our call center bandwidth.
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3: CHANNELS & RECENCY (Slide 5 Block) -->
+    <section class="report-section" id="channel" data-slide="5">
+      <div class="section-header">
+        <div class="section-chapter">CHAPTER 03 / PHONE TYPE &amp; FOLLOW-UP SPEED</div>
+        <h2 class="section-title">Mobile Calls Convert at 3x the Rate of Landlines, and Past Buyers Convert at 65%</h2>
+      </div>
+
+      <div class="prose-block">
+        <p class="prose-lead">
+          Next, we looked at how agents reach customers and whether the person had bought from us before. Calling a
+          mobile phone converts at 15%, compared to just 5% when calling a home landline (3x higher conversion, even
+          when comparing people of the same age).
+        </p>
+        <p>
+          Past campaign history is an even stronger signal. Customers who signed up for a deposit in an earlier campaign
+          converted at 65% (36 sign-ups per 100 calls), which is 7x higher than people who had never been called before
+          (9%).
+        </p>
+        <p>
+          When following up with someone from an earlier campaign, speed matters. Customers called within 7 days
+          converted at 66%, compared to 57% when agents waited 8 to 14 days (a 9 percentage point drop).
+        </p>
+      </div>
+
+      <!-- FIGURE 2 EXHIBIT -->
+      <div class="figure-card">
+        <div class="figure-header">
+          <span class="figure-title">Figure 2: Outreach Channel Performance and Prior Campaign Response Recency
+            Matrix</span>
+          <span class="figure-meta">41,188 Prospects | Channel &amp; Outcome Breakdown</span>
+        </div>
+        <div class="figure-body" onclick="openLightbox('assets/fig2_channel_poutcome_matrix.png')">
+          <img src="assets/fig2_channel_poutcome_matrix.png"
+            alt="Figure 2: Outreach Channel Performance and Prior Outcome Matrix">
+        </div>
+        <div class="figure-footer">
+          Mobile phones convert at 15% vs. 5% on landlines. Calling past contacts back within 7 days converts at 66%.
+          <br>
+          <strong>[Click image to enlarge]</strong>
+        </div>
+      </div>
+
+      <div class="two-column-spread">
+        <div class="prose-block">
+          <h3 class="subhead">Why Mobile Phones and Fast Callbacks Win</h3>
+          <p>
+            Home landlines often go unanswered during work hours or reach someone other than the main account holder.
+            Mobile calls reach the decision-maker directly, lifting sign-ups per 100 calls from 2% on landlines to 6% on
+            mobile.
           </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--color-green); margin-top: 12px; line-height: 1.5;">
-            Remedy: Raising interest rates by +1.50% (+150 bps) on Subgrade C4 restores the +4.00% hurdle and generates +$14.2M in added interest revenue.
+          <p>
+            For warm leads from an earlier campaign, waiting an extra week costs us sales:
+          </p>
+          <p>
+            * <strong>Called within 1 to 7 days:</strong> Converts at 66% (36 sign-ups per 100 calls).
+          </p>
+          <p>
+            * <strong>Called after 8 to 14 days:</strong> Drops to 57% (32 sign-ups per 100 calls), losing 9 percentage
+            points.
+          </p>
+
+          <div class="editorial-quote">
+            <div class="quote-text">
+              "Mobile calls convert at nearly 3x the rate of landlines, and past buyers convert at 65%. Calling warm
+              leads within 7 days captures a 66% sign-up rate before interest cools off."
+            </div>
+            <div class="quote-author">PHONE &amp; TIMING FINDING</div>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-title">SPEED-TO-LEAD RESPONSE TIMELINE</div>
+            <div class="insight-body">
+              * <strong>Called within 1 to 7 Days (Fast-Lane):</strong> 66% conversion across 1,177 prospects (36
+              sign-ups per 100 calls).
+              <br><br>
+              * <strong>Called in 8 to 14 Days (Delayed Outreach):</strong> 57% conversion across 255 prospects (32
+              sign-ups per 100 calls; -9 percentage point drop).
+              <br><br>
+              * <strong>Never Called Before (Cold Leads):</strong> 9% conversion across 39,673 prospects (4 sign-ups per
+              100 calls).
+              <br><br>
+              <em>Action: Automatically route past buyers to agents within 7 days before interest cools off.</em>
+            </div>
           </div>
         </div>
 
-        <div class="comparison-col" style="background: var(--bg-paper-alt);">
-          <div class="insight-title" style="color: var(--ink-black);">Duration &amp; Purpose Leakage: 5-Year Terms &amp; Small Business</div>
-          <p style="font-size: 0.95rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.6;">
-            Beyond credit grade tiering, two structural dimensions leak substantial capital:
-            <br><br>
-            1. <strong>5-Year (60-Month) Loans:</strong> Default at <strong>32.45%</strong> (2.03x the 16.00% rate of 36-month loans), cutting net returns in half (+2.57% vs. +5.12%).
-            <br>
-            2. <strong>Unsecured Small Business Loans ($240.1M funded):</strong> Hit a <strong>29.71% default rate</strong> and lose money overall (<strong>-0.59% net return</strong>).
+        <div>
+          <!-- Channel Table -->
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>CUSTOMER GROUP</th>
+                  <th>CALLS DIALED</th>
+                  <th>SIGN-UPS</th>
+                  <th>CONV. RATE</th>
+                  <th>YIELD / 100 CALLS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Mobile Phone</strong></td>
+                  <td class="num-cell">62,877</td>
+                  <td class="num-cell">3,853</td>
+                  <td class="num-cell" style="color: var(--color-green); font-weight: 700;">15%</td>
+                  <td class="num-cell">6%</td>
+                </tr>
+                <tr>
+                  <td><strong>Landline Phone</strong></td>
+                  <td class="num-cell">42,877</td>
+                  <td class="num-cell">787</td>
+                  <td class="num-cell">5%</td>
+                  <td class="num-cell">2%</td>
+                </tr>
+                <tr style="background: var(--color-green-light);">
+                  <td><strong>Past Campaign Buyer</strong></td>
+                  <td class="num-cell">2,483</td>
+                  <td class="num-cell">894</td>
+                  <td class="num-cell" style="color: var(--color-green); font-weight: 700;">65%</td>
+                  <td class="num-cell">36%</td>
+                </tr>
+                <tr>
+                  <td><strong>Called Within 7 Days</strong></td>
+                  <td class="num-cell">2,123</td>
+                  <td class="num-cell">774</td>
+                  <td class="num-cell">66%</td>
+                  <td class="num-cell">36%</td>
+                </tr>
+                <tr>
+                  <td><strong>Called in 8 to 14 Days</strong></td>
+                  <td class="num-cell">457</td>
+                  <td class="num-cell">145</td>
+                  <td class="num-cell">57%</td>
+                  <td class="num-cell">32%</td>
+                </tr>
+                <tr>
+                  <td><strong>Never Called Before</strong></td>
+                  <td class="num-cell">102,154</td>
+                  <td class="num-cell">3,673</td>
+                  <td class="num-cell">9%</td>
+                  <td class="num-cell">4%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-title">THE 7-DAY CALLBACK RULE</div>
+            <div class="insight-body">
+              Putting past campaign buyers at the top of the call queue within 7 days locks in a 66% conversion rate.
+              Waiting a second week drops conversion by 9 percentage points.
+            </div>
+          </div>
+
+          <div class="takeaway-strip" style="margin-top: 20px; padding: 16px 20px; flex-direction: column; gap: 8px;">
+            <div class="takeaway-tag" style="color: var(--ink-black);">CHAPTER 03 TAKEAWAY</div>
+            <div class="takeaway-body" style="font-size: 0.88rem;">
+              Dialing mobile numbers first and calling past buyers back within 7 days gives our team a 3x to 7x jump in
+              conversion rate.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: MACRO & DEMOGRAPHICS (Slide 6 Block) -->
+    <section class="report-section" id="demographics" data-slide="6">
+      <div class="section-header">
+        <div class="section-chapter">CHAPTER 04 / AGE GROUPS &amp; INTEREST RATES</div>
+        <h2 class="section-title">Shifting Calls Away from 31-45 Year Olds Toward Seniors, Students, and Low-Rate
+          Periods</h2>
+      </div>
+
+      <div class="prose-block">
+        <p class="prose-lead">
+          More than half of all calls in our dataset (56,174 dials, or 53%) went to working-age adults between 31 and
+          45. Yet that group signed up only 9% of the time. Meanwhile, seniors aged 60 and older signed up at 45% (5x
+          higher), and students signed up at 31% (more than 3x higher).
+        </p>
+        <p>
+          Broader interest rates also play a huge role in when people lock in term deposits. During months when the
+          3-month Euribor interest rate was 3% or lower, 24% of prospects signed up (12 sign-ups per 100 calls),
+          compared to just 5% when rates were above 3% (a 5x jump).
+        </p>
+      </div>
+
+      <!-- FIGURE 3 EXHIBIT -->
+      <div class="figure-card">
+        <div class="figure-header">
+          <span class="figure-title">Figure 3: Age by Job Interaction Heatmap Alongside Interest Rate and Balance
+            Lift</span>
+          <span class="figure-meta">41,188 Prospects Enriched with 5 Market Indicators</span>
+        </div>
+        <div class="figure-body" onclick="openLightbox('assets/fig3_macro_demographic_heatmap.png')">
+          <img src="assets/fig3_macro_demographic_heatmap.png"
+            alt="Figure 3: Age by Job Interaction Heatmap Alongside Interest Rate and Balance Lift">
+        </div>
+        <div class="figure-footer">
+          Seniors 60+ convert at 45% and students at 31%. When Euribor interest rates fall to 3% or below, conversion
+          jumps from 5% to 24%.
+          <br>
+          <strong>[Click image to enlarge]</strong>
+        </div>
+      </div>
+
+      <div class="two-column-spread">
+        <div class="prose-block">
+          <h3 class="subhead">Ranking What Matters Before We Dial</h3>
+          <p>
+            To see how all of these factors work together without using call length, we scored all 41,188 records using
+            only information known before an agent dials. The results confirm that past buyers, low interest rate
+            periods, seniors, and students are by far our strongest prospects:
           </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--color-crimson); margin-top: 12px; line-height: 1.5;">
-            Remedy: Cap 5-year terms to 680+ FICO borrowers and require secondary tax verification (IRS Form 4506-C) for small business loans.
+          <p>
+            * <strong>Past Campaign Buyer:</strong> 9x higher odds of signing up compared to someone whose past call
+            failed.
+          </p>
+          <p>
+            * <strong>Low Interest Rate Period (&lt;= 3%):</strong> 4x higher odds of signing up than during high-rate
+            months.
+          </p>
+          <p>
+            * <strong>Seniors (60+) &amp; Students/Retirees:</strong> Nearly 2x higher odds of signing up.
+          </p>
+          <p>
+            * <strong>Landline Phones &amp; 31-45 Age Group:</strong> Lower conversion odds by 22% to 31%.
+          </p>
+
+          <div class="editorial-quote">
+            <div class="quote-text">
+              "When interest rates are 3% or below, conversion jumps 5x from 5% to 24%. Seniors (45%) and students (31%)
+              convert at 3x to 5x the rate of 31-45 year olds (9%)."
+            </div>
+            <div class="quote-author">KEY AUDIT RESULT</div>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-title">WHY LOW INTEREST RATES DRIVE DEPOSITS</div>
+            <div class="insight-body">
+              * <strong>Guaranteed Returns Appeal:</strong> When floating interest rates drop to 3% or below, stock and
+              bond returns fluctuate, driving customers to seek guaranteed term deposit yields (24% conversion vs. 5%
+              during high-rate periods).
+              <br><br>
+              * <strong>Stable Household Budgets:</strong> Seniors (45% conversion) and students (31%) have fewer
+              mortgage and debt payments than 31-45 year olds (9%), making them far more willing to commit savings to
+              fixed term deposits.
+              <br><br>
+              <em>Action: Increase outbound call volume during low-interest-rate months to capture high depositor
+                demand.</em>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- Pre-Call Scoring Table -->
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>CUSTOMER OR MARKET TRAIT</th>
+                  <th>ODDS MULTIPLIER</th>
+                  <th>CONV. IMPACT</th>
+                  <th>DIALER ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: var(--color-green-light);">
+                  <td><strong>Past Campaign Buyer</strong></td>
+                  <td class="num-cell" style="font-weight: 700;">9x higher odds</td>
+                  <td class="num-cell">65% conversion</td>
+                  <td>Priority Fast-Lane (Call within 7 days)</td>
+                </tr>
+                <tr style="background: var(--color-green-light);">
+                  <td><strong>Low Interest Rate (&lt;= 3%)</strong></td>
+                  <td class="num-cell" style="font-weight: 700;">4x higher odds</td>
+                  <td class="num-cell">24% conversion</td>
+                  <td>Expand outbound call volume</td>
+                </tr>
+                <tr>
+                  <td><strong>Senior Citizen (Age 60+)</strong></td>
+                  <td class="num-cell">2x higher odds</td>
+                  <td class="num-cell">45% conversion</td>
+                  <td>Move to top of mobile call queue</td>
+                </tr>
+                <tr>
+                  <td><strong>Students &amp; Retirees</strong></td>
+                  <td class="num-cell">2x higher odds</td>
+                  <td class="num-cell">25% to 31% conv</td>
+                  <td>Prioritize over working-age lists</td>
+                </tr>
+                <tr>
+                  <td><strong>White-Collar Jobs</strong></td>
+                  <td class="num-cell">1.3x higher odds</td>
+                  <td class="num-cell">11% to 13% conv</td>
+                  <td>Standard mobile outreach (max 3 calls)</td>
+                </tr>
+                <tr>
+                  <td><strong>Higher Bank Balance (&gt; 448 EUR)</strong></td>
+                  <td class="num-cell">1.6x higher odds</td>
+                  <td class="num-cell">14% conversion</td>
+                  <td>Prioritize over low-balance accounts (9%)</td>
+                </tr>
+                <tr style="background-color: #FEF2F2;">
+                  <td><strong>Incomplete Profile ('Unknown')</strong></td>
+                  <td class="num-cell">23% lower odds</td>
+                  <td class="num-cell">7% conversion</td>
+                  <td>Hold until contact info is updated</td>
+                </tr>
+                <tr style="background-color: #FEF2F2;">
+                  <td><strong>Working Age (31 to 45)</strong></td>
+                  <td class="num-cell">22% lower odds</td>
+                  <td class="num-cell">9% conversion</td>
+                  <td>Cut call share from 53% and cap at 3 calls</td>
+                </tr>
+                <tr style="background-color: #FEF2F2;">
+                  <td><strong>Landline Telephone</strong></td>
+                  <td class="num-cell">31% lower odds</td>
+                  <td class="num-cell">5% conversion</td>
+                  <td>Use only when no mobile number is on file</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Comparison Allocation Grid Inside Right Column -->
+          <div class="comparison-grid" style="margin-top: 20px;">
+            <div class="comparison-col" style="background: var(--bg-paper-alt); padding: 18px;">
+              <div class="insight-title" style="color: var(--color-crimson); font-size: 0.72rem;">CURRENT CALL LISTS
+              </div>
+              <p style="font-size: 0.85rem; margin-top: 6px; color: var(--ink-muted); line-height: 1.5;">
+                53% of all calls (56,174 dials) go to 31-45 year olds (9% conversion), and 37% of leads are called on
+                landlines (5% conversion).
+              </p>
+            </div>
+
+            <div class="comparison-col" style="background: var(--bg-paper-alt); padding: 18px;">
+              <div class="insight-title" style="color: var(--color-green); font-size: 0.72rem;">UPDATED CALL LISTS</div>
+              <p style="font-size: 0.85rem; margin-top: 6px; color: var(--ink-muted); line-height: 1.5;">
+                Shift freed-up calls toward Seniors 60+ (45% conversion), Students (31%), Mobile numbers (15%), and
+                Low-Rate months (24%).
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 02 Key Takeaway</div>
+        <div class="takeaway-tag">CHAPTER 04 TAKEAWAY</div>
         <div class="takeaway-body">
-          Grades D through G represent an unsustainable <strong>1.81x loss imbalance</strong>, generating over half of all platform charge-offs ($1.40B). Yet an outright ban on all subprime loans would sacrifice $5.52B in originations, violating our volume guardrail. We must find the specific risk drivers within subprime that separate performing notes from terminal defaults.
+          Shifting call lists toward seniors, students, mobile phones, and low-rate periods lifts conversion up to 5x
+          compared to calling 31-45 year olds.
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 3: MULTI-VARIABLE RISK GRID (Slide 5 Block) -->
-    <section class="report-section" id="risk-grid" data-slide="5">
+    <!-- CHAPTER 5: POLICY SIMULATION & 90-DAY ROLLOUT (Slide 7 Block) -->
+    <section class="report-section" id="rollout" data-slide="7">
       <div class="section-header">
-        <div class="section-chapter">Chapter 03 / Multi-Variable Underwriting</div>
-        <h2 class="section-title">The Liquidity Stress Mechanism: Isolating Dual-Variable Borrower Risk</h2>
+        <div class="section-chapter">CHAPTER 05 / TESTING THE PLAN &amp; 90-DAY ROLLOUT</div>
+        <h2 class="section-title">Saving 475 Talk Hours or Adding Up to 3,242 Sign-Ups With Existing Staff</h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          To reduce subprime losses without triggering commercial collapse, we investigated the underlying financial mechanics that drive consumer credit default. Traditional underwriting models frequently rely on univariate filters, screening borrowers strictly on Debt-to-Income (DTI) or strictly on credit card utilization. Our empirical findings demonstrate why univariate screening consistently fails.
-        </p>
-
-        <h3 class="subhead">The Fallacy of Single-Variable Screening</h3>
-        <p>
-          Screening on Debt-to-Income alone penalizes high-earning professionals with substantial mortgages or student loans who comfortably service their debts out of significant residual income. Conversely, screening on credit card utilization alone penalizes disciplined prime borrowers who actively use credit cards for rewards and pay balances in full each month.
+          By combining a 3-call limit with better call list targeting, leadership can either bank 475 hours in saved
+          phone time or redirect those saved calls to higher-converting prospects to add 1,535 to 3,242 net new deposits
+          (+33% to +70%) without hiring a single extra rep.
         </p>
         <p>
-          Univariate cutoffs are blunt: they reject creditworthy borrowers, causing high commercial friction, while failing to catch high-risk borrowers who sit just below individual thresholds.
-        </p>
-
-        <h3 class="subhead">The Synergistic Mechanism: Leverage Meets Liquidity Depletion</h3>
-        <p>
-          Consumer default is fundamentally a liquidity crisis. We tested the joint interaction of two complementary financial dimensions:
-        </p>
-        <p>
-          1. <strong>Structural Cash Flow Strain (Monthly Debt Ratio / DTI):</strong> Measures what proportion of a borrower's gross monthly income is legally committed to debt payments. High DTI indicates low monthly discretionary cash flow.
-        </p>
-        <p>
-          2. <strong>Liquidity Reserve Exhaustion (Revolving Credit Card Utilization):</strong> Measures the percentage of available credit lines already drawn. High utilization indicates that the borrower has depleted their emergency credit buffer.
-        </p>
-        <p>
-          When a borrower experiences one stressor in isolation, they can typically survive: a borrower with high DTI can tap open credit cards to navigate an unexpected expense, while a borrower with maxed-out credit cards can use high discretionary monthly income to pay down balances.
-        </p>
-        <p>
-          However, when <strong>both variables cross critical thresholds simultaneously (DTI &gt; 25% AND Card Utilization &gt; 65%)</strong>, the borrower enters a catastrophic liquidity trap. They have zero monthly cash flow buffer and zero available credit lines. Any routine financial shock (a car breakdown, unexpected medical co-pay, or temporary hours reduction) leaves them unable to meet debt service, triggering immediate loan abandonment.
+          We tested six rollout options across our 105,754 historical call capacity to compare calls saved, sign-ups
+          won, and agent minutes per deposit:
         </p>
       </div>
 
-      <!-- Full-Width Figure Card: Figure 2 -->
+      <!-- FIGURE 4 EXHIBIT -->
       <div class="figure-card">
         <div class="figure-header">
-          <span>Figure 2: 4x4 Risk Matrix Across Monthly Debt Ratio (DTI) and Credit Card Utilization</span>
-          <span style="font-family: 'JetBrains Mono', monospace;">1.34M Completed Loans</span>
+          <span class="figure-title">Figure 4: Total Subscriptions and Talk Minutes per Sign-Up Across Policy
+            Reallocation Scenarios</span>
+          <span class="figure-meta">Simulation Engine Across 105,754 Call Capacity</span>
         </div>
-        <div class="figure-img-wrap">
-          <img src="assets/fig2_risk_grid_heatmap.png" alt="Figure 2: Multi-Variable Risk Grid Heatmap">
+        <div class="figure-body" onclick="openLightbox('assets/fig4_policy_reallocation_waterfall.png')">
+          <img src="assets/fig4_policy_reallocation_waterfall.png"
+            alt="Figure 4: Total Subscriptions and Talk Minutes per Sign-Up Across Scenarios">
         </div>
-        <div class="figure-caption">
-          Statistical Validation: Chi-Square = 5,465 (p &lt; 0.001) | Relative Risk = 2.01x vs. Low-Risk Baseline | Odds Ratio = 1.67x (95% CI: 1.65 to 1.69).
-        </div>
-      </div>
-
-      <div class="prose-block">
-        <h3 class="subhead">Empirical Heatmap Analysis</h3>
-        <p>
-          Across the 1.345 million completed loan cohort, the 4x4 risk grid illustrates a continuous, compounding escalation of default probability:
-        </p>
-        <p>
-          * <strong>Low-Risk Baseline (DTI &le; 15% and Utilization &le; 40%):</strong> Default rate of only <strong>14.11%</strong> across 213,691 loans. These borrowers possess both substantial disposable income and deep liquidity reserves.
-        </p>
-        <p>
-          * <strong>Moderate-Risk Transition Zone:</strong> As either metric increases independently, default rates rise modestly into the 16% to 22% range.
-        </p>
-        <p>
-          * <strong>High-Stress Intersection (DTI &gt; 25% and Utilization &gt; 65%):</strong> Default rates surge to <strong>28.41%</strong> across 112,246 loans. When restricted specifically to subprime borrowers (Grades D through G), the default rate in this high-stress quadrant spikes to an astonishing <strong>38.88%</strong>.
-        </p>
-        <p>
-          Statistical testing confirms that borrowers in this high-stress quadrant face a <strong>2.01x relative risk</strong> compared to low-risk peers, with an odds ratio of 1.67x (95% CI: 1.65 to 1.69) and a Chi-Square test statistic of 5,465 (p &lt; 0.001).
-        </p>
-      </div>
-
-      <!-- Policy Comparison Container -->
-      <div class="comparison-grid">
-        <div class="comparison-col" style="background: var(--color-crimson-light);">
-          <div class="insight-title" style="color: var(--color-crimson);">Option A: Blanket Ban on All Subprime (Grades D-G)</div>
-          <p style="font-size: 0.95rem; margin-top: 8px; color: var(--ink-muted);">
-            Eliminates all $5.52B in subprime volume (28.45% of the total loan portfolio).
-          </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--color-crimson); margin-top: 12px; line-height: 1.5;">
-            Result: FAILS volume guardrail (only 71.55% retained vs. 80.0% minimum) and turns away $4.1B in healthy, performing loans.
-          </div>
-        </div>
-
-        <div class="comparison-col" style="background: var(--color-green-light);">
-          <div class="insight-title" style="color: var(--color-green);">Option B: Targeted Hard-Stop (DTI &gt; 25% AND Card Usage &gt; 65%)</div>
-          <p style="font-size: 0.95rem; margin-top: 8px; color: var(--ink-muted);">
-            Declines only the 47,705 subprime applications in the high-stress quadrant defaulting at 38.88%.
-          </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--color-green); margin-top: 12px; line-height: 1.5;">
-            Result: PASSES volume guardrail (95.81% retained / $18.58B) while eliminating +$230.0M in net unpaid losses.
-          </div>
+        <div class="figure-footer">
+          Stopping after 3 calls frees up 28,044 to 50,949 calls (475 talk hours) while keeping 88% of current sign-ups.
+          <br>
+          <strong>[Click image to enlarge]</strong>
         </div>
       </div>
 
-      <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 03 Key Takeaway</div>
-        <div class="takeaway-body">
-          Default risk is driven by the lethal intersection of cash flow strain and credit exhaustion. By requiring both DTI &gt; 25% and revolving utilization &gt; 65%, we isolate a specific subprime borrower cohort defaulting at <strong>38.88%</strong>, enabling targeted risk reduction without broad commercial collateral damage.
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 4: CAPITAL WATERFALL & FINANCIAL IMPACT (Slide 6 Block) -->
-    <section class="report-section" id="waterfall" data-slide="6">
-      <div class="section-header">
-        <div class="section-chapter">Chapter 04 / Policy Simulation</div>
-        <h2 class="section-title">Capital Recovery Waterfall: Capturing $230M in Net Loss Reductions</h2>
-      </div>
-
-      <div class="prose-block">
-        <p class="prose-lead">
-          To prove the commercial and financial feasibility of Option B before production deployment, we modeled the proposed automated decline filter through an empirical policy simulation against the matured loan book.
-        </p>
-        <p>
-          The simulation tracks the exact financial trade-offs of declining 47,705 subprime applications in the dual-stress quadrant ($813.1M in funded capital). It accounts for averted charge-offs as well as forfeited origination fees and lost contractual interest from the non-defaulting portion of the pruned book.
-        </p>
-      </div>
-
-      <!-- Full-Width Figure Card: Figure 3 -->
-      <div class="figure-card">
-        <div class="figure-header">
-          <span>Figure 3: Capital Recovery Waterfall Across Phase 1 Underwriting Hard-Stop</span>
-          <span style="font-family: 'JetBrains Mono', monospace;">Policy Simulation Model</span>
-        </div>
-        <div class="figure-img-wrap">
-          <img src="assets/fig3_capital_waterfall.png" alt="Figure 3: Capital Recovery Waterfall">
-        </div>
-        <div class="figure-caption">
-          Solvency Outcome: Subprime net write-offs fall from $1,404.1M to $1,174.1M (-16.4%) while keeping 95.81% of total loan volume ($18.58B).
-        </div>
-      </div>
-
-      <div class="prose-block">
-        <h3 class="subhead">Decomposition of Capital Recovery</h3>
-        <p>
-          The waterfall model walks through three foundational steps:
-        </p>
-        <p>
-          1. <strong>Baseline Subprime Losses ($1,404.1M):</strong> Current cumulative net write-offs generated by Grades D through G across 335,800 mature notes.
-        </p>
-        <p>
-          2. <strong>Phase 1 Automated Hard-Stop Savings (-$230.04M net):</strong> Declining the 47,705 dual-stress subprime loans averts <strong>18,548 terminal defaults</strong>, eliminating $254.10M in gross principal write-offs. After subtracting $24.06M in forfeited interest and servicing fee margin from the 29,157 performing loans in that cohort, the net capital recovery is <strong>$230.0M</strong>.
-        </p>
-        <p>
-          3. <strong>Preserved Subprime Losses ($1,174.1M):</strong> Following rule implementation, subprime losses contract by <strong>-16.4%</strong>, while the platform preserves <strong>$18.58B (95.81%)</strong> of total originations.
-        </p>
-
-        <h3 class="subhead">Capital Efficiency and Unit Economics</h3>
-        <p>
-          The true power of the targeted hard-stop lies in its capital efficiency ratio: the policy eliminates <strong>38.88% of default volume</strong> in the target segment while pruning only <strong>3.55% of platform loan count</strong>. Rather than sacrificing platform scale, we prune only the concentrated toxic tail.
-        </p>
-        <p>
-          At the enterprise portfolio level, net return on capital (LAROC) expands by <strong>+14.9 basis points</strong> (from +4.26% to +4.40%), solidly above the executive +4.00% profit hurdle. Concurrently, the seasoned portfolio default rate declines from 19.96% to 18.99%, successfully clearing the 19.30% executive default ceiling.
-        </p>
-      </div>
-
-      <!-- Sensitivity Rollout Matrix -->
+      <!-- Scenario Comparison Table -->
       <div class="data-table-wrap">
         <table class="data-table">
           <thead>
             <tr>
-              <th>Implementation Scenario</th>
-              <th>Saved Net Losses</th>
-              <th>Rate Pricing Lift</th>
-              <th>Total Value Created</th>
-              <th>Defaults Prevented</th>
-              <th>Volume Retained</th>
+              <th>ROLLOUT OPTION</th>
+              <th>CALLS DIALED</th>
+              <th>CALLS SAVED</th>
+              <th>SIGN-UPS WON</th>
+              <th>NET CHANGE</th>
+              <th>YIELD / 100 CALLS</th>
+              <th>TALK HOURS SAVED</th>
+              <th>MIN / SIGN-UP</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>60% Conservative Rollout</strong> (Gradual Test)</td>
-              <td class="num-cell">+$138.0M</td>
-              <td class="num-cell">+$8.5M</td>
-              <td class="num-cell" style="font-weight: 700;">+$146.5M</td>
-              <td class="num-cell">11,129</td>
-              <td class="num-cell">97.4%</td>
+              <td><strong>Option 0: Current Baseline (No Cap)</strong></td>
+              <td class="num-cell">105,754</td>
+              <td class="num-cell">0</td>
+              <td class="num-cell">4,640</td>
+              <td class="num-cell">0</td>
+              <td class="num-cell">4%</td>
+              <td class="num-cell">0 hours</td>
+              <td class="num-cell">38 min</td>
             </tr>
             <tr>
-              <td><strong>80% Year 1 Target</strong> (Enterprise Adoption)</td>
-              <td class="num-cell">+$184.0M</td>
-              <td class="num-cell">+$11.4M</td>
-              <td class="num-cell" style="font-weight: 700;">+$195.4M</td>
-              <td class="num-cell">14,838</td>
-              <td class="num-cell">96.6%</td>
+              <td><strong>Option 1A: 3-Call Cap (Upfront Filter)</strong></td>
+              <td class="num-cell">54,805</td>
+              <td class="num-cell">50,949 (48%)</td>
+              <td class="num-cell">4,085</td>
+              <td class="num-cell">-555 (88% kept)</td>
+              <td class="num-cell">7%</td>
+              <td class="num-cell">475 hours</td>
+              <td class="num-cell">36 min</td>
+            </tr>
+            <tr>
+              <td><strong>Option 1B: 3-Call Cap (Stop After Call 3)</strong></td>
+              <td class="num-cell">77,710</td>
+              <td class="num-cell">28,044 (27%)</td>
+              <td class="num-cell">4,085</td>
+              <td class="num-cell">-555 (88% kept)</td>
+              <td class="num-cell">5%</td>
+              <td class="num-cell">475 hours</td>
+              <td class="num-cell">36 min</td>
+            </tr>
+            <tr>
+              <td><strong>Option 2A: Redirect 28k Saved Calls (Standard 7% Yield)</strong></td>
+              <td class="num-cell">105,754</td>
+              <td class="num-cell">0 (Reinvested)</td>
+              <td class="num-cell">6,175</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+1,535 (+33%)</td>
+              <td class="num-cell">6%</td>
+              <td class="num-cell">Reinvested</td>
+              <td class="num-cell">29 min</td>
+            </tr>
+            <tr>
+              <td><strong>Option 2B: Redirect 28k Saved Calls (Low-Rate 12% Yield)</strong></td>
+              <td class="num-cell">105,754</td>
+              <td class="num-cell">0 (Reinvested)</td>
+              <td class="num-cell">7,362</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+2,722 (+59%)</td>
+              <td class="num-cell">7%</td>
+              <td class="num-cell">Reinvested</td>
+              <td class="num-cell">24 min</td>
             </tr>
             <tr style="background: var(--color-green-light);">
-              <td><strong>100% Production Rule</strong> (Full Deployment)</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$230.0M</td>
-              <td class="num-cell">+$14.2M</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$244.2M</td>
-              <td class="num-cell" style="font-weight: 700;">18,548</td>
-              <td class="num-cell" style="font-weight: 700;">95.81% ($18.58B)</td>
+              <td><strong>Option 2C: Redirect All 51k Saved Calls (Upfront Filter)</strong></td>
+              <td class="num-cell">105,754</td>
+              <td class="num-cell">0 (Reinvested)</td>
+              <td class="num-cell" style="font-weight: 700;">7,882</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+3,242 (+70%)</td>
+              <td class="num-cell" style="font-weight: 700;">7%</td>
+              <td class="num-cell">Reinvested</td>
+              <td class="num-cell" style="font-weight: 700;">22 min</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 04 Key Takeaway</div>
-        <div class="takeaway-body">
-          Targeted algorithmic decline delivers <strong>+$230.0M in net capital recovery</strong> and prevents 18,548 terminal defaults while preserving <strong>95.81% of total loan capital</strong>. Sensitivity stress testing confirms that even a conservative 60% adoption delivers over $146M in net value.
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 5: 90-DAY IMPLEMENTATION PLAN (Slide 7 Block) -->
-    <section class="report-section" id="rollout" data-slide="7">
-      <div class="section-header">
-        <div class="section-chapter">Chapter 05 / Execution Roadmap</div>
-        <h2 class="section-title">90-Day Production Rollout & Governance Roadmap</h2>
-      </div>
-
-      <div class="prose-block">
-        <p class="prose-lead">
-          Transitioning econometric insights into production decisioning requires a disciplined operational framework. A sudden, uncoordinated rule deployment risks credit delivery disruption, adverse regulatory scrutiny, or borrower attrition.
-        </p>
-        <p>
-          We designed a structured 90-day phased rollout strategy divided into three distinct execution stages, assigning explicit ownership across Underwriting Policy, Risk Analytics, and Servicing Operations.
-        </p>
-      </div>
-
+      <!-- 90-Day Operational Rollout Schedule -->
+      <h3 class="subhead" style="margin-top: 48px;">90-Day Operational Rollout Schedule</h3>
       <div class="data-table-wrap">
         <table class="data-table">
           <thead>
             <tr>
-              <th style="width: 140px;">Timeline</th>
-              <th style="width: 220px;">Action Item</th>
-              <th>Target Borrower Cohort</th>
-              <th>Owner</th>
-              <th>Financial Impact</th>
+              <th style="width: 18%;">ROLLOUT PHASE</th>
+              <th style="width: 25%;">WHAT WE DO</th>
+              <th style="width: 23%;">WHO IT COVERS</th>
+              <th style="width: 16%;">TEAM OWNER</th>
+              <th>EXPECTED RESULT</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Phase 1: Immediate</strong><br><span style="font-size: 0.72rem; color: var(--ink-muted);">Days 1 to 30</span></td>
-              <td><strong>Automated Decline Filter</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Embed algorithmic hard-stop at application intake.</span></td>
-              <td>Grades D-G applicants with DTI &gt; 25% AND card utilization &gt; 65% (47,705 originations).</td>
-              <td>Underwriting Policy</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$230.0M saved losses<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">18,548 defaults averted</span></td>
+              <td><strong>Phase 1: Days 1 to 30</strong></td>
+              <td><strong>Cap Calls at 3 Attempts:</strong> Set the dialer to stop calling a lead after 3 unsuccessful
+                attempts.</td>
+              <td>All prospects reaching call 3 without signing up (7,635 leads; 50,949 calls).</td>
+              <td>Call Center Operations Manager</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Frees up 28,044 to 50,949 calls,
+                saves 475 talk hours, and keeps 88% of sign-ups.</td>
             </tr>
             <tr>
-              <td><strong>Phase 2: Near-Term</strong><br><span style="font-size: 0.72rem; color: var(--ink-muted);">Days 30 to 60</span></td>
-              <td><strong>Subgrade C4 Repricing</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Tighten marginal prime pricing and 5-year terms.</span></td>
-              <td>Add +1.50% (+150 bps) interest rate to 74,422 Subgrade C4 loans; require 680+ FICO on 5-year loans.</td>
-              <td>Pricing &amp; Risk Analytics</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+$14.2M net revenue<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">Restores +4.00% hurdle</span></td>
+              <td><strong>Phase 2: Days 30 to 60</strong></td>
+              <td><strong>Mobile-First &amp; 7-Day Callback Rule:</strong> Dial mobile numbers first and call past
+                buyers within 7 days.</td>
+              <td>Prospects with mobile numbers (26,144 leads) and past contacts (1,515 leads).</td>
+              <td>CRM &amp; Dialer Routing Team</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Lifts channel conversion from 5%
+                to 15% (3x) and captures 65% conversion on past buyers.</td>
             </tr>
             <tr>
-              <td><strong>Phase 3: Ongoing</strong><br><span style="font-size: 0.72rem; color: var(--ink-muted);">Days 60 to 90</span></td>
-              <td><strong>Small Business Verification</strong><br><span style="font-size: 0.78rem; color: var(--ink-muted);">Require tax returns for unverified business debt.</span></td>
-              <td>Unsecured business loans ($240.1M book; 29.71% default rate); early intervention on 38K late accounts.</td>
-              <td>Credit Servicing Operations</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Stops -0.59% cash loss<br><span style="font-size: 0.72rem; color: var(--ink-muted); font-weight: 400;">15% delinquency recovery</span></td>
+              <td><strong>Phase 3: Days 60 to 90</strong></td>
+              <td><strong>Update Call List Priority:</strong> Shift call share toward Seniors 60+, Students, and
+                low-rate periods.</td>
+              <td>Seniors (45% conversion), Students (31%), and months when Euribor is 3% or below (24%).</td>
+              <td>VP of Growth Marketing</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Adds 1,535 to 3,242 net new
+                sign-ups (+33% to +70%) and cuts talk time to 22 minutes per deposit.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="prose-block" style="margin-top: 36px;">
-        <h3 class="subhead">Operational Governance and Regulatory Compliance</h3>
+        <h3 class="subhead">Practical Safeguards</h3>
         <p>
-          Each phase adheres to strict credit industry governance standards:
+          * <strong>Protecting Customers from Annoying Repeat Calls:</strong> Stopping at 3 calls prevents reps from
+          calling the same customer 10 to 50+ times and reduces customer complaints.
         </p>
         <p>
-          * <strong>Adverse Action &amp; Fair Lending (FCRA / ECOA):</strong> For Phase 1 declined applications, the decisioning engine generates standardized adverse action notices citing specific objective credit bureau variables ("Excessive debt obligations relative to income" and "High revolving credit line utilization"). This ensures full compliance with Equal Credit Opportunity Act (Regulation B) requirements.
+          * <strong>Keeping Our 8% Conversion &amp; 85% Volume Goals:</strong> Every rollout option keeps conversion
+          well above our 8% minimum goal and keeps total sign-ups above 85% of baseline.
         </p>
         <p>
-          * <strong>Subgrade C4 Yield Optimization:</strong> Subgrade C4 represents a pivotal threshold where default risk jumps to 22.8% while interest rates remain compressed at prime levels. Adding +150 bps to 74,422 notes generates <strong>+$14.2M in net pricing yield</strong>, lifting marginal tier returns above our +4.00% profit hurdle. Restricting 60-month loans to borrowers with 680+ FICO eliminates long-duration loss volatility.
-        </p>
-        <p>
-          * <strong>Business Loan Documentation:</strong> Unsecured small business loans ($240.1M volume) represented the single worst-performing loan purpose on the platform, suffering a 29.71% default rate and a net cash loss of -0.59%. Phase 3 requires IRS Form 4506-C tax transcripts and automated bank account cash flow verification, eliminating unverified commercial loss leakage.
-        </p>
-        <p>
-          * <strong>Continuous Surveillance:</strong> Risk Analytics tracks the Population Stability Index (PSI) weekly to detect borrower score drift, monitors 6-month vintage loss curves against historical benchmarks, and convenes a quarterly Underwriting Committee review to calibrate threshold rules against prevailing macroeconomic interest rate cycles.
+          * <strong>Pacing Campaigns Around Interest Rates:</strong> Marketing checks the 3-month Euribor rate each week
+          to ramp up outbound calling when rates drop to 3% or lower.
         </p>
       </div>
 
       <div class="takeaway-strip">
-        <div class="takeaway-tag">Chapter 05 Key Takeaway</div>
+        <div class="takeaway-tag">CHAPTER 05 TAKEAWAY</div>
         <div class="takeaway-body">
-          A phased 90-day rollout creates <strong>+$244.2M in total cumulative value</strong> (+$230.0M from Phase 1 loss savings and +$14.2M from Phase 2 pricing lift). Governed by FCRA-compliant intake automation, vintage curve tracking, and small business documentation, the strategy restores platform solvency while keeping 95.8% of origination volume intact.
+          Capping repeat calls at 3 attempts and redirecting saved calls to better prospects adds up to 3,242 term
+          deposit sign-ups (+70%) and cuts agent phone time per deposit by 41%.
         </div>
       </div>
     </section>
 
     <!-- FOOTER -->
-    <footer style="padding: 48px 0; text-align: center; color: var(--ink-muted); font-size: 0.8rem;">
+    <footer
+      style="padding: 48px 0; text-align: center; color: var(--ink-muted); font-size: 0.85rem; border-top: var(--hairline); margin-top: 40px;">
       <p style="margin-bottom: 12px;">Prepared by <strong>John Amores</strong> | Data Analyst Portfolio Case Study</p>
       <p>
-        <a href="cockpit.html" style="color: var(--ink-black); font-weight: 700; margin: 0 12px;">Launch Underwriting Cockpit</a>
+        <a href="lead-qualifier.html" style="color: var(--ink-black); font-weight: 700; margin: 0 12px;">Launch Lead Qualifier
+          -&gt;</a>
         |
-        <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/credit-risk-optimization" target="_blank" rel="noopener noreferrer" style="color: var(--ink-black); margin: 0 12px;">GitHub Repository</a>
+        <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/bank-marketing-crm" target="_blank"
+          rel="noopener noreferrer" style="color: var(--ink-black); margin: 0 12px;">GitHub Repository</a>
         |
-        <a href="https://www.linkedin.com/in/john-amores/" target="_blank" rel="noopener noreferrer" style="color: var(--ink-black); margin: 0 12px;">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/john-amores/" target="_blank" rel="noopener noreferrer"
+          style="color: var(--ink-black); margin: 0 12px;">LinkedIn</a>
       </p>
     </footer>
 
   </div>
 
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightboxImg"
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E"
+      alt="Enlarged Chart View">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      modal.style.display = 'flex';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightboxModal').style.display = 'none';
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </body>
+
 </html>

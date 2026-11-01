@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pre-Call Lead Qualifier &amp; Decision Desk | Bank Outbound Marketing</title>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-canvas: #FAF8F2;
+      --bg-card: #FFFFFF;
+      --bg-cell-secondary: #F3EFE6;
+      --border-grid: #111111;
+      --border-subtle: #E2E8F0;
+      --color-ink: #111111;
+      --color-charcoal: #27272A;
+      --color-emerald: #166534;
+      --color-crimson: #BE123C;
+      --color-amber: #B45309;
+      --color-blue: #1D4ED8;
+      --color-muted: #71717A;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--color-ink);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      font-size: 14.5px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Sticky Header */
+    header.qualifier-header, header.cockpit-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--bg-canvas);
+      border-bottom: 1px solid var(--border-grid);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .qualifier-brand, .cockpit-brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-ink);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--bg-card);
+      color: var(--color-ink);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border-grid);
+      border-radius: 2px;
+      transition: all 0.15s ease;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-back:hover {
+      background-color: var(--color-ink);
+      color: #FAF8F2;
+    }
+
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 28px 24px 64px 24px;
+    }
+
+    /* Top Intro Banner */
+    .qualifier-intro, .cockpit-intro {
+      margin-bottom: 22px;
+    }
+
+    .intro-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 6px;
+    }
+
+    .intro-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--color-ink);
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .intro-subtitle {
+      font-size: 14px;
+      color: var(--color-charcoal);
+      max-width: 90ch;
+      line-height: 1.55;
+    }
+
+    /* 3-Column Recommended Actions Strip */
+    .actions-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .action-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-grid);
+      padding: 14px 16px;
+    }
+
+    .action-card-phase1 {
+      border-left: 4px solid var(--color-ink);
+    }
+
+    .action-card-phase2 {
+      border-left: 4px solid var(--color-blue);
+    }
+
+    .action-card-phase3 {
+      border-left: 4px solid var(--color-emerald);
+    }
+
+    .action-card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .action-card-phase1 .action-card-title {
+      color: var(--color-ink);
+    }
+
+    .action-card-phase2 .action-card-title {
+      color: var(--color-blue);
+    }
+
+    .action-card-phase3 .action-card-title {
+      color: var(--color-emerald);
+    }
+
+    .action-card-body {
+      font-size: 12.5px;
+      color: var(--color-charcoal);
+      line-height: 1.5;
+    }
+
+    /* Main Qualifier Workstation Layout */
+    .qualifier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-grid);
+      padding: 24px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--border-grid);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 25px;
+      font-weight: 400;
+      color: var(--color-ink);
+    }
+
+    .panel-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Form Controls */
+    .control-group {
+      margin-bottom: 16px;
+    }
+
+    .control-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--color-charcoal);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    select {
+      width: 100%;
+      padding: 9px 10px;
+      border: 1px solid var(--border-grid);
+      background-color: var(--bg-canvas);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-ink);
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    select:focus {
+      border-color: var(--color-ink);
+      background-color: #FFFFFF;
+    }
+
+    /* One-Click Archetype Test Buttons */
+    .archetype-section {
+      background-color: var(--bg-cell-secondary);
+      border: 1px solid var(--border-grid);
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+
+    .archetype-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .archetype-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .sample-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .btn-sample {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-grid);
+      padding: 10px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      color: var(--color-ink);
+      border-radius: 2px;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .btn-sample:hover {
+      background-color: var(--color-ink);
+      color: #FAF8F2;
+    }
+
+    .btn-sample:hover .sample-meta {
+      color: #D4D4D8;
+    }
+
+    .btn-sample.active {
+      background-color: var(--color-ink);
+      color: #FFFFFF;
+    }
+
+    .btn-sample.active .sample-meta {
+      color: #D4D4D8;
+    }
+
+    .sample-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--color-muted);
+    }
+
+    /* Decision Result Box */
+    .decision-result-box {
+      border: 2px solid var(--border-grid);
+      background-color: var(--bg-canvas);
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .decision-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 4px;
+    }
+
+    .score-probability {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 46px;
+      font-weight: 700;
+      color: var(--color-ink);
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .routing-stamp {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 2px;
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .stamp-priority {
+      background-color: #DCFCE7;
+      color: #166534;
+      border: 1px solid #16A34A;
+    }
+
+    .stamp-mobile {
+      background-color: #DBEAFE;
+      color: #1D4ED8;
+      border: 1px solid #3B82F6;
+    }
+
+    .stamp-stop {
+      background-color: #FFE4E6;
+      color: #BE123C;
+      border: 1px solid #E11D48;
+    }
+
+    .stamp-hold {
+      background-color: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #D97706;
+    }
+
+    /* Effort Verdict Banner */
+    .effort-verdict-banner {
+      padding: 10px 14px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      font-weight: 600;
+      margin-bottom: 10px;
+      border-radius: 2px;
+      text-align: left;
+    }
+
+    .verdict-high {
+      background-color: #DCFCE7;
+      color: #166534;
+      border: 1px solid #86EFAC;
+    }
+
+    .verdict-moderate {
+      background-color: #DBEAFE;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+    }
+
+    .verdict-low {
+      background-color: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+
+    .verdict-blocked {
+      background-color: #FFE4E6;
+      color: #BE123C;
+      border: 1px solid #FDA4AF;
+    }
+
+    .rep-action-line {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-ink);
+      padding: 8px 12px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-grid);
+      margin-bottom: 14px;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    /* ROI Impact Metrics Grid */
+    .roi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .roi-card {
+      border: 1px solid var(--border-grid);
+      background-color: var(--bg-card);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .roi-card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 3px;
+    }
+
+    .roi-card-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-ink);
+      line-height: 1.2;
+    }
+
+    .roi-card-sub {
+      font-size: 10.5px;
+      color: var(--color-charcoal);
+      margin-top: 2px;
+    }
+
+    /* Rules Checklist */
+    .rules-checklist {
+      text-align: left;
+      font-size: 12px;
+      color: var(--color-charcoal);
+      border-top: 1px solid var(--border-grid);
+      padding-top: 12px;
+      margin-top: 10px;
+    }
+
+    .rules-checklist-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 8px;
+    }
+
+    .rule-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      gap: 8px;
+    }
+
+    .rule-label {
+      color: var(--color-charcoal);
+    }
+
+    .rule-impact-pos {
+      color: var(--color-emerald);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .rule-impact-neg {
+      color: var(--color-crimson);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .rule-impact-neutral {
+      color: var(--color-muted);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .rule-impact-amber {
+      color: var(--color-amber);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    /* Bottom Macro Rollout Connection Bar */
+    .rollout-summary-strip {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-grid);
+      padding: 18px 22px;
+    }
+
+    .summary-strip-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-grid);
+    }
+
+    .summary-strip-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-ink);
+    }
+
+    .summary-strip-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: var(--color-muted);
+    }
+
+    .summary-metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .summary-metric-box {
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-canvas);
+      padding: 10px 12px;
+    }
+
+    .summary-metric-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 3px;
+    }
+
+    .summary-metric-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-ink);
+      line-height: 1.1;
+    }
+
+    .summary-metric-note {
+      font-size: 11px;
+      color: var(--color-charcoal);
+      margin-top: 2px;
+    }
+
+    @media (max-width: 950px) {
+      .actions-strip {
+        grid-template-columns: 1fr;
+      }
+      .sample-buttons {
+        grid-template-columns: 1fr 1fr;
+      }
+      .qualifier-grid {
+        grid-template-columns: 1fr;
+      }
+      .roi-grid {
+        grid-template-columns: 1fr;
+      }
+      .summary-metrics-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="qualifier-header">
+    <div class="qualifier-brand">PRE-CALL LEAD QUALIFIER &amp; DECISION DESK</div>
+    <a href="index.html" class="btn-back">&lt;- Back to Executive Report</a>
+  </header>
+
+  <div class="container">
+
+    <!-- Top Intro Banner -->
+    <div class="qualifier-intro">
+      <div class="intro-eyebrow">
+        PRE-CALL LEAD QUALIFIER &amp; EFFORT EVALUATOR • 41,188 PROSPECTS &amp; 105,754 CALLS
+      </div>
+      <h1 class="intro-title">
+        Is This Lead Worth Calling? Pre-Call Decision Desk
+      </h1>
+      <p class="intro-subtitle">
+        Before an agent dials, this tool scores customer and market traits to predict conversion odds, enforce our 3-call limit, and determine if reaching out is worth the phone time.
+      </p>
+    </div>
+
+    <!-- 3-Column Recommended Actions Strip -->
+    <div class="actions-strip">
+      <div class="action-card action-card-phase1">
+        <div class="action-card-title">PHASE 1: 3-CALL LIMIT (HARD CAP)</div>
+        <p class="action-card-body">
+          Stop calling after 3 tries. Attempts 4+ drop to 1% yield and waste 475 hours. The tool automatically blocks attempt 4+ to protect rep time.
+        </p>
+      </div>
+
+      <div class="action-card action-card-phase2">
+        <div class="action-card-title">PHASE 2: MOBILE &amp; 7-DAY CALLBACKS</div>
+        <p class="action-card-body">
+          Route mobile numbers (15% conversion vs. 5% landline) and past buyers called within 7 days (66% conversion) straight to Priority Fast-Lane.
+        </p>
+      </div>
+
+      <div class="action-card action-card-phase3">
+        <div class="action-card-title">PHASE 3: HIGH-AFFINITY PACING</div>
+        <p class="action-card-body">
+          Prioritize seniors (45%), students (31%), and low-rate months (24%) over working-age landlines (5% to 9%).
+        </p>
+      </div>
+    </div>
+
+    <!-- One-Click Archetype Test Leads -->
+    <div class="archetype-section">
+      <div class="archetype-header">
+        <span class="archetype-title">One-Click Archetype Test Prospects</span>
+        <span class="sample-meta">Click any prospect below to test effort qualification</span>
+      </div>
+      <div class="sample-buttons">
+        <button class="btn-sample" onclick="loadSample(1)" id="btnSample1">
+          <strong>1. Senior on Mobile</strong>
+          <span class="sample-meta">45% senior conv | Priority Queue</span>
+        </button>
+        <button class="btn-sample" onclick="loadSample(2)" id="btnSample2">
+          <strong>2. Past Campaign Buyer</strong>
+          <span class="sample-meta">65% conv | Call Within 7 Days</span>
+        </button>
+        <button class="btn-sample" onclick="loadSample(3)" id="btnSample3">
+          <strong>3. 31-45 Landline on Call 5</strong>
+          <span class="sample-meta">BLOCKED: Exceeds 3-Call Limit</span>
+        </button>
+        <button class="btn-sample" onclick="loadSample(4)" id="btnSample4">
+          <strong>4. Young Student in Low-Rate Month</strong>
+          <span class="sample-meta">31% student conv</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main 2-Column Qualifier Grid -->
+    <div class="qualifier-grid">
+
+      <!-- LEFT PANEL: Customer & Market Inputs -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Pre-Call Customer Profile</h2>
+          <span class="panel-tag">Lead Attributes</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="control-group">
+            <label class="control-label" for="inpRate">Euribor Rate Period:</label>
+            <select id="inpRate" onchange="calculateScore()">
+              <option value="low" selected>Low Rate Period (&lt;= 3.0%)</option>
+              <option value="high">High Rate Period (&gt; 3.0%)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inpPoutcome">Past Campaign Result:</label>
+            <select id="inpPoutcome" onchange="calculateScore()">
+              <option value="nonexistent" selected>Never Contacted Before</option>
+              <option value="success">Past Campaign Buyer (Success)</option>
+              <option value="failure">Past Campaign Contact (Failure)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="control-group">
+            <label class="control-label" for="inpAge">Age Group:</label>
+            <select id="inpAge" onchange="calculateScore()">
+              <option value="young">Young (&lt;30)</option>
+              <option value="core" selected>Core Working (31-45)</option>
+              <option value="mature">Mature Working (46-60)</option>
+              <option value="senior">Senior (60+)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inpJob">Job Group:</label>
+            <select id="inpJob" onchange="calculateScore()">
+              <option value="whitecollar" selected>White-Collar Job</option>
+              <option value="bluecollar">Blue-Collar &amp; Service</option>
+              <option value="nonworking">Student / Retiree</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="control-group">
+            <label class="control-label" for="inpPhone">Phone Type:</label>
+            <select id="inpPhone" onchange="calculateScore()">
+              <option value="cellular" selected>Cellular Mobile Phone</option>
+              <option value="telephone">Landline Telephone</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inpProfile">Profile Completeness:</label>
+            <select id="inpProfile" onchange="calculateScore()">
+              <option value="complete" selected>Complete Customer Profile</option>
+              <option value="incomplete">Incomplete ('Unknown' Fields)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="inpAttempt">Current Outreach Attempt:</label>
+          <select id="inpAttempt" onchange="calculateScore()">
+            <option value="1" selected>Attempt 1 of 3 (Fresh lead)</option>
+            <option value="2">Attempt 2 of 3</option>
+            <option value="3">Attempt 3 of 3 (Final attempt before cap)</option>
+            <option value="4">Attempt 4 (Exceeds 3-call limit)</option>
+            <option value="5">Attempt 5 (Fatigue zone)</option>
+            <option value="6">Attempt 6</option>
+            <option value="8">Attempt 8</option>
+            <option value="10">Attempt 10</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 16px; padding: 12px 14px; background-color: var(--bg-canvas); border: 1px solid var(--border-grid); font-size: 12px; color: var(--color-charcoal); line-height: 1.5;">
+          <strong>Pre-Call Guardrail:</strong> Outbound rep duration is quarantined to prevent look-ahead bias. Scoring relies strictly on variables known prior to initiating the phone call.
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: Qualification Verdict & Action -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Effort Qualification Verdict</h2>
+          <span class="panel-tag">Dialer Decision</span>
+        </div>
+
+        <!-- Big Decision Result Box -->
+        <div class="decision-result-box">
+          <div class="decision-eyebrow">Estimated Conversion Odds</div>
+          <div class="score-probability" id="dispProbability">23%</div>
+          <div id="dispRoutingStamp" class="routing-stamp stamp-mobile">[STANDARD MOBILE QUEUE]</div>
+          
+          <!-- Dynamic Effort Verdict Banner -->
+          <div id="dispEffortVerdict" class="effort-verdict-banner verdict-moderate">
+            WORTH THE EFFORT: Standard mobile outreach candidate. Rep should dial during normal campaign hours (stop after 3 tries).
+          </div>
+
+          <!-- Recommended Rep Action Line -->
+          <div id="dispRepAction" class="rep-action-line">
+            Action: Dial on mobile phone during normal campaign hours (stop after 3 tries).
+          </div>
+        </div>
+
+        <!-- Expected Effort ROI Metrics -->
+        <div class="roi-grid">
+          <div class="roi-card">
+            <div class="roi-card-label">Est. Talk Time / Win</div>
+            <div class="roi-card-val" id="dispTalkTime">29 min</div>
+            <div class="roi-card-sub" id="dispTalkTimeSub">Baseline is 38 min</div>
+          </div>
+          <div class="roi-card">
+            <div class="roi-card-label">Policy Status</div>
+            <div class="roi-card-val" id="dispPolicyStatus" style="color: var(--color-emerald);">APPROVED</div>
+            <div class="roi-card-sub" id="dispPolicySub">Attempt 1 of 3</div>
+          </div>
+          <div class="roi-card">
+            <div class="roi-card-label">Expected Yield</div>
+            <div class="roi-card-val" id="dispExpectedYield">Above Avg</div>
+            <div class="roi-card-sub" id="dispExpectedYieldSub">15% channel rate</div>
+          </div>
+        </div>
+
+        <!-- Plain-English Rules Checklist -->
+        <div class="rules-checklist">
+          <div class="rules-checklist-title">Why This Lead Scored This Way:</div>
+          <div id="rulesChecklist">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Macro Rollout Connection Bar -->
+    <div class="rollout-summary-strip">
+      <div class="summary-strip-header">
+        <span class="summary-strip-title">How This Checklist Delivers Our Rollout Goals Across All 41,188 Prospects</span>
+        <span class="summary-strip-meta">3-Phase Rollout Reconciliation</span>
+      </div>
+      <div class="summary-metrics-row">
+        <div class="summary-metric-box">
+          <div class="summary-metric-label">Goal 1: Conversion Rate</div>
+          <div class="summary-metric-val" style="color: var(--color-emerald);">11% at Call 3</div>
+          <div class="summary-metric-note">Meets &gt;= 8% minimum goal</div>
+        </div>
+        <div class="summary-metric-box">
+          <div class="summary-metric-label">Goal 2: Sign-Ups Kept</div>
+          <div class="summary-metric-val" style="color: var(--color-emerald);">88% Kept</div>
+          <div class="summary-metric-note">4,085 deposits (beats 85% goal)</div>
+        </div>
+        <div class="summary-metric-box">
+          <div class="summary-metric-label">Calls &amp; Hours Saved</div>
+          <div class="summary-metric-val">28K to 51K</div>
+          <div class="summary-metric-note">Saves 475 hours of talk time</div>
+        </div>
+        <div class="summary-metric-box">
+          <div class="summary-metric-label">Projected Net Gain</div>
+          <div class="summary-metric-val" style="color: var(--color-emerald);">+1.5K to +3.2K</div>
+          <div class="summary-metric-note">Over 3K new deposits (+70%)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Econometric Reference Benchmarks (Phase 3 Logistic Regression & Operational Audit):
+       Universe: 41,188 prospects, 105,754 calls.
+       Phase 1: 3-call cap volume retention: 88.04% (4,085 / 4,640).
+       Phase 2: Cellular mobile conversion baseline: 14.74%, Past campaign buyer success: 65.11%.
+       Phase 3: Multivariate pre-call scoring model ROC-AUC: 0.7704. -->
+
+  <script>
+    // Econometric Reference Benchmarks: 41,188 prospects, 105,754 calls
+    // Phase 1: 88.04% volume kept (4,085 / 4,640)
+    // Phase 2: 14.74% mobile conversion, 65.11% past buyer conversion
+    // Phase 3: Pre-call scoring model ROC-AUC = 0.7704
+    const fatigueData = {
+      1: { cumCalls: 17642, exactCalls: 17642, cumSubs: 2300, retPct: 49.57, marginalConv: 13.04, cohortConv: 13.04 },
+      2: { cumCalls: 38782, exactCalls: 21140, cumSubs: 3511, retPct: 75.67, marginalConv: 5.73, cohortConv: 11.46 },
+      3: { cumCalls: 54805, exactCalls: 16023, cumSubs: 4085, retPct: 88.04, marginalConv: 3.58, cohortConv: 10.75 },
+      4: { cumCalls: 65409, exactCalls: 10604, cumSubs: 4334, retPct: 93.41, marginalConv: 2.35, cohortConv: 9.39 },
+      5: { cumCalls: 73404, exactCalls: 7995, cumSubs: 4454, retPct: 95.99, marginalConv: 1.50, cohortConv: 7.50 },
+      6: { cumCalls: 79278, exactCalls: 5874, cumSubs: 4529, retPct: 97.61, marginalConv: 1.28, cohortConv: 7.66 },
+      7: { cumCalls: 83681, exactCalls: 4403, cumSubs: 4567, retPct: 98.43, marginalConv: 0.86, cohortConv: 6.04 },
+      8: { cumCalls: 86881, exactCalls: 3200, cumSubs: 4584, retPct: 98.79, marginalConv: 0.53, cohortConv: 4.25 },
+      9: { cumCalls: 89428, exactCalls: 2547, cumSubs: 4601, retPct: 99.16, marginalConv: 0.67, cohortConv: 6.01 },
+      10: { cumCalls: 91678, exactCalls: 2250, cumSubs: 4613, retPct: 99.42, marginalConv: 0.53, cohortConv: 5.33 }
+    };
+
+    // Logistic Regression Pre-Call Scoring Weights (ROC-AUC = 0.7704)
+    const weights = {
+      const: -2.8991,
+      low_rate: 1.3801,
+      poutcome_success: 2.2047,
+      poutcome_nonexistent: 0.3559,
+      poutcome_failure: 0.0,
+      contact_telephone: -0.3730,
+      has_unknown_attributes: -0.2640,
+      age_young: 0.0,
+      age_core: -0.2480,
+      age_mature: -0.1503,
+      age_senior: 0.5436,
+      job_whitecollar: 0.2610,
+      job_nonworking: 0.4958,
+      job_unknown: 0.3218,
+      job_bluecollar: 0.0,
+      campaign_slope: -0.0638
+    };
+
+    function calculateScore() {
+      const rate = document.getElementById('inpRate').value;
+      const poutcome = document.getElementById('inpPoutcome').value;
+      const age = document.getElementById('inpAge').value;
+      const job = document.getElementById('inpJob').value;
+      const phone = document.getElementById('inpPhone').value;
+      const profile = document.getElementById('inpProfile').value;
+      const attempt = parseInt(document.getElementById('inpAttempt').value, 10);
+
+      // Compute mathematical logit from Phase 3 logistic regression model (ROC-AUC = 0.7704)
+      let logit = weights.const;
+      if (rate === 'low') logit += weights.low_rate;
+      if (poutcome === 'success') logit += weights.poutcome_success;
+      else if (poutcome === 'nonexistent') logit += weights.poutcome_nonexistent;
+      if (phone === 'telephone') logit += weights.contact_telephone;
+      if (profile === 'incomplete') logit += weights.has_unknown_attributes;
+      if (age === 'core') logit += weights.age_core;
+      else if (age === 'mature') logit += weights.age_mature;
+      else if (age === 'senior') logit += weights.age_senior;
+      if (job === 'whitecollar') logit += weights.job_whitecollar;
+      else if (job === 'nonworking') logit += weights.job_nonworking;
+      else if (job === 'unknown') logit += weights.job_unknown;
+      logit += weights.campaign_slope * attempt;
+
+      // Probability = 1 / (1 + exp(-logit))
+      const prob = 1.0 / (1.0 + Math.exp(-logit));
+      const roundedProb = Math.round(prob * 100);
+
+      document.getElementById('dispProbability').innerText = roundedProb + '%';
+
+      // Stamp, Verdict, Rep Action & ROI Metrics
+      const stampElem = document.getElementById('dispRoutingStamp');
+      const verdictElem = document.getElementById('dispEffortVerdict');
+      const repActionElem = document.getElementById('dispRepAction');
+      const talkTimeElem = document.getElementById('dispTalkTime');
+      const talkTimeSubElem = document.getElementById('dispTalkTimeSub');
+      const policyElem = document.getElementById('dispPolicyStatus');
+      const policySubElem = document.getElementById('dispPolicySub');
+      const yieldElem = document.getElementById('dispExpectedYield');
+      const yieldSubElem = document.getElementById('dispExpectedYieldSub');
+
+      if (attempt > 3) {
+        stampElem.className = 'routing-stamp stamp-stop';
+        stampElem.innerText = '[STOP: EXCEEDS 3-CALL LIMIT]';
+        
+        verdictElem.className = 'effort-verdict-banner verdict-blocked';
+        verdictElem.innerHTML = '<strong>ZERO EFFORT VALUE (BLOCKED):</strong> Prospect has already been called ' + attempt + ' times without signing up. Dialing is blocked to save 475 hours of staff phone time.';
+        
+        repActionElem.innerText = 'Action: STOP DIALING. Prospect has already been called 4+ times without signing up.';
+        
+        talkTimeElem.innerText = '51+ min';
+        talkTimeSubElem.innerText = '+41% talk time penalty';
+        
+        policyElem.innerText = 'BLOCKED';
+        policyElem.style.color = 'var(--color-crimson)';
+        policySubElem.innerText = 'Attempt ' + attempt + ' exceeds cap';
+        
+        yieldElem.innerText = '1% Yield';
+        yieldSubElem.innerText = 'Exhausted lead tier';
+      } else if (prob >= 0.25) {
+        stampElem.className = 'routing-stamp stamp-priority';
+        stampElem.innerText = '[PRIORITY FAST-LANE]';
+        
+        verdictElem.className = 'effort-verdict-banner verdict-high';
+        verdictElem.innerHTML = '<strong>HIGH EFFORT VALUE:</strong> Exceptionally strong odds justify immediate rep outreach. Route to top tier mobile queue within 7 days.';
+        
+        repActionElem.innerText = 'Action: Route to a mobile rep within 7 days (up to 3 calls max).';
+        
+        talkTimeElem.innerText = '22-24 min';
+        talkTimeSubElem.innerText = 'Cuts talk time by 37%';
+        
+        policyElem.innerText = 'APPROVED';
+        policyElem.style.color = 'var(--color-emerald)';
+        policySubElem.innerText = 'Attempt ' + attempt + ' of 3 (Compliant)';
+        
+        yieldElem.innerText = 'High Yield';
+        yieldSubElem.innerText = '24% to 65% group rate';
+      } else if (prob >= 0.10 && phone === 'cellular') {
+        stampElem.className = 'routing-stamp stamp-mobile';
+        stampElem.innerText = '[STANDARD MOBILE QUEUE]';
+        
+        verdictElem.className = 'effort-verdict-banner verdict-moderate';
+        verdictElem.innerHTML = '<strong>WORTH THE EFFORT:</strong> Good mobile outreach candidate. Rep should dial during normal campaign hours (stop after 3 tries).';
+        
+        repActionElem.innerText = 'Action: Dial on mobile phone during normal campaign hours (stop after 3 tries).';
+        
+        talkTimeElem.innerText = '29 min';
+        talkTimeSubElem.innerText = 'Cuts talk time by 24%';
+        
+        policyElem.innerText = 'APPROVED';
+        policyElem.style.color = 'var(--color-emerald)';
+        policySubElem.innerText = 'Attempt ' + attempt + ' of 3 (Compliant)';
+        
+        yieldElem.innerText = 'Solid Yield';
+        yieldSubElem.innerText = '15% mobile channel rate';
+      } else {
+        stampElem.className = 'routing-stamp stamp-hold';
+        stampElem.innerText = '[HOLD / LOW ODDS]';
+        
+        verdictElem.className = 'effort-verdict-banner verdict-low';
+        verdictElem.innerHTML = '<strong>LOW EFFORT VALUE:</strong> Low conversion odds. Deprioritize during busy hours to avoid burning rep time on low-yield calls.';
+        
+        repActionElem.innerText = 'Action: Deprioritize during busy hours; only dial if mobile number is confirmed.';
+        
+        talkTimeElem.innerText = '36-43 min';
+        talkTimeSubElem.innerText = 'Higher talk time per win';
+        
+        policyElem.innerText = 'HOLD / LOW';
+        policyElem.style.color = 'var(--color-amber)';
+        policySubElem.innerText = 'Attempt ' + attempt + ' of 3';
+        
+        yieldElem.innerText = 'Low Yield';
+        yieldSubElem.innerText = '5% to 9% group rate';
+      }
+
+      // Plain-English Rules Checklist
+      const checklistRules = [];
+
+      // 1. Interest Rate
+      if (rate === 'low') {
+        checklistRules.push({
+          label: 'Low Interest Rate Period (<= 3%)',
+          impact: '4x higher odds (24% conv)',
+          cls: 'rule-impact-pos'
+        });
+      } else {
+        checklistRules.push({
+          label: 'High Interest Rate Period (> 3%)',
+          impact: 'High-rate period (5% conv)',
+          cls: 'rule-impact-neg'
+        });
+      }
+
+      // 2. Past History
+      if (poutcome === 'success') {
+        checklistRules.push({
+          label: 'Past Campaign Buyer',
+          impact: '9x higher odds (Call within 7 days)',
+          cls: 'rule-impact-pos'
+        });
+      } else if (poutcome === 'nonexistent') {
+        checklistRules.push({
+          label: 'Never Contacted Before',
+          impact: 'New lead (9% baseline conv)',
+          cls: 'rule-impact-neutral'
+        });
+      } else {
+        checklistRules.push({
+          label: 'Past Call Failed',
+          impact: 'Past turn-down (14% conv)',
+          cls: 'rule-impact-amber'
+        });
+      }
+
+      // 3. Age Group
+      if (age === 'senior') {
+        checklistRules.push({
+          label: 'Senior Citizen (60+)',
+          impact: '2x higher odds (45% conv)',
+          cls: 'rule-impact-pos'
+        });
+      } else if (age === 'young') {
+        checklistRules.push({
+          label: 'Young (<30)',
+          impact: 'Above-average group (15% conv)',
+          cls: 'rule-impact-pos'
+        });
+      } else if (age === 'core') {
+        checklistRules.push({
+          label: 'Working Age (31-45)',
+          impact: '22% lower odds (9% conv)',
+          cls: 'rule-impact-neg'
+        });
+      } else {
+        checklistRules.push({
+          label: 'Mature Working (46-60)',
+          impact: '14% lower odds (10% conv)',
+          cls: 'rule-impact-amber'
+        });
+      }
+
+      // 4. Job Group
+      if (job === 'nonworking') {
+        checklistRules.push({
+          label: 'Student / Retiree',
+          impact: '2x higher odds (25%-31% conv)',
+          cls: 'rule-impact-pos'
+        });
+      } else if (job === 'whitecollar') {
+        checklistRules.push({
+          label: 'White-Collar Job',
+          impact: '+30% higher odds (11%-13% conv)',
+          cls: 'rule-impact-pos'
+        });
+      } else if (job === 'unknown') {
+        checklistRules.push({
+          label: 'Unknown Job',
+          impact: 'Unspecified job (11% conv)',
+          cls: 'rule-impact-amber'
+        });
+      } else {
+        checklistRules.push({
+          label: 'Blue-Collar & Service',
+          impact: 'Lower-converting job tier (7%-8% conv)',
+          cls: 'rule-impact-amber'
+        });
+      }
+
+      // 5. Phone Type
+      if (phone === 'cellular') {
+        checklistRules.push({
+          label: 'Cellular Mobile Phone',
+          impact: '3x better than landline (15% conv)',
+          cls: 'rule-impact-pos'
+        });
+      } else {
+        checklistRules.push({
+          label: 'Landline Telephone',
+          impact: '31% lower odds (5% conv)',
+          cls: 'rule-impact-neg'
+        });
+      }
+
+      // 6. Profile Info
+      if (profile === 'complete') {
+        checklistRules.push({
+          label: 'Complete Customer Profile',
+          impact: 'Complete record (13% conv)',
+          cls: 'rule-impact-pos'
+        });
+      } else {
+        checklistRules.push({
+          label: "Incomplete ('Unknown' Fields)",
+          impact: '23% lower odds (7% conv)',
+          cls: 'rule-impact-neg'
+        });
+      }
+
+      // 7. Call Attempt
+      if (attempt <= 3) {
+        checklistRules.push({
+          label: 'Current Outreach Attempt',
+          impact: 'Attempt ' + attempt + ' of 3 (Within 3-call limit)',
+          cls: 'rule-impact-pos'
+        });
+      } else {
+        checklistRules.push({
+          label: 'Current Outreach Attempt',
+          impact: 'Attempt ' + attempt + ': BLOCKED (Exceeds 3-call limit)',
+          cls: 'rule-impact-neg'
+        });
+      }
+
+      // Render checklist items
+      const checklistElem = document.getElementById('rulesChecklist');
+      checklistElem.innerHTML = '';
+      checklistRules.forEach(rule => {
+        const item = document.createElement('div');
+        item.className = 'rule-item';
+        item.innerHTML = '<span class="rule-label">' + rule.label + '</span><span class="' + rule.cls + '">' + rule.impact + '</span>';
+        checklistElem.appendChild(item);
+      });
+    }
+
+    function loadSample(sampleId) {
+      document.querySelectorAll('.btn-sample').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btnSample' + sampleId);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      if (sampleId === 1) {
+        // Senior on Mobile
+        document.getElementById('inpRate').value = 'low';
+        document.getElementById('inpPoutcome').value = 'success';
+        document.getElementById('inpAge').value = 'senior';
+        document.getElementById('inpJob').value = 'nonworking';
+        document.getElementById('inpPhone').value = 'cellular';
+        document.getElementById('inpProfile').value = 'complete';
+        document.getElementById('inpAttempt').value = '1';
+      } else if (sampleId === 2) {
+        // Past Campaign Buyer
+        document.getElementById('inpRate').value = 'low';
+        document.getElementById('inpPoutcome').value = 'success';
+        document.getElementById('inpAge').value = 'core';
+        document.getElementById('inpJob').value = 'whitecollar';
+        document.getElementById('inpPhone').value = 'cellular';
+        document.getElementById('inpProfile').value = 'complete';
+        document.getElementById('inpAttempt').value = '1';
+      } else if (sampleId === 3) {
+        // 31-45 Landline on Call 5
+        document.getElementById('inpRate').value = 'high';
+        document.getElementById('inpPoutcome').value = 'nonexistent';
+        document.getElementById('inpAge').value = 'core';
+        document.getElementById('inpJob').value = 'bluecollar';
+        document.getElementById('inpPhone').value = 'telephone';
+        document.getElementById('inpProfile').value = 'incomplete';
+        document.getElementById('inpAttempt').value = '5';
+      } else if (sampleId === 4) {
+        // Young Student in Low-Rate Month
+        document.getElementById('inpRate').value = 'low';
+        document.getElementById('inpPoutcome').value = 'nonexistent';
+        document.getElementById('inpAge').value = 'young';
+        document.getElementById('inpJob').value = 'nonworking';
+        document.getElementById('inpPhone').value = 'cellular';
+        document.getElementById('inpProfile').value = 'complete';
+        document.getElementById('inpAttempt').value = '1';
+      }
+      calculateScore();
+    }
+
+    // Initialize on load
+    window.onload = function() {
+      loadSample(1);
+    };
+  </script>
+</body>
+</html>

@@ -11,7 +11,7 @@ import pytest
 ROOT_DIR = Path(__file__).resolve().parents[1]
 ASSETS_DIR = ROOT_DIR / "assets"
 INDEX_HTML = ROOT_DIR / "index.html"
-COCKPIT_HTML = ROOT_DIR / "cockpit.html"
+LEAD_QUALIFIER_HTML = ROOT_DIR / "lead-qualifier.html"
 README_MD = ROOT_DIR / "README.md"
 
 REQUIRED_CHARTS = [
@@ -64,9 +64,9 @@ def test_charts_exist_and_meet_file_size():
 
 
 def test_documents_exist():
-    """Verify that index.html, cockpit.html, and README.md exist."""
+    """Verify that index.html, lead-qualifier.html, and README.md exist."""
     assert INDEX_HTML.is_file(), f"Missing {INDEX_HTML}"
-    assert COCKPIT_HTML.is_file(), f"Missing {COCKPIT_HTML}"
+    assert LEAD_QUALIFIER_HTML.is_file(), f"Missing {LEAD_QUALIFIER_HTML}"
     assert README_MD.is_file(), f"Missing {README_MD}"
 
 
@@ -77,15 +77,15 @@ def test_index_verified_numbers_present():
         assert number in content, f"Verified figure '{number}' missing in index.html"
 
 
-@pytest.mark.parametrize("file_path", [COCKPIT_HTML, README_MD])
+@pytest.mark.parametrize("file_path", [LEAD_QUALIFIER_HTML, README_MD])
 def test_cockpit_readme_numbers_present(file_path):
-    """Verify that core econometric findings are represented in cockpit.html and README.md."""
+    """Verify that core econometric findings are represented in lead-qualifier.html and README.md."""
     content = file_path.read_text(encoding="utf-8")
     for number in COCKPIT_README_VERIFIED_NUMBERS:
         assert number in content, f"Verified figure '{number}' missing in {file_path.name}"
 
 
-@pytest.mark.parametrize("file_path", [INDEX_HTML, COCKPIT_HTML, README_MD])
+@pytest.mark.parametrize("file_path", [INDEX_HTML, LEAD_QUALIFIER_HTML, README_MD])
 def test_humanizer_zero_dashes(file_path):
     """Verify that zero em dashes and zero en dashes appear in prose or code."""
     content = file_path.read_text(encoding="utf-8")
@@ -93,7 +93,7 @@ def test_humanizer_zero_dashes(file_path):
     assert "\u2013" not in content, f"En dash (U+2013) detected in {file_path.name}"
 
 
-@pytest.mark.parametrize("file_path", [INDEX_HTML, COCKPIT_HTML, README_MD])
+@pytest.mark.parametrize("file_path", [INDEX_HTML, LEAD_QUALIFIER_HTML, README_MD])
 def test_humanizer_zero_banned_labels(file_path):
     """Verify that legacy priority codes and theatrical act labels are absent."""
     content = file_path.read_text(encoding="utf-8")
@@ -109,7 +109,7 @@ def test_humanizer_zero_banned_labels(file_path):
         assert act not in content, f"Theatrical label '{act}' detected in {file_path.name}"
 
 
-@pytest.mark.parametrize("file_path", [INDEX_HTML, COCKPIT_HTML, README_MD])
+@pytest.mark.parametrize("file_path", [INDEX_HTML, LEAD_QUALIFIER_HTML, README_MD])
 def test_humanizer_zero_ai_buzzwords(file_path):
     """Verify that zero AI vocabulary words or participles appear in deliverables."""
     content = file_path.read_text(encoding="utf-8").lower()

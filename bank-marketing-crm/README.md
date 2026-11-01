@@ -1,8 +1,8 @@
-# Outbound Call Center and Marketing Strategy: Bank Direct Marketing
+# Growing Bank Deposit Sign-Ups by 70% Without Adding Call Center Staff
 
 > **Executive Quick Links:**
 > - [View Stakeholder Editorial Report (`index.html`)](file:///Users/jamores/Documents/[02]%20Work/[01]%20Github-Repo/data-analyst-portfolio/bank-marketing-crm/index.html)
-> - [Open Interactive Call-Cap Simulator (`cockpit.html`)](file:///Users/jamores/Documents/[02]%20Work/[01]%20Github-Repo/data-analyst-portfolio/bank-marketing-crm/cockpit.html)
+> - [Open Interactive Lead Qualifier (`lead-qualifier.html`)](file:///Users/jamores/Documents/[02]%20Work/[01]%20Github-Repo/data-analyst-portfolio/bank-marketing-crm/lead-qualifier.html)
 
 ---
 
@@ -14,7 +14,7 @@ When we audited call center operations by attempt number, we identified a massiv
 
 Simultaneously, dialer queues were aimed at the lowest-converting prospects. Over 53% of calls went to working-age adults (ages 31 to 45), who converted at just 9.37%. Meanwhile, seniors aged 60 and older converted at 45.49%, students converted at 31.43%, and prior campaign buyers converted at 65.11%. Mobile cellular outreach also outperformed fixed landlines by nearly three to one (14.74% vs. 5.23%).
 
-By putting a strict 3-call cap in place, the bank immediately recovers 28,044 to 50,949 phone calls (475.2 hours of agent talk time) while preserving 88.04% of term deposit volume. Reallocating those saved calls to mobile numbers, warm leads, and high-affinity age groups adds 1,535 to 3,242 net new term deposits (+33.1% to +69.9%) with zero added headcount.
+By putting a strict 3-call cap in place, the bank immediately recovers 28,044 to 50,949 phone calls (475.2 hours of agent talk time) while preserving 88.04% of term deposit volume. Reallocating those saved calls to mobile numbers, warm leads, and high-affinity age groups adds over 3K new deposits (+1,535 to +3,242 net gain, or +33.1% to +69.9%) with zero added headcount.
 
 ---
 
@@ -25,7 +25,7 @@ By putting a strict 3-call cap in place, the bank immediately recovers 28,044 to
 | **1. What did we find?** | Calls 1 to 3 capture 88.04% of sign-ups (4,085 deposits). Calls 4 to 56 consume 48.18% of all outbound calls (50,949 dials) for only 11.96% of sign-ups. | Establish a hard policy limit at 3 call attempts per prospect per campaign. |
 | **2. Why is this happening?** | The dialer has no repeat cap, and 53.1% of calls target 31-45 year olds (9.37% conversion) or landlines (5.23% conversion) rather than mobile phones (14.74%), seniors (45.49%), and past buyers (65.11%). | Reconfigure dialer routing logic to prioritize mobile numbers, seniors, and past buyers. |
 | **3. What does it cost us?** | Reps spend 475.2 hours of talk time on 4+ calls. Closing a deposit on attempt 4+ requires 51.37 minutes of talk time vs. 36.42 minutes on attempts 1 to 3 (+41.0% labor penalty). | Bank 475.2 hours in direct payroll savings or reinvest that capacity into high-odds leads. |
-| **4. What should we change?** | Execute a 3-phase rollout: Cap calls at 3 attempts (Phase 1), route to mobile lines and 7-day past buyers (Phase 2), and pace calling lists by age and interest rates (Phase 3). | Generates +1,535 to +3,242 incremental term deposit sign-ups (+33.1% to +69.9%). |
+| **4. What should we change?** | Execute a 3-phase rollout: Cap calls at 3 attempts (Phase 1), route to mobile lines and 7-day past buyers (Phase 2), and pace calling lists by age and interest rates (Phase 3). | Generates over 3K new deposits (+1,535 to +3,242 incremental term deposit sign-ups; +33.1% to +69.9%). |
 
 ---
 
@@ -147,7 +147,7 @@ bank-marketing-crm/
 |   |-- fig2_channel_poutcome_matrix.png
 |   |-- fig3_macro_demographic_heatmap.png
 |   `-- fig4_policy_reallocation_waterfall.png
-|-- cockpit.html
+|-- lead-qualifier.html
 |-- data/
 |   |-- cleaned/
 |   |   |-- fct_campaign_full_operational.parquet

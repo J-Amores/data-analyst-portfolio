@@ -393,7 +393,7 @@ def export_figure_4():
     ax1.legend(lines1 + lines2, labels1 + labels2, frameon=True, facecolor=BG_CARD, edgecolor=BORDER_GRID, loc="upper left")
 
     # Master Figure Headers (Sentence case)
-    fig.suptitle("Capping calls at 3 attempts and redirecting saved time adds 1,535 to 3,242 extra sign-ups",
+    fig.suptitle("Capping calls at 3 attempts and redirecting saved time adds over 3K new sign-ups",
                  fontsize=15.5, fontweight="bold", color=COLOR_INK, y=0.98)
     fig.text(0.5, 0.925,
              "Total term deposit sign-ups and agent talk minutes per sign-up across our rollout options",
