@@ -3,3 +3,7 @@
 # Backup directories
 *-bkp/
 *bkp/
+
+# Archive
+**/archive/**
+

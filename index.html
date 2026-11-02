@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Amores — Decision-Driven Data Analytics Portfolio</title>
+    <meta name="description"
+        content="Data Analyst turning large, messy operational datasets into clear financial decisions, executive case studies, and interactive decision simulators.">
+
+    <!-- Editorial Case Study Fonts: Instrument Serif + Plus Jakarta Sans + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'var(--background)',
+                        foreground: 'var(--foreground)',
+                        card: 'var(--card)',
+                        'card-foreground': 'var(--card-foreground)',
+                        muted: 'var(--muted)',
+                        'muted-foreground': 'var(--muted-foreground)',
+                        border: 'var(--border)',
+                        emerald: 'var(--emerald)',
+                        crimson: 'var(--crimson)',
+                    },
+                    fontFamily: {
+                        serif: ['Instrument Serif', 'Georgia', 'serif'],
+                        sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        'fade-in-up': {
+                            '0%': { opacity: '0', transform: 'translateY(24px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+
+    <style>
+        /* Light Mode matches your Case Studies' Warm Archival Paper (#FAF8F2) */
+        :root {
+            --background: #FAF8F2;
+            --foreground: #111111;
+            --card: #FFFFFF;
+            --card-foreground: #111111;
+            --muted: #F3EFE6;
+            --muted-foreground: #5A5852;
+            --border: #DFDCD4;
+            --emerald: #166534;
+            --crimson: #BE123C;
+        }
+
+        /* Dark Mode matches index.html's sleek pure carbon aesthetic */
+        .dark {
+            --background: #000000;
+            --foreground: #FAFAFA;
+            --card: #060606;
+            --card-foreground: #FAFAFA;
+            --muted: #171717;
+            --muted-foreground: #A3A3A3;
+            --border: rgba(255, 255, 255, 0.12);
+            --emerald: #4ADE80;
+            --crimson: #FB7185;
+        }
+
+        * {
+            border-color: var(--border);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased min-h-screen bg-background text-foreground relative">
+
+    <!-- Floating Left Pill Navigation (6 sections) -->
+    <nav class="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block" aria-label="Section navigation">
+        <div class="flex flex-col gap-4">
+            <button onclick="document.getElementById('intro')?.scrollIntoView({ behavior: 'smooth' })"
+                class="nav-dot w-2 h-8 rounded-full transition-all duration-500 bg-foreground" data-section="intro"
+                aria-label="Navigate to Intro"></button>
+            <button onclick="document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })"
+                class="nav-dot w-2 h-8 rounded-full transition-all duration-500 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                data-section="work" aria-label="Navigate to Selected Work"></button>
+            <button onclick="document.getElementById('methodology')?.scrollIntoView({ behavior: 'smooth' })"
+                class="nav-dot w-2 h-8 rounded-full transition-all duration-500 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                data-section="methodology" aria-label="Navigate to Decision-Driven Methodology"></button>
+            <button onclick="document.getElementById('thoughts')?.scrollIntoView({ behavior: 'smooth' })"
+                class="nav-dot w-2 h-8 rounded-full transition-all duration-500 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                data-section="thoughts" aria-label="Navigate to Case Study Reflections"></button>
+            <button onclick="document.getElementById('simulators')?.scrollIntoView({ behavior: 'smooth' })"
+                class="nav-dot w-2 h-8 rounded-full transition-all duration-500 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                data-section="simulators" aria-label="Navigate to Decision Simulators"></button>
+            <button onclick="document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })"
+                class="nav-dot w-2 h-8 rounded-full transition-all duration-500 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                data-section="connect" aria-label="Navigate to Connect"></button>
+        </div>
+    </nav>
+
+    <!-- Main Container matching index.html spacing & surface area -->
+    <main class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16">
+
+        <!-- SECTION 1: Intro / Hero Header -->
+        <header id="intro" class="min-h-screen flex items-center opacity-0">
+            <div class="grid lg:grid-cols-5 gap-12 sm:gap-16 w-full">
+                <div class="lg:col-span-3 space-y-6 sm:space-y-8">
+                    <div class="space-y-3 sm:space-y-2">
+                        <div class="text-xs text-muted-foreground font-mono tracking-widest uppercase">
+                            [PORTFOLIO / 2026] &bull; [DECISION INTELLIGENCE]
+                        </div>
+                        <h1
+                            class="font-serif text-6xl sm:text-7xl lg:text-8xl font-normal tracking-tight leading-[0.95]">
+                            John
+                            <br />
+                            <span class="text-muted-foreground italic">Amores</span>
+                        </h1>
+                    </div>
+
+                    <div class="space-y-6 max-w-xl">
+                        <p class="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+                            Data Analyst turning large, messy operational datasets into
+                            <span class="text-foreground">executive business decisions</span>,
+                            <span class="text-foreground">protected guardrails</span>, and
+                            <span class="text-foreground">interactive scenario simulators</span>
+                            across Fintech, Healthcare, E-Commerce, and Growth CRM.
+                        </p>
+
+                        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-foreground">Available for Data Analyst roles</span>
+                            </div>
+                            <span>&bull;</span>
+                            <a href="https://www.linkedin.com/in/john-amores/" target="_blank" rel="noopener"
+                                class="hover:text-foreground underline underline-offset-4 transition-colors">LinkedIn</a>
+                            <span>&bull;</span>
+                            <a href="https://github.com/J-Amores/data-analyst-portfolio" target="_blank" rel="noopener"
+                                class="hover:text-foreground underline underline-offset-4 transition-colors">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 flex flex-col justify-end space-y-6 sm:space-y-8 mt-8 lg:mt-0">
+                    <div class="space-y-3">
+                        <div class="text-xs text-muted-foreground font-mono tracking-wider uppercase">PORTFOLIO AUDIT
+                            SCOPE</div>
+                        <div class="space-y-1.5">
+                            <div class="text-foreground font-medium">$19.5B+ Capital &amp; Budgets Audited</div>
+                            <div class="text-sm text-muted-foreground">2.0M+ records &rarr; +$247M+ identified annual
+                                upside</div>
+                            <div class="text-xs text-muted-foreground font-mono">166 / 166 passing pytest checks</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="text-xs text-muted-foreground font-mono tracking-wider uppercase">CORE STACK</div>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-3 py-1 text-xs font-mono border border-border rounded-full hover:border-muted-foreground/50 transition-colors duration-300">Python</span>
+                            <span
+                                class="px-3 py-1 text-xs font-mono border border-border rounded-full hover:border-muted-foreground/50 transition-colors duration-300">SQL</span>
+                            <span
+                                class="px-3 py-1 text-xs font-mono border border-border rounded-full hover:border-muted-foreground/50 transition-colors duration-300">DuckDB
+                                / Parquet</span>
+                            <span
+                                class="px-3 py-1 text-xs font-mono border border-border rounded-full hover:border-muted-foreground/50 transition-colors duration-300">Risk
+                                &amp; Funnel Modeling</span>
+                            <span
+                                class="px-3 py-1 text-xs font-mono border border-border rounded-full hover:border-muted-foreground/50 transition-colors duration-300">Exec
+                                Simulators</span>
+                            <span
+                                class="px-3 py-1 text-xs font-mono border border-border rounded-full hover:border-muted-foreground/50 transition-colors duration-300">Pytest</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECTION 2: Selected Work (Clean index.html layout + Editorial Serif Titles + Full Surface Width) -->
+        <section id="work" class="min-h-screen py-20 sm:py-32 opacity-0">
+            <div class="space-y-12 sm:space-y-16">
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div class="space-y-2">
+                        <div class="text-xs text-muted-foreground font-mono tracking-widest uppercase">
+                            FEATURED CASE STUDIES / END-TO-END DELIVERABLES
+                        </div>
+                        <h2 class="font-serif text-4xl sm:text-5xl font-normal tracking-tight">Selected Work</h2>
+                    </div>
+                    <div class="text-xs text-muted-foreground font-mono">04 COMMERCIAL VERTICALS</div>
+                </div>
+
+                <div class="space-y-8 sm:space-y-12">
+
+                    <!-- Work Item 01: Outbound Bank Marketing -->
+                    <div
+                        class="group grid lg:grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 border-b border-border/50 hover:border-border transition-colors duration-500">
+                        <div class="lg:col-span-2 space-y-1">
+                            <div
+                                class="font-serif text-3xl sm:text-4xl text-muted-foreground group-hover:text-foreground transition-colors duration-500">
+                                01
+                            </div>
+                            <div class="text-xs font-mono text-muted-foreground">105,754 Calls</div>
+                        </div>
+
+                        <div class="lg:col-span-7 space-y-3">
+                            <div>
+                                <h3 class="font-serif text-2xl sm:text-3xl font-normal tracking-tight leading-snug">
+                                    <a href="bank-marketing-crm/index.html"
+                                        class="hover:text-muted-foreground transition-colors">
+                                        Growing Bank Deposit Sign-Ups by 70% Without Adding Call Center Staff
+                                    </a>
+                                </h3>
+                                <div class="text-xs font-mono text-muted-foreground mt-1">
+                                    GROWTH &amp; MARKETING CRM &bull; VP OF GROWTH &amp; CALL CENTER OPS
+                                </div>
+                            </div>
+                            <p class="text-muted-foreground leading-relaxed">
+                                Audited 41,188 customer records and 105,754 outbound phone calls to eliminate wasted
+                                repeat dialing
+                                (calls 4 to 56 burned 48% of agent dials for just 12% of sign-ups). Capping outreach at
+                                3 attempts
+                                retains 88% of baseline conversions, saves 475 talk hours, and redirects saved capacity
+                                to add
+                                <span class="text-foreground font-medium">+3,200+ new term deposits</span>.
+                            </p>
+                            <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-muted-foreground pt-2">
+                                <a href="bank-marketing-crm/index.html"
+                                    class="text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+                                    Read Case Study &rarr;
+                                </a>
+                                <span>&bull;</span>
+                                <a href="bank-marketing-crm/lead-qualifier.html"
+                                    class="hover:text-foreground transition-colors flex items-center gap-1">
+                                    Launch Lead Qualifier &nearr;
+                                </a>
+                                <span>&bull;</span>
+                                <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/bank-marketing-crm"
+                                    target="_blank" rel="noopener" class="hover:text-foreground transition-colors">
+                                    Code (46 Tests) &nearr;
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-3 flex flex-col lg:items-end justify-between gap-3 mt-2 lg:mt-0">
+                            <div class="lg:text-right">
+                                <div class="font-serif text-2xl sm:text-3xl text-emerald">+3.2K Sign-Ups</div>
+                                <div class="text-xs text-muted-foreground font-mono">475 talk hours saved</div>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 lg:justify-end">
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Python</span>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">CRM
+                                    Funnels</span>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Lead
+                                    Qualifier</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 02: Consumer Credit Risk -->
+                    <div
+                        class="group grid lg:grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 border-b border-border/50 hover:border-border transition-colors duration-500">
+                        <div class="lg:col-span-2 space-y-1">
+                            <div
+                                class="font-serif text-3xl sm:text-4xl text-muted-foreground group-hover:text-foreground transition-colors duration-500">
+                                02
+                            </div>
+                            <div class="text-xs font-mono text-muted-foreground">$19.4B Book</div>
+                        </div>
+
+                        <div class="lg:col-span-7 space-y-3">
+                            <div>
+                                <h3 class="font-serif text-2xl sm:text-3xl font-normal tracking-tight leading-snug">
+                                    <a href="credit-risk-optimization/index.html"
+                                        class="hover:text-muted-foreground transition-colors">
+                                        Cutting Consumer Loan Losses by $230M Without Turning Away Good Borrowers
+                                    </a>
+                                </h3>
+                                <div class="text-xs font-mono text-muted-foreground mt-1">
+                                    FINTECH &amp; CREDIT RISK &bull; CHIEF RISK OFFICER &amp; UNDERWRITING
+                                </div>
+                            </div>
+                            <p class="text-muted-foreground leading-relaxed">
+                                Audited 1.35M completed loans ($19.4B) to isolate subprime default pockets where 28% of
+                                loans drove 51%
+                                of net losses. Built a 3-phase underwriting rule blocking high-DTI Grade D-G applicants
+                                and repricing
+                                Subgrade C4 by +1.5%, delivering <span class="text-foreground font-medium">+$244.2M in
+                                    net value</span>
+                                while keeping 95.8% of lending volume.
+                            </p>
+                            <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-muted-foreground pt-2">
+                                <a href="credit-risk-optimization/index.html"
+                                    class="text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+                                    Read Case Study &rarr;
+                                </a>
+                                <span>&bull;</span>
+                                <a href="credit-risk-optimization/underwriting-simulator.html"
+                                    class="hover:text-foreground transition-colors flex items-center gap-1">
+                                    Launch Underwriting Simulator &nearr;
+                                </a>
+                                <span>&bull;</span>
+                                <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/credit-risk-optimization"
+                                    target="_blank" rel="noopener" class="hover:text-foreground transition-colors">
+                                    Code (33 Tests) &nearr;
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-3 flex flex-col lg:items-end justify-between gap-3 mt-2 lg:mt-0">
+                            <div class="lg:text-right">
+                                <div class="font-serif text-2xl sm:text-3xl text-emerald">+$244.2M</div>
+                                <div class="text-xs text-muted-foreground font-mono">95.8% volume kept</div>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 lg:justify-end">
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Python</span>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">SQL</span>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Parquet</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 03: Outpatient Pharmacy Spend -->
+                    <div
+                        class="group grid lg:grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 border-b border-border/50 hover:border-border transition-colors duration-500">
+                        <div class="lg:col-span-2 space-y-1">
+                            <div
+                                class="font-serif text-3xl sm:text-4xl text-muted-foreground group-hover:text-foreground transition-colors duration-500">
+                                03
+                            </div>
+                            <div class="text-xs font-mono text-muted-foreground">$85M Rx Budget</div>
+                        </div>
+
+                        <div class="lg:col-span-7 space-y-3">
+                            <div>
+                                <h3 class="font-serif text-2xl sm:text-3xl font-normal tracking-tight leading-snug">
+                                    <a href="medicaid-spending-optimization/index.html"
+                                        class="hover:text-muted-foreground transition-colors">
+                                        Cutting Hospital Pharmacy Drug Costs by $3.2M Without Limiting Patient Care
+                                    </a>
+                                </h3>
+                                <div class="text-xs font-mono text-muted-foreground mt-1">
+                                    HEALTHCARE OPERATIONS &bull; HOSPITAL PHARMACY DIRECTOR &amp; CFO
+                                </div>
+                            </div>
+                            <p class="text-muted-foreground leading-relaxed">
+                                Decomposed 5-year price vs. prescription volume growth across 4,774 outpatient drugs
+                                ($85M hospital
+                                budget benchmarked against $111B CMS spend). Defaulting 6 routine habit brands to
+                                generics and capping
+                                wholesale generic orders at 25th-percentile supplier prices saves
+                                <span class="text-foreground font-medium">+$3.2M annually</span> with 98% of patient
+                                prescriptions
+                                untouched.
+                            </p>
+                            <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-muted-foreground pt-2">
+                                <a href="medicaid-spending-optimization/index.html"
+                                    class="text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+                                    Read Case Study &rarr;
+                                </a>
+                                <span>&bull;</span>
+                                <a href="medicaid-spending-optimization/cost-simulator.html"
+                                    class="hover:text-foreground transition-colors flex items-center gap-1">
+                                    Launch Cost Simulator &nearr;
+                                </a>
+                                <span>&bull;</span>
+                                <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/medicaid-spending-optimization"
+                                    target="_blank" rel="noopener" class="hover:text-foreground transition-colors">
+                                    Code (55 Tests) &nearr;
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-3 flex flex-col lg:items-end justify-between gap-3 mt-2 lg:mt-0">
+                            <div class="lg:text-right">
+                                <div class="font-serif text-2xl sm:text-3xl text-emerald">+$3.2M / yr</div>
+                                <div class="text-xs text-muted-foreground font-mono">98% Rx untouched</div>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 lg:justify-end">
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Python</span>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Econometrics</span>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">NADAC</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 04: Online Store Basket Size -->
+                    <div
+                        class="group grid lg:grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 border-b border-border/50 hover:border-border transition-colors duration-500">
+                        <div class="lg:col-span-2 space-y-1">
+                            <div
+                                class="font-serif text-3xl sm:text-4xl text-muted-foreground group-hover:text-foreground transition-colors duration-500">
+                                04
+                            </div>
+                            <div class="text-xs font-mono text-muted-foreground">542K Order Lines</div>
+                        </div>
+
+                        <div class="lg:col-span-7 space-y-3">
+                            <div>
+                                <h3 class="font-serif text-2xl sm:text-3xl font-normal tracking-tight leading-snug">
+                                    <a href="market-basket-analysis/index.html"
+                                        class="hover:text-muted-foreground transition-colors">
+                                        Growing Online Store Order Values by Adding 5 Low-Return Product Bundles
+                                    </a>
+                                </h3>
+                                <div class="text-xs font-mono text-muted-foreground mt-1">
+                                    E-COMMERCE &amp; RETAIL &bull; VP OF MERCHANDISING &amp; GROWTH
+                                </div>
+                            </div>
+                            <p class="text-muted-foreground leading-relaxed">
+                                Reconciled 541,909 invoice lines (19,773 clean orders / £10.2M sales) while retaining
+                                25% guest
+                                checkouts and screening out high-return SKUs. Identified 5 co-purchased product sets
+                                with 65% to 84%
+                                natural attach rates and &lt;2% return rates to expand 1-to-5 item carts by
+                                <span class="text-foreground font-medium">+£25K in net profit</span>.
+                            </p>
+                            <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-muted-foreground pt-2">
+                                <a href="market-basket-analysis/index.html"
+                                    class="text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+                                    Read Case Study &rarr;
+                                </a>
+                                <span>&bull;</span>
+                                <a href="market-basket-analysis/bundle-builder.html"
+                                    class="hover:text-foreground transition-colors flex items-center gap-1">
+                                    Launch Bundle Builder &nearr;
+                                </a>
+                                <span>&bull;</span>
+                                <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/market-basket-analysis"
+                                    target="_blank" rel="noopener" class="hover:text-foreground transition-colors">
+                                    Code (32 Tests) &nearr;
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-3 flex flex-col lg:items-end justify-between gap-3 mt-2 lg:mt-0">
+                            <div class="lg:text-right">
+                                <div class="font-serif text-2xl sm:text-3xl text-emerald">+£25K Profit</div>
+                                <div class="text-xs text-muted-foreground font-mono">&lt;2.0% return rate</div>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 lg:justify-end">
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Python</span>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Affinity
+                                    Lift</span>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border/60 rounded">Bundles</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Decision-Driven Methodology (Dedicated Standalone Section) -->
+        <section id="methodology" class="py-20 sm:py-32 opacity-0">
+            <div class="space-y-12 sm:space-y-16">
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div class="space-y-2">
+                        <div class="text-xs text-muted-foreground font-mono tracking-widest uppercase">
+                            ANALYTICAL ARCHITECTURE / HOW EVERY PROJECT IS BUILT
+                        </div>
+                        <h2 class="font-serif text-4xl sm:text-5xl font-normal tracking-tight">Decision-Driven
+                            Methodology</h2>
+                    </div>
+                    <div class="text-xs text-muted-foreground font-mono">3 NON-NEGOTIABLE STANDARDS</div>
+                </div>
+
+                <p class="text-lg text-muted-foreground leading-relaxed max-w-3xl">
+                    Most analytics portfolios stop at descriptive charts and SQL cleaning steps. Every investigation in
+                    this
+                    journal is engineered backwards from an executive P&amp;L decision so stakeholders can act on the
+                    findings
+                    immediately.
+                </p>
+
+                <div class="grid gap-8 lg:grid-cols-3 pt-2">
+                    <!-- Pillar 01 -->
+                    <div class="space-y-3 border-t border-border pt-6">
+                        <div class="text-xs font-mono text-muted-foreground">01 / THE MANDATE</div>
+                        <h3 class="font-serif text-2xl font-normal">1 Business Decision &amp; 3 Guardrails</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">
+                            Every study opens by naming the exact resource-allocation decision alongside 1 North Star
+                            metric and 2
+                            operational guardrails—ensuring cost cuts or underwriting filters never cannibalize core
+                            volume or
+                            patient safety.
+                        </p>
+                    </div>
+
+                    <!-- Pillar 02 -->
+                    <div class="space-y-3 border-t border-border pt-6">
+                        <div class="text-xs font-mono text-muted-foreground">02 / TRAP ISOLATION</div>
+                        <h3 class="font-serif text-2xl font-normal">Data Hygiene &amp; Pytest Verification</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">
+                            Before modeling, raw tables are audited for silent reporting traps—active-loan survival
+                            bias, national
+                            summary double-counting, guest checkout deletion, and post-call duration leakage—locked
+                            behind 166
+                            automated <span class="font-mono text-foreground">pytest</span> assertions.
+                        </p>
+                    </div>
+
+                    <!-- Pillar 03 -->
+                    <div class="space-y-3 border-t border-border pt-6">
+                        <div class="text-xs font-mono text-muted-foreground">03 / STAKEHOLDER DELIVERY</div>
+                        <h3 class="font-serif text-2xl font-normal">90-Day Rollouts &amp; Live Simulators</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">
+                            Findings are published in plain workplace English with phased 90-day implementation roadmaps
+                            and paired
+                            with a client-side scenario simulator so leaders can stress-test thresholds live in a
+                            meeting.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Case Study Reflections / Field Notes (Mini-Blog Section) -->
+        <section id="thoughts" class="min-h-screen py-20 sm:py-32 opacity-0">
+            <div class="space-y-12 sm:space-y-16">
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div class="space-y-2">
+                        <div class="text-xs text-muted-foreground font-mono tracking-widest uppercase">
+                            FIELD NOTES / REPORTING TRAPS &amp; ANALYTICAL REFLECTIONS
+                        </div>
+                        <h2 class="font-serif text-4xl sm:text-5xl font-normal tracking-tight">Case Study Highlights
+                        </h2>
+                    </div>
+                    <div class="text-xs text-muted-foreground font-mono">BEHIND THE NUMBERS</div>
+                </div>
+
+                <div class="grid gap-6 sm:gap-8 lg:grid-cols-2">
+
+                    <!-- Reflection 01: Call Center CRM -->
+                    <article onclick="window.location.href='bank-marketing-crm/index.html'"
+                        class="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg cursor-pointer flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                                <span>REFLECTION 01 &bull; MARKETING CRM</span>
+                                <span>46 PYTESTS</span>
+                            </div>
+
+                            <h3
+                                class="font-serif text-2xl font-normal group-hover:text-muted-foreground transition-colors duration-300">
+                                Why Call Duration Is a Trap in Pre-Call Lead Scoring
+                            </h3>
+
+                            <p class="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                                Tutorial models boast 90%+ accuracy on bank marketing data by feeding call length (<span
+                                    class="font-mono text-xs">duration</span>) into the classifier. Because a sales
+                                manager cannot know
+                                how long a call will last before dialing, we stripped duration from pre-call scoring and
+                                used it
+                                strictly post-call to uncover 475 hours of wasted repeat dialing.
+                            </p>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-2 text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors duration-300 pt-6">
+                            <span>Read Outbound CRM Case Study</span>
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                    </article>
+
+                    <!-- Reflection 02: Credit Risk -->
+                    <article onclick="window.location.href='credit-risk-optimization/index.html'"
+                        class="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg cursor-pointer flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                                <span>REFLECTION 02 &bull; FINTECH RISK</span>
+                                <span>33 PYTESTS</span>
+                            </div>
+
+                            <h3
+                                class="font-serif text-2xl font-normal group-hover:text-muted-foreground transition-colors duration-300">
+                                The Active-Loan Blind Spot Hiding a 20% Default Rate
+                            </h3>
+
+                            <p class="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                                Standard LendingClub summaries mix 912,569 unfinished active loans into the 2.26M raw
+                                database, making
+                                the portfolio default rate look like a safe 12%. Isolating the 1.35M completed loans
+                                revealed the true
+                                20% charge-off rate—1.7x higher than reported—and pinpointed the $230M subprime leak.
+                            </p>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-2 text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors duration-300 pt-6">
+                            <span>Read Credit Risk Case Study</span>
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                    </article>
+
+                    <!-- Reflection 03: Medicaid Pharmacy Spend -->
+                    <article onclick="window.location.href='medicaid-spending-optimization/index.html'"
+                        class="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg cursor-pointer flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                                <span>REFLECTION 03 &bull; HEALTHCARE OPS</span>
+                                <span>55 PYTESTS</span>
+                            </div>
+
+                            <h3
+                                class="font-serif text-2xl font-normal group-hover:text-muted-foreground transition-colors duration-300">
+                                Stopping a $223B Double-Count in CMS Drug Ledgers
+                            </h3>
+
+                            <p class="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                                CMS Part D &amp; Medicaid tables interleave national <span
+                                    class="font-mono text-xs">Overall</span>
+                                rollup rows directly alongside individual manufacturer rows. Summing the raw table
+                                inflates national
+                                drug spend to $223B instead of the true $111B, and replacing HIPAA <span
+                                    class="font-mono text-xs">&lt;11</span> blanks with zeros fabricates artificial
+                                volume spikes.
+                            </p>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-2 text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors duration-300 pt-6">
+                            <span>Read Pharmacy Spend Case Study</span>
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                    </article>
+
+                    <!-- Reflection 04: E-Commerce Market Basket -->
+                    <article onclick="window.location.href='market-basket-analysis/index.html'"
+                        class="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg cursor-pointer flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                                <span>REFLECTION 04 &bull; E-COMMERCE</span>
+                                <span>32 PYTESTS</span>
+                            </div>
+
+                            <h3
+                                class="font-serif text-2xl font-normal group-hover:text-muted-foreground transition-colors duration-300">
+                                Why Dropping Null Customer IDs Deletes £1.5M in Guest Carts
+                            </h3>
+
+                            <p class="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                                Most retail basket tutorials run <span
+                                    class="font-mono text-xs">df.dropna(subset=['CustomerID'])</span>
+                                in step one—unknowingly wiping out 135,080 guest checkout rows (25% of all orders and
+                                £1.5M in revenue).
+                                Grouping by Invoice ID preserved guest carts while isolating 9,288 credit-note
+                                cancellations to screen
+                                bundle return risk.
+                            </p>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-2 text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors duration-300 pt-6">
+                            <span>Read Market Basket Case Study</span>
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Interactive Decision Simulators (Direct 1-Click Workbench Grid) -->
+        <section id="simulators" class="py-20 sm:py-32 opacity-0">
+            <div class="space-y-12 sm:space-y-16">
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div class="space-y-2">
+                        <div class="text-xs text-muted-foreground font-mono tracking-widest uppercase">
+                            LIVE SCENARIO WORKBENCHES / STRESS-TEST THE RECOMMENDATIONS
+                        </div>
+                        <h2 class="font-serif text-4xl sm:text-5xl font-normal tracking-tight">Interactive Decision
+                            Simulators</h2>
+                    </div>
+                    <div class="text-xs text-muted-foreground font-mono">CLIENT-SIDE HTML / JS TOOLS</div>
+                </div>
+
+                <div class="grid gap-6 sm:gap-8 lg:grid-cols-2">
+
+                    <!-- Simulator 01 -->
+                    <a href="bank-marketing-crm/lead-qualifier.html"
+                        class="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                                <span>01 / OUTBOUND CRM</span>
+                                <span class="text-emerald">+3,200+ DEPOSITS</span>
+                            </div>
+                            <h3
+                                class="font-serif text-2xl font-normal group-hover:text-muted-foreground transition-colors">
+                                Call Cap &amp; Lead Qualifier Simulator
+                            </h3>
+                            <p class="text-sm text-muted-foreground leading-relaxed">
+                                Adjust maximum dial caps (1 to 10 attempts) and reallocate saved call center hours
+                                across mobile
+                                contacts, past buyers, seniors, and students to preview net deposit gains live.
+                            </p>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 text-xs font-mono text-foreground group-hover:text-muted-foreground transition-colors pt-6">
+                            <span>Launch Lead Qualifier</span>
+                            <span>&nearr;</span>
+                        </div>
+                    </a>
+
+                    <!-- Simulator 02 -->
+                    <a href="credit-risk-optimization/underwriting-simulator.html"
+                        class="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                                <span>02 / FINTECH CREDIT RISK</span>
+                                <span class="text-emerald">+$244.2M VALUE</span>
+                            </div>
+                            <h3
+                                class="font-serif text-2xl font-normal group-hover:text-muted-foreground transition-colors">
+                                Underwriting Cutoffs &amp; Repricing Simulator
+                            </h3>
+                            <p class="text-sm text-muted-foreground leading-relaxed">
+                                Test custom Debt-to-Income (DTI) caps, credit card utilization cutoffs, and subgrade
+                                interest rate
+                                spreads while tracking real-time LAROC and loan volume retention guardrails.
+                            </p>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 text-xs font-mono text-foreground group-hover:text-muted-foreground transition-colors pt-6">
+                            <span>Launch Underwriting Simulator</span>
+                            <span>&nearr;</span>
+                        </div>
+                    </a>
+
+                    <!-- Simulator 03 -->
+                    <a href="medicaid-spending-optimization/cost-simulator.html"
+                        class="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                                <span>03 / HEALTHCARE PHARMACY</span>
+                                <span class="text-emerald">+$3.2M SAVED</span>
+                            </div>
+                            <h3
+                                class="font-serif text-2xl font-normal group-hover:text-muted-foreground transition-colors">
+                                Hospital Formulary &amp; NADAC Cost Simulator
+                            </h3>
+                            <p class="text-sm text-muted-foreground leading-relaxed">
+                                Scale hospital outpatient drug budgets, generic e-prescribing conversion rates, and
+                                wholesale supplier
+                                price percentiles with built-in clinical safety exclusions.
+                            </p>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 text-xs font-mono text-foreground group-hover:text-muted-foreground transition-colors pt-6">
+                            <span>Launch Cost Simulator</span>
+                            <span>&nearr;</span>
+                        </div>
+                    </a>
+
+                    <!-- Simulator 04 -->
+                    <a href="market-basket-analysis/bundle-builder.html"
+                        class="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-xs text-muted-foreground font-mono">
+                                <span>04 / E-COMMERCE MERCHANDISING</span>
+                                <span class="text-emerald">+£25K PROFIT</span>
+                            </div>
+                            <h3
+                                class="font-serif text-2xl font-normal group-hover:text-muted-foreground transition-colors">
+                                Product Bundle &amp; Margin Builder
+                            </h3>
+                            <p class="text-sm text-muted-foreground leading-relaxed">
+                                Configure promotional discount tiers, attach-rate assumptions, and return-rate
+                                guardrails across high-lift
+                                product pairs and Q4 wholesale case packs.
+                            </p>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 text-xs font-mono text-foreground group-hover:text-muted-foreground transition-colors pt-6">
+                            <span>Launch Bundle Builder</span>
+                            <span>&nearr;</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: Let's Connect -->
+        <section id="connect" class="py-20 sm:py-32 opacity-0">
+            <div class="grid lg:grid-cols-2 gap-12 sm:gap-16">
+                <div class="space-y-6 sm:space-y-8">
+                    <h2 class="font-serif text-4xl sm:text-5xl font-normal tracking-tight">Let's Connect</h2>
+
+                    <div class="space-y-6">
+                        <p class="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+                            Always interested in Data Analyst opportunities, collaborations, and conversations about
+                            decision-driven
+                            analytics, financial modeling, and stakeholder storytelling.
+                        </p>
+
+                        <div class="space-y-3 pt-2">
+                            <a href="https://www.linkedin.com/in/john-amores/" target="_blank" rel="noopener"
+                                class="group flex items-center gap-3 text-foreground hover:text-muted-foreground transition-colors duration-300">
+                                <span class="text-base sm:text-lg font-medium">linkedin.com/in/john-amores</span>
+                                <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+
+                            <a href="mailto:kayak.stated_0b@icloud.com"
+                                class="group flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors duration-300">
+                                <span class="text-sm sm:text-base font-mono">kayak.stated_0b@icloud.com</span>
+                                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6 sm:space-y-8">
+                    <div class="text-xs text-muted-foreground font-mono tracking-wider uppercase">ELSEWHERE &amp;
+                        REPOSITORIES</div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a href="https://www.linkedin.com/in/john-amores/" target="_blank" rel="noopener"
+                            class="group p-4 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm">
+                            <div class="space-y-1.5">
+                                <div
+                                    class="text-foreground group-hover:text-muted-foreground transition-colors duration-300">
+                                    LinkedIn
+                                </div>
+                                <div class="text-xs font-mono text-muted-foreground">in/john-amores</div>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com/J-Amores" target="_blank" rel="noopener"
+                            class="group p-4 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm">
+                            <div class="space-y-1.5">
+                                <div
+                                    class="text-foreground group-hover:text-muted-foreground transition-colors duration-300">
+                                    GitHub
+                                </div>
+                                <div class="text-xs font-mono text-muted-foreground">@J-Amores</div>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com/J-Amores/data-analyst-portfolio" target="_blank" rel="noopener"
+                            class="group p-4 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm">
+                            <div class="space-y-1.5">
+                                <div
+                                    class="text-foreground group-hover:text-muted-foreground transition-colors duration-300">
+                                    Portfolio Monorepo
+                                </div>
+                                <div class="text-xs font-mono text-muted-foreground">4 Case Studies + Code</div>
+                            </div>
+                        </a>
+
+                        <a href="mailto:kayak.stated_0b@icloud.com"
+                            class="group p-4 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm">
+                            <div class="space-y-1.5">
+                                <div
+                                    class="text-foreground group-hover:text-muted-foreground transition-colors duration-300">
+                                    Email
+                                </div>
+                                <div class="text-xs font-mono text-muted-foreground">Direct Inbox</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 sm:py-16 border-t border-border">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8">
+                <div class="space-y-2">
+                    <div class="text-sm text-muted-foreground">&copy; 2026 John Amores. All rights reserved.</div>
+                    <div class="text-xs text-muted-foreground font-mono">
+                        Decision-Driven Analytics Portfolio &bull; 166 / 166 Automated Pytest Checks Passing
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <!-- Theme Toggle Button (Switches between Sleek Dark Mode & Case Study Archival Paper Light Mode) -->
+                    <button onclick="toggleTheme()"
+                        class="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
+                        aria-label="Toggle theme">
+                        <svg id="theme-icon"
+                            class="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+
+                    <!-- Back to Top Button -->
+                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+                        class="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
+                        aria-label="Back to top">
+                        <svg class="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Bottom Gradient Fade matching index.html -->
+    <div
+        class="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none">
+    </div>
+
+    <!-- Scroll-Spy & Theme Toggle Logic -->
+    <script>
+        let isDark = true;
+        function toggleTheme() {
+            isDark = !isDark;
+            document.documentElement.classList.toggle('dark', isDark);
+        }
+
+        const sections = [
+            document.getElementById('intro'),
+            document.getElementById('work'),
+            document.getElementById('methodology'),
+            document.getElementById('thoughts'),
+            document.getElementById('simulators'),
+            document.getElementById('connect')
+        ];
+
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    const id = entry.target.id;
+                    navDots.forEach(dot => {
+                        if (dot.getAttribute('data-section') === id) {
+                            dot.classList.remove('bg-muted-foreground/30');
+                            dot.classList.add('bg-foreground');
+                        } else {
+                            dot.classList.remove('bg-foreground');
+                            dot.classList.add('bg-muted-foreground/30');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.2, rootMargin: '0px 0px -15% 0px' });
+
+        sections.forEach(sec => {
+            if (sec) observer.observe(sec);
+        });
+    </script>
+</body>
+
+</html>
