@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consumer Credit Risk & Underwriting Optimization Report | John Amores</title>
   
+  <!-- Theme Synchronization Script (Prevents FOUC) -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
   <!-- Typography: High-Contrast Editorial Serif + Crisp Sans + Tabular Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,22 +24,71 @@
 
   <style>
     :root {
-      --bg-paper: #FAF8F2;
-      --bg-paper-alt: #F3EFE6;
-      --bg-card: #FFFFFF;
-      --ink-black: #111111;
-      --ink-muted: #4A4843;
-      --ink-subtle: #76746E;
-      --border-color: #111111;
+      --background: #FAF8F2;
+      --background-alt: #F3EFE6;
+      --card: #FFFFFF;
+      --foreground: #111111;
+      --muted-foreground: #4A4843;
+      --subtle-foreground: #76746E;
+      --border: #111111;
+      --border-subtle: #D6D3CD;
+      --green: #15803D;
+      --green-bg: #F0FDF4;
+      --crimson: #BE123C;
+      --crimson-bg: #FFF1F2;
+      --nav-bg: rgba(250, 248, 242, 0.95);
+      color-scheme: light;
+
+      /* Legacy & Alternate Token Aliases */
+      --bg-paper: var(--background);
+      --bg-paper-alt: var(--background-alt);
+      --bg-card: var(--card);
+      --ink-black: var(--foreground);
+      --ink-muted: var(--muted-foreground);
+      --ink-subtle: var(--subtle-foreground);
+      --border-color: var(--border);
       --hairline: 1px solid var(--border-color);
-      --color-green: #15803D;
-      --color-green-light: #F0FDF4;
-      --color-crimson: #BE123C;
-      --color-crimson-light: #FFF1F2;
+      --color-green: var(--green);
+      --color-green-light: var(--green-bg);
+      --color-crimson: var(--crimson);
+      --color-crimson-light: var(--crimson-bg);
       --color-lavender: #F3E8FF;
       --color-charcoal: #27272A;
       --content-width: 1140px;
       --prose-width: 74ch;
+    }
+
+    html.dark {
+      --background: #121212;
+      --background-alt: #1A1A1A;
+      --card: #181818;
+      --foreground: #F5F3EE;
+      --muted-foreground: #A3A098;
+      --subtle-foreground: #6E6B64;
+      --border: #3A3834;
+      --border-subtle: #292825;
+      --green: #4ADE80;
+      --green-bg: rgba(74, 222, 128, 0.1);
+      --crimson: #FB7185;
+      --crimson-bg: rgba(251, 113, 133, 0.1);
+      --nav-bg: rgba(18, 18, 18, 0.95);
+      color-scheme: dark;
+
+      /* Legacy & Alternate Token Aliases */
+      --bg-paper: var(--background);
+      --bg-paper-alt: var(--background-alt);
+      --bg-card: var(--card);
+      --ink-black: var(--foreground);
+      --ink-muted: var(--muted-foreground);
+      --ink-subtle: var(--subtle-foreground);
+      --border-color: var(--border);
+      --hairline: 1px solid var(--border-color);
+      --color-green: var(--green);
+      --color-green-light: var(--green-bg);
+      --color-crimson: var(--crimson);
+      --color-crimson-light: var(--crimson-bg);
+      --color-lavender: rgba(168, 85, 247, 0.15);
+      --color-charcoal: var(--foreground);
     }
 
     * {
@@ -37,8 +98,8 @@
     }
 
     ::selection {
-      background: #111111;
-      color: #FAF8F2;
+      background: var(--foreground);
+      color: var(--background);
     }
 
     body {
@@ -50,6 +111,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     /* Fixed Editorial Navigation Header */
@@ -57,10 +119,35 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(250, 248, 242, 0.95);
+      background: var(--nav-bg);
       backdrop-filter: blur(8px);
       border-bottom: var(--hairline);
+      transition: background 0.25s ease;
     }
+
+    .theme-toggle-btn {
+      background: var(--bg-card);
+      color: var(--ink-muted);
+      border: 1px solid var(--border-color);
+      padding: 5px 9px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: all 140ms ease;
+    }
+
+    .theme-toggle-btn:hover {
+      color: var(--ink-black);
+      border-color: var(--ink-black);
+    }
+
+    .theme-toggle-btn .theme-icon-sun { display: none; }
+    .theme-toggle-btn .theme-icon-moon { display: block; }
+    html.dark .theme-toggle-btn .theme-icon-sun { display: block; }
+    html.dark .theme-toggle-btn .theme-icon-moon { display: none; }
 
     .top-nav-inner {
       max-width: var(--content-width);
@@ -116,7 +203,7 @@
     }
 
     .nav-btn:hover {
-      background: #27272A;
+      background: var(--muted-foreground);
       opacity: 1 !important;
     }
 
@@ -368,7 +455,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #FAF8F2;
+      background: var(--bg-paper);
     }
 
     .figure-img-wrap img {
@@ -541,9 +628,9 @@
     .lightbox-content {
       max-width: 92vw;
       max-height: 90vh;
-      border: 2px solid #FAF8F2;
+      border: 1px solid var(--border);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      background: #FAF8F2;
+      background: var(--card);
     }
 
     .lightbox-close {
@@ -622,7 +709,7 @@
   <header class="top-nav">
     <div class="top-nav-inner">
       <div class="nav-brand">
-        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid #D6D3CD; padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
+        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid var(--border-subtle); padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
         <span class="nav-badge"></span>
         <span>JOHN AMORES | CONSUMER CREDIT RISK CASE STUDY</span>
       </div>
@@ -633,6 +720,14 @@
         <a href="#risk-grid">03 BORROWER STRESS</a>
         <a href="#waterfall">04 SAVINGS PLAN</a>
         <a href="#rollout">05 90-DAY ROLLOUT</a>
+        <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle Light / Dark Mode">
+          <svg class="theme-icon-sun" width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+          </svg>
+          <svg class="theme-icon-moon" width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+          </svg>
+        </button>
       </div>
     </div>
   </header>
@@ -1302,14 +1397,23 @@
     </section>
 
     <!-- FOOTER -->
-    <footer style="padding: 48px 0; text-align: center; color: var(--ink-muted); font-size: 0.8rem;">
+    <footer style="padding: 48px 0; text-align: center; color: var(--ink-muted); font-size: 0.8rem; border-top: var(--hairline); margin-top: 40px;">
       <p style="margin-bottom: 12px;">Prepared by <strong>John Amores</strong> | Data Analyst Portfolio Case Study</p>
-      <p>
-        <a href="underwriting-simulator.html" style="color: var(--ink-black); font-weight: 700; margin: 0 12px;">Underwriting Decision Tool -&gt;</a>
-        |
-        <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/credit-risk-optimization" target="_blank" rel="noopener noreferrer" style="color: var(--ink-black); margin: 0 12px;">GitHub Repository</a>
-        |
-        <a href="https://www.linkedin.com/in/john-amores/" target="_blank" rel="noopener noreferrer" style="color: var(--ink-black); margin: 0 12px;">LinkedIn</a>
+      <p style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+        <a href="underwriting-simulator.html" style="color: var(--ink-black); font-weight: 700;">Underwriting Decision Tool -&gt;</a>
+        <span>|</span>
+        <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/credit-risk-optimization" target="_blank" rel="noopener noreferrer" style="color: var(--ink-black);">GitHub Repository</a>
+        <span>|</span>
+        <a href="https://www.linkedin.com/in/john-amores/" target="_blank" rel="noopener noreferrer" style="color: var(--ink-black);">LinkedIn</a>
+        <span>|</span>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle Light / Dark Mode" style="vertical-align: middle;">
+          <svg class="theme-icon-sun" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+          </svg>
+          <svg class="theme-icon-moon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+          </svg>
+        </button>
       </p>
     </footer>
 
@@ -1322,6 +1426,12 @@
   </div>
 
   <script>
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+      window.dispatchEvent(new CustomEvent('theme:change', { detail: { theme: isDark ? 'dark' : 'light' } }));
+    }
+
     function openLightbox(src) {
       const modal = document.getElementById('lightboxModal');
       const img = document.getElementById('lightboxImage');

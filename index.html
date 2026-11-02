@@ -8,6 +8,18 @@
     <meta name="description"
         content="Data Analyst turning large, messy operational datasets into clear financial decisions, executive case studies, and interactive decision simulators.">
 
+    <!-- Theme Synchronization Script (Prevents FOUC) -->
+    <script>
+        (function () {
+            var saved = localStorage.getItem('portfolio-theme');
+            if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
     <!-- Editorial Case Study Fonts: Instrument Serif + Plus Jakarta Sans + JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,31 +65,50 @@
     </script>
 
     <style>
-        /* Light Mode matches your Case Studies' Warm Archival Paper (#FAF8F2) */
+        /* Light Mode matches Case Studies' Warm Archival Paper (#FAF8F2) */
         :root {
             --background: #FAF8F2;
+            --background-alt: #F3EFE6;
             --foreground: #111111;
             --card: #FFFFFF;
             --card-foreground: #111111;
             --muted: #F3EFE6;
             --muted-foreground: #5A5852;
+            --subtle-foreground: #76746E;
             --border: #DFDCD4;
-            --emerald: #166534;
+            --border-subtle: #EFEBE4;
+            --green: #166534;
+            --green-bg: #F0FDF4;
             --crimson: #BE123C;
+            --crimson-bg: #FFF1F2;
+            --emerald: var(--green);
+            color-scheme: light;
         }
 
-        /* Dark Mode matches index.html's sleek pure carbon aesthetic */
-        .dark {
-            --background: #000000;
-            --foreground: #FAFAFA;
-            --card: #060606;
-            --card-foreground: #FAFAFA;
-            --muted: #171717;
-            --muted-foreground: #A3A3A3;
-            --border: rgba(255, 255, 255, 0.12);
-            --emerald: #4ADE80;
+        /* Canonical Carbon Dark Mode */
+        html.dark, .dark {
+            --background: #121212;
+            --background-alt: #1A1A1A;
+            --card: #181818;
+            --card-foreground: #F5F3EE;
+            --foreground: #F5F3EE;
+            --muted: #1A1A1A;
+            --muted-foreground: #A3A098;
+            --subtle-foreground: #6E6B64;
+            --border: #3A3834;
+            --border-subtle: #292825;
+            --green: #4ADE80;
+            --green-bg: rgba(74, 222, 128, 0.1);
             --crimson: #FB7185;
+            --crimson-bg: rgba(251, 113, 133, 0.1);
+            --emerald: #4ADE80;
+            color-scheme: dark;
         }
+
+        #theme-icon-sun { display: none; }
+        #theme-icon-moon { display: block; }
+        html.dark #theme-icon-sun { display: block; }
+        html.dark #theme-icon-moon { display: none; }
 
         * {
             border-color: var(--border);
@@ -949,16 +980,21 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <!-- Theme Toggle Button (Switches between Sleek Dark Mode & Case Study Archival Paper Light Mode) -->
-                    <button onclick="toggleTheme()"
+                    <!-- Theme Toggle Button (Switches between Carbon Dark Mode & Case Study Archival Paper Light Mode) -->
+                    <button onclick="toggleTheme()" id="theme-toggle"
                         class="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
                         aria-label="Toggle theme">
-                        <svg id="theme-icon"
+                        <svg id="theme-icon-sun"
                             class="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
                             fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
                                 clip-rule="evenodd" />
+                        </svg>
+                        <svg id="theme-icon-moon"
+                            class="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                         </svg>
                     </button>
 
@@ -984,10 +1020,10 @@
 
     <!-- Scroll-Spy & Theme Toggle Logic -->
     <script>
-        let isDark = true;
         function toggleTheme() {
-            isDark = !isDark;
-            document.documentElement.classList.toggle('dark', isDark);
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+            window.dispatchEvent(new CustomEvent('theme:change', { detail: { theme: isDark ? 'dark' : 'light' } }));
         }
 
         const sections = [

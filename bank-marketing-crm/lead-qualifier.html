@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pre-Call Lead Qualifier &amp; Decision Desk | Bank Outbound Marketing</title>
   
+  <!-- Theme Synchronization Script (Prevents FOUC) -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,24 +24,74 @@
 
   <style>
     :root {
-      --bg-canvas: #FAF8F2;
-      --bg-card: #FFFFFF;
-      --bg-cell-secondary: #F3EFE6;
-      --border-grid: #111111;
+      --background: #FAF8F2;
+      --background-alt: #F3EFE6;
+      --card: #FFFFFF;
+      --foreground: #111111;
+      --muted-foreground: #71717A;
+      --subtle-foreground: #76746E;
+      --border: #111111;
       --border-subtle: #E2E8F0;
-      --color-ink: #111111;
-      --color-charcoal: #27272A;
-      --color-emerald: #166534;
-      --color-crimson: #BE123C;
-      --color-amber: #B45309;
-      --color-blue: #1D4ED8;
-      --color-muted: #71717A;
+      --green: #166534;
+      --green-bg: #DCFCE7;
+      --crimson: #BE123C;
+      --crimson-bg: #FFE4E6;
+      --blue: #1D4ED8;
+      --blue-bg: #DBEAFE;
+      --amber: #B45309;
+      --amber-bg: #FEF3C7;
+      color-scheme: light;
+
+      /* Legacy & Alternate Token Aliases */
+      --bg-canvas: var(--background);
+      --bg-card: var(--card);
+      --bg-cell-secondary: var(--background-alt);
+      --border-grid: var(--border);
+      --color-ink: var(--foreground);
+      --color-charcoal: var(--foreground);
+      --color-emerald: var(--green);
+      --color-muted: var(--muted-foreground);
+    }
+
+    html.dark {
+      --background: #121212;
+      --background-alt: #1A1A1A;
+      --card: #181818;
+      --foreground: #F5F3EE;
+      --muted-foreground: #A3A098;
+      --subtle-foreground: #6E6B64;
+      --border: #3A3834;
+      --border-subtle: #292825;
+      --green: #4ADE80;
+      --green-bg: rgba(74, 222, 128, 0.12);
+      --crimson: #FB7185;
+      --crimson-bg: rgba(251, 113, 133, 0.12);
+      --blue: #60A5FA;
+      --blue-bg: rgba(96, 165, 250, 0.15);
+      --amber: #FBBF24;
+      --amber-bg: rgba(251, 191, 36, 0.15);
+      color-scheme: dark;
+
+      /* Legacy & Alternate Token Aliases */
+      --bg-canvas: var(--background);
+      --bg-card: var(--card);
+      --bg-cell-secondary: var(--background-alt);
+      --border-grid: var(--border);
+      --color-ink: var(--foreground);
+      --color-charcoal: var(--foreground);
+      --color-emerald: var(--green);
+      --color-muted: var(--muted-foreground);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    ::selection {
+      background: var(--foreground);
+      color: var(--background);
     }
 
     body {
@@ -39,6 +101,7 @@
       line-height: 1.6;
       font-size: 14.5px;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     /* Top Sticky Header */
@@ -53,7 +116,32 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+      transition: background-color 0.25s ease;
     }
+
+    .theme-toggle-btn {
+      background: var(--bg-card);
+      color: var(--color-muted);
+      border: 1px solid var(--border-grid);
+      padding: 5px 9px;
+      border-radius: 2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: all 140ms ease;
+    }
+
+    .theme-toggle-btn:hover {
+      color: var(--color-ink);
+      border-color: var(--color-ink);
+    }
+
+    .theme-toggle-btn .theme-icon-sun { display: none; }
+    .theme-toggle-btn .theme-icon-moon { display: block; }
+    html.dark .theme-toggle-btn .theme-icon-sun { display: block; }
+    html.dark .theme-toggle-btn .theme-icon-moon { display: none; }
 
     .qualifier-brand, .cockpit-brand {
       font-family: 'JetBrains Mono', monospace;
@@ -82,7 +170,7 @@
 
     .btn-back:hover {
       background-color: var(--color-ink);
-      color: #FAF8F2;
+      color: var(--background);
     }
 
     .container {
@@ -243,7 +331,7 @@
 
     select:focus {
       border-color: var(--color-ink);
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
     }
 
     /* One-Click Archetype Test Buttons */
@@ -294,20 +382,20 @@
 
     .btn-sample:hover {
       background-color: var(--color-ink);
-      color: #FAF8F2;
+      color: var(--background);
     }
 
     .btn-sample:hover .sample-meta {
-      color: #D4D4D8;
+      color: var(--muted-foreground);
     }
 
     .btn-sample.active {
       background-color: var(--color-ink);
-      color: #FFFFFF;
+      color: var(--background);
     }
 
     .btn-sample.active .sample-meta {
-      color: #D4D4D8;
+      color: var(--muted-foreground);
     }
 
     .sample-meta {
@@ -355,27 +443,27 @@
     }
 
     .stamp-priority {
-      background-color: #DCFCE7;
-      color: #166534;
-      border: 1px solid #16A34A;
+      background-color: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green);
     }
 
     .stamp-mobile {
-      background-color: #DBEAFE;
-      color: #1D4ED8;
-      border: 1px solid #3B82F6;
+      background-color: var(--blue-bg);
+      color: var(--blue);
+      border: 1px solid var(--blue);
     }
 
     .stamp-stop {
-      background-color: #FFE4E6;
-      color: #BE123C;
-      border: 1px solid #E11D48;
+      background-color: var(--crimson-bg);
+      color: var(--crimson);
+      border: 1px solid var(--crimson);
     }
 
     .stamp-hold {
-      background-color: #FEF3C7;
-      color: #92400E;
-      border: 1px solid #D97706;
+      background-color: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid var(--amber);
     }
 
     /* Effort Verdict Banner */
@@ -390,27 +478,27 @@
     }
 
     .verdict-high {
-      background-color: #DCFCE7;
-      color: #166534;
-      border: 1px solid #86EFAC;
+      background-color: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green);
     }
 
     .verdict-moderate {
-      background-color: #DBEAFE;
-      color: #1D4ED8;
-      border: 1px solid #BFDBFE;
+      background-color: var(--blue-bg);
+      color: var(--blue);
+      border: 1px solid var(--blue);
     }
 
     .verdict-low {
-      background-color: #FEF3C7;
-      color: #92400E;
-      border: 1px solid #FDE68A;
+      background-color: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid var(--amber);
     }
 
     .verdict-blocked {
-      background-color: #FFE4E6;
-      color: #BE123C;
-      border: 1px solid #FDA4AF;
+      background-color: var(--crimson-bg);
+      color: var(--crimson);
+      border: 1px solid var(--crimson);
     }
 
     .rep-action-line {
@@ -610,10 +698,20 @@
   <!-- Sticky Header -->
   <header class="qualifier-header">
     <div class="qualifier-brand" style="display: flex; align-items: center;">
-      <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--color-muted, #71717A); text-decoration: none; border: 1px solid #D6D3CD; padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
+      <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--color-muted); text-decoration: none; border: 1px solid var(--border-subtle); padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
       <span>PRE-CALL LEAD QUALIFIER &amp; DECISION DESK</span>
     </div>
-    <a href="index.html" class="btn-back">&lt;- Back to Executive Report</a>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <a href="index.html" class="btn-back">&lt;- Back to Executive Report</a>
+      <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle Light / Dark Mode">
+        <svg class="theme-icon-sun" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+        </svg>
+        <svg class="theme-icon-moon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+        </svg>
+      </button>
+    </div>
   </header>
 
   <div class="container">
@@ -1207,6 +1305,12 @@
         document.getElementById('inpAttempt').value = '1';
       }
       calculateScore();
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+      window.dispatchEvent(new CustomEvent('theme:change', { detail: { theme: isDark ? 'dark' : 'light' } }));
     }
 
     // Initialize on load

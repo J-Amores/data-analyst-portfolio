@@ -5,29 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hospital Outpatient Pharmacy Cost Simulator | Spend Optimization</title>
   
+  <!-- Theme Synchronization Script (Prevents FOUC) -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-paper: #FAF8F2;
-      --bg-card: #F4F1EA;
-      --bg-amber-tint: #FDF8EE;
-      --bg-emerald-tint: #F0FDF4;
-      --bg-crimson-tint: #FDF2F2;
+      --background: #FAF8F2;
+      --background-alt: #F4F1EA;
+      --card: #F4F1EA;
+      --foreground: #111111;
+      --muted-foreground: #4B5563;
+      --subtle-foreground: #76746E;
+      --border: #111111;
+      --border-subtle: #D6D3CD;
+      --green: #047857;
+      --green-bg: #F0FDF4;
+      --crimson: #B91C1C;
+      --crimson-bg: #FDF2F2;
+      --amber: #B45309;
+      --amber-bg: #FDF8EE;
+      color-scheme: light;
 
-      --ink-primary: #111111;
-      --ink-body: #2D3748;
-      --ink-muted: #4B5563;
-
-      --border-hairline: 1px solid #D6D3CD;
-      --border-strong: 1px solid #111111;
-
-      --accent-crimson: #B91C1C;
-      --accent-emerald: #047857;
+      /* Legacy & Alternate Aliases */
+      --bg-paper: var(--background);
+      --bg-card: var(--card);
+      --bg-amber-tint: var(--amber-bg);
+      --bg-emerald-tint: var(--green-bg);
+      --bg-crimson-tint: var(--crimson-bg);
+      --ink-primary: var(--foreground);
+      --ink-body: var(--foreground);
+      --ink-muted: var(--muted-foreground);
+      --border-hairline: 1px solid var(--border-subtle);
+      --border-strong: 1px solid var(--border);
+      --accent-crimson: var(--crimson);
+      --accent-emerald: var(--green);
       --accent-emerald-dark: #065F46;
-      --accent-amber: #B45309;
+      --accent-amber: var(--amber);
       --accent-slate: #1E293B;
 
       --font-serif: 'Newsreader', Georgia, serif;
@@ -35,10 +61,50 @@
       --font-mono: 'JetBrains Mono', monospace;
     }
 
+    html.dark {
+      --background: #121212;
+      --background-alt: #1A1A1A;
+      --card: #181818;
+      --foreground: #F5F3EE;
+      --muted-foreground: #A3A098;
+      --subtle-foreground: #6E6B64;
+      --border: #3A3834;
+      --border-subtle: #292825;
+      --green: #4ADE80;
+      --green-bg: rgba(74, 222, 128, 0.1);
+      --crimson: #FB7185;
+      --crimson-bg: rgba(251, 113, 133, 0.1);
+      --amber: #FBBF24;
+      --amber-bg: rgba(251, 191, 36, 0.15);
+      color-scheme: dark;
+
+      /* Legacy & Alternate Aliases */
+      --bg-paper: var(--background);
+      --bg-card: var(--card);
+      --bg-amber-tint: var(--amber-bg);
+      --bg-emerald-tint: var(--green-bg);
+      --bg-crimson-tint: var(--crimson-bg);
+      --ink-primary: var(--foreground);
+      --ink-body: var(--foreground);
+      --ink-muted: var(--muted-foreground);
+      --border-hairline: 1px solid var(--border-subtle);
+      --border-strong: 1px solid var(--border);
+      --accent-crimson: var(--crimson);
+      --accent-emerald: var(--green);
+      --accent-emerald-dark: var(--green);
+      --accent-amber: var(--amber);
+      --accent-slate: #94A3B8;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    ::selection {
+      background: var(--foreground);
+      color: var(--background);
     }
 
     html, body {
@@ -48,6 +114,7 @@
       font-size: 15px;
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .cockpit-container {
@@ -84,6 +151,30 @@
       color: var(--ink-primary);
     }
 
+    .theme-toggle-btn {
+      background: var(--bg-card);
+      color: var(--ink-muted);
+      border: 1px solid var(--border-strong);
+      padding: 5px 9px;
+      border-radius: 2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: all 140ms ease;
+    }
+
+    .theme-toggle-btn:hover {
+      color: var(--ink-primary);
+      border-color: var(--ink-primary);
+    }
+
+    .theme-toggle-btn .theme-icon-sun { display: none; }
+    .theme-toggle-btn .theme-icon-moon { display: block; }
+    html.dark .theme-toggle-btn .theme-icon-sun { display: block; }
+    html.dark .theme-toggle-btn .theme-icon-moon { display: none; }
+
     .back-btn {
       font-family: var(--font-mono);
       font-size: 11.5px;
@@ -101,7 +192,7 @@
 
     .back-btn:hover {
       background-color: var(--ink-primary);
-      color: #FFFFFF;
+      color: var(--background);
     }
 
     /* Headers */
@@ -147,7 +238,7 @@
     /* Controls Panel */
     .controls-panel {
       border: var(--border-strong);
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
       padding: 18px 20px;
       margin-bottom: 24px;
     }
@@ -197,10 +288,10 @@
       font-size: 11.5px;
       font-weight: 600;
       padding: 7px 12px;
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
       color: var(--ink-body);
       border: none;
-      border-right: 1px solid #D6D3CD;
+      border-right: 1px solid var(--border-subtle);
       cursor: pointer;
       transition: background-color 0.12s ease, color 0.12s ease;
       white-space: nowrap;
@@ -211,13 +302,13 @@
     }
 
     .btn-toggle:hover {
-      background-color: var(--bg-card);
+      background-color: var(--bg-paper);
       color: var(--ink-primary);
     }
 
     .btn-toggle.active {
       background-color: var(--accent-slate);
-      color: #FFFFFF;
+      color: var(--background);
       font-weight: 700;
     }
 
@@ -233,7 +324,7 @@
       appearance: none;
       width: 110px;
       height: 6px;
-      background: #D6D3CD;
+      background: var(--border-subtle);
       outline: none;
       border-radius: 0;
     }
@@ -245,7 +336,7 @@
       height: 14px;
       background: var(--ink-primary);
       cursor: pointer;
-      border: 1px solid #111111;
+      border: 1px solid var(--border);
     }
 
     .slider-val-badge {
@@ -262,7 +353,7 @@
       font-size: 13px;
       padding: 6px 10px;
       border: var(--border-strong);
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
       color: var(--ink-primary);
       outline: none;
     }
@@ -289,7 +380,7 @@
       font-weight: 600;
       padding: 3px 9px;
       border: var(--border-hairline);
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
       color: var(--ink-body);
       cursor: pointer;
       transition: all 0.12s ease;
@@ -302,7 +393,7 @@
 
     .chip-btn.active {
       border-color: var(--ink-primary);
-      background-color: var(--bg-card);
+      background-color: var(--bg-paper);
       color: var(--ink-primary);
       font-weight: 700;
     }
@@ -406,7 +497,7 @@
 
     .chart-box {
       border: var(--border-hairline);
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
       padding: 16px 18px 14px;
       display: flex;
       flex-direction: column;
@@ -460,13 +551,13 @@
       width: 11px;
       height: 11px;
       display: inline-block;
-      border: 1px solid #111111;
+      border: 1px solid var(--border-strong);
     }
 
     /* Burn Down Curve Full Width */
     .chart-box-full {
       border: var(--border-hairline);
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
       padding: 18px 20px 14px;
       margin-bottom: 30px;
     }
@@ -475,7 +566,7 @@
     .table-card {
       overflow-x: auto;
       border: var(--border-hairline);
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
       padding: 12px;
     }
 
@@ -504,7 +595,7 @@
     }
 
     .hospital-table th:hover {
-      background-color: #ECE8DE;
+      background-color: var(--bg-paper);
     }
 
     .hospital-table th:last-child {
@@ -533,7 +624,7 @@
     }
 
     .hospital-table tr.expanded-row {
-      background-color: #FAF8F2;
+      background-color: var(--bg-paper);
     }
 
     .hospital-table td.mono {
@@ -559,7 +650,7 @@
     .savings-bar-track {
       width: 100%;
       height: 4px;
-      background-color: #E5E7EB;
+      background-color: var(--border-subtle);
       overflow: hidden;
     }
 
@@ -576,7 +667,7 @@
       font-size: 11px;
       font-weight: 700;
       padding: 2px 7px;
-      border: 1px solid #A7F3D0;
+      border: 1px solid var(--green);
       background-color: var(--bg-emerald-tint);
       color: var(--accent-emerald-dark);
       text-transform: uppercase;
@@ -584,31 +675,31 @@
     }
 
     .badge-pill.phase1 {
-      border-color: #BFDBFE;
-      background-color: #EFF6FF;
-      color: #1D4ED8;
+      border-color: var(--blue, #3B82F6);
+      background-color: var(--blue-bg, rgba(59, 130, 246, 0.15));
+      color: var(--blue, #1D4ED8);
     }
 
     .badge-pill.phase2 {
-      border-color: #CBD5E1;
-      background-color: #F1F5F9;
-      color: #0F172A;
+      border-color: var(--border-subtle);
+      background-color: var(--bg-card);
+      color: var(--ink-primary);
     }
 
     .badge-pill.phase3 {
-      border-color: #A7F3D0;
+      border-color: var(--green);
       background-color: var(--bg-emerald-tint);
       color: var(--accent-emerald-dark);
     }
 
     .badge-pill.status-ready {
-      border-color: #111111;
+      border-color: var(--border-strong);
       background-color: var(--bg-card);
       color: var(--ink-primary);
     }
 
     .badge-pill.flag {
-      border-color: #FECACA;
+      border-color: var(--crimson);
       background-color: var(--bg-crimson-tint);
       color: var(--accent-crimson);
     }
@@ -616,7 +707,7 @@
     /* Expandable Row Detail Card */
     .detail-card {
       padding: 12px 14px;
-      background-color: #FFFFFF;
+      background-color: var(--bg-paper);
       border: var(--border-hairline);
       margin: 4px 0;
       font-size: 12px;
@@ -647,7 +738,7 @@
       font-weight: 700;
       padding: 5px 10px;
       border: var(--border-strong);
-      background-color: #FFFFFF;
+      background-color: var(--bg-card);
       color: var(--ink-primary);
       cursor: pointer;
       display: inline-flex;
@@ -658,22 +749,22 @@
 
     .action-btn:hover {
       background-color: var(--ink-primary);
-      color: #FFFFFF;
+      color: var(--background);
     }
 
     /* Tooltip */
     #chartTooltip {
       position: absolute;
       display: none;
-      background-color: #111111;
-      color: #FFFFFF;
+      background-color: var(--card);
+      color: var(--foreground);
       padding: 8px 11px;
       font-family: var(--font-mono);
       font-size: 11.5px;
       line-height: 1.4;
       pointer-events: none;
       z-index: 100;
-      border: 1px solid #444444;
+      border: 1px solid var(--border);
       max-width: 280px;
     }
 
@@ -721,14 +812,22 @@
     <!-- Top Nav -->
     <div class="cockpit-nav">
       <div class="cockpit-nav-left">
-        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid #D6D3CD; padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
+        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid var(--border-subtle); padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
         <a href="index.html" class="back-btn">&lt;- BACK TO CASE STUDY REPORT</a>
         <span class="cockpit-brand">HOSPITAL OUTPATIENT PHARMACY COST SIMULATOR</span>
       </div>
-      <div>
+      <div style="display: flex; align-items: center; gap: 12px;">
         <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted);">
           ANNUAL OUTPATIENT BUDGET: $85M | TARGET BRAND SPEND: $3.89M
         </span>
+        <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle Light / Dark Mode">
+          <svg class="theme-icon-sun" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+          </svg>
+          <svg class="theme-icon-moon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -996,7 +1095,15 @@
       <div>
         Hospital Outpatient Pharmacy Spend Optimization Case Study | Verified CMS RY2026 Analytical Base (4,774 catalog drugs / $85M hospital benchmark)
       </div>
-      <div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle Light / Dark Mode">
+          <svg class="theme-icon-sun" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+          </svg>
+          <svg class="theme-icon-moon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+          </svg>
+        </button>
         <a href="index.html" class="back-btn">&lt;- BACK TO CASE STUDY REPORT</a>
       </div>
     </div>
@@ -1384,11 +1491,34 @@
     }
 
     // ---------------------------------------------------------------------------
+    // Chart Theme Helper
+    // ---------------------------------------------------------------------------
+    function getChartTheme() {
+      const isDark = document.documentElement.classList.contains("dark");
+      return {
+        axis: isDark ? "#3A3834" : "#111111",
+        grid: isDark ? "#292825" : "#E5E7EB",
+        text: isDark ? "#F5F3EE" : "#111111",
+        mutedText: isDark ? "#A3A098" : "#4B5563",
+        crimson: isDark ? "#FB7185" : "#B91C1C",
+        green: isDark ? "#4ADE80" : "#047857",
+        greenDark: isDark ? "#4ADE80" : "#065F46",
+        greenBg: isDark ? "rgba(74, 222, 128, 0.15)" : "#F0FDF4",
+        greenGapFill: isDark ? "rgba(74, 222, 128, 0.15)" : "rgba(4, 120, 87, 0.12)",
+        slate: isDark ? "#94A3B8" : "#1E293B",
+        border: isDark ? "#3A3834" : "#111111",
+        dotStroke: isDark ? "#181818" : "#FFFFFF",
+        inactiveBar: isDark ? "#292825" : "#E5E7EB"
+      };
+    }
+
+    // ---------------------------------------------------------------------------
     // Chart 1: Paired Before vs. After by Drug Category (SVG)
     // ---------------------------------------------------------------------------
     function renderChart1(breakdown) {
       const svg = document.getElementById("svgChart1");
       svg.innerHTML = "";
+      const theme = getChartTheme();
 
       const cats = CATEGORIES_DATA.filter(c => currentCategory === "ALL" || c.id === currentCategory);
       const rowCount = cats.length;
@@ -1412,7 +1542,7 @@
       lineBottom.setAttribute("y1", axisY);
       lineBottom.setAttribute("x2", chartW - padRight);
       lineBottom.setAttribute("y2", axisY);
-      lineBottom.setAttribute("stroke", "#111111");
+      lineBottom.setAttribute("stroke", theme.axis);
       lineBottom.setAttribute("stroke-width", "1");
       svg.appendChild(lineBottom);
 
@@ -1424,7 +1554,7 @@
         tickLine.setAttribute("y1", padTop);
         tickLine.setAttribute("x2", tx);
         tickLine.setAttribute("y2", axisY + 4);
-        tickLine.setAttribute("stroke", "#E5E7EB");
+        tickLine.setAttribute("stroke", theme.grid);
         tickLine.setAttribute("stroke-width", "1");
         svg.appendChild(tickLine);
 
@@ -1434,7 +1564,7 @@
         tickText.setAttribute("text-anchor", "middle");
         tickText.setAttribute("font-family", "JetBrains Mono");
         tickText.setAttribute("font-size", "10");
-        tickText.setAttribute("fill", "#4B5563");
+        tickText.setAttribute("fill", theme.mutedText);
         tickText.textContent = "$" + tick.toFixed(1) + "M";
         svg.appendChild(tickText);
       });
@@ -1462,7 +1592,7 @@
         labelText.setAttribute("font-family", "Plus Jakarta Sans");
         labelText.setAttribute("font-size", "11");
         labelText.setAttribute("font-weight", "600");
-        labelText.setAttribute("fill", "#111111");
+        labelText.setAttribute("fill", theme.text);
         labelText.textContent = cat.name;
         svg.appendChild(labelText);
 
@@ -1477,8 +1607,8 @@
         rectA.setAttribute("y", b1Y);
         rectA.setAttribute("width", b1W);
         rectA.setAttribute("height", barH);
-        rectA.setAttribute("fill", "#B91C1C");
-        rectA.setAttribute("stroke", "#111111");
+        rectA.setAttribute("fill", theme.crimson);
+        rectA.setAttribute("stroke", theme.border);
         rectA.setAttribute("stroke-width", "0.75");
         rectA.style.cursor = "pointer";
         rectA.onmouseenter = (e) => showTooltip(e, cat.name + "<br>Starting Spend: <b>$" + cat.before.toFixed(2) + "M</b>");
@@ -1491,7 +1621,7 @@
         textA.setAttribute("font-family", "JetBrains Mono");
         textA.setAttribute("font-size", "10");
         textA.setAttribute("font-weight", "600");
-        textA.setAttribute("fill", "#B91C1C");
+        textA.setAttribute("fill", theme.crimson);
         textA.textContent = "$" + cat.before.toFixed(2) + "M";
         svg.appendChild(textA);
 
@@ -1506,8 +1636,8 @@
           rectB.setAttribute("y", b2Y);
           rectB.setAttribute("width", b2NewW);
           rectB.setAttribute("height", barH);
-          rectB.setAttribute("fill", "#1E293B");
-          rectB.setAttribute("stroke", "#111111");
+          rectB.setAttribute("fill", theme.slate);
+          rectB.setAttribute("stroke", theme.border);
           rectB.setAttribute("stroke-width", "0.75");
           rectB.style.cursor = "pointer";
           rectB.onmouseenter = (e) => showTooltip(e, cat.name + "<br>New Budget: <b>$" + newSpend.toFixed(2) + "M</b>");
@@ -1522,8 +1652,8 @@
           rectSav.setAttribute("y", b2Y);
           rectSav.setAttribute("width", b2SavW);
           rectSav.setAttribute("height", barH);
-          rectSav.setAttribute("fill", "#047857");
-          rectSav.setAttribute("stroke", "#111111");
+          rectSav.setAttribute("fill", theme.green);
+          rectSav.setAttribute("stroke", theme.border);
           rectSav.setAttribute("stroke-width", "0.75");
           rectSav.style.cursor = "pointer";
           rectSav.onmouseenter = (e) => showTooltip(e, cat.name + "<br>Savings: <b>+$" + saved.toFixed(2) + "M</b> (-" + Math.round((saved / cat.before) * 100) + "%)");
@@ -1537,7 +1667,7 @@
         textB.setAttribute("font-family", "JetBrains Mono");
         textB.setAttribute("font-size", "10");
         textB.setAttribute("font-weight", "600");
-        textB.setAttribute("fill", "#047857");
+        textB.setAttribute("fill", theme.green);
         textB.textContent = "$" + newSpend.toFixed(2) + "M";
         svg.appendChild(textB);
       });
@@ -1549,6 +1679,7 @@
     function renderChart2(breakdown) {
       const svg = document.getElementById("svgChart2");
       svg.innerHTML = "";
+      const theme = getChartTheme();
 
       const chartW = 520;
       const chartH = 280;
@@ -1568,7 +1699,7 @@
       baseline.setAttribute("y1", axisY);
       baseline.setAttribute("x2", chartW - padRight);
       baseline.setAttribute("y2", axisY);
-      baseline.setAttribute("stroke", "#111111");
+      baseline.setAttribute("stroke", theme.axis);
       baseline.setAttribute("stroke-width", "1");
       svg.appendChild(baseline);
 
@@ -1580,7 +1711,7 @@
         tickLine.setAttribute("y1", ty);
         tickLine.setAttribute("x2", chartW - padRight);
         tickLine.setAttribute("y2", ty);
-        tickLine.setAttribute("stroke", "#E5E7EB");
+        tickLine.setAttribute("stroke", theme.grid);
         tickLine.setAttribute("stroke-width", "1");
         svg.appendChild(tickLine);
 
@@ -1590,7 +1721,7 @@
         tickText.setAttribute("text-anchor", "end");
         tickText.setAttribute("font-family", "JetBrains Mono");
         tickText.setAttribute("font-size", "10");
-        tickText.setAttribute("fill", "#4B5563");
+        tickText.setAttribute("fill", theme.mutedText);
         tickText.textContent = "$" + tick.toFixed(1) + "M";
         svg.appendChild(tickText);
       });
@@ -1637,7 +1768,7 @@
         {
           id: 1,
           x: b1X, y: b1Y, w: barW, h: b1H,
-          color: "#B91C1C",
+          color: theme.crimson,
           valText: "$" + b1Val.toFixed(2) + "M",
           label: "1. Start",
           sub: "Target Brand",
@@ -1646,7 +1777,7 @@
         {
           id: 2,
           x: b2X, y: b2Y, w: barW, h: Math.max(2, b2H),
-          color: b2Val > 0 ? "#047857" : "#E5E7EB",
+          color: b2Val > 0 ? theme.green : theme.inactiveBar,
           valText: b2Val > 0 ? "-$" + b2Val.toFixed(2) + "M" : "$0.00",
           label: "2. Phase 1",
           sub: "Auto-Generics",
@@ -1655,7 +1786,7 @@
         {
           id: 3,
           x: b3X, y: b3Y, w: barW, h: Math.max(2, b3H),
-          color: b3Val > 0 ? "#047857" : "#E5E7EB",
+          color: b3Val > 0 ? theme.green : theme.inactiveBar,
           valText: b3Val > 0 ? "-$" + b3Val.toFixed(2) + "M" : "$0.00",
           label: "3. Phase 2",
           sub: "Biosimilars",
@@ -1664,7 +1795,7 @@
         {
           id: 4,
           x: b4X, y: b4Y, w: barW, h: Math.max(2, b4H),
-          color: b4Val > 0 ? "#047857" : "#E5E7EB",
+          color: b4Val > 0 ? theme.green : theme.inactiveBar,
           valText: b4Val > 0 ? "-$" + b4Val.toFixed(2) + "M" : "$0.00",
           label: "4. Phase 3",
           sub: "Price Caps",
@@ -1673,7 +1804,7 @@
         {
           id: 5,
           x: b5X, y: b5Y, w: barW, h: b5H,
-          color: "#1E293B",
+          color: theme.slate,
           valText: "$" + b5Val.toFixed(2) + "M",
           label: "5. Final",
           sub: "New Budget",
@@ -1695,7 +1826,7 @@
         cl.setAttribute("y1", c.y1);
         cl.setAttribute("x2", c.x2);
         cl.setAttribute("y2", c.y2);
-        cl.setAttribute("stroke", "#4B5563");
+        cl.setAttribute("stroke", theme.mutedText);
         cl.setAttribute("stroke-width", "1");
         cl.setAttribute("stroke-dasharray", "3,3");
         svg.appendChild(cl);
@@ -1709,7 +1840,7 @@
         rect.setAttribute("width", b.w);
         rect.setAttribute("height", b.h);
         rect.setAttribute("fill", b.color);
-        rect.setAttribute("stroke", "#111111");
+        rect.setAttribute("stroke", theme.border);
         rect.setAttribute("stroke-width", "1");
         rect.style.cursor = "pointer";
         rect.onmouseenter = (e) => showTooltip(e, b.tip);
@@ -1724,7 +1855,7 @@
         valText.setAttribute("font-family", "JetBrains Mono");
         valText.setAttribute("font-size", "10");
         valText.setAttribute("font-weight", "700");
-        valText.setAttribute("fill", b.color === "#E5E7EB" ? "#4B5563" : b.color);
+        valText.setAttribute("fill", b.color === theme.inactiveBar ? theme.mutedText : b.color);
         valText.textContent = b.valText;
         svg.appendChild(valText);
 
@@ -1736,7 +1867,7 @@
         lbl1.setAttribute("font-family", "Plus Jakarta Sans");
         lbl1.setAttribute("font-size", "11");
         lbl1.setAttribute("font-weight", "700");
-        lbl1.setAttribute("fill", "#111111");
+        lbl1.setAttribute("fill", theme.text);
         lbl1.textContent = b.label;
         svg.appendChild(lbl1);
 
@@ -1747,7 +1878,7 @@
         lbl2.setAttribute("text-anchor", "middle");
         lbl2.setAttribute("font-family", "Plus Jakarta Sans");
         lbl2.setAttribute("font-size", "10");
-        lbl2.setAttribute("fill", "#4B5563");
+        lbl2.setAttribute("fill", theme.mutedText);
         lbl2.textContent = b.sub;
         svg.appendChild(lbl2);
       });
@@ -1759,6 +1890,7 @@
     function renderChart3(breakdown) {
       const svg = document.getElementById("svgChart3");
       svg.innerHTML = "";
+      const theme = getChartTheme();
 
       const chartW = 980;
       const chartH = 270;
@@ -1778,7 +1910,7 @@
       baseline.setAttribute("y1", axisY);
       baseline.setAttribute("x2", chartW - padRight);
       baseline.setAttribute("y2", axisY);
-      baseline.setAttribute("stroke", "#111111");
+      baseline.setAttribute("stroke", theme.axis);
       baseline.setAttribute("stroke-width", "1");
       svg.appendChild(baseline);
 
@@ -1790,7 +1922,7 @@
         tickLine.setAttribute("y1", ty);
         tickLine.setAttribute("x2", padLeft);
         tickLine.setAttribute("y2", ty);
-        tickLine.setAttribute("stroke", "#111111");
+        tickLine.setAttribute("stroke", theme.axis);
         tickLine.setAttribute("stroke-width", "1");
         svg.appendChild(tickLine);
 
@@ -1800,7 +1932,7 @@
         tickText.setAttribute("text-anchor", "end");
         tickText.setAttribute("font-family", "JetBrains Mono");
         tickText.setAttribute("font-size", "10");
-        tickText.setAttribute("fill", "#4B5563");
+        tickText.setAttribute("fill", theme.mutedText);
         tickText.textContent = "$" + tick.toFixed(1) + "M";
         svg.appendChild(tickText);
       });
@@ -1850,7 +1982,7 @@
 
       const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
       polygon.setAttribute("points", polyPoints.trim());
-      polygon.setAttribute("fill", "rgba(4, 120, 87, 0.12)");
+      polygon.setAttribute("fill", theme.greenGapFill);
       svg.appendChild(polygon);
 
       // 2. Top Red Dashed Line (Unchanged Spend Pace)
@@ -1861,7 +1993,7 @@
       const pathRed = document.createElementNS("http://www.w3.org/2000/svg", "path");
       pathRed.setAttribute("d", dRed);
       pathRed.setAttribute("fill", "none");
-      pathRed.setAttribute("stroke", "#B91C1C");
+      pathRed.setAttribute("stroke", theme.crimson);
       pathRed.setAttribute("stroke-width", "2.25");
       pathRed.setAttribute("stroke-dasharray", "6,4");
       svg.appendChild(pathRed);
@@ -1874,7 +2006,7 @@
       const pathGreen = document.createElementNS("http://www.w3.org/2000/svg", "path");
       pathGreen.setAttribute("d", dGreen);
       pathGreen.setAttribute("fill", "none");
-      pathGreen.setAttribute("stroke", "#047857");
+      pathGreen.setAttribute("stroke", theme.green);
       pathGreen.setAttribute("stroke-width", "2.75");
       svg.appendChild(pathGreen);
 
@@ -1891,8 +2023,8 @@
         dot.setAttribute("cx", p.x);
         dot.setAttribute("cy", p.y);
         dot.setAttribute("r", "4.5");
-        dot.setAttribute("fill", "#047857");
-        dot.setAttribute("stroke", "#FFFFFF");
+        dot.setAttribute("fill", theme.green);
+        dot.setAttribute("stroke", theme.dotStroke);
         dot.setAttribute("stroke-width", "1.5");
         dot.style.cursor = "pointer";
         dot.onmouseenter = (e) => showTooltip(e, ms.label + "<br>Spend to Date: <b>$" + p.val.toFixed(2) + "M</b>");
@@ -1908,7 +2040,7 @@
         tickLine.setAttribute("y1", axisY);
         tickLine.setAttribute("x2", x);
         tickLine.setAttribute("y2", axisY + 4);
-        tickLine.setAttribute("stroke", "#111111");
+        tickLine.setAttribute("stroke", theme.axis);
         tickLine.setAttribute("stroke-width", "1");
         svg.appendChild(tickLine);
 
@@ -1918,7 +2050,7 @@
         lbl.setAttribute("text-anchor", "middle");
         lbl.setAttribute("font-family", "JetBrains Mono");
         lbl.setAttribute("font-size", "10");
-        lbl.setAttribute("fill", "#4B5563");
+        lbl.setAttribute("fill", theme.mutedText);
         lbl.textContent = "M" + m;
         svg.appendChild(lbl);
       }
@@ -1934,7 +2066,7 @@
       redLabel.setAttribute("font-family", "JetBrains Mono");
       redLabel.setAttribute("font-size", "10.5");
       redLabel.setAttribute("font-weight", "700");
-      redLabel.setAttribute("fill", "#B91C1C");
+      redLabel.setAttribute("fill", theme.crimson);
       redLabel.textContent = "Unchanged Pace: $" + lastBase.val.toFixed(2) + "M";
       svg.appendChild(redLabel);
 
@@ -1945,7 +2077,7 @@
       greenLabel.setAttribute("font-family", "JetBrains Mono");
       greenLabel.setAttribute("font-size", "10.5");
       greenLabel.setAttribute("font-weight", "700");
-      greenLabel.setAttribute("fill", "#047857");
+      greenLabel.setAttribute("fill", theme.green);
       greenLabel.textContent = "Implemented Plan: $" + lastImp.val.toFixed(2) + "M";
       svg.appendChild(greenLabel);
 
@@ -1962,8 +2094,8 @@
         gapPill.setAttribute("y", midY - 10);
         gapPill.setAttribute("width", "170");
         gapPill.setAttribute("height", "20");
-        gapPill.setAttribute("fill", "#F0FDF4");
-        gapPill.setAttribute("stroke", "#047857");
+        gapPill.setAttribute("fill", theme.greenBg);
+        gapPill.setAttribute("stroke", theme.green);
         gapPill.setAttribute("stroke-width", "0.75");
         svg.appendChild(gapPill);
 
@@ -1974,11 +2106,12 @@
         gapText.setAttribute("font-family", "JetBrains Mono");
         gapText.setAttribute("font-size", "10");
         gapText.setAttribute("font-weight", "700");
-        gapText.setAttribute("fill", "#065F46");
+        gapText.setAttribute("fill", theme.greenDark);
         const chart3SavingsDisplay = breakdown.total === 3.2 ? "+$3.2M" : "+$" + breakdown.total.toFixed(2) + "M";
         gapText.textContent = chart3SavingsDisplay + " Annual Savings";
         svg.appendChild(gapText);
       }
+    }
     }
 
     // ---------------------------------------------------------------------------
@@ -2170,6 +2303,19 @@
       if (!tooltipEl) tooltipEl = document.getElementById("chartTooltip");
       if (tooltipEl) tooltipEl.style.display = "none";
     }
+
+    // ---------------------------------------------------------------------------
+    // Theme Management
+    // ---------------------------------------------------------------------------
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+      window.dispatchEvent(new CustomEvent('theme:change', { detail: { theme: isDark ? 'dark' : 'light' } }));
+    }
+
+    window.addEventListener('theme:change', () => {
+      updateDashboard();
+    });
 
     // ---------------------------------------------------------------------------
     // Initialize Dashboard on DOM Load
