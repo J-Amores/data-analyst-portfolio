@@ -253,6 +253,22 @@
       width: 100%;
     }
 
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+
+    .section-title-row .section-title {
+      width: auto;
+      flex: 1;
+      min-width: 280px;
+      margin-bottom: 0;
+    }
+
     /* Two-Column Prose and Exhibit Spread */
     .two-column-spread {
       display: grid;
@@ -476,6 +492,19 @@
       border-right: none;
     }
 
+    .comp-list {
+      list-style: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      line-height: 1.6;
+      color: var(--ink-muted);
+      margin-top: 10px;
+    }
+
+    .comp-list li {
+      margin-bottom: 6px;
+    }
+
     /* Chapter Takeaway Banner */
     .takeaway-strip {
       border: var(--hairline);
@@ -638,6 +667,7 @@
   <header class="top-nav sticky-nav">
     <div class="top-nav-inner">
       <div class="nav-brand">
+        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid #D6D3CD; padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
         <span class="nav-badge"></span>
         <span>JOHN AMORES | HOSPITAL PHARMACY ANALYTICS CASE STUDY</span>
       </div>
@@ -648,7 +678,6 @@
         <a href="#chapter-03">03 PRICE VS VOLUME</a>
         <a href="#chapter-04">04 SAVINGS PLAN</a>
         <a href="#chapter-05">05 90-DAY ROLLOUT</a>
-        <a href="cost-simulator.html" class="nav-btn">LAUNCH SIMULATOR -&gt;</a>
       </div>
     </div>
   </header>
@@ -721,11 +750,11 @@
           <p style="font-size: 0.88rem; color: var(--ink-black); margin-bottom: 12px;">
             Brand-name drugs cost 19x more per prescription than generics ($408 vs. $22), and wholesale prices for identical generics vary by 72%.
           </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: var(--ink-muted); line-height: 1.6;">
-            * Top 5% of drugs (239 items) eat up 72% ($61M) of our budget.<br>
-            * Brand drugs take 90% of spending on just 33% of prescriptions.<br>
-            * 46 older brand drugs raised prices without adding clinical value.
-          </div>
+          <ul class="comp-list">
+            <li>Top 5% of drugs (239 items) eat up 72% ($61M) of our budget.</li>
+            <li>Brand drugs take 90% of spending on just 33% of prescriptions.</li>
+            <li>46 older brand drugs raised prices without adding clinical value.</li>
+          </ul>
         </div>
 
         <div class="comparison-col" style="background: var(--bg-paper-alt);">
@@ -735,11 +764,11 @@
           <p style="font-size: 0.88rem; color: var(--ink-black); margin-bottom: 12px;">
             Default e-prescribing to generics for 6 off-patent brands and lock wholesale buying to low-cost suppliers.
           </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: var(--ink-muted); line-height: 1.6;">
-            * Auto-switch 6 overpriced brands when a generic is on the shelf.<br>
-            * Cap wholesale generic buying at the lowest 25% supplier price.<br>
-            * Give doctors a 1-click override for patient allergies.
-          </div>
+          <ul class="comp-list">
+            <li>Auto-switch 6 overpriced brands when a generic is on the shelf.</li>
+            <li>Cap wholesale generic buying at the lowest 25% supplier price.</li>
+            <li>Give doctors a 1-click override for patient allergies.</li>
+          </ul>
         </div>
 
         <div class="comparison-col" style="background: var(--color-green-light);">
@@ -749,11 +778,11 @@
           <p style="font-size: 0.88rem; color: var(--ink-black); margin-bottom: 12px;">
             Recovers $3.2M in annual hospital pharmacy budget with zero reduction in patient care.
           </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: var(--ink-muted); line-height: 1.6;">
-            * Saves $1.1M from switching 6 brand drugs to generics.<br>
-            * Saves $2.1M from wholesale generic supplier price locks.<br>
-            * Keeps 98% of routine hospital prescriptions untouched.
-          </div>
+          <ul class="comp-list">
+            <li>Saves $1.1M from switching 6 brand drugs to generics.</li>
+            <li>Saves $2.1M from wholesale generic supplier price locks.</li>
+            <li>Keeps 98% of routine hospital prescriptions untouched.</li>
+          </ul>
         </div>
       </div>
 
@@ -1141,18 +1170,12 @@
         <!-- Left Column -->
         <div class="prose-block">
           <h3 class="subhead">How the $3.2M Savings Add Up</h3>
-          <p>
-            * <strong>1. Target Brand Spending ($3.9M / ~$4M baseline):</strong> What our hospital currently spends on 6 off-patent brand pills and inhalers that already have approved generic versions available.
-          </p>
-          <p>
-            * <strong>2. Phase 1 Auto-Generic Switching (+$1.1M / $1,100K saved):</strong> Savings from defaulting e-prescriptions to generics for Vyvanse ($472K saved), Concerta ($367K), Spiriva Respimat ($176K), Advair Diskus ($136K), Banzel ($97K), and Jornay PM ($80K).
-          </p>
-          <p>
-            * <strong>3. Phase 2 Wholesale Supplier Caps (+$2.1M / $2,100K saved):</strong> Savings from locking wholesale generic purchasing to 25th-percentile supplier prices across 1,358 generic medications.
-          </p>
-          <p>
-            * <strong>4. Protected Brand Buffer ($2.8M / ~$3M kept):</strong> 72% of target brand spending remains available for patients with documented allergies or clinical reasons to stay on the brand name.
-          </p>
+          <ul class="comp-list" style="list-style: disc; padding-left: 20px; font-family: inherit; font-size: inherit; color: var(--ink-black); margin-top: 14px;">
+            <li style="margin-bottom: 8px;"><strong>1. Target Brand Spending ($3.9M / ~$4M baseline):</strong> What our hospital currently spends on 6 off-patent brand pills and inhalers that already have approved generic versions available.</li>
+            <li style="margin-bottom: 8px;"><strong>2. Phase 1 Auto-Generic Switching (+$1.1M / $1,100K saved):</strong> Savings from defaulting e-prescriptions to generics for Vyvanse ($472K saved), Concerta ($367K), Spiriva Respimat ($176K), Advair Diskus ($136K), Banzel ($97K), and Jornay PM ($80K).</li>
+            <li style="margin-bottom: 8px;"><strong>3. Phase 2 Wholesale Supplier Caps (+$2.1M / $2,100K saved):</strong> Savings from locking wholesale generic purchasing to 25th-percentile supplier prices across 1,358 generic medications.</li>
+            <li style="margin-bottom: 8px;"><strong>4. Protected Brand Buffer ($2.8M / ~$3M kept):</strong> 72% of target brand spending remains available for patients with documented allergies or clinical reasons to stay on the brand name.</li>
+          </ul>
         </div>
 
         <!-- Right Column -->
@@ -1222,7 +1245,10 @@
     <section class="report-section" id="chapter-05">
       <div class="section-header">
         <div class="section-chapter">CHAPTER 05 / 90-DAY ROLLOUT</div>
-        <h2 class="section-title">90-Day Action Plan for the Hospital Pharmacy Team</h2>
+        <div class="section-title-row">
+          <h2 class="section-title">90-Day Action Plan for the Hospital Pharmacy Team</h2>
+          <a href="cost-simulator.html" class="nav-btn">LAUNCH SIMULATOR -&gt;</a>
+        </div>
       </div>
 
       <div class="prose-block">

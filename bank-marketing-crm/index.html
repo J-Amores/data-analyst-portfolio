@@ -246,6 +246,22 @@
       width: 100%;
     }
 
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+
+    .section-title-row .section-title {
+      width: auto;
+      flex: 1;
+      min-width: 280px;
+      margin-bottom: 0;
+    }
+
     /* Two-Column Prose and Exhibit Spread */
     .two-column-spread {
       display: grid;
@@ -469,6 +485,19 @@
       border-right: none;
     }
 
+    .comp-list {
+      list-style: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: var(--ink-muted);
+      margin-top: 10px;
+    }
+
+    .comp-list li {
+      margin-bottom: 6px;
+    }
+
     /* Chapter Takeaway Banner */
     .takeaway-strip {
       border: var(--hairline);
@@ -605,6 +634,7 @@
   <header class="top-nav">
     <div class="top-nav-inner">
       <div class="nav-brand">
+        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid #D6D3CD; padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
         <span class="nav-badge"></span>
         <span>JOHN AMORES | OUTBOUND ACQUISITION CASE STUDY</span>
       </div>
@@ -615,7 +645,6 @@
         <a href="#channel">03 PHONE &amp; TIMING</a>
         <a href="#demographics">04 WHO CONVERTS</a>
         <a href="#rollout">05 ROLLOUT PLAN</a>
-        <a href="lead-qualifier.html" class="nav-btn">LEAD QUALIFIER -&gt;</a>
       </div>
     </div>
   </header>
@@ -1361,7 +1390,10 @@
     <section class="report-section" id="rollout" data-slide="7">
       <div class="section-header">
         <div class="section-chapter">CHAPTER 05 / TESTING THE PLAN &amp; 90-DAY ROLLOUT</div>
-        <h2 class="section-title">Saving 475 Talk Hours or Adding Over 3K New Deposits With Existing Staff</h2>
+        <div class="section-title-row">
+          <h2 class="section-title">Saving 475 Talk Hours or Adding Over 3K New Deposits With Existing Staff</h2>
+          <a href="lead-qualifier.html" class="nav-btn">LAUNCH SIMULATOR -&gt;</a>
+        </div>
       </div>
 
       <div class="prose-block">

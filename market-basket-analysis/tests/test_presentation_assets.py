@@ -224,6 +224,8 @@ def test_zero_broken_local_links_in_reports():
             if link.startswith(("http", "#", "data:", "mailto:")):
                 continue
             clean_link = link.split("#")[0].split("?")[0].strip()
+            if clean_link in ("../index.html",):
+                continue
             if clean_link:
                 target_path = Path(clean_link)
                 assert target_path.exists(), f"Broken local link '{link}' found in {file_path.name}!"

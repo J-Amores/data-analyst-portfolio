@@ -247,6 +247,22 @@
       width: 100%;
     }
 
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+
+    .section-title-row .section-title {
+      width: auto;
+      flex: 1;
+      min-width: 280px;
+      margin-bottom: 0;
+    }
+
     .subhead {
       font-family: 'Instrument Serif', Georgia, serif;
       font-size: 1.75rem;
@@ -465,6 +481,19 @@
       border-right: none;
     }
 
+    .comp-list {
+      list-style: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      line-height: 1.6;
+      color: var(--ink-muted);
+      margin-top: 10px;
+    }
+
+    .comp-list li {
+      margin-bottom: 6px;
+    }
+
     /* Key Takeaway Strip */
     .takeaway-strip {
       border: var(--hairline);
@@ -593,6 +622,7 @@
   <header class="top-nav">
     <div class="top-nav-inner">
       <div class="nav-brand">
+        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid #D6D3CD; padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
         <span class="nav-badge"></span>
         <span>JOHN AMORES | CONSUMER CREDIT RISK CASE STUDY</span>
       </div>
@@ -603,7 +633,6 @@
         <a href="#risk-grid">03 BORROWER STRESS</a>
         <a href="#waterfall">04 SAVINGS PLAN</a>
         <a href="#rollout">05 90-DAY ROLLOUT</a>
-        <a href="underwriting-simulator.html" class="nav-btn">LAUNCH SIMULATOR -&gt;</a>
       </div>
     </div>
   </header>
@@ -674,11 +703,11 @@
           <p style="font-size: 0.92rem; color: var(--ink-black); margin-top: 6px; line-height: 1.5;">
             Subprime Grades D to G receive 28% of our lending money ($5.5B) but cause 51% of all unpaid write-offs ($1.4B).
           </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-muted); margin-top: 10px; line-height: 1.6;">
-            * Unfiltered reports hid risk at 12% vs. 20% true default rate.<br>
-            * Net return drops below our +4.0% goal at Subgrade C4 (+3.4%).<br>
-            * Subgrades E5 to G5 lose money (-1.3% down to -9.8% return).
-          </div>
+          <ul class="comp-list">
+            <li>Unfiltered reports hid risk at 12% vs. 20% true default rate.</li>
+            <li>Net return drops below our +4.0% goal at Subgrade C4 (+3.4%).</li>
+            <li>Subgrades E5 to G5 lose money (-1.3% down to -9.8% return).</li>
+          </ul>
         </div>
 
         <div class="comparison-col" style="background: var(--bg-paper-alt);">
@@ -686,11 +715,11 @@
           <p style="font-size: 0.92rem; color: var(--ink-black); margin-top: 6px; line-height: 1.5;">
             Decline only subprime applicants with both high monthly debt and maxed-out cards, and adjust Subgrade C4 pricing.
           </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-muted); margin-top: 10px; line-height: 1.6;">
-            * Auto-decline Grades D-G when DTI &gt; 25% and Card Usage &gt; 65%.<br>
-            * Add +1.5% (+150 bps) interest rate to Subgrade C4 loans.<br>
-            * Cap 5-year terms at 680+ FICO and verify small business taxes.
-          </div>
+          <ul class="comp-list">
+            <li>Auto-decline Grades D-G when DTI &gt; 25% and Card Usage &gt; 65%.</li>
+            <li>Add +1.5% (+150 bps) interest rate to Subgrade C4 loans.</li>
+            <li>Cap 5-year terms at 680+ FICO and verify small business taxes.</li>
+          </ul>
         </div>
 
         <div class="comparison-col" style="background: var(--color-green-light);">
@@ -698,11 +727,11 @@
           <p style="font-size: 0.92rem; color: var(--ink-black); margin-top: 6px; line-height: 1.5;">
             Recovers $244.2M in combined value while keeping 96% of our lending volume ($18.6B) moving smoothly.
           </p>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-muted); margin-top: 10px; line-height: 1.6;">
-            * Saves +$230.0M in unpaid losses (18,548 defaults prevented).<br>
-            * Adds +$14.2M in interest income across 74,422 C4 loans.<br>
-            * Lifts portfolio net return from +4.3% to +4.4% (+15 bps).
-          </div>
+          <ul class="comp-list">
+            <li>Saves +$230.0M in unpaid losses (18,548 defaults prevented).</li>
+            <li>Adds +$14.2M in interest income across 74,422 C4 loans.</li>
+            <li>Lifts portfolio net return from +4.3% to +4.4% (+15 bps).</li>
+          </ul>
         </div>
       </div>
 
@@ -1038,15 +1067,11 @@
         <p>
           Across the 1.35 million completed loans, default rates climb steadily as both debt payments and credit card usage rise:
         </p>
-        <p>
-          * <strong>Low-Risk Baseline (DTI &le; 15% and Card Usage &le; 40%):</strong> Default rate of only <strong>14%</strong> across 213,691 loans. These borrowers have both comfortable monthly cash flow and ample open credit.
-        </p>
-        <p>
-          * <strong>Moderate-Risk Zone:</strong> As either metric increases independently, default rates rise moderately into the 16% to 23% range.
-        </p>
-        <p>
-          * <strong>High-Stress Group (DTI &gt; 25% and Card Usage &gt; 65%):</strong> Default rates jump to <strong>28%</strong> across 112,246 total loans. When we look specifically at subprime borrowers (Grades D through G) inside this group, the default rate surges to <strong>39% (47,705 loans)</strong>.
-        </p>
+        <ul class="comp-list" style="list-style: disc; padding-left: 20px; font-family: inherit; font-size: inherit; color: var(--ink-black); margin-top: 14px;">
+          <li style="margin-bottom: 8px;"><strong>Low-Risk Baseline (DTI &le; 15% and Card Usage &le; 40%):</strong> Default rate of only <strong>14%</strong> across 213,691 loans. These borrowers have both comfortable monthly cash flow and ample open credit.</li>
+          <li style="margin-bottom: 8px;"><strong>Moderate-Risk Zone:</strong> As either metric increases independently, default rates rise moderately into the 16% to 23% range.</li>
+          <li style="margin-bottom: 8px;"><strong>High-Stress Group (DTI &gt; 25% and Card Usage &gt; 65%):</strong> Default rates jump to <strong>28%</strong> across 112,246 total loans. When we look specifically at subprime borrowers (Grades D through G) inside this group, the default rate surges to <strong>39% (47,705 loans)</strong>.</li>
+        </ul>
       </div>
 
       <!-- Policy Comparison Container -->
@@ -1188,7 +1213,10 @@
     <section class="report-section" id="rollout" data-slide="7">
       <div class="section-header">
         <div class="section-chapter">CHAPTER 05 / 90-DAY ROLLOUT</div>
-        <h2 class="section-title">90-Day Rollout Plan for the Underwriting, Pricing, and Servicing Teams</h2>
+        <div class="section-title-row">
+          <h2 class="section-title">90-Day Rollout Plan for the Underwriting, Pricing, and Servicing Teams</h2>
+          <a href="underwriting-simulator.html" class="nav-btn">LAUNCH SIMULATOR -&gt;</a>
+        </div>
       </div>
 
       <div class="prose-block">

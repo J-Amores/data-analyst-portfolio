@@ -1,8 +1,8 @@
 # Growing Bank Deposit Sign-Ups by 70% Without Adding Call Center Staff
 
-> **Executive Quick Links:**
-> - [View Stakeholder Editorial Report (`index.html`)](file:///Users/jamores/Documents/[02]%20Work/[01]%20Github-Repo/data-analyst-portfolio/bank-marketing-crm/index.html)
-> - [Open Interactive Lead Qualifier (`lead-qualifier.html`)](file:///Users/jamores/Documents/[02]%20Work/[01]%20Github-Repo/data-analyst-portfolio/bank-marketing-crm/lead-qualifier.html)
+### Live Deliverables & Reports
+* **[Read the Live Editorial Visual Report](https://j-amores.github.io/data-analyst-portfolio/bank-marketing-crm/)** (Full stakeholder briefing, visual charts, and 90-day rollout plan)
+* **[Launch the Interactive Lead Qualifier](https://j-amores.github.io/data-analyst-portfolio/bank-marketing-crm/lead-qualifier.html)** (Evaluate outbound prospect profiles, contact fatigue cutoffs, and conversion yield live)
 
 ---
 

@@ -9,7 +9,7 @@ An end-to-end data pipeline, customer buying pattern analysis, financial simulat
 
 ---
 
-### Interactive Case Study & Decision Tool
+### Live Deliverables & Reports
 * **[Executive Editorial Case Study (index.html)](https://j-amores.github.io/data-analyst-portfolio/market-basket-analysis/):** Complete stakeholder presentation in warm archival paper styling featuring click-to-enlarge chart lightboxes, four-way ledger reconciliations, and a structured 90-day rollout plan.
 * **[Interactive Product Bundle & Discount Tester (bundle-builder.html)](https://j-amores.github.io/data-analyst-portfolio/market-basket-analysis/bundle-builder.html):** Live merchandising decision tool with 6 one-click preset buttons, discount and audience toggles, real-time return safety checks, and an interactive margin waterfall chart.
 
