@@ -1,4 +1,4 @@
-# Turning Single-Item Shoppers Into Multi-Item Buyers With Product Bundles
+# Growing Online Store Order Values by Adding 5 Low-Return Product Bundles
 
 [![Python 3.13](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)
 [![Pytest Suite](https://img.shields.io/badge/Pytest-Verified-emerald.svg)](tests/)
@@ -10,8 +10,8 @@ An end-to-end data pipeline, customer buying pattern analysis, financial simulat
 ---
 
 ### Interactive Case Study & Decision Tool
-* **[Executive Editorial Case Study (index.html)](index.html):** Complete stakeholder presentation in warm archival paper styling featuring click-to-enlarge chart lightboxes, four-way ledger reconciliations, and a structured 90-day rollout plan.
-* **[Interactive Product Bundle & Discount Tester (cockpit.html)](cockpit.html):** Live merchandising decision tool with 6 one-click preset buttons, discount and audience toggles, real-time return safety checks, and an interactive margin waterfall chart.
+* **[Executive Editorial Case Study (index.html)](https://j-amores.github.io/data-analyst-portfolio/market-basket-analysis/):** Complete stakeholder presentation in warm archival paper styling featuring click-to-enlarge chart lightboxes, four-way ledger reconciliations, and a structured 90-day rollout plan.
+* **[Interactive Product Bundle & Discount Tester (bundle-builder.html)](https://j-amores.github.io/data-analyst-portfolio/market-basket-analysis/bundle-builder.html):** Live merchandising decision tool with 6 one-click preset buttons, discount and audience toggles, real-time return safety checks, and an interactive margin waterfall chart.
 
 ---
 
@@ -32,9 +32,9 @@ At the same time, cancelled orders and returns cost the store £897K (9% of gros
 | Executive Question | Findings and Practical Resolution |
 | :--- | :--- |
 | **What did we find?** | Orders with 6+ items bring in 87% of store sales (£322 median order), while 22% of orders leave with just 1 to 5 items (£58 to £141 median order). Across the catalog, five matching product sets are bought together 6x to 37x more often than chance. |
-| **Why is this happening?** | Shoppers buying teaware sets, storage bags, or lunch bags want matching colors and styles, but without a "Complete the Set" prompt on the product page, 1-2 item shoppers miss the matching pieces. |
-| **What does it cost us?** | Small 1-2 item orders bring in a median of just £58 compared to £141 for 3-5 item orders (less than half the order value), while unscreened store promotions risk amplifying our £897K (9%) cancellation and return drag. |
-| **What should we change?** | Add 1-click bundle widgets on the Top 5 product sets at a 10% bundle discount (Phase 1), add a cart-drawer prompt for 1-2 item checkouts (Phase 2), and tailor wholesale case-packs for EU buyers and Q4 holiday shoppers (Phase 3). |
+| **Why is this happening?** | Shoppers buying teaware sets, storage bags, or lunch bags want matching colors and styles, but without a "Complete the Set" box on the product page, 1-2 item shoppers miss the matching pieces. |
+| **What does it cost us?** | Small 1-2 item orders bring in a median of just £58 compared to £141 for 3-5 item orders (less than half the order value), while unscreened promotions risk amplifying our £897K (9%) return and cancellation losses. |
+| **What should we change?** | Launch 1-click bundle boxes for our Top 5 product sets at a 10% bundle discount (Phase 1), add a checkout-drawer prompt for 1-2 item carts (Phase 2), and build seasonal wholesale packs for European gift shops in Q4 (Phase 3). |
 
 ---
 
@@ -103,7 +103,7 @@ Weekday business hours (10:00 to 15:00 Monday through Friday) account for 78% of
 | **EIRE (Ireland)** | 260 | £266K | £625 | £960 | 7% | High-value commercial export market |
 | **Switzerland** | 51 | £56K | £557 | £780 | 1% | Low-return commercial accounts |
 | **Australia** | 57 | £139K | £430 | £1,075 | 1% | Bulk case-pack market |
-| **Spain** | 88 | £56K | £363 | £633 | 11% | **HOLD PROMOTIONS: High regional return rate** |
+| **Spain** | 88 | £56K | £363 | £633 | 11% | **PAUSE PROMOTIONS: High regional return rate (11%)** |
 | **France** | 389 | £210K | £345 | £486 | 6% | Continental retail accounts |
 | **Germany** | 457 | £229K | £319 | £463 | 3% | Steady, low-return wholesale hub |
 | **United Kingdom** | 18,041 | £9.0M | £300 | £489 | 9% | Core domestic retail base |
@@ -147,11 +147,11 @@ To prevent distorted assortments and protect wholesale data, the pipeline reconc
 
 | Store Ledger Component | Rows | Orders | Financial Impact (£) | Accounting Role |
 | :--- | :--- | :--- | :--- | :--- |
-| Completed Merchandise Orders | 522,544 | 19,773 | +£10,247,610 | Clean merchandise orders for basket analysis and bundle planning |
-| Customer Returns & Cancellations | 9,288 | 3,836 | -£896,812 | Cancellation and credit notes powering 5% return limit checks |
-| Warehouse Stock Write-Offs | 2,512 | 0 | -£22,044 | Warehouse breakage write-offs and inventory reconciliation adjustments |
-| Postage, Bank & Account Fees | 2,334 | 1,215 | +£395,124 | Postage fees, bank fees, and service charges separated from products |
-| **Total Reconciled Store Ledger** | **541,909** | **24,824** | **£9,723,878** | **Complete reconciliation of raw transactional data** |
+| Completed Merchandise Orders | 522,544 | 19,773 | +£10.2M (+£10,247,610) | Clean merchandise orders for basket analysis and bundle planning |
+| Customer Returns & Cancellations | 9,288 | 3,836 | -£897K (-£896,812) | Cancellation and credit notes powering 5% return limit checks |
+| Warehouse Stock Write-Offs | 2,512 | 0 | -£22K (-£22,044) | Warehouse breakage write-offs and inventory reconciliation adjustments |
+| Postage, Bank & Account Fees | 2,334 | 1,215 | -£195K (+£395,124) | Postage fees, bank fees, and service charges separated from products |
+| **Total Reconciled Store Ledger** | **541,909** | **24,824** | **£9.7M (£9,723,878)** | **Complete reconciliation of raw transactional data** |
 
 ### Four Practical Data Checks
 1. **Keeping Guest Checkouts for Basket Analysis (135,080 rows / 25% of lines):** One-quarter of raw records had no Customer ID because the shopper checked out as a guest. Deleting those rows would have thrown away 25% of real shopping carts. Because every guest cart still has a unique Invoice Number, we kept all guest checkouts when counting product pairs.
@@ -192,7 +192,7 @@ export MPLCONFIGDIR=/tmp/matplotlib
 │   ├── fig2_product_pair_matrix.png
 │   ├── fig3_country_seasonality_regime.png
 │   └── fig4_bundle_revenue_waterfall.png
-├── cockpit.html
+├── bundle-builder.html
 ├── data/
 │   ├── cleaned/
 │   └── exports/

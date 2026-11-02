@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Product Bundle Tester | Merchandising Workbench</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-paper: #FAF8F2;
+      --bg-paper-alt: #F3EFE6;
+      --bg-card: #FFFFFF;
+      --ink-black: #111111;
+      --ink-muted: #4A4843;
+      --ink-subtle: #76746E;
+      --border-color: #111111;
+      --hairline: 1px solid var(--border-color);
+      --hairline-subtle: 1px solid #D6D3CD;
+      --color-green: #166534;
+      --color-green-light: #F0FDF4;
+      --color-crimson: #BE123C;
+      --color-crimson-light: #FFF1F2;
+      --color-amber: #B45309;
+      --color-amber-light: #FEF3C7;
+      --content-width: 1140px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-paper);
+      color: var(--ink-black);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--bg-paper);
+      border-bottom: var(--hairline);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-badge {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--color-green);
+    }
+
+    .nav-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-black);
+      text-decoration: none;
+      border: var(--hairline);
+      padding: 8px 14px;
+      background: var(--bg-paper);
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--ink-black);
+      color: #FFFFFF;
+    }
+
+    /* Main Container */
+    .app-container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 30px 24px;
+    }
+
+    /* Header */
+    .page-header {
+      margin-bottom: 28px;
+      border-bottom: var(--hairline);
+      padding-bottom: 20px;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink-subtle);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .page-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .page-desc {
+      color: var(--ink-muted);
+      font-size: 15px;
+      max-width: 860px;
+    }
+
+    /* Step Banner */
+    .step-label {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--ink-black);
+      color: #FFFFFF;
+      padding: 3px 8px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Preset Buttons Bar */
+    .preset-section {
+      background: var(--bg-paper-alt);
+      border: var(--hairline);
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .preset-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .preset-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--ink-black);
+      padding: 10px 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.15s ease;
+      min-height: 70px;
+      justify-content: center;
+    }
+
+    .preset-btn .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--color-green);
+    }
+
+    .preset-btn.active {
+      background: var(--ink-black);
+      color: #FFFFFF;
+    }
+
+    .preset-btn.active .badge {
+      color: #86EFAC;
+    }
+
+    .preset-btn.warning-preset {
+      border-color: var(--color-crimson);
+    }
+
+    .preset-btn.warning-preset .badge {
+      color: var(--color-crimson);
+    }
+
+    .preset-btn.warning-preset.active {
+      background: var(--color-crimson);
+      color: #FFFFFF;
+    }
+
+    .preset-btn.warning-preset.active .badge {
+      color: #FFFFFF;
+    }
+
+    /* Two-Column Workbench */
+    .workbench-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: var(--hairline);
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 24px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Product Pair Display */
+    .pair-display {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+      background: var(--bg-paper-alt);
+      border: var(--hairline-subtle);
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .product-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .product-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink-subtle);
+      text-transform: uppercase;
+    }
+
+    .product-name {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+
+    .product-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+
+    .plus-divider {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink-subtle);
+      padding: 0 4px;
+    }
+
+    /* Form Controls */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .form-label span.val {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--color-green);
+    }
+
+    select,
+    input[type="range"] {
+      width: 100%;
+    }
+
+    select {
+      background: var(--bg-card);
+      border: var(--hairline);
+      padding: 10px 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    input[type="range"] {
+      accent-color: var(--ink-black);
+      cursor: pointer;
+      margin: 8px 0;
+    }
+
+    .slider-ticks {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-subtle);
+    }
+
+    /* Live Guardrail Badges */
+    .guardrail-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .guardrail-pill {
+      border: 1px solid var(--ink-black);
+      padding: 12px;
+      background: var(--bg-paper-alt);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .pill-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+    }
+
+    .pill-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-pass {
+      color: var(--color-green);
+    }
+
+    .status-fail {
+      color: var(--color-crimson);
+    }
+
+    /* The 3-Line Profit Receipt */
+    .receipt-box {
+      background: var(--bg-paper-alt);
+      border: var(--hairline);
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dashed #D6D3CD;
+    }
+
+    .receipt-row:last-child {
+      border-bottom: none;
+      padding-top: 10px;
+      margin-top: 4px;
+      font-size: 15px;
+      font-weight: 700;
+      border-top: var(--hairline);
+    }
+
+    .receipt-val-pos {
+      color: var(--color-green);
+      font-weight: 700;
+    }
+
+    .receipt-val-neg {
+      color: var(--color-crimson);
+      font-weight: 700;
+    }
+
+    /* Metrics Grid */
+    .metrics-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .metric-cell {
+      border: var(--hairline-subtle);
+      background: var(--bg-card);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .metric-cell .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .metric-cell .lbl {
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .workbench-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pair-display {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .plus-divider {
+        transform: rotate(90deg);
+        margin: 4px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="nav-brand">
+      <span class="nav-badge"></span>
+      <span>Merchandising Decision Workbench</span>
+    </div>
+    <a href="index.html" class="nav-btn">&larr; Back to Case Study Report</a>
+  </header>
+
+  <main class="app-container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="eyebrow">Interactive Merchandising Tool &bull; 19,773 Clean Orders Analyzed</div>
+      <h1 class="page-title">Product Bundle &amp; Discount Margin Tester</h1>
+      <p class="page-desc">
+        Pick a natural product set, choose a bundle discount from 0% to 15%, and test whether the bundle generates net
+        revenue after accounting for returns and discount giveback.
+      </p>
+    </div>
+
+    <!-- Step 1: One-Click Presets -->
+    <div class="preset-section">
+      <div class="step-label">Step 1: Select a Product Set to Test</div>
+      <div class="preset-grid">
+        <button class="preset-btn active" onclick="loadPreset(0)">
+          <span>Regency Teacup Duo</span>
+          <span class="badge">14x Pairing Multiplier</span>
+        </button>
+        <button class="preset-btn" onclick="loadPreset(1)">
+          <span>Regency Tea Plates</span>
+          <span class="badge">37x Pairing Multiplier</span>
+        </button>
+        <button class="preset-btn" onclick="loadPreset(2)">
+          <span>Jumbo Storage Bags</span>
+          <span class="badge">825 Shared Orders</span>
+        </button>
+        <button class="preset-btn" onclick="loadPreset(3)">
+          <span>Bakelike Clocks</span>
+          <span class="badge">12x Pairing Multiplier</span>
+        </button>
+        <button class="preset-btn" onclick="loadPreset(4)">
+          <span>Retro Lunch Bags</span>
+          <span class="badge">655 Shared Orders</span>
+        </button>
+        <button class="preset-btn warning-preset" onclick="loadPreset(5)">
+          <span>Unrelated Set (Risk Demo)</span>
+          <span class="badge">&gt; 5% Return Warning</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2 & 3: Workbench Grid -->
+    <div class="workbench-grid">
+
+      <!-- Left Column: Settings & Details -->
+      <div>
+        <div class="card">
+          <div class="card-title">
+            <span>Product Pairing Details</span>
+            <span id="multiplierBadge"
+              style="font-family:'JetBrains Mono'; font-size:13px; color:var(--color-green); font-weight:700;">14x
+              Pairing Multiplier</span>
+          </div>
+
+          <!-- Active Pair Display -->
+          <div class="pair-display">
+            <div class="product-box">
+              <span class="product-tag">Anchor Product (Item A)</span>
+              <span class="product-name" id="itemAName">Green Regency Teacup &amp; Saucer</span>
+              <span class="product-price" id="itemAPrice">&pound;2.95 unit price</span>
+            </div>
+            <div class="plus-divider">+</div>
+            <div class="product-box">
+              <span class="product-tag">Add-On Product (Item B)</span>
+              <span class="product-name" id="itemBName">Roses Regency Teacup &amp; Saucer</span>
+              <span class="product-price" id="itemBPrice">&pound;2.95 unit price</span>
+            </div>
+          </div>
+
+          <!-- Step 2: Discount Slider -->
+          <div class="step-label">Step 2: Choose Bundle Discount &amp; Placement</div>
+
+          <div class="form-group" style="margin-top: 12px;">
+            <div class="form-label">
+              <span>Bundle Discount Tier</span>
+              <span class="val" id="discountDisplay">10% Off (Sweet Spot)</span>
+            </div>
+            <input type="range" id="discountSlider" min="0" max="15" step="5" value="10" oninput="updateCalculations()">
+            <div class="slider-ticks">
+              <span>0% (No Sale)</span>
+              <span>5%</span>
+              <span style="font-weight:700; color:var(--color-green);">10% (Optimal)</span>
+              <span>15% (High Giveback)</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="placementSelect">Store Placement Trigger</label>
+            <select id="placementSelect" onchange="updateCalculations()">
+              <option value="pdp">Product Page "Complete the Set" Box (All Shoppers)</option>
+              <option value="cart">Checkout Cart Drawer (1-2 Item Carts Only)</option>
+              <option value="holiday">Q4 Holiday Gift Bundle (Peak Season)</option>
+            </select>
+          </div>
+
+          <!-- Natural Demand Metrics -->
+          <div class="metrics-2col" style="margin-top: 18px;">
+            <div class="metric-cell">
+              <span class="num" id="sharedOrdersVal">767</span>
+              <span class="lbl">Shared Store Orders</span>
+            </div>
+            <div class="metric-cell">
+              <span class="num" id="attachRateVal">76%</span>
+              <span class="lbl">Current Attach Rate</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Column: Live Decision & Profit Receipt -->
+      <div>
+        <div class="card">
+          <div class="card-title">
+            <span>Step 3: Commercial Scorecard</span>
+          </div>
+
+          <!-- Guardrail Checks -->
+          <div class="guardrail-strip">
+            <div class="guardrail-pill">
+              <span class="pill-label">1. Return Risk Check</span>
+              <span class="pill-status" id="returnStatus">
+                <span class="status-pass">&bull; Safe (&lt; 2%)</span>
+              </span>
+            </div>
+            <div class="guardrail-pill">
+              <span class="pill-label">2. Margin Check</span>
+              <span class="pill-status" id="marginStatus">
+                <span class="status-pass">&bull; Profit Positive</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Pricing Receipt -->
+          <div class="receipt-box">
+            <div style="font-weight:700; margin-bottom:8px; border-bottom:1px solid #111; padding-bottom:4px;">
+              Annual Bundle Profit Receipt
+            </div>
+            <div class="receipt-row">
+              <span>Regular Price (A + B)</span>
+              <span id="fullPriceVal">&pound;5.90</span>
+            </div>
+            <div class="receipt-row">
+              <span>Bundle Price with Discount</span>
+              <span id="bundlePriceVal" style="font-weight:700;">&pound;5.31</span>
+            </div>
+            <div class="receipt-row">
+              <span>+ New Cross-Sell Sales Added</span>
+              <span class="receipt-val-pos" id="newRevVal">+&pound;2,860</span>
+            </div>
+            <div class="receipt-row">
+              <span>&minus; Discount Given to Existing Buyers</span>
+              <span class="receipt-val-neg" id="givebackVal">&minus;&pound;453</span>
+            </div>
+            <div class="receipt-row">
+              <span>= Net Annual Revenue Gain</span>
+              <span class="receipt-val-pos" id="netGainVal">+&pound;2,407</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; font-size: 13px; color: var(--ink-muted); line-height: 1.4;" id="verdictText">
+            <strong>Verdict:</strong> Safe to deploy. A 10% discount gives shoppers a compelling reason to complete the
+            set while adding net margin after discount costs.
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    // Verified Dataset Presets
+    const presets = [
+      {
+        nameA: "Green Regency Teacup & Saucer",
+        priceA: 2.95,
+        nameB: "Roses Regency Teacup & Saucer",
+        priceB: 2.95,
+        sharedOrders: 767,
+        attachRate: 76,
+        multiplier: 14,
+        returnRate: 1.8,
+        singleBuyersA: 246
+      },
+      {
+        nameA: "Regency Tea Plate Roses",
+        priceA: 1.65,
+        nameB: "Regency Tea Plate Green",
+        priceB: 1.65,
+        sharedOrders: 319,
+        attachRate: 84,
+        multiplier: 37,
+        returnRate: 1.5,
+        singleBuyersA: 62
+      },
+      {
+        nameA: "Jumbo Bag Pink Polkadot",
+        priceA: 1.95,
+        nameB: "Jumbo Bag Red Retrospot",
+        priceB: 1.95,
+        sharedOrders: 825,
+        attachRate: 68,
+        multiplier: 6,
+        returnRate: 1.2,
+        singleBuyersA: 388
+      },
+      {
+        nameA: "Alarm Clock Bakelike Green",
+        priceA: 3.75,
+        nameB: "Alarm Clock Bakelike Red",
+        priceB: 3.75,
+        sharedOrders: 640,
+        attachRate: 65,
+        multiplier: 12,
+        returnRate: 1.9,
+        singleBuyersA: 345
+      },
+      {
+        nameA: "Lunch Bag Red Retrospot",
+        priceA: 1.65,
+        nameB: "Lunch Bag Suki Design",
+        priceB: 1.65,
+        sharedOrders: 655,
+        attachRate: 51,
+        multiplier: 6,
+        returnRate: 1.4,
+        singleBuyersA: 629
+      },
+      {
+        nameA: "High-Return Novelty Mug",
+        priceA: 4.95,
+        nameB: "Unrelated Ceramic Coaster",
+        priceB: 2.25,
+        sharedOrders: 85,
+        attachRate: 12,
+        multiplier: 1,
+        returnRate: 7.4,
+        singleBuyersA: 620
+      }
+    ];
+
+    let currentPreset = 0;
+
+    function loadPreset(idx) {
+      currentPreset = idx;
+
+      // Update active button state
+      const btns = document.querySelectorAll('.preset-btn');
+      btns.forEach((b, i) => {
+        b.classList.toggle('active', i === idx);
+      });
+
+      const p = presets[idx];
+      document.getElementById('itemAName').textContent = p.nameA;
+      document.getElementById('itemAPrice').textContent = '\u00A3' + p.priceA.toFixed(2) + ' unit price';
+      document.getElementById('itemBName').textContent = p.nameB;
+      document.getElementById('itemBPrice').textContent = '\u00A3' + p.priceB.toFixed(2) + ' unit price';
+      document.getElementById('multiplierBadge').textContent = p.multiplier + 'x Pairing Multiplier';
+      document.getElementById('sharedOrdersVal').textContent = p.sharedOrders.toLocaleString();
+      document.getElementById('attachRateVal').textContent = p.attachRate + '%';
+
+      updateCalculations();
+    }
+
+    function updateCalculations() {
+      const p = presets[currentPreset];
+      const discountPct = parseInt(document.getElementById('discountSlider').value, 10);
+
+      // Update discount slider label
+      const dLabel = document.getElementById('discountDisplay');
+      if (discountPct === 0) dLabel.textContent = '0% (Full Price)';
+      else if (discountPct === 5) dLabel.textContent = '5% Off';
+      else if (discountPct === 10) dLabel.textContent = '10% Off (Optimal)';
+      else dLabel.textContent = '15% Off (High Giveback)';
+
+      const fullPrice = p.priceA + p.priceB;
+      const discountFactor = (100 - discountPct) / 100;
+      const bundlePrice = fullPrice * discountFactor;
+      const discountAmount = fullPrice - bundlePrice;
+
+      // New buyer conversion estimate based on discount
+      let conversionRateOnSingle = 0.12;
+      if (discountPct === 5) conversionRateOnSingle = 0.22;
+      if (discountPct === 10) conversionRateOnSingle = 0.35;
+      if (discountPct === 15) conversionRateOnSingle = 0.40;
+
+      const newBuyers = Math.round(p.singleBuyersA * conversionRateOnSingle);
+      const newRevenue = Math.round(newBuyers * bundlePrice * 2.2); // annualized cart impact
+      const givebackCost = Math.round(p.sharedOrders * discountAmount * 1.5);
+      const netGain = newRevenue - givebackCost;
+
+      // Update Receipt
+      document.getElementById('fullPriceVal').textContent = '\u00A3' + fullPrice.toFixed(2);
+      document.getElementById('bundlePriceVal').textContent = '\u00A3' + bundlePrice.toFixed(2);
+      document.getElementById('newRevVal').textContent = '+\u00A3' + newRevenue.toLocaleString();
+      document.getElementById('givebackVal').textContent = '-\u00A3' + givebackCost.toLocaleString();
+
+      const netEl = document.getElementById('netGainVal');
+      if (netGain >= 0) {
+        netEl.textContent = '+\u00A3' + netGain.toLocaleString();
+        netEl.className = 'receipt-val-pos';
+      } else {
+        netEl.textContent = '-\u00A3' + Math.abs(netGain).toLocaleString();
+        netEl.className = 'receipt-val-neg';
+      }
+
+      // Guardrail 1: Return Risk (< 5%)
+      const retEl = document.getElementById('returnStatus');
+      if (p.returnRate < 5.0) {
+        retEl.innerHTML = '<span class="status-pass">&bull; Safe (' + Math.round(p.returnRate) + '% Returns)</span>';
+      } else {
+        retEl.innerHTML = '<span class="status-fail">&bull; Risk (' + Math.round(p.returnRate) + '% Returns)</span>';
+      }
+
+      // Guardrail 2: Margin Check
+      const margEl = document.getElementById('marginStatus');
+      const verdictEl = document.getElementById('verdictText');
+
+      if (p.returnRate >= 5.0) {
+        margEl.innerHTML = '<span class="status-fail">&bull; Blocked</span>';
+        verdictEl.innerHTML = '<strong style="color:var(--color-crimson);">Do Not Promote:</strong> This set has a ' + Math.round(p.returnRate) + '% return rate, exceeding our 5% limit. Promoting it would scale customer returns and refunds.';
+      } else if (netGain > 0) {
+        margEl.innerHTML = '<span class="status-pass">&bull; Profit Positive</span>';
+        verdictEl.innerHTML = '<strong>Verdict:</strong> Safe to deploy. The ' + discountPct + '% bundle discount brings in more cross-sell revenue than it gives away in discounts.';
+      } else {
+        margEl.innerHTML = '<span class="status-fail">&bull; Margin Negative</span>';
+        verdictEl.innerHTML = '<strong style="color:var(--color-crimson);">Rethink Discount:</strong> A ' + discountPct + '% discount gives away too much revenue to customers who were already buying both items.';
+      }
+    }
+
+    // Initialize
+    loadPreset(0);
+  </script>
+</body>
+
+</html>

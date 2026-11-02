@@ -19,16 +19,21 @@ plt.rcParams["font.sans-serif"] = ["Plus Jakarta Sans", "Helvetica Neue", "Arial
 plt.rcParams["axes.edgecolor"] = "#111111"
 plt.rcParams["axes.linewidth"] = 0.9
 
-# Color Constants
+# Color Constants matching Medicaid & Credit Risk Design System and Editorial Tables
 BG_CANVAS = "#FAF8F2"
 BG_CARD = "#FFFFFF"
+BG_PAPER_ALT = "#F3EFE6"
 COLOR_INK = "#111111"
 COLOR_CHARCOAL = "#27272A"
-COLOR_MUTED = "#52525B"
-COLOR_LIGHT_DIVIDER = "#E2E8F0"
-COLOR_EMERALD = "#16A34A"
-COLOR_CRIMSON = "#E11D48"
-COLOR_AMBER = "#D97706"
+COLOR_MUTED = "#4A4843"
+COLOR_SUBTLE = "#76746E"
+COLOR_LIGHT_DIVIDER = "#D6D3CD"
+COLOR_EMERALD = "#166534"
+COLOR_LIGHT_GREEN = "#BBF7D0"
+COLOR_CRIMSON = "#BE123C"
+COLOR_LIGHT_CRIMSON = "#FFF1F2"
+COLOR_SLATE = "#64748B"
+COLOR_AMBER = "#B45309"
 
 
 # ==============================================================================
@@ -58,8 +63,8 @@ def export_fig1():
     order_shares = [12, 10, 78]
     rev_shares = [7, 6, 87]
 
-    rects1 = ax1.barh(y_pos - bar_height / 2, rev_shares, height=bar_height, color=COLOR_EMERALD, label="Share of revenue (%)")
-    rects2 = ax1.barh(y_pos + bar_height / 2, order_shares, height=bar_height, color=COLOR_CHARCOAL, label="Share of orders (%)")
+    rects1 = ax1.barh(y_pos - bar_height / 2, rev_shares, height=bar_height, color=COLOR_EMERALD, edgecolor=COLOR_INK, linewidth=1.0, label="Share of revenue (%)")
+    rects2 = ax1.barh(y_pos + bar_height / 2, order_shares, height=bar_height, color=COLOR_LIGHT_GREEN, edgecolor=COLOR_EMERALD, linewidth=1.0, label="Share of orders (%)")
 
     ax1.set_yticks(y_pos)
     ax1.set_yticklabels(tiers, fontsize=10.5, weight="bold", color=COLOR_INK)
@@ -78,14 +83,14 @@ def export_fig1():
         ax1.text(w + 1.2, rect.get_y() + rect.get_height() / 2, f"{w:.0f}%", va="center", ha="left", fontsize=9.5, weight="bold", color=COLOR_EMERALD)
     for rect in rects2:
         w = rect.get_width()
-        ax1.text(w + 1.2, rect.get_y() + rect.get_height() / 2, f"{w:.0f}%", va="center", ha="left", fontsize=9.5, color=COLOR_CHARCOAL)
+        ax1.text(w + 1.2, rect.get_y() + rect.get_height() / 2, f"{w:.0f}%", va="center", ha="left", fontsize=9.5, weight="bold", color=COLOR_INK)
 
     # Panel B: Median vs. Mean Order Value (rounded to whole numbers: £58 vs £307, £141 vs £316, £322 vs £582)
     mean_aov = [307, 316, 582]
     median_aov = [58, 141, 322]
 
-    rects3 = ax2.barh(y_pos - bar_height / 2, mean_aov, height=bar_height, color=COLOR_EMERALD, label="Average order value (£)")
-    rects4 = ax2.barh(y_pos + bar_height / 2, median_aov, height=bar_height, color=COLOR_INK, label="Median order value (£)")
+    rects3 = ax2.barh(y_pos - bar_height / 2, mean_aov, height=bar_height, color=COLOR_LIGHT_GREEN, edgecolor=COLOR_EMERALD, linewidth=1.0, label="Average order value (£)")
+    rects4 = ax2.barh(y_pos + bar_height / 2, median_aov, height=bar_height, color=COLOR_EMERALD, edgecolor=COLOR_INK, linewidth=1.0, label="Median order value (£)")
 
     ax2.set_yticks(y_pos)
     ax2.set_yticklabels([])
@@ -101,10 +106,10 @@ def export_fig1():
     # Value Labels Panel B
     for rect in rects3:
         w = rect.get_width()
-        ax2.text(w + 10, rect.get_y() + rect.get_height() / 2, f"£{w:.0f}", va="center", ha="left", fontsize=9.5, weight="bold", color=COLOR_EMERALD)
+        ax2.text(w + 10, rect.get_y() + rect.get_height() / 2, f"£{w:.0f}", va="center", ha="left", fontsize=9.5, weight="bold", color=COLOR_INK)
     for rect in rects4:
         w = rect.get_width()
-        ax2.text(w + 10, rect.get_y() + rect.get_height() / 2, f"£{w:.0f}", va="center", ha="left", fontsize=9.5, weight="bold", color=COLOR_INK)
+        ax2.text(w + 10, rect.get_y() + rect.get_height() / 2, f"£{w:.0f}", va="center", ha="left", fontsize=9.5, weight="bold", color=COLOR_EMERALD)
 
     # Strategic Multiplier Callout Box
     ax2.annotate(
@@ -112,7 +117,7 @@ def export_fig1():
         "Median order value jumps 6x (£58 to £322).\n"
         "Average on 1-2 items (£307) is skewed\n"
         "by single-item wholesale checkouts.",
-        xy=(58, 0.15), xytext=(170, 0.45),
+        xy=(40, 0.32), xytext=(380, 0.52),
         bbox=dict(boxstyle="round,pad=0.5", facecolor=BG_CARD, edgecolor=COLOR_INK, linewidth=1.1),
         fontsize=9, weight="medium", color=COLOR_INK,
         arrowprops=dict(arrowstyle="->", color=COLOR_INK, lw=1.1)
@@ -154,7 +159,7 @@ def export_fig2():
             "id": "BDL-02",
             "name": "Pink + Green Regency Teacups",
             "x": 3.2, "y": 83.0, "lift": 16, "color": COLOR_EMERALD,
-            "ox": -220, "oy": 16, "is_flagged": False,
+            "ox": 18, "oy": 16, "is_flagged": False,
             "pairing_text": "16x", "attach_text": "83%"
         },
         {
@@ -195,7 +200,7 @@ def export_fig2():
             ax.annotate(callout_text,
                         xy=(p["x"], p["y"]), xytext=(p["ox"], p["oy"]), textcoords="offset points",
                         fontsize=8.5, weight="bold", color=COLOR_CRIMSON,
-                        bbox=dict(boxstyle="round,pad=0.35", facecolor="#FEF2F2", edgecolor=COLOR_CRIMSON, linewidth=1.2),
+                        bbox=dict(boxstyle="round,pad=0.35", facecolor=COLOR_LIGHT_CRIMSON, edgecolor=COLOR_CRIMSON, linewidth=1.2),
                         arrowprops=dict(arrowstyle="->", color=COLOR_CRIMSON, lw=1.1),
                         zorder=4)
         else:
@@ -262,9 +267,10 @@ def export_fig3():
     # Panel A: Monthly Revenue Bars
     months = ["Dec '10", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec*"]
     rev_k = [776, 673, 507, 691, 511, 742, 740, 690, 728, 1024, 1098, 1453, 615]
-    colors = [COLOR_CHARCOAL] * 9 + [COLOR_EMERALD] * 3 + [COLOR_CHARCOAL]
+    bar_cols = [COLOR_LIGHT_GREEN] * 9 + [COLOR_EMERALD] * 3 + [COLOR_LIGHT_GREEN]
+    bar_edges = [COLOR_EMERALD] * 9 + [COLOR_INK] * 3 + [COLOR_EMERALD]
 
-    bars = ax1.bar(months, rev_k, color=colors, width=0.62, edgecolor=COLOR_INK, linewidth=0.8)
+    bars = ax1.bar(months, rev_k, color=bar_cols, width=0.62, edgecolor=bar_edges, linewidth=1.0)
     ax1.set_ylabel("Monthly store sales (£ in thousands)", fontsize=10, weight="bold", color=COLOR_INK)
     ax1.set_ylim(0, 1750)
     ax1.set_title("Panel A: Monthly store sales trend and Q4 surge", fontsize=11.5, weight="bold", color=COLOR_INK, loc="left", pad=14)
@@ -310,17 +316,27 @@ def export_fig3():
     h = 0.55
 
     bar_cols = [
-        COLOR_CHARCOAL,
-        COLOR_CHARCOAL,
-        COLOR_CHARCOAL,
+        COLOR_LIGHT_GREEN,
+        COLOR_LIGHT_GREEN,
+        COLOR_LIGHT_GREEN,
         COLOR_CRIMSON,  # Spain flagged
-        COLOR_CHARCOAL,
-        COLOR_CHARCOAL,
-        COLOR_CHARCOAL,
+        COLOR_LIGHT_GREEN,
+        COLOR_LIGHT_GREEN,
+        COLOR_LIGHT_GREEN,
+        COLOR_EMERALD,  # Netherlands top wholesale
+    ]
+    bar_edges = [
         COLOR_EMERALD,
+        COLOR_EMERALD,
+        COLOR_EMERALD,
+        COLOR_CRIMSON,
+        COLOR_EMERALD,
+        COLOR_EMERALD,
+        COLOR_EMERALD,
+        COLOR_INK,
     ]
 
-    rects_med = ax2.barh(y_pos, median_aov, height=h, color=bar_cols, edgecolor=COLOR_INK, linewidth=0.8)
+    rects_med = ax2.barh(y_pos, median_aov, height=h, color=bar_cols, edgecolor=bar_edges, linewidth=1.0)
 
     ax2.set_yticks(y_pos)
     ax2.set_yticklabels(countries, fontsize=10, weight="bold", color=COLOR_INK)
@@ -379,11 +395,11 @@ def export_fig4():
     ]
     vals = [0, 2948, 3027, 4368, 11792, 24528]
     bar_cols = [
-        COLOR_CHARCOAL,
+        COLOR_INK,
         COLOR_EMERALD,
         COLOR_CRIMSON,  # What-If blocked
         COLOR_EMERALD,
-        COLOR_AMBER,
+        COLOR_EMERALD,  # Phase 3A is Green, matching Phase 1, 2, and 3B
         COLOR_EMERALD,
     ]
 

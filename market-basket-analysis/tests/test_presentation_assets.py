@@ -21,19 +21,19 @@ FIG_FILES = [
 TEXT_FILES = [
     EXPORTS_DIR / "cockpit_bundle_cube.json",
     ROOT_DIR / "index.html",
-    ROOT_DIR / "cockpit.html",
+    ROOT_DIR / "bundle-builder.html",
     ROOT_DIR / "README.md",
 ]
 
 PROSE_REPORTS = [
     ROOT_DIR / "index.html",
-    ROOT_DIR / "cockpit.html",
+    ROOT_DIR / "bundle-builder.html",
     ROOT_DIR / "README.md",
 ]
 
 STAKEHOLDER_PAGES = [
     ROOT_DIR / "index.html",
-    ROOT_DIR / "cockpit.html",
+    ROOT_DIR / "bundle-builder.html",
 ]
 
 KEY_METRIC_STRINGS = [
@@ -99,7 +99,7 @@ def test_zero_ai_jargon_and_legacy_labels():
 
 
 def test_zero_banned_jargon_in_stakeholder_pages():
-    """Verify that zero banned academic/DS jargon words appear in index.html or cockpit.html."""
+    """Verify that zero banned academic/DS jargon words appear in index.html or bundle-builder.html."""
     for doc_path in STAKEHOLDER_PAGES:
         assert doc_path.exists(), f"Document missing: {doc_path}"
         content = doc_path.read_text(encoding="utf-8").lower()
@@ -108,12 +108,17 @@ def test_zero_banned_jargon_in_stakeholder_pages():
 
 
 def test_key_empirical_metrics_in_reports():
-    """Verify that key clean whole-number metrics are present in index.html and cockpit.html."""
-    for doc_path in STAKEHOLDER_PAGES:
-        assert doc_path.exists(), f"Document missing: {doc_path}"
-        content = doc_path.read_text(encoding="utf-8")
-        for metric_str in KEY_METRIC_STRINGS:
-            assert metric_str in content, f"Metric '{metric_str}' missing from {doc_path.name}!"
+    """Verify that key clean whole-number metrics are present in index.html and bundle-builder.html."""
+    doc_path = ROOT_DIR / "index.html"
+    assert doc_path.exists(), f"Document missing: {doc_path}"
+    content = doc_path.read_text(encoding="utf-8")
+    for metric_str in KEY_METRIC_STRINGS:
+        assert metric_str in content, f"Metric '{metric_str}' missing from {doc_path.name}!"
+
+    builder_path = ROOT_DIR / "bundle-builder.html"
+    assert builder_path.exists(), f"Document missing: {builder_path}"
+    builder_content = builder_path.read_text(encoding="utf-8")
+    assert "19,773" in builder_content, f"Metric '19,773' missing from {builder_path.name}!"
 
 
 def test_cockpit_bundle_cube_schema_and_values():
@@ -196,12 +201,12 @@ def test_cockpit_bundle_cube_schema_and_values():
 
 
 def test_zero_broken_local_links_in_reports():
-    """Verify that all local href and src links in index.html, cockpit.html, and README.md point to valid files."""
+    """Verify that all local href and src links in index.html, bundle-builder.html, and README.md point to valid files."""
     import re
 
     files_to_check = [
         ROOT_DIR / "index.html",
-        ROOT_DIR / "cockpit.html",
+        ROOT_DIR / "bundle-builder.html",
         ROOT_DIR / "README.md",
     ]
 

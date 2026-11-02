@@ -1,7 +1,7 @@
 """
 src/presentation/export_cockpit_data.py
 Exports the verified Phase 3 empirical data cube to data/exports/cockpit_bundle_cube.json.
-Powers the interactive merchandising workstation (cockpit.html) and executive reports.
+Powers the interactive merchandising workstation (bundle-builder.html) and executive reports.
 Enforces zero em dashes and zero en dashes.
 """
 from pathlib import Path

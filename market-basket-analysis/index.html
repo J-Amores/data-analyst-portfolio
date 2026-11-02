@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Turning Single-Item Shoppers Into Multi-Item Buyers With Product Bundles | John Amores</title>
+  <title>Growing Online Store Order Values by Adding 5 Low-Return Product Bundles | John Amores</title>
 
   <!-- Typography: High-Contrast Editorial Serif + Crisp Sans + Tabular Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,634 +14,536 @@
     rel="stylesheet">
 
   <style>
-    :root {
-      --bg-paper: #FAF8F2;
-      --bg-paper-alt: #F3EFE6;
-      --bg-card: #FFFFFF;
-      --ink-black: #111111;
-      --ink-muted: #4A4843;
-      --ink-subtle: #52504A;
-      --border-color: #111111;
-      --hairline: 1px solid var(--border-color);
-      --border-divider: #E2E8F0;
-      --color-green: #166534;
-      --color-green-light: #F0FDF4;
-      --color-crimson: #BE123C;
-      --color-crimson-light: #FFF1F2;
-      --color-amber: #D97706;
-      --color-amber-light: #FFFBEB;
-      --color-charcoal: #27272A;
-      --content-width: 1140px;
-      --prose-width: 74ch;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    ::selection {
-      background: #111111;
-      color: #FAF8F2;
-    }
-
-    body {
-      background-color: var(--bg-paper);
-      color: var(--ink-black);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 16px;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
-    }
-
-    a {
-      color: var(--ink-black);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    /* Fixed Editorial Navigation Header */
-    .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(250, 248, 242, 0.95);
-      backdrop-filter: blur(8px);
-      border-bottom: var(--hairline);
-    }
-
-    .top-nav-inner {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-transform: uppercase;
-    }
-
-    .nav-badge {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--color-green);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .nav-links a {
-      color: var(--ink-black);
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: opacity 140ms ease;
-    }
-
-    .nav-links a:hover {
-      opacity: 0.65;
-    }
-
-    .nav-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--ink-black);
-      color: var(--bg-paper) !important;
-      padding: 6px 14px;
-      text-decoration: none !important;
-      transition: transform 120ms ease, opacity 140ms ease;
-    }
-
-    .nav-btn:hover {
-      opacity: 0.85;
-      transform: translateY(-1px);
-    }
-
-    /* Outer Container */
-    .report-container {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      padding: 0 24px 80px 24px;
-    }
-
-    /* Hero Section */
-    .hero-section {
-      padding: 64px 0 48px 0;
-      border-bottom: var(--hairline);
-    }
-
-    .hero-tag {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--ink-muted);
-      margin-bottom: 20px;
-    }
-
-    .hero-tag span {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .hero-title {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: clamp(2.8rem, 5.5vw, 4.4rem);
-      line-height: 1.05;
-      font-weight: 400;
-      letter-spacing: -0.02em;
-      margin-bottom: 24px;
-      width: 100%;
-    }
-
-    .hero-subtitle {
-      font-size: 1.18rem;
-      line-height: 1.6;
-      color: var(--ink-muted);
-      width: 100%;
-      margin-bottom: 36px;
-    }
-
-    /* Key Numbers Bar */
-    .metrics-bar {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: var(--hairline);
-      background: var(--bg-card);
-      margin-top: 32px;
-    }
-
-    .metric-item {
-      padding: 24px;
-      border-right: var(--hairline);
-    }
-
-    .metric-item:last-child {
-      border-right: none;
-    }
-
-    .metric-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-subtle);
-      margin-bottom: 8px;
-    }
-
-    .metric-number {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 2.75rem;
-      line-height: 1.0;
-      font-weight: 400;
-      margin-bottom: 6px;
-    }
-
-    .metric-note {
-      font-size: 0.82rem;
-      color: var(--ink-muted);
-      line-height: 1.4;
-    }
-
-    /* Section Styling */
-    .report-section {
-      padding: 64px 0;
-      border-bottom: var(--hairline);
-    }
-
-    .section-header {
-      margin-bottom: 32px;
-    }
-
-    .section-chapter {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--color-crimson);
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: clamp(2.0rem, 3.8vw, 3.0rem);
-      line-height: 1.15;
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      width: 100%;
-    }
-
-    /* Two-Column Prose and Exhibit Spread */
-    .two-column-spread {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-      margin-top: 32px;
-    }
-
-    .prose-block {
-      width: 100%;
-    }
-
-    .prose-lead {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: var(--ink-black);
-      margin-bottom: 20px;
-    }
-
-    p {
-      margin-bottom: 16px;
-      color: var(--ink-muted);
-    }
-
-    p strong {
-      color: var(--ink-black);
-      font-weight: 700;
-    }
-
-    h3.subhead {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 1.65rem;
-      font-weight: 400;
-      line-height: 1.25;
-      margin: 28px 0 12px 0;
-      color: var(--ink-black);
-    }
-
-    /* Editorial Pull Quote */
-    .editorial-quote {
-      border: var(--hairline);
-      padding: 24px;
-      margin: 28px 0;
-      background: var(--bg-paper-alt);
-    }
-
-    .quote-text {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 1.35rem;
-      line-height: 1.35;
-      font-style: italic;
-      color: var(--ink-black);
-      margin-bottom: 12px;
-    }
-
-    .quote-author {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-subtle);
-    }
-
-    /* Figure Card */
-    .figure-card {
-      border: var(--hairline);
-      background: var(--bg-card);
-      margin: 36px 0;
-    }
-
-    .figure-header {
-      padding: 14px 20px;
-      border-bottom: var(--hairline);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      background: var(--bg-paper-alt);
-    }
-
-    .figure-title {
-      font-weight: 700;
-      color: var(--ink-black);
-    }
-
-    .figure-meta {
-      color: var(--ink-subtle);
-    }
-
-    .figure-body {
-      padding: 20px;
-      background: var(--bg-paper);
-      text-align: center;
-      cursor: zoom-in;
-    }
-
-    .figure-body img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .figure-footer {
-      padding: 12px 20px;
-      border-top: var(--hairline);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      color: var(--ink-muted);
-      background: var(--bg-paper-alt);
-      line-height: 1.5;
-    }
-
-    /* Data Tables */
-    .data-table-wrap {
-      overflow-x: auto;
-      margin: 20px 0;
-    }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.86rem;
-      text-align: left;
-      border: var(--hairline);
-      background: var(--bg-card);
-    }
-
-    .data-table th,
-    .data-table td {
-      padding: 11px 14px;
-      border-bottom: var(--hairline);
-      vertical-align: middle;
-    }
-
-    .data-table th {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: var(--bg-paper-alt);
-      color: var(--ink-black);
-      border-bottom: var(--hairline);
-    }
-
-    .data-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .data-table .num-cell {
-      font-family: 'JetBrains Mono', monospace;
-      text-align: right;
-    }
-
-    .status-pass {
-      display: inline-block;
-      padding: 3px 8px;
-      border: 1px solid var(--color-green);
-      color: var(--color-green);
-      background: var(--color-green-light);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
-
-    .status-fail {
-      display: inline-block;
-      padding: 3px 8px;
-      border: 1px solid var(--color-crimson);
-      color: var(--color-crimson);
-      background: var(--color-crimson-light);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
-
-    .status-amber {
-      display: inline-block;
-      padding: 3px 8px;
-      border: 1px solid var(--color-amber);
-      color: var(--color-amber);
-      background: var(--color-amber-light);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
-
-    /* Insight Card */
-    .insight-card {
-      border: var(--hairline);
-      background: var(--bg-paper-alt);
-      padding: 20px;
-      margin: 20px 0;
-    }
-
-    .insight-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--ink-black);
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .insight-body {
-      font-size: 0.90rem;
-      color: var(--ink-muted);
-      line-height: 1.55;
-    }
-
-    /* Comparison Split Container */
-    .comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: var(--hairline);
-      margin: 24px 0;
-    }
-
-    .comparison-grid.three-col {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .comparison-col {
-      padding: 20px;
-      border-right: var(--hairline);
-    }
-
-    .comparison-col:last-child {
-      border-right: none;
-    }
-
-    /* Chapter Takeaway Banner */
-    .takeaway-strip {
-      border: var(--hairline);
-      background: var(--bg-paper-alt);
-      padding: 20px 24px;
-      margin-top: 40px;
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-    }
-
-    .takeaway-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--ink-black);
-      white-space: nowrap;
-      padding-top: 2px;
-    }
-
-    .takeaway-body {
-      font-size: 0.94rem;
-      line-height: 1.55;
-      color: var(--ink-muted);
-    }
-
-    .narrative-callout {
-      border-left: 3px solid var(--ink-black);
-      padding: 16px 20px;
-      margin: 24px 0;
-      background: var(--bg-paper-alt);
-      font-size: 0.98rem;
-      color: var(--ink-muted);
-      line-height: 1.6;
-      width: 100%;
-    }
-
-    .narrative-callout strong {
-      color: var(--ink-black);
-    }
-
-    .amber-callout {
-      border: var(--hairline);
-      border-left: 4px solid var(--color-amber);
-      background: var(--color-amber-light);
-      padding: 18px 22px;
-      margin: 26px 0;
-      font-size: 0.98rem;
-      line-height: 1.6;
-      color: var(--ink-black);
-    }
-
-    /* Lightbox Modal */
-    .lightbox-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(17, 17, 17, 0.92);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      cursor: zoom-out;
-    }
-
-    .lightbox-modal img {
-      max-width: 95vw;
-      max-height: 92vh;
-      object-fit: contain;
-      border: 1px solid #FFFFFF;
-      background: var(--bg-paper);
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 28px;
-      color: #FFFFFF;
-      font-size: 2.2rem;
-      font-family: 'JetBrains Mono', monospace;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    /* Responsive Breakpoints */
-    @media (max-width: 900px) {
-      .two-column-spread {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-
-      .metrics-bar {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .metric-item:nth-child(2) {
-        border-right: none;
-      }
-
-      .metric-item:nth-child(1),
-      .metric-item:nth-child(2) {
-        border-bottom: var(--hairline);
-      }
-
-      .comparison-grid,
-      .comparison-grid.three-col {
-        grid-template-columns: 1fr;
-      }
-
-      .comparison-grid .comparison-col,
-      .comparison-grid.three-col .comparison-col {
-        border-right: none;
-        border-bottom: var(--hairline);
-      }
-
-      .comparison-grid .comparison-col:last-child,
-      .comparison-grid.three-col .comparison-col:last-child {
-        border-bottom: none;
-      }
-
-      .nav-links a:not(.nav-btn) {
-        display: none;
-      }
-
-      .nav-brand {
-        font-size: 0.75rem;
-      }
-    }
-
-    @media (max-width: 580px) {
-      .metrics-bar {
-        grid-template-columns: 1fr;
-      }
-
-      .metric-item {
-        border-right: none;
-        border-bottom: var(--hairline);
-      }
-
-      .metric-item:last-child {
-        border-bottom: none;
-      }
-
-      .takeaway-strip {
-        flex-direction: column;
-        gap: 8px;
-      }
-    }
+:root {
+  --bg-paper: #FAF8F2;
+  --bg-paper-alt: #F3EFE6;
+  --bg-card: #FFFFFF;
+  --ink-black: #111111;
+  --ink-muted: #4A4843;
+  --ink-subtle: #76746E;
+  --border-color: #111111;
+  --hairline: 1px solid var(--border-color);
+  --hairline-subtle: 1px solid #D6D3CD;
+  --color-green: #166534;
+  --color-green-light: #F0FDF4;
+  --color-crimson: #BE123C;
+  --color-crimson-light: #FFF1F2;
+  --color-amber: #B45309;
+  --color-amber-light: #FEF3C7;
+  --content-width: 1140px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--bg-paper);
+  color: var(--ink-black);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Top Sticky Navigation */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg-paper);
+  border-bottom: var(--hairline);
+  overflow-x: auto;
+}
+.top-nav-inner {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  white-space: nowrap;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-black);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-badge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-green);
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.nav-links a:hover { color: var(--ink-black); }
+.nav-btn,
+.nav-links a.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ink-black);
+  color: #FFFFFF;
+  padding: 8px 14px;
+  border: var(--hairline);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+.nav-btn:hover,
+.nav-links a.nav-btn:hover {
+  background-color: var(--color-green);
+  border-color: var(--color-green);
+  color: #FFFFFF;
+}
+
+/* Main Report Container */
+.report-container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 24px 64px;
+}
+
+/* Hero Section */
+.hero-section {
+  padding: 44px 0 36px;
+  border-bottom: var(--hairline);
+}
+.hero-tag {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-subtle);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.hero-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--ink-black);
+  margin-bottom: 16px;
+  max-width: 960px;
+}
+.hero-subtitle {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  max-width: 880px;
+  margin-bottom: 28px;
+}
+
+/* 4-Card Metrics Bar */
+.metrics-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: var(--hairline);
+  background-color: var(--bg-card);
+}
+.metric-card {
+  padding: 20px 22px;
+  border-right: var(--hairline);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.metric-card:last-child { border-right: none; }
+.metric-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-subtle);
+  margin-bottom: 8px;
+}
+.metric-number {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 2.75rem;
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--ink-black);
+  margin-bottom: 8px;
+}
+.metric-number.accent-crimson { color: var(--color-crimson); }
+.metric-number.accent-green { color: var(--color-green); }
+.metric-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+
+/* Report Sections */
+.report-section {
+  padding: 44px 0;
+  border-bottom: var(--hairline);
+}
+.section-chapter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-subtle);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ink-black);
+  margin-bottom: 22px;
+}
+.section-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.section-title-row .section-title {
+  margin-bottom: 0;
+}
+
+/* Prose & Callouts */
+.prose-block p {
+  margin-bottom: 16px;
+  color: var(--ink-black);
+}
+.prose-lead {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.65;
+}
+h3.subhead {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 23px;
+  font-weight: 400;
+  color: var(--ink-black);
+  margin: 22px 0 10px;
+}
+.narrative-callout {
+  background-color: var(--bg-paper-alt);
+  border: var(--hairline);
+  border-left: 4px solid var(--ink-black);
+  padding: 18px 20px;
+  margin: 22px 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.editorial-quote {
+  background-color: var(--bg-paper-alt);
+  border: var(--hairline);
+  padding: 20px 22px;
+  margin: 20px 0;
+}
+.quote-text {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 21px;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--ink-black);
+  margin-bottom: 10px;
+}
+.quote-author {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-subtle);
+}
+
+/* Two-Column Spread */
+.two-column-spread {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 32px;
+  align-items: start;
+  margin-top: 20px;
+}
+
+/* Comparison Grids (3-Col & 2-Col) */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border: var(--hairline);
+  background-color: var(--bg-card);
+  margin: 24px 0;
+}
+.comparison-grid.three-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+.comp-col {
+  padding: 20px 22px;
+  border-right: var(--hairline);
+}
+.comp-col:last-child { border-right: none; }
+.comp-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.comp-title.crimson { color: var(--color-crimson); }
+.comp-title.green { color: var(--color-green); }
+.comp-body {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+}
+.comp-list {
+  list-style: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--ink-black);
+}
+.comp-list li { margin-bottom: 6px; }
+
+/* Data Tables */
+.data-table-wrap {
+  border: var(--hairline);
+  background-color: var(--bg-card);
+  margin: 20px 0;
+  overflow-x: auto;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.data-table th {
+  background-color: var(--bg-paper-alt);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-black);
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: var(--hairline);
+}
+.data-table td {
+  padding: 12px 14px;
+  border-bottom: var(--hairline-subtle);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.mono-cell {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+}
+.num-cell {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  text-align: right;
+}
+th.num-cell {
+  text-align: right;
+}
+
+/* Status Pills */
+.status-pass {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--color-green);
+  background-color: var(--color-green-light);
+  border: 1px solid var(--color-green);
+  padding: 2px 7px;
+  text-transform: uppercase;
+}
+.status-fail {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--color-crimson);
+  background-color: var(--color-crimson-light);
+  border: 1px solid var(--color-crimson);
+  padding: 2px 7px;
+  text-transform: uppercase;
+}
+
+/* Figure Cards */
+.figure-card {
+  border: var(--hairline);
+  background-color: var(--bg-card);
+  margin: 26px 0;
+}
+.figure-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background-color: var(--bg-paper-alt);
+  border-bottom: var(--hairline);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.figure-meta { color: var(--ink-subtle); }
+.figure-body {
+  padding: 18px;
+  background-color: var(--bg-paper);
+  text-align: center;
+}
+.figure-body img {
+  max-width: 100%;
+  height: auto;
+  cursor: zoom-in;
+  display: block;
+  margin: 0 auto;
+}
+.figure-footer {
+  padding: 12px 18px;
+  background-color: var(--bg-paper-alt);
+  border-top: var(--hairline);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+
+/* Insight Card */
+.insight-card {
+  border: var(--hairline);
+  background-color: var(--bg-card);
+  padding: 20px 22px;
+  margin: 20px 0;
+}
+.insight-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-black);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: var(--hairline);
+}
+.insight-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+/* Takeaway Strip */
+.takeaway-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--bg-paper-alt);
+  border: var(--hairline);
+  padding: 14px 18px;
+  margin-top: 26px;
+}
+.takeaway-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background-color: var(--ink-black);
+  color: #FFFFFF;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+.takeaway-body {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-black);
+}
+
+/* Lightbox Modal */
+.lightbox-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(17, 17, 17, 0.92);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  cursor: zoom-out;
+}
+.lightbox-modal img {
+  max-width: 95vw;
+  max-height: 92vh;
+  object-fit: contain;
+  border: 1px solid #FFFFFF;
+  background: var(--bg-paper);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  color: #FFFFFF;
+  font-size: 2.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .metrics-bar, .comparison-grid, .comparison-grid.three-col, .two-column-spread {
+    grid-template-columns: 1fr;
+  }
+  .metric-card, .comp-col {
+    border-right: none;
+    border-bottom: var(--hairline);
+  }
+  .hero-title { font-size: 38px; }
+}
   </style>
 </head>
 
@@ -652,16 +554,15 @@
     <div class="top-nav-inner">
       <div class="nav-brand">
         <span class="nav-badge"></span>
-        <span>JOHN AMORES | E-COMMERCE MERCHANDISING CASE STUDY</span>
+        <span>JOHN AMORES | E-COMMERCE MERCHANDISING</span>
       </div>
       <div class="nav-links">
         <a href="#overview">OVERVIEW</a>
         <a href="#chapter-01">01 DATA CLEANUP</a>
-        <a href="#chapter-02">02 BASKET SIZE GAP</a>
-        <a href="#chapter-03">03 TOP PRODUCT PAIRS</a>
-        <a href="#chapter-04">04 SEASONALITY &amp; REGIONS</a>
+        <a href="#chapter-02">02 BASKET SIZE</a>
+        <a href="#chapter-03">03 PRODUCT PAIRS</a>
+        <a href="#chapter-04">04 SEASONALITY</a>
         <a href="#chapter-05">05 BUNDLE ROLLOUT</a>
-        <a href="cockpit.html" class="nav-btn">[OPEN BUNDLE BUILDER -&gt;]</a>
       </div>
     </div>
   </header>
@@ -674,32 +575,32 @@
         <span>[E-COMMERCE MERCHANDISING CASE STUDY]</span>
         <span>[19,773 ORDERS | £10.2M SALES]</span>
       </div>
-      <h1 class="hero-title">Turning Single-Item Shoppers Into Multi-Item Buyers With Product Bundles</h1>
+      <h1 class="hero-title">Growing Online Store Order Values by Adding 5 Low-Return Product Bundles</h1>
       <p class="hero-subtitle">
-        A review of 541,909 order lines and 19,773 clean checkouts (£10.2M in sales) from December 2010 to December 2011. By adding "Frequently Bought Together" bundles on our top 5 matching product sets, we help small-basket shoppers add more items to their cart while keeping return rates under 2%.
+        Small 1-to-5 item checkouts and unscreened product returns quietly hold back our store's revenue potential. By reviewing 19,773 completed orders (£10.2M in sales) to launch "Frequently Bought Together" bundles on our top 5 matching product sets, we help small-basket shoppers add more items to their cart while keeping bundle return rates under 2%.
       </p>
 
-      <!-- 4-Box Top Metrics Strip (Whole Numbers) -->
+      <!-- 4-Card Metrics Bar -->
       <div class="metrics-bar">
-        <div class="metric-item">
+        <div class="metric-card">
           <div class="metric-label">CLEAN ORDERS REVIEWED</div>
           <div class="metric-number">19,773</div>
-          <div class="metric-note">£10.2M sales across 522,544 items and 3,910 products</div>
+          <div class="metric-sub">£10.2M sales across 3,910 products</div>
         </div>
-        <div class="metric-item">
+        <div class="metric-card">
           <div class="metric-label">SMALL &amp; MEDIUM CARTS (1-5 ITEMS)</div>
-          <div class="metric-number">22%</div>
-          <div class="metric-note">4,354 orders | £58 to £141 median order value</div>
+          <div class="metric-number accent-crimson">22%</div>
+          <div class="metric-sub">4,354 orders | £58 to £141 median order</div>
         </div>
-        <div class="metric-item">
+        <div class="metric-card">
           <div class="metric-label">TOP BUNDLE ATTACH RATE</div>
-          <div class="metric-number" style="color: var(--color-green);">65% to 84%</div>
-          <div class="metric-note">6x to 37x more likely to be bought together</div>
+          <div class="metric-number">65% to 84%</div>
+          <div class="metric-sub">6x to 37x more likely than random chance</div>
         </div>
-        <div class="metric-item">
-          <div class="metric-label">BUNDLE RETURN RATE</div>
-          <div class="metric-number" style="color: var(--color-green);">Under 2%</div>
-          <div class="metric-note">Safely below our 5% return limit vs. 9% store average</div>
+        <div class="metric-card">
+          <div class="metric-label">ANNUAL BUNDLE PROFIT GAIN</div>
+          <div class="metric-number accent-green">+£25K</div>
+          <div class="metric-sub">Under 2% returns vs. 9% store average</div>
         </div>
       </div>
     </section>
@@ -707,66 +608,63 @@
     <!-- EXECUTIVE OVERVIEW -->
     <section class="report-section" id="overview">
       <div class="section-header">
-        <div class="section-chapter">EXECUTIVE OVERVIEW</div>
-        <h2 class="section-title">Turning single-item checkouts into profitable multi-item carts</h2>
+        <div class="section-chapter">EXECUTIVE OVERVIEW / BUSINESS DECISION &amp; NORTH STAR METRICS</div>
+        <h2 class="section-title">How Our Merchandising Team Can Grow Small Carts Without Triggering Product Returns</h2>
       </div>
 
       <div class="prose-block">
         <p class="prose-lead">
-          Over 12 months, our online store completed 19,773 clean merchandise orders totaling £10.2M in sales. Because we sell to both everyday retail shoppers and wholesale gift shops, the typical order sits at a median of 15 items worth £302 (or an average of 26 items worth £518).
+          Between December 2010 and December 2011, our online store completed 19,773 clean merchandise orders totaling £10.2M in sales. Because we sell to both everyday retail shoppers and wholesale gift shops, our typical order sits at a median of 15 items worth £302 (or an average of 26 items worth £518).
         </p>
         <p>
-          When we grouped orders by cart size, we found a clear gap. Large orders with 6 or more items make up 78% of orders and bring in 87% of store revenue (£322 median order value). However, 22% of our checkouts (4,354 orders) leave the site with just 1 to 5 items. Those smaller orders have a median value of only £58 for 1 to 2 items and £141 for 3 to 5 items.
+          When we grouped orders by cart size, we found a sharp revenue divide. Large orders with 6 or more items make up 78% of orders and generate 87% of store revenue (£322 median order value). Meanwhile, 22% of our checkouts (4,354 orders) leave the store with only 1 to 5 items. Those smaller checkouts bring in a median of just £58 for 1 to 2 items and £141 for 3 to 5 items.
         </p>
         <p>
-          Right now, our store pages do not show "Frequently Bought Together" suggestions when a shopper adds an item to their cart. A customer comes in for a single green teacup or a retro storage bag and checks out alone. At the same time, cancelled orders and returns cost the store £897K (9% of gross sales), which means we cannot blindly promote products that end up getting returned.
+          Right now, our store pages do not show 'Frequently Bought Together' prompts when a shopper adds an item to their cart. A customer comes in for a single green teacup or a retro lunch bag and checks out alone. At the same time, cancelled orders and customer returns drained £897K (9% of gross sales), which means we cannot blindly promote products that end up getting returned.
         </p>
 
-        <!-- Amber Callout Box (The Merchandising Opportunity) -->
-        <div class="amber-callout">
-          <strong>The Merchandising Opportunity:</strong> We checked which products customers naturally buy in the same cart across all 19,773 orders, and filtered out any product with a return rate of 5% or higher. We found five matching product families where 51% to 84% of buyers already grab the matching piece when they find it, giving us a clear list of low-return bundles to feature on product pages and in the checkout cart.
+        <!-- Narrative Callout Box (The Merchandising Decision & Our 3 Guardrails) -->
+        <div class="narrative-callout">
+          <strong>The Merchandising Decision &amp; Our 3 Guardrails:</strong> Rather than running storewide discounts that give away margin, we checked which products customers naturally buy in the same cart across all 19,773 orders. Every recommended bundle had to pass three strict rules: <strong>(1) Return Risk Limit</strong> (each product must have an individual return rate under 5%), <strong>(2) Discount Profit Check</strong> (a 10% bundle discount must bring in more new cross-sell revenue than it gives away to shoppers already buying both), and <strong>(3) Minimum Order Reach</strong> (at least 300 real orders).
         </div>
       </div>
 
       <!-- 3-Column Summary Grid -->
-      <div class="comparison-grid three-col" style="margin: 32px 0 28px 0;">
-        <div class="comparison-col" style="background: var(--bg-paper-alt);">
-          <div class="insight-title" style="color: var(--color-crimson);">THE SMALL-BASKET GAP</div>
-          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
+      <div class="comparison-grid three-col">
+        <div class="comp-col">
+          <div class="comp-title crimson">THE SMALL-BASKET GAP</div>
+          <div class="comp-body">
             22% of orders (4,354 carts) check out with only 1 to 5 items and a £58 to £141 median spend because product pages lack cross-sell prompts.
-          </p>
-          <div
-            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--color-crimson); margin-top: 12px; line-height: 1.6;">
-            * 2,313 carts have only 1-2 items (£58 median).<br>
-            * 2,041 carts have 3-5 items (£141 median).<br>
-            * Zero cross-sell prompts on product pages.
           </div>
+          <ul class="comp-list">
+            <li>* 2,313 carts have only 1-2 items (£58 median).</li>
+            <li>* 2,041 carts have 3-5 items (£141 median).</li>
+            <li>* Zero cross-sell prompts on product pages.</li>
+          </ul>
         </div>
 
-        <div class="comparison-col" style="background: var(--bg-paper-alt);">
-          <div class="insight-title" style="color: var(--ink-black);">THE FIX: 5 MATCHING BUNDLES</div>
-          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
+        <div class="comp-col">
+          <div class="comp-title">THE FIX: 5 MATCHING BUNDLES</div>
+          <div class="comp-body">
             Add 1-click "Complete the Set" bundle boxes on Regency Teaware, Jumbo Bags, Alarm Clocks, and Lunch Bags with a 10% bundle discount.
-          </p>
-          <div
-            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--ink-black); margin-top: 12px; line-height: 1.6;">
-            * 51% to 84% natural attach rates.<br>
-            * 6x to 37x pairing multipliers.<br>
-            * All bundles keep returns under 2%.
           </div>
+          <ul class="comp-list">
+            <li>* 51% to 84% natural attach rates.</li>
+            <li>* 6x to 37x pairing multipliers.</li>
+            <li>* All bundles keep returns under 2%.</li>
+          </ul>
         </div>
 
-        <div class="comparison-col" style="background: var(--bg-paper-alt);">
-          <div class="insight-title" style="color: var(--color-green);">THE UPSIDE: HIGHER CART VALUE</div>
-          <p style="font-size: 0.90rem; margin-top: 8px; color: var(--ink-muted); line-height: 1.5;">
-            Converts 1-2 item shoppers into 3+ item buyers (£141 to £322 median spend) while keeping bundle return rates under 2%.
-          </p>
-          <div
-            style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--color-green); margin-top: 12px; line-height: 1.6;">
-            * +£2,948 net profit from 1-click retail sets.<br>
-            * +£4,368 net profit with cart drawer and emails.<br>
-            * +£24,528 net profit from wholesale case-packs.
+        <div class="comp-col">
+          <div class="comp-title green">THE UPSIDE: HIGHER CART VALUE</div>
+          <div class="comp-body">
+            Nudges 1-2 item shoppers into 3+ item buyers (£141 to £322 median spend) while keeping bundle return rates under 2%.
           </div>
+          <ul class="comp-list">
+            <li>* +£3K (+£2,948) net profit from 1-click retail sets.</li>
+            <li>* +£4K (+£4,368) net profit with cart drawer and emails.</li>
+            <li>* +£25K (+£24,528) net profit from wholesale case-packs.</li>
+          </ul>
         </div>
       </div>
 
@@ -786,15 +684,15 @@
             </tr>
             <tr>
               <td><strong>Why is this happening?</strong></td>
-              <td>Shoppers buying teaware sets, storage bags, or lunch bags want matching colors and styles, but without a "Complete the Set" prompt on the product page, 1-2 item shoppers miss the matching pieces.</td>
+              <td>Shoppers buying teaware sets, storage bags, or lunch bags want matching colors and styles, but without a "Complete the Set" box on the product page, 1-2 item shoppers miss the matching pieces.</td>
             </tr>
             <tr>
               <td><strong>What does it cost us?</strong></td>
-              <td>Small 1-2 item orders bring in a median of just £58 compared to £141 for 3-5 item orders (less than half the order value), while unscreened store promotions risk amplifying our £897K (9%) cancellation and return drag.</td>
+              <td>Small 1-2 item orders bring in a median of just £58 compared to £141 for 3-5 item orders (less than half the order value), while unscreened promotions risk amplifying our £897K (9%) return and cancellation losses.</td>
             </tr>
             <tr>
               <td><strong>What should we change?</strong></td>
-              <td>Add 1-click bundle widgets on the Top 5 product sets at a 10% bundle discount (Phase 1), add a cart-drawer prompt for 1-2 item checkouts (Phase 2), and tailor wholesale case-packs for EU buyers and Q4 holiday shoppers (Phase 3).</td>
+              <td>Launch 1-click bundle boxes for our Top 5 product sets at a 10% bundle discount (Phase 1), add a checkout-drawer prompt for 1-2 item carts (Phase 2), and build seasonal wholesale packs for European gift shops in Q4 (Phase 3).</td>
             </tr>
           </tbody>
         </table>
@@ -808,44 +706,34 @@
       </div>
     </section>
 
-    <!-- CHAPTER 01: HOW WE CLEANED THE ORDER LEDGER -->
+    <!-- CHAPTER 01: DATA SCOPE & CAVEATS -->
     <section class="report-section" id="chapter-01">
       <div class="section-header">
-        <div class="section-chapter">CHAPTER 01 / DATA INTEGRITY CHECKS</div>
-        <h2 class="section-title">How We Cleaned the Order Ledger</h2>
+        <div class="section-chapter">CHAPTER 01 / DATA SCOPE &amp; CAVEATS</div>
+        <h2 class="section-title">Setting a Reliable Baseline: Four Reporting Traps We Fixed in the Order Ledger</h2>
       </div>
 
       <div class="two-column-spread">
         <div class="prose-block">
           <p class="prose-lead">
-            Before calculating product pairs or testing discount models, we performed four practical data checks on the raw 541,909 ledger rows. Here is how any analyst can explain our cleaning process in 30 seconds:
+            Raw e-commerce order logs mix completed customer checkouts with cancelled invoices, guest carts, and shipping fees. Before testing product pairings, we cleaned up four reporting traps across the 541,909 raw order lines.
           </p>
 
-          <h3 class="subhead">1. Keeping Guest Checkouts for Basket Analysis (135,080 rows / 25% of lines)</h3>
+          <h3 class="subhead">Why Deleting Guest Checkouts Loses 25% of Real Shopping Carts</h3>
           <p>
-            One-quarter of the raw rows had no Customer ID because the shopper checked out as a guest. Deleting those rows would have thrown away 25% of our real shopping carts. Because every guest cart still has a unique Invoice Number, we kept all guest checkouts when counting which products get bought together.
+            One-quarter of our raw order lines (135,080 rows) had no Customer ID because the shopper checked out as a guest. Standard tutorials delete every row missing a Customer ID, which throws away £1.5M in real sales. Because every guest checkout still has a unique Invoice Number, we kept all guest orders when counting which items get bought together.
           </p>
 
           <div class="editorial-quote">
             <div class="quote-text">
-              "Deleting guest checkouts would have discarded 25% of our shopping carts (£1.51M in sales) and erased our largest wholesale buyers, who average £1,102 per order compared to £475 for registered accounts."
+              "Keeping guest checkouts preserved 25% of our real shopping carts (£1.5M in sales), while separating £897K in cancelled orders let us check the return rate of every item before bundling."
             </div>
-            <div class="quote-author">LEDGER RECONCILIATION | 19,773 CLEAN ORDERS</div>
+            <div class="quote-author">DATA QUALITY &amp; CAVEATS CHECK | 19,773 CLEAN ORDERS</div>
           </div>
 
-          <h3 class="subhead">2. Separating Cancelled Orders &amp; Returns (9,288 rows / £897K)</h3>
+          <h3 class="subhead">Separating Cancelled Orders, Postage Fees, and Duplicate Lines</h3>
           <p>
-            Invoices starting with the letter 'C' are order cancellations and refunds totaling £897K (9% of gross sales). Instead of mixing them into sales or deleting them completely, we moved them into a separate return tracker so we could check the return rate of every product before recommending it in a bundle.
-          </p>
-
-          <h3 class="subhead">3. Removing Postage &amp; Accounting Fees (2,940 rows)</h3>
-          <p>
-            The raw ledger included non-product codes like 'POST' (postage), 'BANK CHARGES', and 'AMAZONFEE'. If you leave those in a market basket script, the computer thinks 'Postage' is your #1 best-selling product pair. We stripped all fee codes out first.
-          </p>
-
-          <h3 class="subhead">4. Removing Duplicate Lines &amp; Fixing Typos (5,268 duplicate rows)</h3>
-          <p>
-            We removed 5,268 accidental duplicate line entries and standardized product names by Stock Code so a small spelling change over the year never split one product into two.
+            Next, we moved 9,288 cancelled credit-note rows (£897K, or 9% of gross sales) into a separate return tracker so we could block high-return items from bundles. Finally, we stripped out 2,940 postage and bank fee rows ('POST', 'BANK CHARGES') so shipping fees never looked like a best-selling product, and removed 5,268 accidental duplicate lines.
           </p>
         </div>
 
@@ -866,31 +754,31 @@
                   <td><strong>Completed Merchandise Orders</strong></td>
                   <td class="num-cell">522,544</td>
                   <td class="num-cell">19,773</td>
-                  <td class="num-cell" style="font-weight: 700; color: var(--color-green);">+£10,247,610</td>
+                  <td class="num-cell" style="font-weight: 700; color: var(--color-green);">+£10.2M</td>
                 </tr>
                 <tr style="background: var(--color-crimson-light);">
                   <td><strong>Customer Returns &amp; Cancellations</strong></td>
                   <td class="num-cell">9,288</td>
                   <td class="num-cell">3,836</td>
-                  <td class="num-cell" style="font-weight: 700; color: var(--color-crimson);">-£896,812</td>
+                  <td class="num-cell" style="font-weight: 700; color: var(--color-crimson);">-£897K</td>
                 </tr>
                 <tr>
                   <td><strong>Warehouse Stock Write-Offs</strong></td>
                   <td class="num-cell">2,512</td>
                   <td class="num-cell">0</td>
-                  <td class="num-cell">-£22,044</td>
+                  <td class="num-cell">-£22K</td>
                 </tr>
                 <tr>
                   <td><strong>Postage, Bank &amp; Account Fees</strong></td>
                   <td class="num-cell">2,334</td>
                   <td class="num-cell">1,215</td>
-                  <td class="num-cell">+£395,124</td>
+                  <td class="num-cell">-£195K</td>
                 </tr>
                 <tr style="background: var(--bg-paper-alt); font-weight: 700;">
                   <td><strong>Total Reconciled Store Ledger</strong></td>
                   <td class="num-cell">541,909</td>
                   <td class="num-cell">24,824</td>
-                  <td class="num-cell">£9,723,878</td>
+                  <td class="num-cell">£9.7M</td>
                 </tr>
               </tbody>
             </table>
@@ -910,7 +798,7 @@
           <div class="takeaway-strip" style="margin-top: 20px; padding: 16px 20px; flex-direction: column; gap: 8px;">
             <div class="takeaway-tag" style="color: var(--ink-black);">CHAPTER 01 TAKEAWAY</div>
             <div class="takeaway-body" style="font-size: 0.88rem;">
-              Retaining guest carts protected 25% of orders (£1.51M in sales), while isolating £897K in cancellations created an accurate return rate screen for every product.
+              Retaining guest carts protected 25% of orders (£1.5M in sales), while isolating £897K in cancellations created an accurate return rate screen for every product.
             </div>
           </div>
         </div>
@@ -939,8 +827,8 @@
           <span class="figure-title">Figure 1: Basket tier volume vs. revenue share and median order value</span>
           <span class="figure-meta">19,773 Orders | £10.2M Sales</span>
         </div>
-        <div class="figure-body" onclick="openLightbox('assets/fig1_basket_tier_aov.png')">
-          <img src="assets/fig1_basket_tier_aov.png"
+        <div class="figure-body" onclick="openLightbox('assets/fig1_basket_tier_aov.png?v=2')">
+          <img src="assets/fig1_basket_tier_aov.png?v=2"
             alt="Orders with 6+ items bring in 87% of revenue and have a 6x higher median order value than 1-2 item carts">
         </div>
         <div class="figure-footer">
@@ -1099,8 +987,8 @@
           <span class="figure-title">Figure 2: Product pair order share vs. attach rate and return guardrail</span>
           <span class="figure-meta">19,773 Orders | Top Pairs Screened</span>
         </div>
-        <div class="figure-body" onclick="openLightbox('assets/fig2_product_pair_matrix.png')">
-          <img src="assets/fig2_product_pair_matrix.png"
+        <div class="figure-body" onclick="openLightbox('assets/fig2_product_pair_matrix.png?v=2')">
+          <img src="assets/fig2_product_pair_matrix.png?v=2"
             alt="Regency teaware and jumbo bag sets convert 65% to 84% of buyers at 6x to 37x normal pairing rates">
         </div>
         <div class="figure-footer">
@@ -1266,8 +1154,8 @@
           <span class="figure-title">Figure 3: Monthly sales seasonality and median order values across top markets</span>
           <span class="figure-meta">Dec 2010 to Nov 2011 | Top 8 Export Markets</span>
         </div>
-        <div class="figure-body" onclick="openLightbox('assets/fig3_country_seasonality_regime.png')">
-          <img src="assets/fig3_country_seasonality_regime.png"
+        <div class="figure-body" onclick="openLightbox('assets/fig3_country_seasonality_regime.png?v=2')">
+          <img src="assets/fig3_country_seasonality_regime.png?v=2"
             alt="Fall holiday shopping nearly doubles monthly sales while European wholesale buyers spend 3x to 5x more per order">
         </div>
         <div class="figure-footer">
@@ -1335,7 +1223,7 @@
               <td class="num-cell">£363</td>
               <td class="num-cell">£633</td>
               <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">11%</td>
-              <td><span class="status-fail">HOLD PROMOS: HIGH RETURNS</span></td>
+              <td><span class="status-fail">PAUSE PROMOTIONS: HIGH RETURNS</span></td>
             </tr>
             <tr>
               <td><strong>France</strong></td>
@@ -1380,7 +1268,10 @@
     <section class="report-section" id="chapter-05">
       <div class="section-header">
         <div class="section-chapter">CHAPTER 05 / IMPLEMENTATION &amp; FINANCIAL BRIDGE</div>
-        <h2 class="section-title">The 5 Recommended Bundles and 90-Day Rollout Plan</h2>
+        <div class="section-title-row">
+          <h2 class="section-title">The 5 Recommended Bundles and 90-Day Rollout Plan</h2>
+          <a href="bundle-builder.html" class="nav-btn">OPEN BUNDLE BUILDER -&gt;</a>
+        </div>
       </div>
 
       <div class="prose-block">
@@ -1395,8 +1286,8 @@
           <span class="figure-title">Figure 4: Annual profit bridge across 6 rollout options</span>
           <span class="figure-meta">Simulation Engine Across 19,773 Orders</span>
         </div>
-        <div class="figure-body" onclick="openLightbox('assets/fig4_bundle_revenue_waterfall.png')">
-          <img src="assets/fig4_bundle_revenue_waterfall.png"
+        <div class="figure-body" onclick="openLightbox('assets/fig4_bundle_revenue_waterfall.png?v=2')">
+          <img src="assets/fig4_bundle_revenue_waterfall.png?v=2"
             alt="Adding 5 low-return product bundles with a 10% discount grows net store revenue while keeping returns under 2%">
         </div>
         <div class="figure-footer">
@@ -1503,9 +1394,9 @@
               <td class="num-cell">10%</td>
               <td class="num-cell">25%</td>
               <td class="num-cell">1x</td>
-              <td class="num-cell">£3,550</td>
-              <td class="num-cell">-£602</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£2,948</td>
+              <td class="num-cell">£4K (£3,550)</td>
+              <td class="num-cell">-£1K (-£602)</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£3K (+£2,948)</td>
               <td class="num-cell">4%</td>
               <td><span class="status-pass">APPROVED</span></td>
             </tr>
@@ -1514,9 +1405,9 @@
               <td class="num-cell">10%</td>
               <td class="num-cell">25%</td>
               <td class="num-cell">1x</td>
-              <td class="num-cell">£3,669</td>
-              <td class="num-cell">-£642</td>
-              <td class="num-cell">+£3,027</td>
+              <td class="num-cell">£4K (£3,669)</td>
+              <td class="num-cell">-£1K (-£642)</td>
+              <td class="num-cell">+£3K (+£3,027)</td>
               <td class="num-cell" style="color: var(--color-crimson); font-weight: 700;">9%</td>
               <td><span class="status-fail">BLOCKED: 9% RETURNS</span></td>
             </tr>
@@ -1525,9 +1416,9 @@
               <td class="num-cell">10%</td>
               <td class="num-cell">35%</td>
               <td class="num-cell">1x</td>
-              <td class="num-cell">£4,970</td>
-              <td class="num-cell">-£602</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£4,368</td>
+              <td class="num-cell">£5K (£4,970)</td>
+              <td class="num-cell">-£1K (-£602)</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£4K (+£4,368)</td>
               <td class="num-cell">4%</td>
               <td><span class="status-pass">APPROVED</span></td>
             </tr>
@@ -1536,9 +1427,9 @@
               <td class="num-cell">10%</td>
               <td class="num-cell">25%</td>
               <td class="num-cell">4x</td>
-              <td class="num-cell">£14,199</td>
-              <td class="num-cell">-£2,407</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£11,792</td>
+              <td class="num-cell">£16K (£16,199)</td>
+              <td class="num-cell">-£4K (-£4,407)</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£12K (+£11,792)</td>
               <td class="num-cell">4%</td>
               <td><span class="status-pass">APPROVED</span></td>
             </tr>
@@ -1547,9 +1438,9 @@
               <td class="num-cell">10%</td>
               <td class="num-cell">25%</td>
               <td class="num-cell">8.32x</td>
-              <td class="num-cell">£29,534</td>
-              <td class="num-cell">-£5,006</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£24,528</td>
+              <td class="num-cell">£30K (£29,534)</td>
+              <td class="num-cell">-£5K (-£5,006)</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£25K (+£24,528)</td>
               <td class="num-cell">4%</td>
               <td><span class="status-pass">APPROVED</span></td>
             </tr>
@@ -1576,21 +1467,21 @@
               <td><strong>Launch 5 Return-Safe Product Bundles at 10% Off:</strong> Deploy 1-click bundle boxes on product pages.</td>
               <td>BDL-01 to BDL-05 (Teaware, Jumbo Bags, Clocks, Lunch Bags, Playhouse) targeting 2,831 solo checkouts.</td>
               <td>Head of E-Commerce</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£2,948 net profit per cycle (6x return on discount given).</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£3K (+£2,948) net profit per cycle (6x return on discount given).</td>
             </tr>
             <tr>
               <td><strong>Phase 2 (Days 30 to 60)</strong></td>
               <td><strong>Cart Drawer Prompts &amp; Packaging Fix:</strong> Add cart drawer suggestions for 1-2 item checkouts and reinforce ceramic shipping boxes.</td>
               <td>Cart drawer cross-sells on 1-2 item carts, 48-hour follow-up emails, and drop-testing on fragile ceramics (22423, 85123A, 23170).</td>
               <td>CRM Lead &amp; Warehouse Manager</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Lifts net gain to +£4,368 per cycle and cuts return breakage under 4%.</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">Lifts net gain to +£4K (+£4,368) per cycle and cuts return breakage under 4%.</td>
             </tr>
             <tr>
               <td><strong>Phase 3 (Days 60 to 90)</strong></td>
               <td><strong>Wholesale Case-Packs &amp; Fall Promos:</strong> Launch 4x and 8x multi-packs timed for weekday business hours.</td>
               <td>Wholesale accounts in Netherlands, EIRE, Switzerland, and Germany, plus UK guest wholesale checkouts ahead of Q4.</td>
               <td>VP of Merchandising</td>
-              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£11,792 (4x packs) to +£24,528 (8x case-packs) net profit per cycle.</td>
+              <td class="num-cell" style="color: var(--color-green); font-weight: 700;">+£12K (+£11,792) (4x packs) to +£25K (+£24,528) (8x case-packs) net profit per cycle.</td>
             </tr>
           </tbody>
         </table>
@@ -1609,7 +1500,7 @@
       style="padding: 48px 0; text-align: center; color: var(--ink-muted); font-size: 0.85rem; border-top: var(--hairline); margin-top: 40px;">
       <p style="margin-bottom: 12px;">Prepared by <strong>John Amores</strong> | E-Commerce Merchandising Case Study</p>
       <p>
-        <a href="cockpit.html" style="color: var(--ink-black); font-weight: 700; margin: 0 12px;">Open Bundle Builder -&gt;</a>
+        <a href="bundle-builder.html" style="color: var(--ink-black); font-weight: 700; margin: 0 12px;">Open Bundle Builder -&gt;</a>
         |
         <a href="https://github.com/J-Amores/data-analyst-portfolio/tree/main/market-basket-analysis" target="_blank"
           rel="noopener noreferrer" style="color: var(--ink-black); margin: 0 12px;">GitHub Repository</a>
