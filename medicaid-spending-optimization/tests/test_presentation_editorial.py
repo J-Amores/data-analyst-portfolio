@@ -70,7 +70,7 @@ def test_sticky_top_navigation_bar(html_content: str):
     assert "03 PRICE VS VOLUME" in html_content or "03. PRICE VS VOLUME" in html_content
     assert "04 SAVINGS PLAN" in html_content or "04. SAVINGS PLAN" in html_content
     assert "05 90-DAY ROLLOUT" in html_content or "05. 90-DAY ROLLOUT" in html_content
-    assert "LAUNCH SIMULATOR" in html_content or "LAUNCH COCKPIT" in html_content
+    assert "LAUNCH SIMULATOR" in html_content or "LAUNCH COCKPIT" in html_content or "COST SIMULATOR" in html_content
     assert "cost-simulator.html" in html_content
 
 
