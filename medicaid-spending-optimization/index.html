@@ -138,6 +138,7 @@
       background: var(--nav-bg);
       backdrop-filter: blur(8px);
       border-bottom: var(--hairline);
+      overflow-x: auto;
       transition: background 0.25s ease;
     }
 
@@ -164,7 +165,6 @@
     .theme-toggle-btn .theme-icon-moon { display: block; }
     html.dark .theme-toggle-btn .theme-icon-sun { display: block; }
     html.dark .theme-toggle-btn .theme-icon-moon { display: none; }
-    }
 
     .top-nav-inner {
       max-width: var(--content-width);
@@ -173,9 +173,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.08em;
+      white-space: nowrap;
     }
 
     .nav-brand {
@@ -183,6 +185,8 @@
       align-items: center;
       gap: 12px;
       text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .nav-badge {
@@ -191,12 +195,15 @@
       height: 8px;
       border-radius: 50%;
       background: var(--color-green);
+      flex-shrink: 0;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
     }
 
     .nav-links a {
@@ -204,6 +211,7 @@
       text-decoration: none;
       text-transform: uppercase;
       transition: opacity 140ms ease;
+      white-space: nowrap;
     }
 
     .nav-links a:hover {
@@ -218,6 +226,10 @@
       color: var(--bg-paper) !important;
       padding: 6px 14px;
       text-decoration: none !important;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 700;
+      white-space: nowrap;
       transition: transform 120ms ease, opacity 140ms ease;
     }
 
@@ -427,7 +439,7 @@
     /* Figure Card */
     .figure-card {
       border: var(--hairline);
-      background: var(--bg-card);
+      background: var(--bg-paper);
       margin: 36px 0;
     }
 
@@ -453,7 +465,7 @@
 
     .figure-body {
       padding: 20px;
-      background: var(--bg-card);
+      background: var(--bg-paper);
       text-align: center;
       cursor: zoom-in;
     }
@@ -463,6 +475,14 @@
       height: auto;
       display: block;
       margin: 0 auto;
+      border: 1px solid var(--border-hairline-stone);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-radius: 2px;
+      transition: transform 120ms ease;
+    }
+
+    .figure-body img:hover {
+      transform: scale(1.005);
     }
 
     .figure-footer {
@@ -572,6 +592,10 @@
 
     .comparison-grid.three-col {
       grid-template-columns: repeat(3, 1fr);
+    }
+
+    .comparison-grid.four-col {
+      grid-template-columns: repeat(4, 1fr);
     }
 
     .comparison-col {
@@ -706,18 +730,21 @@
       }
 
       .comparison-grid,
-      .comparison-grid.three-col {
+      .comparison-grid.three-col,
+      .comparison-grid.four-col {
         grid-template-columns: 1fr;
       }
 
       .comparison-grid .comparison-col,
-      .comparison-grid.three-col .comparison-col {
-        border-right: none;
+      .comparison-grid.three-col .comparison-col,
+      .comparison-grid.four-col .comparison-col {
+        border-right: none !important;
         border-bottom: var(--hairline);
       }
 
       .comparison-grid .comparison-col:last-child,
-      .comparison-grid.three-col .comparison-col:last-child {
+      .comparison-grid.three-col .comparison-col:last-child,
+      .comparison-grid.four-col .comparison-col:last-child {
         border-bottom: none;
       }
 
@@ -758,7 +785,7 @@
   <header class="top-nav sticky-nav">
     <div class="top-nav-inner">
       <div class="nav-brand">
-        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid var(--border-hairline-stone); padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
+        <a href="../index.html" class="nav-hub-link" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink-muted); text-decoration: none; border: 1px solid var(--border-subtle); padding: 4px 10px; margin-right: 12px;">&lt;- PORTFOLIO HUB</a>
         <span class="nav-badge"></span>
         <span>JOHN AMORES | HOSPITAL PHARMACY ANALYTICS CASE STUDY</span>
       </div>
@@ -769,6 +796,7 @@
         <a href="#chapter-03">03 PRICE VS VOLUME</a>
         <a href="#chapter-04">04 SAVINGS PLAN</a>
         <a href="#chapter-05">05 90-DAY ROLLOUT</a>
+        <a href="cost-simulator.html" class="nav-btn">Cost Simulator -&gt;</a>
         <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle Light / Dark Mode">
           <svg class="theme-icon-sun" width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
@@ -1395,7 +1423,7 @@
       </div>
 
       <!-- 4 Practical Safeguards Grid -->
-      <div class="comparison-grid" style="margin-top: 32px;">
+      <div class="comparison-grid four-col" style="margin-top: 32px;">
         <div class="comparison-col" style="background: var(--bg-paper-alt);">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--ink-black); text-transform: uppercase; margin-bottom: 6px;">
             1. EASY 1-CLICK DOCTOR OVERRIDE
@@ -1412,8 +1440,6 @@
             Show doctors the $22 generic cost vs. $408 brand cost right on screen when they type an outpatient prescription in Epic or Cerner.
           </p>
         </div>
-      </div>
-      <div class="comparison-grid" style="margin-top: -24px;">
         <div class="comparison-col" style="background: var(--bg-paper-alt);">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--ink-black); text-transform: uppercase; margin-bottom: 6px;">
             3. PHARMACIST CHECK ON CLINIC INFUSIONS
